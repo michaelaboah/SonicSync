@@ -1,10 +1,13 @@
 pub mod menu_bar {
-    use tauri::{AboutMetadata, CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
+    use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
 
     pub fn generate_menu_bar(app_name: &str) -> Menu {
-        let quit = CustomMenuItem::new("quit".to_string(), "Quit");
-        let close = CustomMenuItem::new("close".to_string(), "Close");
-        let sub_menu = Submenu::new("File", Menu::new().add_item(quit).add_item(close));
+        let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
+        let save_as =
+            CustomMenuItem::new("save_as", "Save As File").accelerator("cmdOrControl+shift+S");
+        let open = CustomMenuItem::new("open", "Open File").accelerator("cmdOrControl+O");
+        let new = CustomMenuItem::new("new", "New Project").accelerator("cmdOrControl+N");
+
         let menu = Menu::with_items([
             #[cfg(target_os = "macos")]
             MenuEntry::Submenu(Submenu::new(
@@ -22,7 +25,11 @@ pub mod menu_bar {
             )),
             MenuEntry::Submenu(Submenu::new(
                 "File",
-                Menu::with_items([MenuItem::CloseWindow.into()]),
+                Menu::with_items([MenuItem::CloseWindow.into()])
+                    .add_item(save)
+                    .add_item(save_as)
+                    .add_item(open)
+                    .add_item(new),
             )),
             MenuEntry::Submenu(Submenu::new(
                 "Edit",
@@ -52,5 +59,18 @@ pub mod menu_bar {
             )),
         ]);
         menu
+    }
+
+    pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
+        match event.menu_item_id() {
+            "save" => {}
+            "save_as" => {}
+            "open" => {}
+            "new" => {}
+            "Learn More" => {
+                let url = "https://github.com/probablykasper/tauri-template".to_string();
+            }
+            _ => {}
+        }
     }
 }
