@@ -1,5 +1,5 @@
 pub mod menu_bar {
-    use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
+    use tauri::{api, CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
 
     pub fn generate_menu_bar(app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
@@ -64,11 +64,13 @@ pub mod menu_bar {
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
             "save" => {}
-            "save_as" => {}
+            "save_as" => api::dialog::FileDialogBuilder::new()
+                .add_filter(name, extensions)
+                .save_file(|f| println!("Saved: {:?}", f)),
             "open" => {}
             "new" => {}
             "Learn More" => {
-                let url = "https://github.com/probablykasper/tauri-template".to_string();
+                let _url = "to be implemented".to_string();
             }
             _ => {}
         }

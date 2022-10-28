@@ -1,4 +1,4 @@
-<script async script lang="ts">
+<script lang="ts">
   import { invoke } from "@tauri-apps/api/tauri";
   import { emit, listen } from "@tauri-apps/api/event";
   import { dialog } from "@tauri-apps/api";
@@ -23,17 +23,20 @@
       data: "name",
     });
   };
-
-  const click = async () => {
+  (async () => {
     const unlisten = await listen("click", (event) => {
-      console.log(event.event);
       console.log(event.payload);
+    });
+    unlisten();
+  })();
+
+  const test = async () => {
+    await emit("click", {
+      theMessage: "Tauri is awesome!",
     });
   };
 
-  emit("click", {
-    theMessage: "Tauri is cool",
-  });
+  test();
 </script>
 
 <div>
@@ -41,7 +44,9 @@
     <input id="greet-input" placeholder="Enter a name..." bind:value={name} />
     <button on:click={greet}> Greet </button>
     <button on:click={save}> Save </button>
-    <button on:click={click}> Click </button>
+    <button on:click={() => test()}>Click</button>
+
+    <!-- <button on:click={} /> -->
   </div>
   <p>{greetMsg}</p>
 </div>

@@ -19,6 +19,19 @@ fn main() {
     let menu = generate_menu_bar(&ctx.package_info().name);
 
     tauri::Builder::default()
+        .setup(|app| {
+            let id = app.listen_global("click", |event| {
+                println!("got event-name with payload {:?}", event.payload());
+            });
+            // unlisten to the event using the `id` returned on the `listen_global` function
+            // an `once_global` API is also exposed on the `App` struct
+            app.unlisten(id);
+
+            // emit the `event-name` event to all webview windows on the frontend
+            app.emit_all("event-name", "test").unwrap();
+
+            Ok(())
+        })
         .menu(menu)
         .on_menu_event(|event| menu_event_handler(event))
         .invoke_handler(tauri::generate_handler![greet, save_as_file])
