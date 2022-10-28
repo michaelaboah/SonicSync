@@ -9,11 +9,6 @@ use tauri::{self, Manager};
 mod features;
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
-#[derive(Clone, serde::Serialize)]
-struct Payload {
-    message: String,
-}
-
 fn main() {
     let ctx = tauri::generate_context!();
     let menu = generate_menu_bar(&ctx.package_info().name);

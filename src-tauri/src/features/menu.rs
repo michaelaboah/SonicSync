@@ -1,6 +1,12 @@
 pub mod menu_bar {
-    use tauri::{api, CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
 
+    #[derive(Clone, serde::Serialize)]
+
+    struct Payload {
+        message: String,
+    }
+    use std::fs;
+    use tauri::{api::dialog, CustomMenuItem, Manager, Menu, MenuEntry, MenuItem, Submenu};
     pub fn generate_menu_bar(app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
         let save_as =
@@ -63,10 +69,28 @@ pub mod menu_bar {
 
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
-            "save" => {}
-            "save_as" => api::dialog::FileDialogBuilder::new()
-                .add_filter(name, extensions)
-                .save_file(|f| println!("Saved: {:?}", f)),
+            "save" => {
+                event.window().emit(
+                    "save",
+                    Payload {
+                        message: "hi".into(),
+                    },
+                );
+            }
+            "save_as" => dialog::FileDialogBuilder::new()
+                .add_filter("Most Common", &["txt", "json", "dae"])
+                .save_file(move |f| {
+                    event.window().emit("save-as", "payload");
+                    if let Some(ref file_path) = f {
+                        if let Err(error) = fs::write(file_path, "data") {
+                            dialog::MessageDialogBuilder::new(
+                                "File Writing Error",
+                                format!("File error at menu line: 79. Error: {:?}", error),
+                            );
+                        }
+                    }
+                    println!("Saved: {:?}", f);
+                }),
             "open" => {}
             "new" => {}
             "Learn More" => {
