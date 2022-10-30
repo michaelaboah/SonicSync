@@ -4,7 +4,6 @@
 )]
 use features::communication::commands::{greet, save_as_file};
 use features::menu::menu_bar::{generate_menu_bar, menu_event_handler};
-use serde;
 use tauri::{self, Manager};
 mod features;
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command

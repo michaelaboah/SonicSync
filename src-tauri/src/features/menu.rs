@@ -6,7 +6,7 @@ pub mod menu_bar {
         message: String,
     }
     use std::fs;
-    use tauri::{api::dialog, CustomMenuItem, Manager, Menu, MenuEntry, MenuItem, Submenu};
+    use tauri::{api::dialog, CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
     pub fn generate_menu_bar(app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
         let save_as =
@@ -70,17 +70,23 @@ pub mod menu_bar {
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
             "save" => {
-                event.window().emit(
-                    "save",
-                    Payload {
-                        message: "hi".into(),
-                    },
-                );
+                event
+                    .window()
+                    .emit(
+                        "save",
+                        Payload {
+                            message: "hi".into(),
+                        },
+                    )
+                    .unwrap();
             }
             "save_as" => dialog::FileDialogBuilder::new()
                 .add_filter("Most Common", &["txt", "json", "dae"])
                 .save_file(move |f| {
-                    event.window().emit("save-as", "payload");
+                    match event.window().emit("save-as", "payload") {
+                        Ok(_) => println!("Sucess"),
+                        Err(error) => println!("Emit error: {:?}", error),
+                    }
                     if let Some(ref file_path) = f {
                         if let Err(error) = fs::write(file_path, "data") {
                             dialog::MessageDialogBuilder::new(
