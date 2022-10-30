@@ -1,0 +1,38 @@
+mutation UpdateEquipment($updateOptions: EquipmentInput!, $updateEquipmentId: Int!) {
+  updateEquipment(updateOptions: $updateOptions, id: $updateEquipmentId) {
+    errors {
+      field
+      message
+    }
+    equipment {
+      id
+      createdAt
+      updatedAt
+      category
+      manufacturer
+      model
+      publicNotes
+      cost
+      powerDraw
+      weight
+      depth
+      rackUnit
+      frequencyRange
+    }
+    equipmentItems {
+      id
+      createdAt
+      updatedAt
+      category
+      manufacturer
+      model
+      publicNotes
+      cost
+      powerDraw
+      weight
+      depth
+      rackUnit
+      frequencyRange
+    }
+  }
+}

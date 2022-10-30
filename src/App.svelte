@@ -1,39 +1,39 @@
 <script lang="ts">
-  import Greet from './lib/Greet.svelte'
+  import { setContext } from "svelte";
+  import { AppShell, SvelteUIProvider } from "@svelteuidev/core";
+  import "@svelteuidev/prism";
+  import Footer from "./components/Footer.svelte";
+  import Header from "./components/Header.svelte";
+  import Routes from "./components/Routes.svelte";
+  import { themeKey } from "./utils/contextKeys";
+  import { currentFile, loadProject } from "./stores/Store";
+  import type { Project } from "./Classes";
+  import { project } from "./stores/Store";
+  let isDark: boolean;
+  (async () => {
+    isDark = await getDarkMode();
+  })();
+
+  async function getDarkMode() {
+    const persistData = await window.api.handleUserStorage("preferences");
+    return persistData.darkmode;
+  }
+
+  setContext(themeKey, {
+    toggleDark: () => (isDark = !isDark),
+  });
 </script>
 
-<main class="container">
-  <h1>Welcome to Tauri!</h1>
+<SvelteUIProvider withGlobalStyles>
+  <AppShell>
+    <Routes />
+    <Header />
+    <Footer />
+  </AppShell>
+</SvelteUIProvider>
 
-  <div class="row">
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-    </a>
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-      <img src="/svelte.svg" class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-
-  <p>
-    Click on the Tauri, Vite, and Svelte logos to learn more.
-  </p>
-
-  <div class="row">
-    <Greet />
-  </div>
-
-
-</main>
-
-<style>
-  .logo.vite:hover {
-    filter: drop-shadow(0 0 2em #747bff);
-  }
-
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00);
-  }
+<style global lang="postcss">
+  @tailwind utilities;
+  @tailwind components;
+  @tailwind base;
 </style>

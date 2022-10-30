@@ -1,0 +1,17 @@
+query GetEquipment($model: String!) {
+  getEquipment(model: $model) {
+    # id
+    createdAt
+    updatedAt
+    category
+    manufacturer
+    model
+    publicNotes
+    cost
+    powerDraw
+    weight
+    depth
+    rackUnit
+    frequencyRange
+  }
+}

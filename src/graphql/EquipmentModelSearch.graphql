@@ -1,0 +1,17 @@
+query EquipmentModelSearch($fullSearch: String!) {
+  fullTextSearch(fullSearch: $fullSearch) {
+    # id
+    createdAt
+    updatedAt
+    category
+    manufacturer
+    model
+    publicNotes
+    cost
+    powerDraw
+    weight
+    depth
+    rackUnit
+    frequencyRange
+  }
+}

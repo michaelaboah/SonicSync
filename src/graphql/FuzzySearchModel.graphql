@@ -1,0 +1,18 @@
+query FuzzyTextSearch($fuzzySearch: String!) {
+  fuzzyTextSearch(fuzzySearch: $fuzzySearch) {
+    # id
+    # createdAt
+    # updatedAt
+    category
+    manufacturer
+    model
+    # publicNotes
+    cost
+    powerDraw
+    weight
+    depth
+    rackUnit
+    frequencyRange
+    # itemArray
+  }
+}
