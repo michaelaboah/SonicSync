@@ -16,7 +16,6 @@ specifiers:
   '@tauri-apps/api': ^1.1.0
   '@tauri-apps/cli': ^1.1.0
   '@tsconfig/svelte': ^3.0.0
-  '@types/jwt-decode': ^3.1.0
   '@types/node': ^18.7.10
   apollo-link-token-refresh: ^0.4.0
   autoprefixer: ^10.4.13
@@ -38,6 +37,7 @@ specifiers:
   svelte-select: ^4.4.7
   svelte-spa-router: ^3.3.0
   tailwindcss: ^3.2.1
+  tauri-plugin-store-api: github:tauri-apps/tauri-plugin-store#dev
   tslib: ^2.4.0
   typescript: ^4.6.4
   vite: ^3.0.2
@@ -50,7 +50,6 @@ dependencies:
   '@svelteuidev/motion': 0.7.5_svelte@3.52.0
   '@svelteuidev/prism': 0.7.5_wo2jfcm2edgwksz54ninhyexri
   '@tauri-apps/api': 1.1.0
-  '@types/jwt-decode': 3.1.0
   apollo-link-token-refresh: 0.4.0_vyimhitoszmgfhxzjgw5jdtad4
   core: link:@apollo/client/core
   dayjs: 1.11.6
@@ -59,6 +58,7 @@ dependencies:
   jwt-decode: 3.1.2
   printjs: 1.1.0
   svelte-spa-router: 3.3.0
+  tauri-plugin-store-api: github.com/tauri-apps/tauri-plugin-store/9bd993aa67766596638bbfd91e79a1bf8f632014
 
 devDependencies:
   '@graphql-codegen/cli': 2.13.8_yphvitncqnamqkli3dcukmeey4
@@ -1577,13 +1577,6 @@ packages:
     dependencies:
       '@types/node': 18.11.7
     dev: true
-
-  /@types/jwt-decode/3.1.0:
-    resolution: {integrity: sha512-tthwik7TKkou3mVnBnvVuHnHElbjtdbM63pdBCbZTirCt3WAdM73Y79mOri7+ljsS99ZVwUFZHLMxJuJnv/z1w==}
-    deprecated: This is a stub types definition. jwt-decode provides its own type definitions, so you do not need this installed.
-    dependencies:
-      jwt-decode: 3.1.2
-    dev: false
 
   /@types/node/18.11.7:
     resolution: {integrity: sha512-LhFTglglr63mNXUSRYD8A+ZAIu5sFqNJ4Y2fPuY7UlrySJH87rRRlhtVmMHplmfk5WkoJGmDjE9oiTfyX94CpQ==}
@@ -4528,3 +4521,12 @@ packages:
 
   /zen-observable/0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
+
+  github.com/tauri-apps/tauri-plugin-store/9bd993aa67766596638bbfd91e79a1bf8f632014:
+    resolution: {tarball: https://codeload.github.com/tauri-apps/tauri-plugin-store/tar.gz/9bd993aa67766596638bbfd91e79a1bf8f632014}
+    name: tauri-plugin-store-api
+    version: 0.1.0
+    dependencies:
+      '@tauri-apps/api': 1.1.0
+      tslib: 2.4.0
+    dev: false

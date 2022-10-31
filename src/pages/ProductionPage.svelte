@@ -26,7 +26,7 @@
 </script>
 
 <Box>
-  <Title mb="xl">Production Configuration</Title>
+  <Title mb="md">Production Configuration</Title>
   <SimpleGrid cols="{2}" ml="lg">
     <InputWrapper label="{''}" labelElement="{undefined}" size="{size}">
       <Group>

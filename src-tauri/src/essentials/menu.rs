@@ -5,8 +5,8 @@ pub mod menu_bar {
     struct Payload {
         message: String,
     }
-    use std::fs;
-    use tauri::{api::dialog, CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
+    use crate::essentials::communication;
+    use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
     pub fn generate_menu_bar(app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
         let save_as =
@@ -69,34 +69,8 @@ pub mod menu_bar {
 
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
-            "save" => {
-                event
-                    .window()
-                    .emit(
-                        "save",
-                        Payload {
-                            message: "hi".into(),
-                        },
-                    )
-                    .unwrap();
-            }
-            "save_as" => dialog::FileDialogBuilder::new()
-                .add_filter("Most Common", &["txt", "json", "dae"])
-                .save_file(move |f| {
-                    match event.window().emit("save-as", "payload") {
-                        Ok(_) => println!("Sucess"),
-                        Err(error) => println!("Emit error: {:?}", error),
-                    }
-                    if let Some(ref file_path) = f {
-                        if let Err(error) = fs::write(file_path, "data") {
-                            dialog::MessageDialogBuilder::new(
-                                "File Writing Error",
-                                format!("File error at menu line: 79. Error: {:?}", error),
-                            );
-                        }
-                    }
-                    println!("Saved: {:?}", f);
-                }),
+            "save" => communication::events::emit_save("save", event),
+            "save_as" => communication::events::emit_save("save-as", event),
             "open" => {}
             "new" => {}
             "Learn More" => {

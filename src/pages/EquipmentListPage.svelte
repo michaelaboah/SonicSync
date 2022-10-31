@@ -64,9 +64,9 @@
     <br />
   </Stack>
 {:else}
-  <Center inline={false}>
+  <Center inline="{false}">
     <Paper>
-      <Text size="xl" align="center">
+      <Text size="md" align="center">
         Empty list bud, try adding something using the Add Gear button or the
         <Kbd {...rest}>⌘</Kbd> + <Kbd {...rest}>N</Kbd>
       </Text>

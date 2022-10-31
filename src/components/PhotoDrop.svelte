@@ -1,14 +1,3 @@
-<style>
-  .zone {
-    background-color: #eeeeee;
-    padding: var(--theme-pad);
-    border: 2px solid #dddddd;
-  }
-  .droppable {
-    border-color: #1f79ff;
-  }
-</style>
-
 <script lang="ts">
   import { FileDrop } from "svelte-droplet";
   import {
@@ -41,12 +30,12 @@
 </script>
 
 <Box
-  ml="xl"
+  ml="md"
   css="{{ p: '$6', borderColor: '$black', borderBlockStyle: 'solid', bc: 'LightGrey', width: 'max-content' }}"
 >
   <Group position="apart" noWrap>
-    <Text align="right" size="xl" weight="{'semibold'}" mb="{'md'}">{dropZoneName}</Text>
-    <CloseButton iconSize="xl" on:click="{() => (image = undefined)}" />
+    <Text align="right" size="md" weight="{'semibold'}" mb="{'md'}">{dropZoneName}</Text>
+    <CloseButton iconSize="md" on:click="{() => (image = undefined)}" />
   </Group>
 
   <FileDrop max="{1}" let:droppable handleFiles="{handleFiles}" acceptedMimes="{acceptedMimes}">
@@ -64,8 +53,19 @@
           />
         </Center>
       {:else}
-        <Text align="center" size="xl">Drag and Drop 1 Image</Text>
+        <Text align="center" size="md">Drag and Drop 1 Image</Text>
       {/if}
     </div>
   </FileDrop>
 </Box>
+
+<style>
+  .zone {
+    background-color: #eeeeee;
+    padding: var(--theme-pad);
+    border: 2px solid #dddddd;
+  }
+  .droppable {
+    border-color: #1f79ff;
+  }
+</style>

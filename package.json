@@ -19,7 +19,6 @@
     "@svelteuidev/motion": "^0.7.5",
     "@svelteuidev/prism": "^0.7.5",
     "@tauri-apps/api": "^1.1.0",
-    "@types/jwt-decode": "^3.1.0",
     "apollo-link-token-refresh": "^0.4.0",
     "core": "link:@apollo/client/core",
     "dayjs": "^1.11.6",
@@ -27,7 +26,8 @@
     "graphql-ws": "^5.11.2",
     "jwt-decode": "^3.1.2",
     "printjs": "^1.1.0",
-    "svelte-spa-router": "^3.3.0"
+    "svelte-spa-router": "^3.3.0",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.8",

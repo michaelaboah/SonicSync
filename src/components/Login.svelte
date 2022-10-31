@@ -3,6 +3,7 @@
   import { setAccessToken } from "../utils/accessToken";
   import { LoginUser, MeDoc, type MeQuery, type UserInput } from "../generated/graphql";
   import { onMount } from "svelte";
+  import { tauri_store } from "../stores/renderStore";
 
   let loginOptions: UserInput = { email: "", password: "" };
   //@ts-ignore
@@ -12,7 +13,7 @@
   let reference: HTMLElement;
   let rest: any;
   onMount(async () => {
-    const userData = await window.api.handleUserStorage("preferences");
+    const userData: any = await tauri_store.get("preferences");
     isRemembered = userData.rememberMe;
     if (isRemembered && userData.credentials !== undefined) {
       loginOptions = userData.credentials;
@@ -21,14 +22,14 @@
 
   const handleRememberMe = async () => {
     isRemembered = !isRemembered;
-    const userData = await window.api.handleUserStorage("preferences");
+    const userData: any = await tauri_store.get("preferences");
     if (isRemembered === false) {
       loginOptions = { email: "", password: "" };
       userData.credentials = undefined;
       console.log(userData.credentials);
-      await window.api.handleUserStorage("preferences", { ...userData, rememberMe: isRemembered });
+      await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered });
     }
-    await window.api.handleUserStorage("preferences", { ...userData, rememberMe: isRemembered });
+    await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered });
   };
 
   const sumbitLogin = async (credentials: UserInput) => {
@@ -53,8 +54,8 @@
 
     //check if the user wants the login to be remembered
     if (isRemembered) {
-      const userData = await window.api.handleUserStorage("preferences");
-      await window.api.handleUserStorage("preferences", { ...userData, credentials });
+      const userData: any = await tauri_store.get("preferences");
+      await tauri_store.set("preferences", { ...userData, credentials });
     }
     isLoggedIn = true;
     mounted = true;
@@ -65,7 +66,7 @@
 </script>
 
 <Box ml="6">
-  <InputWrapper label="Login Credentials" description="Please enter your username and password" size="lg">
+  <InputWrapper label="Login Credentials" description="Please enter your username and password" size="xs">
     <Input bind:value="{loginOptions.email}" placeholder="Enter: Email" />
     <Input bind:value="{loginOptions.password}" placeholder="Enter: Password" type="password" {...rest} />
     <Button bind:element="{reference}" on:click="{() => sumbitLogin(loginOptions)}" {...rest}>Login</Button>
@@ -80,7 +81,7 @@
     arrowDistance="{3}"
     withArrow
   >
-    <Box css="{{ backgroundColor: '$teal500' }}" m="xl">
+    <Box css="{{ backgroundColor: '$teal500' }}" m="sm">
       <Center inline>login Success!!</Center>
     </Box>
   </Popper>
