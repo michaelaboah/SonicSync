@@ -1,3 +1,4 @@
+import "@apollo/client/core/package.json";
 import { ApolloLink, HttpLink, Observable } from "@apollo/client/core/index";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
 import jwtDecode from "jwt-decode";

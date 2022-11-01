@@ -1,4 +1,5 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, Observable } from "@apollo/client/core/index";
+import "@apollo/client/core/package.json";
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, Observable } from "@apollo/client/core/";
 import { getAccessToken } from "../utils/accessToken";
 import { GRAPHQL_ENDPOINT } from "../utils/ClientContants";
 import { tokenRefreshLink } from "./apolloLinks";
