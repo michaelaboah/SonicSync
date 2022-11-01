@@ -10,7 +10,9 @@ dependencies = [
  "serde_json",
  "tauri",
  "tauri-build",
+ "tauri-plugin-persisted-scope",
  "tauri-plugin-store",
+ "tauri-plugin-window-state",
  "tokio",
 ]
 
@@ -107,6 +109,15 @@ name = "base64"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
+
+[[package]]
+name = "bincode"
+version = "1.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b1f45e9417d87227c7a56d22e471c6206462cba514c7590c09aff4cf6d1ddcad"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "bitflags"
@@ -2666,6 +2677,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "tauri-plugin-persisted-scope"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "59e0153a0109f05d8b5aec936aa388613fe9bebba44a3eab83c9f3631657c941"
+dependencies = [
+ "bincode",
+ "serde",
+ "serde_json",
+ "tauri",
+ "thiserror",
+]
+
+[[package]]
 name = "tauri-plugin-store"
 version = "0.0.0"
 source = "git+https://github.com/tauri-apps/tauri-plugin-store#9bd993aa67766596638bbfd91e79a1bf8f632014"
@@ -2673,6 +2697,18 @@ dependencies = [
  "log",
  "serde",
  "serde_json",
+ "tauri",
+ "thiserror",
+]
+
+[[package]]
+name = "tauri-plugin-window-state"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2f15dab0be2ce3ce8a57d0d2de17d201d0c2f3230d68981ff3f0942684de03eb"
+dependencies = [
+ "bincode",
+ "serde",
  "tauri",
  "thiserror",
 ]

@@ -46,10 +46,26 @@ pub mod commands {
     ///
     #[tauri::command(async)]
     pub fn open_project(path: Option<&str>) -> String {
+        // println!("path: {}", path.unwrap());
         match path {
-            Some(file_path) => fs::read_to_string(file_path).unwrap(),
+            Some(file_path) => match fs::read_to_string(file_path) {
+                Ok(contents) => contents,
+                Err(error) => {
+                    dialog::MessageDialogBuilder::new(
+                        "File Open Error",
+                        format!("File Error: Problem with provided path: `{file_path}` .\n Error message: {error}"),
+                    )
+                    .kind(dialog::MessageDialogKind::Error)
+                    .show(|_| ());
+                    "".to_string()
+                }
+            },
             None => {
-                if let Some(path) = dialog::blocking::FileDialogBuilder::new().pick_file() {
+                if let Some(path) = dialog::blocking::FileDialogBuilder::new()
+                    .set_title("Open File")
+                    .add_filter("Project File Extensions", &["dae", "json", "txt"])
+                    .pick_file()
+                {
                     fs::read_to_string(path).unwrap()
                 } else {
                     format!("None")

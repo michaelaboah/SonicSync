@@ -73,7 +73,12 @@ pub mod menu_bar {
             "save_as" => communication::events::menu_emit("save-as", event),
             "open" => communication::events::menu_emit("open-project-file", event),
 
-            "new" => {}
+            "new" => tauri::api::dialog::MessageDialogBuilder::new(
+                "File Open Error",
+                format!("File Error: Problem with provided path, .\n Error message: "),
+            )
+            .kind(tauri::api::dialog::MessageDialogKind::Error)
+            .show(|_| ()),
             "Learn More" => {
                 let _url = "to be implemented".to_string();
             }
