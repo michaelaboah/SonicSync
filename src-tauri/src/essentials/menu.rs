@@ -69,9 +69,10 @@ pub mod menu_bar {
 
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
-            "save" => communication::events::emit_save("save", event),
-            "save_as" => communication::events::emit_save("save-as", event),
-            "open" => {}
+            "save" => communication::events::menu_emit("save", event),
+            "save_as" => communication::events::menu_emit("save-as", event),
+            "open" => communication::events::menu_emit("open-project-file", event),
+
             "new" => {}
             "Learn More" => {
                 let _url = "to be implemented".to_string();

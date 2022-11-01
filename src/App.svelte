@@ -8,7 +8,7 @@
   import Header from "./components/Header.svelte";
   import Routes from "./components/Routes.svelte";
   import { themeKey } from "./utils/contextKeys";
-  import { currentFile } from "./stores/Store"; //, loadProject
+  import { currentFile, loadProject } from "./stores/Store"; //, loadProject
   import { project } from "./stores/Store";
   import { tauri_store } from "./stores/renderStore";
 
@@ -28,6 +28,10 @@
       invoke("save_as_file", { data: $project }).then((value) => {
         console.log(value);
       });
+    });
+
+    await listen("open-project-file", async () => {
+      loadProject(JSON.parse(await invoke("open_project")));
     });
   });
 

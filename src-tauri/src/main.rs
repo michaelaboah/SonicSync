@@ -2,7 +2,7 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
-use essentials::communication::commands::{greet, open_file, save_as_file};
+use essentials::communication::commands::{greet, open_project, save_as_file};
 use essentials::menu::menu_bar::{generate_menu_bar, menu_event_handler};
 use tauri;
 use tauri_plugin_store::PluginBuilder;
@@ -17,7 +17,7 @@ fn main() {
         .plugin(PluginBuilder::default().build())
         .menu(menu)
         .on_menu_event(|event| menu_event_handler(event))
-        .invoke_handler(tauri::generate_handler![greet, save_as_file, open_file])
+        .invoke_handler(tauri::generate_handler![greet, save_as_file, open_project])
         .run(ctx)
         .expect("error while running tauri application");
 }
