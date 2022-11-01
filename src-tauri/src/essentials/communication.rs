@@ -1,6 +1,6 @@
 pub mod events {
     use tauri::api::dialog;
-    pub fn emit_save(event_name: &str, event: tauri::WindowMenuEvent) {
+    pub fn emit_save(event_name: &str, event: tauri::WindowMenuEvent) -> () {
         match event.window().emit(event_name, "payload") {
             Ok(_) => {}
             Err(error) => {
@@ -39,9 +39,42 @@ pub mod commands {
                 }
             }),
         }
+    }
 
-        // println!("The file path is: {file_path}, and data: {data}")
-        // fs::write(file_path, data).expect("didn't write")
-        // implement a dialog error on error
+    /// Open File `tarui::command`
+    ///
+    ///
+    #[tauri::command]
+    pub fn open_file(path: Option<&str>) -> String {
+        match path {
+            Some(file_path) => fs::read_to_string(file_path).unwrap(),
+            None => {
+                let path = dialog::blocking::FileDialogBuilder::new().pick_file();
+                fs::read_to_string(path.unwrap()).unwrap()
+            }
+        }
+
+        // if let file = file_path {
+        //     fs::read_to_string(file_path).unwrap();
+        // } else {
+        //     dialog::FileDialogBuilder::new().pick_file(|f| println!("{:?}", fs::read_to_string(f).unwrap()))
+        // }
+        // file
+    }
+
+    #[cfg(test)]
+    mod tests {
+
+        use super::*;
+        #[test]
+        fn test_open_file_path() {
+            let test_txt = open_file(Some("/Users/michaelaboah/Documents/Programming/Sound Tools/Deadalus-Tauri/test/test.txt"));
+            assert_eq!("test", test_txt)
+        }
+        #[test]
+        fn test_open_file_dialog() {
+            let text_txt = open_file(None);
+            assert_eq!("well there isn't a path for now", text_txt)
+        }
     }
 }

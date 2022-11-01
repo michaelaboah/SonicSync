@@ -13,29 +13,18 @@
   "tauri": {
     "allowlist": {
       "dialog": {
-        "all": false,
-        "ask": false,
-        "confirm": false,
-        "message": false,
-        "open": false,
-        "save": true
+        "all": true
       },
       "fs": {
         "all": false,
-        "copyFile": false,
-        "createDir": false,
-        "exists": false,
-        "readDir": false,
-        "readFile": false,
-        "removeDir": false,
-        "removeFile": false,
-        "renameFile": false,
-        "scope": ["$HOME"],
-        "writeFile": false
+        "scope": ["$HOME"]
       },
       "path": {
         "all": true
-        
+      },
+      "http": {
+        "all": true,
+        "scope": ["http://localhost:4000/*"]
       }
     },
     "bundle": {

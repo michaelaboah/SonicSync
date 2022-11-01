@@ -1,7 +1,7 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/tauri";
   import { listen } from "@tauri-apps/api/event";
-
+  import { fs } from "@tauri-apps/api"
   let name = "";
   let greetMsg = "";
 
