@@ -3,10 +3,14 @@
   import { persist } from "../../stores/renderStore";
 </script>
 
+<Title align="right" mb="lg" order="{3}">Appearance</Title>
 <Stack align="stretch" spacing="xl">
-  <Box>
+  <Box m="40">
+    <Title order="{4}">Theme</Title>
+    <Divider size="md" />
     <Switch
       size="md"
+      mt="lg"
       onLabel="ON"
       offLabel="OFF"
       bind:checked="{$persist.darkMode}"
@@ -15,7 +19,7 @@
     />
 
     <Box>
-      <Title order="{3}">Font</Title>
+      <Title order="{4}">Font</Title>
       <Divider size="md" />
       <NativeSelect
         data="{['xs', 'sm', 'md', 'lg', 'xl']}"

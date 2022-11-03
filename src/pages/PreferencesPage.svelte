@@ -8,7 +8,9 @@
 <Box>
   <Tabs orientation="vertical">
     <Tabs.Tab label="General" override="{{ fontSize }}">
-      <GeneralPref />
+      <Box class="max-w-screen-2xl w-screen">
+        <GeneralPref />
+      </Box>
     </Tabs.Tab>
     <Tabs.Tab label="Account" override="{{ fontSize }}">
       <AccountPref />
