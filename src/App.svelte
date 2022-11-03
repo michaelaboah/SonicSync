@@ -10,14 +10,15 @@
   import { themeKey } from "./utils/contextKeys";
   import { currentFile, loadProject } from "./stores/Store"; //, loadProject
   import { project } from "./stores/Store";
-  import { tauri_store } from "./stores/renderStore";
+  import { persist } from "./stores/renderStore";
 
-  let isDark: boolean;
-  (async () => {
-    isDark = await getDarkMode();
-  })();
+  // let isDark: boolean;
+  // (async () => {
+  //   isDark = await getDarkMode();
+  // })();
 
   onMount(async () => {
+    console.log($persist);
     await listen("save", (_event) => {
       invoke("save_as_file", { file_path: $currentFile, data: $project }).then((value) => {
         console.log(value);
@@ -35,17 +36,17 @@
     });
   });
 
-  async function getDarkMode() {
-    const persistData: any = await tauri_store.get("preferences");
-    return persistData.darkmode;
-  }
+  // async function getDarkMode() {
+  //   const persistData: any = await tauri_store.get("preferences");
+  //   return persistData.darkmode;
+  // }
 
   setContext(themeKey, {
-    toggleDark: () => (isDark = !isDark),
+    toggleDark: () => ($persist.darkMode = !$persist.darkMode),
   });
 </script>
 
-<SvelteUIProvider withGlobalStyles themeObserver="{isDark ? 'dark' : 'light'}">
+<SvelteUIProvider withGlobalStyles themeObserver="{$persist.darkMode ? 'dark' : 'light'}">
   <AppShell>
     <Routes />
     <Header />
