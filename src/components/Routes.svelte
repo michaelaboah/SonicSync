@@ -5,6 +5,7 @@
   import EquipmentListPage from "../pages/EquipmentListPage.svelte";
   import PreferencesPage from "../pages/PreferencesPage.svelte";
   import ProductionPage from "../pages/ProductionPage.svelte";
+  import { Box } from "@svelteuidev/core";
   const routes = {
     "/": MainMenu,
     "/Bye": Bye,
@@ -14,13 +15,12 @@
   };
 </script>
 
-<div>
+<Box mt="{63}">
   <Router routes="{routes}" />
-</div>
+</Box>
 
 <style>
-  div {
-    margin-top: 6vh;
-    /* margin-left: 2vw; */
-  }
+  /* div {
+    margin-top: 7vh;
+  } */
 </style>

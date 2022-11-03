@@ -3,8 +3,8 @@
   import { Box, Title } from "@svelteuidev/core";
   import { buildGear, type Gear } from "../Classes";
   import EquipmentComponent from "../components/EquipmentComponent.svelte";
-  // import EquipmentHeader from "../components/EquipmentHeader.svelte";
-  import { gearList } from "../stores/Store";
+  import { fontSizeTest } from "../stores/PrefsStore";
+  import { gearList } from "../stores/ProjectStore";
 
   let rest: any;
   const addGear = () => {
@@ -66,7 +66,7 @@
 {:else}
   <Center inline="{false}">
     <Paper>
-      <Text size="md" align="center">
+      <Text size="{$fontSizeTest}" align="center">
         Empty list bud, try adding something using the Add Gear button or the
         <Kbd {...rest}>⌘</Kbd> + <Kbd {...rest}>N</Kbd>
       </Text>

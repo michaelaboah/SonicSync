@@ -8,16 +8,17 @@
   import Header from "./components/Header.svelte";
   import Routes from "./components/Routes.svelte";
   import { themeKey } from "./utils/contextKeys";
-  import { currentFile, loadProject } from "./stores/Store"; //, loadProject
-  import { project } from "./stores/Store";
-  import { tauri_store } from "./stores/renderStore";
-
-  let isDark: boolean;
-  (async () => {
-    isDark = await getDarkMode();
-  })();
+  import { currentFile, loadProject, project } from "./stores/ProjectStore"; //, loadProject
+  import { getDarkMode, isDark } from "./stores/PrefsStore";
 
   onMount(async () => {
+    //Write to darkmode store, from tauri_store("preferences")
+    $isDark = await getDarkMode();
+
+    // tauri_store.get("preferences").then((userData: any) => {
+    //   console.log(userData);
+    // });
+
     await listen("save", (_event) => {
       invoke("save_as_file", { file_path: $currentFile, data: $project }).then((value) => {
         console.log(value);
@@ -35,20 +36,15 @@
     });
   });
 
-  async function getDarkMode() {
-    const persistData: any = await tauri_store.get("preferences");
-    return persistData.darkmode;
-  }
-
   setContext(themeKey, {
-    toggleDark: () => (isDark = !isDark),
+    toggleDark: () => ($isDark = !$isDark),
   });
 </script>
 
-<SvelteUIProvider withGlobalStyles themeObserver="{isDark ? 'dark' : 'light'}">
+<SvelteUIProvider withGlobalStyles themeObserver="{$isDark ? 'dark' : 'light'}">
   <AppShell>
-    <Routes />
     <Header />
+    <Routes />
     <Footer />
   </AppShell>
 </SvelteUIProvider>

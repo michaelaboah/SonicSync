@@ -17,3 +17,8 @@ type UserPreferences = {
 export const persist = managePersistance();
 
 export const tauri_store = new Store("../settings.dat");
+
+tauri_store
+  .get("preferences")
+  .then((value) => console.log(value))
+  .catch((err) => console.log(err));

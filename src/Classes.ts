@@ -1,3 +1,5 @@
+import type { SvelteUISize } from "@svelteuidev/core";
+
 export interface Equipment {
   modelId: number;
   createdAt?: Date;
@@ -68,3 +70,10 @@ export interface Project {
 }
 
 export const createProject = (project?: Project): Project => ({ ...project } as Project);
+
+export interface UserPreferences {
+  darkmode: boolean;
+  rememberMe: boolean;
+  ui_font_size: SvelteUISize;
+  credentials: { email: string; password: string };
+}

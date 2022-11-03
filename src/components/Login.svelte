@@ -4,6 +4,7 @@
   import { LoginUser, MeDoc, type MeQuery, type UserInput } from "../generated/graphql";
   import { onMount } from "svelte";
   import { tauri_store } from "../stores/renderStore";
+  import type { UserPreferences } from "src/Classes";
 
   let loginOptions: UserInput = { email: "", password: "" };
   //@ts-ignore
@@ -13,10 +14,12 @@
   let reference: HTMLElement;
   let rest: any;
   onMount(async () => {
-    const userData: any = await tauri_store.get("preferences");
-    isRemembered = userData.rememberMe;
-    if (isRemembered && userData.credentials !== undefined) {
-      loginOptions = userData.credentials;
+    const userData = await tauri_store.get<UserPreferences>("preferences");
+    if (userData) {
+      isRemembered = userData.rememberMe;
+      if (isRemembered && userData.credentials !== undefined) {
+        loginOptions = userData.credentials;
+      }
     }
   });
 
@@ -27,9 +30,9 @@
       loginOptions = { email: "", password: "" };
       userData.credentials = undefined;
       console.log(userData.credentials);
-      await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered });
+      await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered } as UserPreferences);
     }
-    await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered });
+    await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered } as UserPreferences);
   };
 
   const sumbitLogin = async (credentials: UserInput) => {
@@ -54,8 +57,8 @@
 
     //check if the user wants the login to be remembered
     if (isRemembered) {
-      const userData: any = await tauri_store.get("preferences");
-      await tauri_store.set("preferences", { ...userData, credentials });
+      const userData = await tauri_store.get<UserPreferences>("preferences");
+      await tauri_store.set("preferences", { ...userData, credentials } as UserPreferences);
     }
     isLoggedIn = true;
     mounted = true;

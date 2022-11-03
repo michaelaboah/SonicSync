@@ -7,8 +7,6 @@ export const gearList = writable<Gear[]>([buildGear({ gearId: 0 } as Gear)]);
 
 export const currentFile = writable<string>("");
 
-// export const projectList = writable<Project>({} as Project);
-
 export const prodInfo = writable<ProductionInformation>(buildProdInfo());
 
 export const project = derived<[Writable<ProductionInformation>, Writable<Gear[]>], Project>(

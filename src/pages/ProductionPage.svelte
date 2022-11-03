@@ -10,10 +10,10 @@
     SimpleGrid,
     TextInput,
     Title,
-    // Tooltip,
+    Tooltip,
   } from "@svelteuidev/core";
-  import { prodInfo } from "../stores/Store";
-  const size = "lg";
+  import { prodInfo } from "../stores/ProjectStore";
+  const size = "sm";
 
   $: positions = [
     { label: "Associate Designer", tuple: ($prodInfo.associate ??= ["", false]) },
@@ -26,16 +26,17 @@
 </script>
 
 <Box>
-  <Title mb="md">Production Configuration</Title>
+  <Title underline mb="lg">Production Configuration</Title>
   <SimpleGrid cols="{2}" ml="lg">
-    <InputWrapper label="{''}" labelElement="{undefined}" size="{size}">
+    <InputWrapper label="" labelElement="{undefined}" size="{size}">
       <Group>
-        {#each positions as { label, tuple: [_vari, bool] }}
-          <Checkbox bind:checked="{bool}" label="{label}" />
+        {#each positions as { label, tuple: [_, bool] }}
+          <Checkbox bind:checked="{bool}" label="{label}" size="{size}" />
         {/each}
-        <!-- <Tooltip opened={opened} label=""> -->
-        <Button disabled>Select All</Button>
-        <!-- </Tooltip> -->
+        <!-- Implement toggle later -->
+        <Tooltip opened="{false}" label="Select all items">
+          <Button disabled>Select All</Button>
+        </Tooltip>
       </Group>
       <TextInput
         placeholder="WALL-E"
@@ -60,7 +61,7 @@
 
         {#each positions as { label, tuple: [vari, bool] }}
           {#if bool}
-            <TextInput label="{label + ': '}" bind:value="{vari}" size="{size}" />
+            <TextInput label="{`${label}: `}" bind:value="{vari}" size="{size}" />
           {/if}
         {/each}
       </SimpleGrid>

@@ -7,8 +7,10 @@
     Group,
     Image,
     Text,
+    theme,
     // Tooltip,
   } from "@svelteuidev/core";
+  import { isDark } from "../stores/PrefsStore";
   let rest: any;
   export let image: string | undefined;
   export let dropZoneName: string = "Image";
@@ -31,7 +33,13 @@
 
 <Box
   ml="md"
-  css="{{ p: '$6', borderColor: '$black', borderBlockStyle: 'solid', bc: 'LightGrey', width: 'max-content' }}"
+  css="{{
+    p: '$6',
+    borderColor: '$black',
+    borderBlockStyle: 'solid',
+    backgroundColor: $isDark ? theme.colors.dark500 : theme.colors.dark50,
+    width: 'max-content',
+  }}"
 >
   <Group position="apart" noWrap>
     <Text align="right" size="md" weight="{'semibold'}" mb="{'md'}">{dropZoneName}</Text>
@@ -61,7 +69,7 @@
 
 <style>
   .zone {
-    background-color: #eeeeee;
+    /* background-color: #eeeeee; */
     padding: var(--theme-pad);
     border: 2px solid #dddddd;
   }
