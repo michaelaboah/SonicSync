@@ -3,36 +3,30 @@
   import { setAccessToken } from "../utils/accessToken";
   import { LoginUser, MeDoc, type MeQuery, type UserInput } from "../generated/graphql";
   import { onMount } from "svelte";
-  import { tauri_store } from "../stores/renderStore";
-  import type { UserPreferences } from "src/Classes";
+  import { persist } from "../stores/renderStore";
 
   let loginOptions: UserInput = { email: "", password: "" };
   //@ts-ignore
   let isLoggedIn: boolean;
   let mounted = false;
-  let isRemembered: boolean;
+
   let reference: HTMLElement;
   let rest: any;
-  onMount(async () => {
-    const userData = await tauri_store.get<UserPreferences>("preferences");
-    if (userData) {
-      isRemembered = userData.rememberMe;
-      if (isRemembered && userData.credentials !== undefined) {
-        loginOptions = userData.credentials;
-      }
+  $: console.log($persist.rememberMe);
+  onMount(() => {
+    if ($persist.rememberMe) {
+      loginOptions = $persist.credentials;
     }
   });
 
-  const handleRememberMe = async () => {
-    isRemembered = !isRemembered;
-    const userData: any = await tauri_store.get("preferences");
-    if (isRemembered === false) {
-      loginOptions = { email: "", password: "" };
-      userData.credentials = undefined;
-      console.log(userData.credentials);
-      await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered } as UserPreferences);
+  const handleRemember = () => {
+    if (!$persist.rememberMe) {
+      loginOptions = $persist.credentials;
+    } else {
+      loginOptions.email = "";
+      loginOptions.password = "";
+      $persist.credentials = loginOptions;
     }
-    await tauri_store.set("preferences", { ...userData, rememberMe: isRemembered } as UserPreferences);
   };
 
   const sumbitLogin = async (credentials: UserInput) => {
@@ -55,10 +49,9 @@
       setAccessToken(loginResponse.data?.loginUser.accessToken);
     }
 
-    //check if the user wants the login to be remembered
-    if (isRemembered) {
-      const userData = await tauri_store.get<UserPreferences>("preferences");
-      await tauri_store.set("preferences", { ...userData, credentials } as UserPreferences);
+    // check if the user wants the login to be remembered
+    if ($persist.rememberMe) {
+      $persist.credentials = loginOptions;
     }
     isLoggedIn = true;
     mounted = true;
@@ -88,5 +81,5 @@
       <Center inline>login Success!!</Center>
     </Box>
   </Popper>
-  <Checkbox label="Remember Me" bind:checked="{isRemembered}" on:change="{handleRememberMe}" />
+  <Checkbox label="Remember Me" bind:checked="{$persist.rememberMe}" on:click="{handleRemember}" />
 </Box>

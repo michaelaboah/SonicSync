@@ -72,8 +72,8 @@ export interface Project {
 export const createProject = (project?: Project): Project => ({ ...project } as Project);
 
 export interface UserPreferences {
-  darkmode: boolean;
+  darkMode: boolean;
   rememberMe: boolean;
-  ui_font_size: SvelteUISize;
   credentials: { email: string; password: string };
+  ui_font_size: SvelteUISize;
 }
