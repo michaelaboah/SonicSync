@@ -10,7 +10,7 @@
     theme,
     // Tooltip,
   } from "@svelteuidev/core";
-  import { isDark } from "../stores/PrefsStore";
+  import { persist } from "../stores/renderStore";
   let rest: any;
   export let image: string | undefined;
   export let dropZoneName: string = "Image";
@@ -37,7 +37,7 @@
     p: '$6',
     borderColor: '$black',
     borderBlockStyle: 'solid',
-    backgroundColor: $isDark ? theme.colors.dark500 : theme.colors.dark50,
+    backgroundColor: $persist.darkMode ? theme.colors.dark500 : theme.colors.dark50,
     width: 'max-content',
   }}"
 >

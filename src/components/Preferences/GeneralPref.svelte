@@ -12,19 +12,18 @@
       bind:checked="{$persist.darkMode}"
       label="Toggle Dark-Mode"
       color="dark"
-      aria-label="Toggle Dark-Mode"
     />
 
-    <!-- <Box>
-    <Title order="{3}">Font</Title>
-    <Divider size="md" />
-    <NativeSelect
-      data="{['xs', 'sm', 'md', 'lg', 'xl']}"
-      bind:value="{$fontSizeTest}"
-      label="Select your prefered Font-Size"
-      size="{$fontSizeTest}"
-      description="test description"
-    />
-  </Box> -->
+    <Box>
+      <Title order="{3}">Font</Title>
+      <Divider size="md" />
+      <NativeSelect
+        data="{['xs', 'sm', 'md', 'lg', 'xl']}"
+        bind:value="{$persist.ui_font_size}"
+        label="Select your prefered Font-Size"
+        size="{$persist.ui_font_size}"
+        description="test description"
+      />
+    </Box>
   </Box>
 </Stack>

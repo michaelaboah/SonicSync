@@ -5,8 +5,8 @@
   //@ts-ignore
   import Select from "svelte-select";
   import { gearList } from "../stores/ProjectStore";
-  import { isDark, fontSizeTest } from "../stores/PrefsStore";
-  let size = $fontSizeTest;
+  import { persist } from "../stores/renderStore";
+  let size = $persist.ui_font_size;
   export let gear: Gear;
   export let index: number;
   $: totalCost = gear.quantity * gear.cost;
@@ -51,7 +51,7 @@
   }
 </script>
 
-<Box css="{{ backgroundColor: $isDark ? theme.colors.dark400 : theme.colors.dark100 }}">
+<Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark100 }}">
   <Grid cols="{12}" grow>
     <Grid.Col span="{3}">
       <Text weight="bold" size="{size}" m="xs">Quick Search Model</Text>
