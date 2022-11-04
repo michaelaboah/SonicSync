@@ -55,9 +55,9 @@
 
 {#each groups as group}
   <Stack align="stretch" justify="flex-start" spacing="xs">
-    <Box css="{{ backgroundColor: isDark, borderRadius: '$lg' }}" pb="xl">
+    <Box css="{{ backgroundColor: isDark, borderRadius: '$lg' }}">
       <Stack spacing="xs">
-        <Title m="sm" mt="lg" order="{3}">{group.category === "undefined" ? "New Category" : group.category}</Title>
+        <Title m="xs" mt="lg" order="{3}">{group.category === "undefined" ? "New Category" : group.category}</Title>
         {#each group.values as value (value)}
           <EquipmentComponent bind:gear="{value}" bind:index="{value.gearId}" />
         {/each}

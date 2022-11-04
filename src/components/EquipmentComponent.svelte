@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Box, Button, CloseButton, Grid, NumberInput, SimpleGrid, Text, TextInput, theme } from "@svelteuidev/core";
+  import { Box, Button, CloseButton, Group, NumberInput, Text, TextInput, theme, Tooltip } from "@svelteuidev/core";
   import { buildItem, type Equipment, type Gear, type Item } from "../Classes";
   import { AsyncFuzzyTextSearch } from "../generated/graphql";
   //@ts-ignore
@@ -50,53 +50,80 @@
     return e.model;
   }
 
+  const formatter = (value: string | undefined) => {
+    if (value) return !Number.isNaN(parseFloat(value)) ? ("$ " + value).replace(/B(?=(d{3})+(?!d))/g, ",") : "$ ";
+    else return "Not a Number";
+  };
+
+  // const parser = (value: any) => {
+  //   return value.replace(/$s?|(,*)/g, "");
+  // };
+
   let isDark = $persist.darkMode ? theme.colors.dark200 : theme.colors.white;
 </script>
 
 <Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
-  <Grid cols="{12}" grow m="xs">
-    <Grid.Col span="{3}">
-      <Text weight="bold" size="{size}" m="xs">Quick Search Model</Text>
-      <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3">
-        <Select
-          value="{gear.model}"
-          loadOptions="{asyncTest}"
-          placeholder=""
-          on:select="{handleSelect}"
-          getSelectionLabel="{getModel}"
-          getOptionLabel="{getModel}"
-          optionIdentifier="model"
+  <Group>
+    <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3 mr-2 w-1/4">
+      <Text mt="md" mb="xs" weight="bold" size="{size}">Quick Search Model</Text>
+      <Select
+        value="{gear.model}"
+        loadOptions="{asyncTest}"
+        placeholder=""
+        on:select="{handleSelect}"
+        getSelectionLabel="{getModel}"
+        getOptionLabel="{getModel}"
+        optionIdentifier="model"
+      />
+    </div>
+
+    <NumberInput
+      defaultValue="{0}"
+      bind:value="{gear.quantity}"
+      min="{0}"
+      size="xs"
+      hideControls
+      label="Total Quantity"
+      class="w-24"
+    />
+
+    <div class="w-32">
+      <NumberInput bind:value="{gear.cost}" min="{0}" size="xs" label="Initial Cost" formatter="{formatter}" />
+    </div>
+
+    <Text weight="bold" size="{size}" m="xs">Total Cost: ${totalCost}</Text>
+
+    <Text weight="bold" size="{size}" m="xs">Total Power Draw: {totalPower}</Text>
+    <Button on:click="{addItem}" disabled="{!gear.model}">Add Item</Button>
+    <Button on:click="{deleteGear}">Remove Gear: {index}</Button>
+  </Group>
+  {#each gear.items as { description, itemQuantity, publicNotes, privateNotes, itemId } (itemId)}
+    <Group direction="row" ml="sm" mb="sm">
+      <TextInput
+        size="xs"
+        label="Description"
+        placeholder="{'Enter Usage / Purpose: '}"
+        class="w-1/5"
+        bind:value="{description}"
+      />
+      <div class="w-32">
+        <NumberInput
+          size="xs"
+          label="Quantity"
+          min="{0}"
+          defaultValue="{0}"
+          on:change="{handleItemChange}"
+          bind:value="{itemQuantity}"
+          formatter="{formatter}"
         />
       </div>
-    </Grid.Col>
-    <Grid.Col span="{1}">
-      <Text weight="bold" size="{size}" m="xs">Total Quantity</Text>
-      <NumberInput defaultValue="{0}" bind:value="{gear.quantity}" min="{0}" size="sm" hideControls />
-    </Grid.Col>
-    <Grid.Col span="{1}">
-      <Text weight="bold" size="{size}" m="xs">Initial Cost</Text>
-      <NumberInput bind:value="{gear.cost}" min="{0}" size="sm" />
-    </Grid.Col>
-    <Grid.Col span="{2}">
-      <Text weight="bold" size="{size}" m="xs">Total Cost: ${totalCost}</Text>
-    </Grid.Col>
-    <Grid.Col span="{2}">
-      <Text weight="bold" size="{size}" m="xs">Total Power Draw: {totalPower}</Text>
-    </Grid.Col>
-    <Grid.Col span="{1}">
-      <Button on:click="{addItem}" disabled="{!gear.model}">Add Item</Button>
-    </Grid.Col>
-    <Grid.Col span="{1}">
-      <Button on:click="{deleteGear}">Remove Gear: {index}</Button>
-    </Grid.Col>
-    {#each gear.items as { description, itemQuantity, publicNotes, privateNotes, itemId } (itemId)}
-      <SimpleGrid cols="{6}" ml="lg" mb="lg">
-        <TextInput label="Description" placeholder="{'Enter Usage / Purpose: '}" bind:value="{description}" />
-        <NumberInput label="Quantity" min="{0}" on:change="{handleItemChange}" bind:value="{itemQuantity}" />
-        <TextInput label="Public Notes" bind:value="{publicNotes}" />
-        <TextInput label="Private Notes" bind:value="{privateNotes}" />
+      <TextInput size="xs" label="Public Notes" bind:value="{publicNotes}" />
+      <TextInput size="xs" label="Private Notes" bind:value="{privateNotes}" />
+      <Tooltip label="Delete Item" openDelay="{300}">
         <CloseButton iconSize="md" on:click="{() => deleteItem(itemId)}" variant="outline" />
-      </SimpleGrid>
-    {/each}
-  </Grid>
+      </Tooltip>
+    </Group>
+    <!-- </SimpleGrid> -->
+  {/each}
+  <!-- </Grid> -->
 </Box>
