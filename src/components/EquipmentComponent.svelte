@@ -49,13 +49,15 @@
   function getModel(e: any) {
     return e.model;
   }
+
+  let isDark = $persist.darkMode ? theme.colors.dark200 : theme.colors.white;
 </script>
 
-<Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark100 }}">
-  <Grid cols="{12}" grow>
+<Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
+  <Grid cols="{12}" grow m="xs">
     <Grid.Col span="{3}">
       <Text weight="bold" size="{size}" m="xs">Quick Search Model</Text>
-      <div class="autocomplete">
+      <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3">
         <Select
           value="{gear.model}"
           loadOptions="{asyncTest}"
@@ -98,9 +100,3 @@
     {/each}
   </Grid>
 </Box>
-
-<style>
-  .autocomplete {
-    margin-left: 1vw;
-  }
-</style>

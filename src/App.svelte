@@ -11,13 +11,7 @@
   import { currentFile, loadProject, project } from "./stores/ProjectStore"; //, loadProject
   import { persist } from "./stores/renderStore";
 
-  // let isDark: boolean;
-  // (async () => {
-  //   isDark = await getDarkMode();
-  // })();
-
   onMount(async () => {
-    console.log($persist);
     await listen("save", (_event) => {
       invoke("save_as_file", { file_path: $currentFile, data: $project }).then((value) => {
         console.log(value);
@@ -34,11 +28,6 @@
       loadProject(JSON.parse(await invoke("open_project")));
     });
   });
-
-  // async function getDarkMode() {
-  //   const persistData: any = await tauri_store.get("preferences");
-  //   return persistData.darkmode;
-  // }
 
   setContext(themeKey, {
     toggleDark: () => ($persist.darkMode = !$persist.darkMode),

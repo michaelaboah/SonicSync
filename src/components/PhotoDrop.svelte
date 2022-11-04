@@ -29,6 +29,7 @@
   }
 
   $: image ? (dropZonePadding = "0.5vw") : (dropZonePadding = "4vw");
+  let isDark = $persist.darkMode ? "light" : "dark";
 </script>
 
 <Box
@@ -43,7 +44,7 @@
 >
   <Group position="apart" noWrap>
     <Text align="right" size="md" weight="{'semibold'}" mb="{'md'}">{dropZoneName}</Text>
-    <CloseButton iconSize="md" on:click="{() => (image = undefined)}" />
+    <CloseButton iconSize="md" color="{isDark}" on:click="{() => (image = undefined)}" />
   </Group>
 
   <FileDrop max="{1}" let:droppable handleFiles="{handleFiles}" acceptedMimes="{acceptedMimes}">
@@ -61,7 +62,9 @@
           />
         </Center>
       {:else}
-        <Text align="center" size="md">Drag and Drop 1 Image</Text>
+        <Text align="center" size="md" mb="lg">Drag and Drop 1 Image</Text>
+        <Text align="center" size="md">Or</Text>
+        <Text align="center" size="md" mt="lg">Click to Select</Text>
       {/if}
     </div>
   </FileDrop>

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Button, Center, Grid, Header, Kbd, Paper, Stack, Text } from "@svelteuidev/core";
+  import { Button, Center, Grid, Header, Kbd, Paper, Stack, Text, theme } from "@svelteuidev/core";
   import { Box, Title } from "@svelteuidev/core";
   import { buildGear, type Gear } from "../Classes";
   import EquipmentComponent from "../components/EquipmentComponent.svelte";
-  import { fontSizeTest } from "../stores/PrefsStore";
+  import { persist } from "../stores/renderStore";
   import { gearList } from "../stores/ProjectStore";
 
   let rest: any;
@@ -38,9 +38,11 @@
       }
     });
   }
+
+  let isDark = $persist.darkMode ? theme.colors.dark300 : theme.colors.gray300;
 </script>
 
-<Header height="10" pb="4">
+<Header height="10" pb="4" mb="md">
   <Grid>
     <Grid.Col span="{1}">
       <Button on:click="{addGear}">Add Gear</Button>
@@ -53,9 +55,9 @@
 
 {#each groups as group}
   <Stack align="stretch" justify="flex-start" spacing="xs">
-    <Box css="{{ backgroundColor: '$cyan100' }}">
-      <Stack>
-        <Title order="{3}">{group.category === undefined ? "New Category" : group.category}</Title>
+    <Box css="{{ backgroundColor: isDark, borderRadius: '$lg' }}" pb="xl">
+      <Stack spacing="xs">
+        <Title m="sm" mt="lg" order="{3}">{group.category === "undefined" ? "New Category" : group.category}</Title>
         {#each group.values as value (value)}
           <EquipmentComponent bind:gear="{value}" bind:index="{value.gearId}" />
         {/each}
@@ -66,7 +68,7 @@
 {:else}
   <Center inline="{false}">
     <Paper>
-      <Text size="{$fontSizeTest}" align="center">
+      <Text size="{$persist.ui_font_size}" align="center">
         Empty list bud, try adding something using the Add Gear button or the
         <Kbd {...rest}>⌘</Kbd> + <Kbd {...rest}>N</Kbd>
       </Text>
