@@ -10,6 +10,8 @@
   import { themeKey } from "./utils/contextKeys";
   import { currentFile, loadProject, project } from "./stores/ProjectStore"; //, loadProject
   import { persist } from "./stores/renderStore";
+  import ContextLayer from "./components/ContextLayer.svelte";
+  import { push } from "svelte-spa-router";
 
   onMount(async () => {
     await listen("save", (_event) => {
@@ -27,6 +29,10 @@
     await listen("open-project-file", async () => {
       loadProject(JSON.parse(await invoke("open_project")));
     });
+
+    await listen("open-preferences", () => {
+      push("#/PreferencesPage");
+    });
   });
 
   setContext(themeKey, {
@@ -36,9 +42,11 @@
 
 <SvelteUIProvider withGlobalStyles themeObserver="{$persist.darkMode ? 'dark' : 'light'}">
   <AppShell>
-    <Header />
-    <Routes />
-    <Footer />
+    <ContextLayer>
+      <Header />
+      <Routes />
+      <Footer />
+    </ContextLayer>
   </AppShell>
 </SvelteUIProvider>
 
