@@ -13,5 +13,5 @@ generates:
       # - src/frontend/utils/codgen-init.js # in codegen-svelte-apollo lib developement
       - svelte-apollo # in real usage of the lib
     config:
-      clientPath: "../../apollo/apolloClient"
+      clientPath: "../apollo/apolloClient"
       asyncQuery: true

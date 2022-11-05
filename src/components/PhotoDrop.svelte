@@ -7,7 +7,6 @@
     Group,
     Image,
     Text,
-    theme,
     // Tooltip,
   } from "@svelteuidev/core";
   import { persist } from "../stores/renderStore";
@@ -30,6 +29,7 @@
 
   $: image ? (dropZonePadding = "0.5vw") : (dropZonePadding = "4vw");
   let isDark = $persist.darkMode ? "light" : "dark";
+  // $persist.darkMode ? theme.colors.dark500 : theme.colors.dark50
 </script>
 
 <Box
@@ -38,7 +38,7 @@
     p: '$6',
     borderColor: '$black',
     borderBlockStyle: 'solid',
-    backgroundColor: $persist.darkMode ? theme.colors.dark500 : theme.colors.dark50,
+    backgroundColor: $persist.darkMode ? '$dark500' : '$dark50',
     width: 'max-content',
   }}"
 >

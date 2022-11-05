@@ -42,11 +42,13 @@
 
 <SvelteUIProvider withGlobalStyles themeObserver="{$persist.darkMode ? 'dark' : 'light'}">
   <AppShell>
-    <ContextLayer>
-      <Header />
-      <Routes />
-      <Footer />
-    </ContextLayer>
+    {#key $persist.darkMode}
+      <ContextLayer>
+        <Header />
+        <Routes />
+        <Footer />
+      </ContextLayer>
+    {/key}
   </AppShell>
 </SvelteUIProvider>
 
