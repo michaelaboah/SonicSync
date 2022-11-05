@@ -1,5 +1,16 @@
 <script lang="ts">
-  import { Box, Button, CloseButton, Group, NumberInput, Text, TextInput, theme, Tooltip } from "@svelteuidev/core";
+  import {
+    Box,
+    Button,
+    CloseButton,
+    Grid,
+    Group,
+    NumberInput,
+    Text,
+    TextInput,
+    theme,
+    Tooltip,
+  } from "@svelteuidev/core";
   import { buildItem, type Equipment, type Gear, type Item } from "../Classes";
   import { AsyncFuzzyTextSearch } from "../generated/graphql";
   //@ts-ignore
@@ -50,9 +61,14 @@
     return e.model;
   }
 
-  const formatter = (value: string | undefined) => {
+  const numberFormatter = (value: string | undefined) => {
     if (value) return !Number.isNaN(parseFloat(value)) ? ("$ " + value).replace(/B(?=(d{3})+(?!d))/g, ",") : "$ ";
     else return "Not a Number";
+  };
+
+  const wattageFormatter = (value: string | undefined) => {
+    if (value) return !Number.isNaN(parseFloat(value)) ? `${value} watts` : "bad";
+    else return "still bad";
   };
 
   // const parser = (value: any) => {
@@ -63,42 +79,86 @@
 </script>
 
 <Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
-  <Group>
-    <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3 mr-2 w-1/4">
-      <Text mt="md" mb="xs" weight="bold" size="{size}">Quick Search Model</Text>
-      <Select
-        value="{gear.model}"
-        loadOptions="{asyncTest}"
-        placeholder=""
-        on:select="{handleSelect}"
-        getSelectionLabel="{getModel}"
-        getOptionLabel="{getModel}"
-        optionIdentifier="model"
-      />
-    </div>
+  <Grid grow>
+    <Grid.Col span="{10}">
+      <Group>
+        <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3 mr-2 w-1/4">
+          <Text mt="md" mb="xs" weight="normal" size="{size}">Quick Search Model</Text>
+          <Select
+            value="{gear.model}"
+            loadOptions="{asyncTest}"
+            placeholder=""
+            on:select="{handleSelect}"
+            getSelectionLabel="{getModel}"
+            getOptionLabel="{getModel}"
+            optionIdentifier="model"
+          />
+        </div>
 
-    <NumberInput
-      defaultValue="{0}"
-      bind:value="{gear.quantity}"
-      min="{0}"
-      size="xs"
-      hideControls
-      label="Total Quantity"
-      class="w-24"
-    />
+        <NumberInput
+          defaultValue="{0}"
+          bind:value="{gear.quantity}"
+          min="{0}"
+          size="xs"
+          hideControls
+          label="Total Quantity"
+          class="w-24"
+        />
 
-    <div class="w-32">
-      <NumberInput bind:value="{gear.cost}" min="{0}" size="xs" label="Initial Cost" formatter="{formatter}" />
-    </div>
+        <Tooltip
+          closeDelay="{300}"
+          label="This is the Initial or Default cost of this Item, please change as necessary"
+          wrapLines
+          width="{200}"
+          withArrow
+          arrowSize="{4}"
+          color="indigo"
+        >
+          <div class="w-32">
+            <NumberInput
+              bind:value="{gear.cost}"
+              min="{0}"
+              defaultValue="{0}"
+              size="xs"
+              label="Initial Cost"
+              formatter="{numberFormatter}"
+            />
+          </div>
+        </Tooltip>
+        <div class="w-32">
+          <NumberInput
+            value="{totalCost}"
+            min="{0}"
+            size="xs"
+            label="Total Cost"
+            hideControls
+            formatter="{numberFormatter}"
+          />
+        </div>
 
-    <Text weight="bold" size="{size}" m="xs">Total Cost: ${totalCost}</Text>
-
-    <Text weight="bold" size="{size}" m="xs">Total Power Draw: {totalPower}</Text>
-    <Button on:click="{addItem}" disabled="{!gear.model}">Add Item</Button>
-    <Button on:click="{deleteGear}">Remove Gear: {index}</Button>
-  </Group>
+        <div class="w-32">
+          <NumberInput
+            value="{totalPower}"
+            min="{0}"
+            size="xs"
+            label="Total Power Usage"
+            hideControls
+            formatter="{wattageFormatter}"
+          />
+        </div>
+        <!-- <Text weight="bold" size="{size}" m="xs">Total Cost: ${totalCost}</Text> -->
+        <!-- <Text weight="bold" size="{size}" m="xs">Total Power Draw: {totalPower}</Text> -->
+      </Group>
+    </Grid.Col>
+    <Grid.Col span="{1}">
+      <Group position="left" mt="xl">
+        <Button compact on:click="{addItem}" disabled="{!gear.model}">Add Item</Button>
+        <Button compact on:click="{deleteGear}">Remove Gear: {index}</Button>
+      </Group>
+    </Grid.Col>
+  </Grid>
   {#each gear.items as { description, itemQuantity, publicNotes, privateNotes, itemId } (itemId)}
-    <Group direction="row" ml="sm" mb="sm">
+    <Group direction="row" ml="sm" mb="sm" mt="sm">
       <TextInput
         size="xs"
         label="Description"
@@ -114,13 +174,12 @@
           defaultValue="{0}"
           on:change="{handleItemChange}"
           bind:value="{itemQuantity}"
-          formatter="{formatter}"
         />
       </div>
       <TextInput size="xs" label="Public Notes" bind:value="{publicNotes}" />
-      <TextInput size="xs" label="Private Notes" bind:value="{privateNotes}" />
+      <TextInput size="xs" label="Private Notes" bind:value="{privateNotes}" labelProps="{{ color: 'red' }}" />
       <Tooltip label="Delete Item" openDelay="{300}">
-        <CloseButton iconSize="md" on:click="{() => deleteItem(itemId)}" variant="outline" />
+        <CloseButton iconSize="md" on:click="{() => deleteItem(itemId)}" variant="outline" mt="lg" />
       </Tooltip>
     </Group>
     <!-- </SimpleGrid> -->
