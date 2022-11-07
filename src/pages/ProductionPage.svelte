@@ -23,6 +23,14 @@
     { label: "A1 / Board Op", tuple: ($prodInfo.audio1 ??= ["", false]) },
     { label: "A2", value: false, tuple: ($prodInfo.audio2 ??= ["", false]) },
   ];
+  let selectButton = "Select All"
+  const selectAll = () => {
+    positions.forEach((x) => {
+      x.tuple[1] = !x.tuple[1];
+      x.tuple[1] ? selectButton = "Deselect All" :  selectButton = "Select All"
+    })
+    positions = positions
+  }
 </script>
 
 <Box>
@@ -30,12 +38,11 @@
   <SimpleGrid cols="{2}" ml="lg">
     <InputWrapper label="" labelElement="{undefined}" size="{size}">
       <Group>
-        {#each positions as { label, tuple: [_, bool] }}
-          <Checkbox bind:checked="{bool}" label="{label}" size="{size}" />
-        {/each}
-        <!-- Implement toggle later -->
-        <Tooltip opened="{false}" label="Select all items">
-          <Button disabled>Select All</Button>
+        {#each positions as { label, tuple: [_, bool] } }
+        <Checkbox bind:checked="{bool}" label="{label}" size="{size}" />
+      {/each}
+        <Tooltip label="Select all positions">
+          <Button on:click={selectAll}>{selectButton}</Button>
         </Tooltip>
       </Group>
       <TextInput
