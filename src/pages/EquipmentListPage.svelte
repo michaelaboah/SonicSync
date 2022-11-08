@@ -1,4 +1,5 @@
 <script lang="ts">
+  //@ts-nocheck
   import { Button, Center, Grid, Header, Kbd, Paper, Stack, Text, theme } from "@svelteuidev/core";
   import { Box, Title } from "@svelteuidev/core";
   import { buildGear, type Gear } from "../Classes";

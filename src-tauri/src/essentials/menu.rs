@@ -13,6 +13,10 @@ pub mod menu_bar {
             CustomMenuItem::new("save_as", "Save As File").accelerator("cmdOrControl+shift+S");
         let open = CustomMenuItem::new("open", "Open File").accelerator("cmdOrControl+O");
         let new = CustomMenuItem::new("new", "New Project").accelerator("cmdOrControl+N");
+        let open_preferences =
+            CustomMenuItem::new("preferences", "Preferences").accelerator("cmdOrControl+,");
+        let open_palette =
+            CustomMenuItem::new("palette", "Open Command Palette").accelerator("cmdOrControl+P");
 
         let menu = Menu::with_items([
             #[cfg(target_os = "macos")]
@@ -27,7 +31,8 @@ pub mod menu_bar {
                     MenuItem::ShowAll.into(),
                     MenuItem::Separator.into(),
                     MenuItem::Quit.into(),
-                ]),
+                ])
+                .add_item(open_preferences),
             )),
             MenuEntry::Submenu(Submenu::new(
                 "File",
@@ -53,7 +58,7 @@ pub mod menu_bar {
             )),
             MenuEntry::Submenu(Submenu::new(
                 "View",
-                Menu::with_items([MenuItem::EnterFullScreen.into()]),
+                Menu::with_items([MenuItem::EnterFullScreen.into()]).add_item(open_palette),
             )),
             MenuEntry::Submenu(Submenu::new(
                 "Window",
@@ -72,13 +77,14 @@ pub mod menu_bar {
             "save" => communication::events::menu_emit("save", event),
             "save_as" => communication::events::menu_emit("save-as", event),
             "open" => communication::events::menu_emit("open-project-file", event),
-
             "new" => tauri::api::dialog::MessageDialogBuilder::new(
                 "File Open Error",
                 format!("File Error: Problem with provided path, .\n Error message: "),
             )
             .kind(tauri::api::dialog::MessageDialogKind::Error)
             .show(|_| ()),
+            "palette" => communication::events::menu_emit("toggle-palette", event),
+            "preferences" => communication::events::menu_emit("open-preferences", event),
             "Learn More" => {
                 let _url = "to be implemented".to_string();
             }
