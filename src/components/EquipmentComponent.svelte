@@ -3,6 +3,7 @@
     Box,
     Button,
     CloseButton,
+    createStyles,
     Grid,
     Group,
     NumberInput,
@@ -71,16 +72,35 @@
     else return "still bad";
   };
 
-  // const parser = (value: any) => {
-  //   return value.replace(/$s?|(,*)/g, "");
-  // };
+  const useStylesDisabled = createStyles((theme) => ({
+    root: {
+      textAlign: "center",
+      "& input:disabled": {
+        backgroundColor: "white !important",
+        color: "black !important",
+        border: "1px solid var(--svelteui-colors-gray400) !important",
+        opacity: "1 !important",
+        // width: "6rem",
+        [`${theme.dark} &`]: {
+          // using of SvelteUI utilities
+          // bc === backgroundColor
+          backgroundColor: theme.colors.dark800 + "!important",
+          opacity: "1 !important",
+          color: "white !important",
+          border: "0px solid var(--svelteui-colors-gray400) !important",
+        },
+      },
+    },
+  }));
+
+  $: ({ cx, getStyles } = useStylesDisabled());
 
   let isDark = $persist.darkMode ? theme.colors.dark200 : theme.colors.white;
 </script>
 
 <Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
   <Grid grow>
-    <Grid.Col span="{10}">
+    <Grid.Col span="{9}">
       <Group>
         <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3 mr-2 w-1/4">
           <Text mt="md" mb="xs" weight="normal" size="{size}">Quick Search Model</Text>
@@ -94,17 +114,18 @@
             optionIdentifier="model"
           />
         </div>
-
-        <NumberInput
-          defaultValue="{0}"
-          bind:value="{gear.quantity}"
-          min="{0}"
-          size="xs"
-          hideControls
-          label="Total Quantity"
-          class="w-24"
-        />
-
+        <div class="w-24">
+          <NumberInput
+            defaultValue="{0}"
+            bind:value="{gear.quantity}"
+            min="{0}"
+            size="xs"
+            hideControls
+            label="Total Quantity"
+            disabled
+            class="{cx(getStyles())}"
+          />
+        </div>
         <Tooltip
           closeDelay="{300}"
           label="This is the Initial or Default cost of this Item, please change as necessary"
@@ -113,6 +134,7 @@
           withArrow
           arrowSize="{4}"
           color="indigo"
+          override="{{ textAlign: 'center' }}"
         >
           <div class="w-32">
             <NumberInput
@@ -133,6 +155,8 @@
             label="Total Cost"
             hideControls
             formatter="{numberFormatter}"
+            disabled
+            class="{cx(getStyles())}"
           />
         </div>
 
@@ -144,6 +168,8 @@
             label="Total Power Usage"
             hideControls
             formatter="{wattageFormatter}"
+            disabled
+            class="{cx(getStyles())}"
           />
         </div>
         <!-- <Text weight="bold" size="{size}" m="xs">Total Cost: ${totalCost}</Text> -->
