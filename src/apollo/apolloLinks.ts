@@ -22,7 +22,7 @@ export const tokenRefreshLink = new TokenRefreshLink({
     }
   },
   fetchAccessToken: () => {
-    return fetch("http://10.0.0.198:4000/refresh_token", {
+    return fetch(GRAPHQL_ENDPOINT, {
       method: "POST",
       credentials: "include",
     });

@@ -2,8 +2,9 @@
   import { Notification, Footer } from "@svelteuidev/core";
   import { setAccessToken } from "../utils/accessToken";
   import { Check, Cross2 } from "radix-icons-svelte";
+  import { REFRESH_ENDPOINT } from "../utils/ClientContants";
 
-  const response = fetch("http://localhost:4000/refresh_token", {
+  const response = fetch(REFRESH_ENDPOINT, {
     method: "POST",
     credentials: "include",
   })

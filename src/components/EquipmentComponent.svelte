@@ -6,14 +6,15 @@
     createStyles,
     Grid,
     Group,
+    key,
     NumberInput,
     Text,
     TextInput,
     theme,
     Tooltip,
   } from "@svelteuidev/core";
-  import { buildItem, SubItems, type Equipment, type Gear, type Item } from "../Classes";
-  import { AsyncGlobalItemSearch } from "../generated/graphql";
+  import { buildItem, SubItems, type Gear, type Item } from "../Classes";
+  import { AsyncGlobalItemSearch, type Item as ItemGraphql } from "../generated/graphql";
   //@ts-ignore
   import Select from "svelte-select";
   import { gearList } from "../stores/ProjectStore";
@@ -21,12 +22,12 @@
   let size = $persist.ui_font_size;
   export let gear: Gear;
   export let index: number;
+  const sub_items = Object.keys(SubItems).map((x) => x.toLowerCase());
   $: totalCost = gear.quantity * (gear.cost ??= 0);
-  $: totalPower = 0;
+  $: totalPower = gear.processor?.power.wattage;
 
   const computePower = (): number => {
-    console.log(gear);
-    // const sub_items = Object.keys(SubItems).map((x) => x.toLowerCase());
+    console.log(totalPower);
     // Object.entries(gear).forEach(([key, val]) => {
     //   if (sub_items.includes(key) && val !== null) {
     //     console.log(val);
@@ -36,8 +37,21 @@
   };
 
   const asyncTest = async (fillerText: string) => {
-    const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
-    return response.data.fuzzyItemSearch;
+    const {
+      data: { fuzzyItemSearch },
+    } = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
+    const sub_items = Object.keys(SubItems).map((x) => x.toLowerCase());
+    Object.entries(gear).forEach(([key, val]) => {
+      if (sub_items.includes(key) && val !== null) {
+        if (val["power"] === undefined) {
+          totalPower = 0;
+        } else {
+          totalPower = val["power"].wattage;
+          console.log(totalPower);
+        }
+      }
+    });
+    return fuzzyItemSearch;
   };
 
   const addItem = () => {
@@ -64,7 +78,7 @@
   //   return ($gearList[index] = createEquip);
   // };
 
-  const handleSelect = (e: { detail: Equipment }) => {
+  const handleSelect = (e: { detail: ItemGraphql }) => {
     gear = { ...gear, ...e.detail };
     $gearList[index] = gear;
   };
@@ -80,7 +94,7 @@
 
   const wattageFormatter = (value: string | undefined) => {
     if (value) return !Number.isNaN(parseFloat(value)) ? `${value} watts` : "bad";
-    else return "still bad";
+    else return "N/A";
   };
 
   const useStylesDisabled = createStyles((theme) => ({
@@ -120,7 +134,7 @@
             value="{gear.model}"
             loadOptions="{asyncTest}"
             placeholder="placeholder"
-            on:select="{handleSelect}"
+            on:select|once="{handleSelect}"
             getSelectionLabel="{getModel}"
             getOptionLabel="{getModel}"
             optionIdentifier="model"
