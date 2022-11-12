@@ -1,6 +1,6 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, Observable } from "@apollo/client/core";
 import { getAccessToken } from "../utils/accessToken";
-import { GRAPHQL_ENDPOINT } from "../utils/ClientContants";
+// import { GRAPHQL_ENDPOINT } from "../utils/ClientContants";
 import { tokenRefreshLink } from "./apolloLinks";
 
 const cache = new InMemoryCache();
@@ -36,7 +36,7 @@ const client = new ApolloClient({
     tokenRefreshLink,
     requestLink,
     new HttpLink({
-      uri: GRAPHQL_ENDPOINT,
+      uri: "http://10.0.0.198:4000/graphql",
       credentials: "include",
     }),
   ]),

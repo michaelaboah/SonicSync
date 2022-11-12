@@ -21,6 +21,7 @@ specifiers:
   autoprefixer: ^10.4.13
   core: link:@apollo/client/core
   dayjs: ^1.11.6
+  dotenv: ^16.0.3
   graphql-codegen-svelte-apollo: ^1.1.0
   graphql-tag: ^2.12.6
   graphql-ws: ^5.11.2
@@ -54,6 +55,7 @@ dependencies:
   apollo-link-token-refresh: 0.4.0_vyimhitoszmgfhxzjgw5jdtad4
   core: link:@apollo/client/core
   dayjs: 1.11.6
+  dotenv: 16.0.3
   graphql-tag: 2.12.6_graphql@16.6.0
   graphql-ws: 5.11.2_graphql@16.6.0
   jwt-decode: 3.1.2
@@ -2300,7 +2302,6 @@ packages:
   /dotenv/16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
-    dev: true
 
   /dset/3.1.2:
     resolution: {integrity: sha512-g/M9sqy3oHe477Ar4voQxWtaPIFw1jTdKZuomOjhCcBx9nHUNn0pu6NopuFFrTh/TRZIKEj+76vLWFu9BNKk+Q==}

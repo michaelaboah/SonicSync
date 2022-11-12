@@ -1,4 +1,5 @@
 import type { SvelteUISize } from "@svelteuidev/core";
+// import type { Item as ItemGraphql } from "./generated/graphql";
 
 export interface Equipment {
   modelId: number;
@@ -77,3 +78,7 @@ export interface UserPreferences {
   credentials: { email: string; password: string };
   ui_font_size: SvelteUISize;
 }
+
+// export const buildThing = (item: ItemGraphql) => {
+//   item.
+// }
