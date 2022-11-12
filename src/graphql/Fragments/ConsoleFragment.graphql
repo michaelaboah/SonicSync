@@ -1,0 +1,22 @@
+fragment ConsoleFrag on ConsoleItem {
+  totalInputs
+  totalOutputs
+  totalBusses
+  physicalInputs
+  physicalOutputs
+  auxInputs
+  physicalAuxInputs
+  phantomPowerInputs
+  faders
+  motorized
+  midi
+  protocolInputs
+  signalProtocol
+  can_expand
+  max_sample_rate
+  notes
+  model
+  power {
+    ...PowerFrag
+  }
+}

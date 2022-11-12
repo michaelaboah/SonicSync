@@ -1,0 +1,16 @@
+fragment ProcessorFrag on ProcessingItem {
+  totalInputs
+  totalOutputs
+  physicalInputs
+  physicalOutputs
+  midi
+  protocolInputs
+  signalProtocol
+  max_sample_rate
+  network_connectivity {
+    ...NetworkFrag
+  }
+  power {
+    ...PowerFrag
+  }
+}

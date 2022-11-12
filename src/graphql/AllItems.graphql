@@ -1,5 +1,5 @@
-query GlobalItemSearch($model: String!) {
-  fuzzyItemSearch(model: $model) {
+query AllItems {
+  findAllItems {
     ...GenericFrag
     processor {
       ...ProcessorFrag

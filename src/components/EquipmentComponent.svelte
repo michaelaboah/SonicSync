@@ -12,8 +12,8 @@
     theme,
     Tooltip,
   } from "@svelteuidev/core";
-  import { buildItem, type Equipment, type Gear, type Item } from "../Classes";
-  import { AsyncFuzzyTextSearch } from "../generated/graphql";
+  import { buildItem, SubItems, type Equipment, type Gear, type Item } from "../Classes";
+  import { AsyncGlobalItemSearch } from "../generated/graphql";
   //@ts-ignore
   import Select from "svelte-select";
   import { gearList } from "../stores/ProjectStore";
@@ -21,12 +21,23 @@
   let size = $persist.ui_font_size;
   export let gear: Gear;
   export let index: number;
-  $: totalCost = gear.quantity * gear.cost;
-  $: totalPower = gear.quantity * (gear.powerDraw ??= 0);
+  $: totalCost = gear.quantity * (gear.cost ??= 0);
+  $: totalPower = 0;
+
+  const computePower = (): number => {
+    console.log(gear);
+    // const sub_items = Object.keys(SubItems).map((x) => x.toLowerCase());
+    // Object.entries(gear).forEach(([key, val]) => {
+    //   if (sub_items.includes(key) && val !== null) {
+    //     console.log(val);
+    //   }
+    // });
+    return 0;
+  };
 
   const asyncTest = async (fillerText: string) => {
-    const response = await AsyncFuzzyTextSearch({ variables: { fuzzySearch: fillerText } });
-    return response.data.fuzzyTextSearch;
+    const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
+    return response.data.fuzzyItemSearch;
   };
 
   const addItem = () => {
@@ -99,6 +110,7 @@
 </script>
 
 <Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
+  <Button on:click="{computePower}">Test</Button>
   <Grid grow>
     <Grid.Col span="{9}">
       <Group>
@@ -107,7 +119,7 @@
           <Select
             value="{gear.model}"
             loadOptions="{asyncTest}"
-            placeholder=""
+            placeholder="placeholder"
             on:select="{handleSelect}"
             getSelectionLabel="{getModel}"
             getOptionLabel="{getModel}"

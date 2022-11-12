@@ -444,7 +444,7 @@ export enum Protocol {
 export type Query = {
   __typename?: 'Query';
   bye: Scalars['String'];
-  findAllItems: Array<ItemResponse>;
+  findAllItems: Array<Item>;
   findCategory: CategoryResponse;
   findConsole: ConsoleResponse;
   /** Using the complete model name find one value. */
@@ -542,6 +542,11 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type AllItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllItemsQuery = { __typename?: 'Query', findAllItems: Array<{ __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, model: string, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null }> };
+
 export type CreateEquipmentMutationVariables = Exact<{
   inputOptions: EquipmentInput;
 }>;
@@ -555,6 +560,16 @@ export type EquipmentModelSearchQueryVariables = Exact<{
 
 
 export type EquipmentModelSearchQuery = { __typename?: 'Query', fullTextSearch: Array<{ __typename?: 'Equipment', createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null }> };
+
+export type ConsoleFragFragment = { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, model: string, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
+
+export type GenericFragFragment = { __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null };
+
+export type NetworkFragFragment = { __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean };
+
+export type PowerFragFragment = { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null };
+
+export type ProcessorFragFragment = { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
 export type FuzzyTextSearchQueryVariables = Exact<{
   fuzzySearch: Scalars['String'];
@@ -575,7 +590,7 @@ export type GlobalItemSearchQueryVariables = Exact<{
 }>;
 
 
-export type GlobalItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id: string, createdAt: string, updatedAt: string, publicNotes?: string | null, cost?: number | null, weight?: number | null, model: string, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }> } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, model: string, power: { __typename?: 'IElectrical', lower_voltage: number, upper_voltage: number, wattage: number, max_wattage: number, redundant?: boolean | null, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null }> };
+export type GlobalItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, model: string, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null }> };
 
 export type LoginUserMutationVariables = Exact<{
   inputOptions: UserInput;
@@ -602,7 +617,96 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, createdAt: string, updatedAt: string, email: string } | null };
 
-
+export const PowerFragFragmentDoc = gql`
+    fragment PowerFrag on IElectrical {
+  wattage
+  redundant
+  lower_voltage
+  max_wattage
+  input_connector
+  output_connector
+}
+    `;
+export const ConsoleFragFragmentDoc = gql`
+    fragment ConsoleFrag on ConsoleItem {
+  totalInputs
+  totalOutputs
+  totalBusses
+  physicalInputs
+  physicalOutputs
+  auxInputs
+  physicalAuxInputs
+  phantomPowerInputs
+  faders
+  motorized
+  midi
+  protocolInputs
+  signalProtocol
+  can_expand
+  max_sample_rate
+  notes
+  model
+  power {
+    ...PowerFrag
+  }
+}
+    ${PowerFragFragmentDoc}`;
+export const GenericFragFragmentDoc = gql`
+    fragment GenericFrag on Item {
+  id
+  createdAt
+  updatedAt
+  cost
+  model
+  weight
+  publicNotes
+  dimensions {
+    width
+    length
+    height
+  }
+}
+    `;
+export const NetworkFragFragmentDoc = gql`
+    fragment NetworkFrag on NetworkPort {
+  protocol
+  power_over_ethernet
+}
+    `;
+export const ProcessorFragFragmentDoc = gql`
+    fragment ProcessorFrag on ProcessingItem {
+  totalInputs
+  totalOutputs
+  physicalInputs
+  physicalOutputs
+  midi
+  protocolInputs
+  signalProtocol
+  max_sample_rate
+  network_connectivity {
+    ...NetworkFrag
+  }
+  power {
+    ...PowerFrag
+  }
+}
+    ${NetworkFragFragmentDoc}
+${PowerFragFragmentDoc}`;
+export const AllItemsDoc = gql`
+    query AllItems {
+  findAllItems {
+    ...GenericFrag
+    processor {
+      ...ProcessorFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${ProcessorFragFragmentDoc}
+${ConsoleFragFragmentDoc}`;
 export const CreateEquipmentDoc = gql`
     mutation CreateEquipment($inputOptions: EquipmentInput!) {
   createEquipment(inputOptions: $inputOptions) {
@@ -696,63 +800,18 @@ export const GetEquipmentDoc = gql`
 export const GlobalItemSearchDoc = gql`
     query GlobalItemSearch($model: String!) {
   fuzzyItemSearch(model: $model) {
-    id
-    createdAt
-    updatedAt
-    publicNotes
-    cost
-    weight
-    model
+    ...GenericFrag
     processor {
-      totalInputs
-      totalOutputs
-      physicalInputs
-      physicalOutputs
-      midi
-      protocolInputs
-      signalProtocol
-      max_sample_rate
-      network_connectivity {
-        protocol
-        power_over_ethernet
-      }
-    }
-    dimensions {
-      width
-      length
-      height
+      ...ProcessorFrag
     }
     console {
-      totalInputs
-      totalOutputs
-      totalBusses
-      physicalInputs
-      physicalOutputs
-      auxInputs
-      physicalAuxInputs
-      phantomPowerInputs
-      faders
-      motorized
-      midi
-      protocolInputs
-      signalProtocol
-      can_expand
-      max_sample_rate
-      notes
-      model
-      power {
-        lower_voltage
-        upper_voltage
-        wattage
-        max_wattage
-        redundant
-        input_connector
-        output_connector
-      }
+      ...ConsoleFrag
     }
   }
 }
-    `;
+    ${GenericFragFragmentDoc}
+${ProcessorFragFragmentDoc}
+${ConsoleFragFragmentDoc}`;
 export const LoginUserDoc = gql`
     mutation LoginUser($inputOptions: UserInput!) {
   loginUser(inputOptions: $inputOptions) {
@@ -825,6 +884,50 @@ export const MeDoc = gql`
   }
 }
     `;
+export const AllItems = (
+            options: Omit<
+              WatchQueryOptions<AllItemsQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<AllItemsQuery> & {
+              query: ObservableQuery<
+                AllItemsQuery,
+                AllItemsQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: AllItemsDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<AllItemsQuery> & {
+                query: ObservableQuery<
+                  AllItemsQuery,
+                  AllItemsQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncAllItems = (
+                options: Omit<
+                  QueryOptions<AllItemsQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<AllItemsQuery>({query: AllItemsDoc, ...options})
+              }
+            
 export const CreateEquipment = (
             options: Omit<
               MutationOptions<any, CreateEquipmentMutationVariables>, 

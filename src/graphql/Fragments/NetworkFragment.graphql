@@ -1,0 +1,4 @@
+fragment NetworkFrag on NetworkPort {
+  protocol
+  power_over_ethernet
+}

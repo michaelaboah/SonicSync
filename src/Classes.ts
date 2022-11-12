@@ -1,5 +1,5 @@
 import type { SvelteUISize } from "@svelteuidev/core";
-// import type { Item as ItemGraphql } from "./generated/graphql";
+import type { Item as ItemGraphql } from "./generated/graphql";
 
 export interface Equipment {
   modelId: number;
@@ -43,7 +43,7 @@ export interface Item {
 export const buildItem = (currentItem?: Item): Item =>
   currentItem ? { ...currentItem, itemQuantity: 1 } : ({} as Item);
 
-export type Gear = Equipment & { items: Item[]; gearId: number; quantity: number };
+export type Gear = ItemGraphql & { items: Item[]; gearId: number; quantity: number };
 
 export const buildGear = (currentGear: Gear) => ({ ...currentGear, items: [buildItem()] } as Gear);
 
@@ -82,3 +82,15 @@ export interface UserPreferences {
 // export const buildThing = (item: ItemGraphql) => {
 //   item.
 // }
+export enum SubItems {
+  CONSOLE,
+  PROCESSOR,
+  MONITORING,
+  SPEAKER,
+  AMPLIFIER,
+  COMPUTER,
+  NETWORK,
+  RADIO,
+  MICROPHONES,
+  SPK_HARDWARE,
+}
