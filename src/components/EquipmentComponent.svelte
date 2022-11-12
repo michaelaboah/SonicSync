@@ -6,14 +6,13 @@
     createStyles,
     Grid,
     Group,
-    key,
     NumberInput,
     Text,
     TextInput,
     theme,
     Tooltip,
   } from "@svelteuidev/core";
-  import { buildItem, SubItems, type Gear, type Item } from "../Classes";
+  import { buildItem, type Gear, type Item } from "../Classes";
   import { AsyncGlobalItemSearch, type Item as ItemGraphql } from "../generated/graphql";
   //@ts-ignore
   import Select from "svelte-select";
@@ -22,36 +21,18 @@
   let size = $persist.ui_font_size;
   export let gear: Gear;
   export let index: number;
-  const sub_items = Object.keys(SubItems).map((x) => x.toLowerCase());
-  $: totalCost = gear.quantity * (gear.cost ??= 0);
-  $: totalPower = gear.processor?.power.wattage;
 
-  const computePower = (): number => {
-    console.log(totalPower);
-    // Object.entries(gear).forEach(([key, val]) => {
-    //   if (sub_items.includes(key) && val !== null) {
-    //     console.log(val);
-    //   }
-    // });
-    return 0;
-  };
+  $: if (gear.category) {
+    basePower = gear[gear.category.toLowerCase()].power.wattage as number;
+  }
+
+  let basePower: number = 0;
+  $: totalCost = gear.quantity * (gear.cost ??= 0);
+  $: totalPower = (gear.quantity * basePower) as number;
 
   const asyncTest = async (fillerText: string) => {
-    const {
-      data: { fuzzyItemSearch },
-    } = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
-    const sub_items = Object.keys(SubItems).map((x) => x.toLowerCase());
-    Object.entries(gear).forEach(([key, val]) => {
-      if (sub_items.includes(key) && val !== null) {
-        if (val["power"] === undefined) {
-          totalPower = 0;
-        } else {
-          totalPower = val["power"].wattage;
-          console.log(totalPower);
-        }
-      }
-    });
-    return fuzzyItemSearch;
+    const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
+    return response.data.fuzzyItemSearch;
   };
 
   const addItem = () => {
@@ -124,7 +105,6 @@
 </script>
 
 <Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
-  <Button on:click="{computePower}">Test</Button>
   <Grid grow>
     <Grid.Col span="{9}">
       <Group>
@@ -134,7 +114,7 @@
             value="{gear.model}"
             loadOptions="{asyncTest}"
             placeholder="placeholder"
-            on:select|once="{handleSelect}"
+            on:select="{handleSelect}"
             getSelectionLabel="{getModel}"
             getOptionLabel="{getModel}"
             optionIdentifier="model"
@@ -166,7 +146,7 @@
             <NumberInput
               bind:value="{gear.cost}"
               min="{0}"
-              defaultValue="{0}"
+              defaultValue="{basePower}"
               size="xs"
               label="Initial Cost"
               formatter="{numberFormatter}"
@@ -195,6 +175,7 @@
             hideControls
             formatter="{wattageFormatter}"
             disabled
+            defaultValue="{0}"
             class="{cx(getStyles())}"
           />
         </div>
