@@ -6,6 +6,7 @@ use essentials::communication::commands::{greet, open_project, save_as_file};
 use essentials::menu::menu_bar::{generate_menu_bar, menu_event_handler};
 use tauri;
 use tauri_plugin_persisted_scope;
+use tauri_plugin_sqlite;
 use tauri_plugin_store::PluginBuilder;
 use tauri_plugin_window_state::Builder;
 mod essentials;
@@ -19,6 +20,7 @@ fn main() {
         .plugin(PluginBuilder::default().build())
         .plugin(tauri_plugin_persisted_scope::init())
         .plugin(Builder::default().build())
+        .plugin(tauri_plugin_sqlite::init())
         .menu(menu)
         .on_menu_event(|event| menu_event_handler(event))
         .invoke_handler(tauri::generate_handler![greet, save_as_file, open_project])
