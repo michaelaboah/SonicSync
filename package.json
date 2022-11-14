@@ -29,7 +29,8 @@
     "printjs": "^1.1.0",
     "svelte-command-palette": "^1.2.1",
     "svelte-spa-router": "^3.3.0",
-    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev"
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev",
+    "tauri-plugin-sqlite": "github:lzdyes/tauri-plugin-sqlite#v0.1.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.8",

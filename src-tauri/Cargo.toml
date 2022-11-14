@@ -21,6 +21,7 @@ tokio = { version = "1", features = ["full"] }
 tauri-plugin-store = { git = "https://github.com/tauri-apps/tauri-plugin-store"}
 tauri-plugin-persisted-scope = "0.1.0"
 tauri-plugin-window-state = "0.1"
+tauri-plugin-sqlite = { git = "https://github.com/lzdyes/tauri-plugin-sqlite", tag = "v0.1.1"}
 # [dependencies.tauri-plugin-store]
 # git = "https://github.com/tauri-apps/tauri-plugin-store"
 # tag = "v0.1.0"
