@@ -2,6 +2,9 @@
   import { prodInfo } from "../stores/ProjectStore";
   import { persist } from "../stores/renderStore";
   import { Button, Text } from "@svelteuidev/core";
+  import { initialize_database } from "../database/Sqlite";
+
+  const init = initialize_database();
 </script>
 
 <header>
@@ -12,6 +15,10 @@
 <Button on:click="{() => ($persist.ui_font_size = 'lg')}" color="grape">Change font</Button>
 
 <Text size="{$persist.ui_font_size}">Here is some test text</Text>
+
+{#await init then value}
+  {JSON.stringify(value)}
+{/await}
 
 <style>
   h2,

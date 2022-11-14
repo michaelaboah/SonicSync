@@ -7,10 +7,10 @@
   import Footer from "./components/Footer.svelte";
   import Header from "./components/Header.svelte";
   import Routes from "./components/Routes.svelte";
+  import ContextLayer from "./components/ContextLayer.svelte";
   import { themeKey } from "./utils/contextKeys";
   import { currentFile, loadProject, project } from "./stores/ProjectStore"; //, loadProject
   import { persist } from "./stores/renderStore";
-  import ContextLayer from "./components/ContextLayer.svelte";
   import { push } from "svelte-spa-router";
 
   onMount(async () => {

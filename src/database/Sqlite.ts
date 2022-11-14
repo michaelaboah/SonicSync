@@ -13,11 +13,13 @@ export const initialize_database = async () => {
   const db = await Sqlite;
   await db.execute(ENABLE_FOREIGN_KEYS);
 
-  TABLES.forEach((tableQuery) => {
-    db.execute(tableQuery).catch((err) => {
-      if (!err) console.log(err);
-    });
-  });
+  const results = await db.select(TABLE_CHECK);
+  return results;
+  //   TABLES.forEach((tableQuery) => {
+  //     db.execute(tableQuery).catch((err) => {
+  //       if (!err) console.log(err);
+  //     });
+  //   });
 };
 
 export default Sqlite;
