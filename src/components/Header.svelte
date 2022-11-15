@@ -32,7 +32,7 @@
         <Button size="{BUTTON_SIZE}" on:click="{() => push('#/ProductionPage')}">Production Page</Button>
       </Grid.Col>
       <Grid.Col span="{2}">
-        <Button size="{BUTTON_SIZE}" on:click="{() => push('#/PreferencesPage')}">Remove Me</Button>
+        <Button size="{BUTTON_SIZE}" on:click="{() => push('#/DatabaseView')}">Database Page</Button>
       </Grid.Col>
       <Grid.Col span="{2}">
         <Button size="{BUTTON_SIZE}" on:click="{() => console.log($project.productionInformation)}">Project</Button>
