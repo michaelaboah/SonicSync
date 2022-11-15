@@ -8,7 +8,6 @@ export const TABLES = [CreateItemTable, CREATE_CONSOLE_TABLE, CREATE_PROCESSOR_T
 const tableNames = ["'item'", "'console_item'", "'processing_item'"];
 
 const ENABLE_FOREIGN_KEYS = `PRAGMA foreign_keys = ON;`;
-
 const tableCheck = (tableName: string) => `
 SELECT CASE WHEN EXISTS 
   (SELECT 1 FROM sqlite_master WHERE type='table' AND name = ${tableName})

@@ -10,6 +10,7 @@ const managePersistance = () => {
     rememberMe: false,
     credentials: { email: "", password: "" },
     ui_font_size: "xs",
+    sql_auto_store: true,
   } as UserPreferences;
 
   const { subscribe, set, update } = writable<UserPreferences>(default_prefs);

@@ -75,6 +75,7 @@ export const createProject = (project?: Project): Project => ({ ...project } as 
 export interface UserPreferences {
   darkMode: boolean;
   rememberMe: boolean;
+  sql_auto_store: boolean;
   credentials: { email: string; password: string };
   ui_font_size: SvelteUISize;
 }
