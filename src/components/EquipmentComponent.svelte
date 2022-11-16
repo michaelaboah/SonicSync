@@ -23,9 +23,9 @@
   export let gear: Gear;
   export let index: number;
 
-  $: if (gear.category) {
-    basePower = gear[gear.category.toLowerCase()].power.wattage as number;
-  }
+  // $: if (gear.category) {
+  //   basePower = gear[gear.category.toLowerCase()].power.wattage as number;
+  // }
 
   let basePower: number = 0;
   $: totalCost = gear.quantity * (gear.cost ??= 0);
@@ -84,6 +84,20 @@
   const handleSelect = (e: { detail: ItemGraphql }) => {
     gear = { ...gear, ...e.detail };
     $gearList[index] = gear;
+    console.log(gear.createdAt);
+    storeItem({
+      id: gear.id,
+      model: gear.model,
+      updatedAt: gear.updatedAt,
+      createdAt: gear.createdAt,
+      publicNotes: gear.publicNotes ? gear.publicNotes : "",
+      cost: gear.cost ? gear.cost : 0,
+      weight: gear.weight ? gear.weight : 0,
+      dimensions: gear.dimensions ? JSON.stringify(gear.dimensions) : "",
+      category: gear.category.toString(),
+    });
+
+    // console.log(test);
   };
 
   function getModel(e: any) {

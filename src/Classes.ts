@@ -1,25 +1,25 @@
 import type { SvelteUISize } from "@svelteuidev/core";
 import type { Item as ItemGraphql } from "./generated/graphql";
 
-export interface Equipment {
-  modelId: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  category: string;
-  manufacturer: string;
-  model: string;
-  publicNotes?: string;
-  cost: number;
-  powerDraw?: number;
-  weight?: number;
-  depth?: number;
-  rackUnit?: number;
-  frequencyRange?: string;
-  items?: Item[];
-  quantity?: number;
-}
+// export interface Equipment {
+//   modelId: number;
+//   createdAt?: Date;
+//   updatedAt?: Date;
+//   category: string;
+//   manufacturer: string;
+//   model: string;
+//   publicNotes?: string;
+//   cost: number;
+//   powerDraw?: number;
+//   weight?: number;
+//   depth?: number;
+//   rackUnit?: number;
+//   frequencyRange?: string;
+//   items?: Item[];
+//   quantity?: number;
+// }
 
-export const buildEquipment = () => ({} as Equipment);
+// const buildEquipment = () => ({} as Equipment);
 
 export interface Box {
   id: number;
@@ -83,15 +83,3 @@ export interface UserPreferences {
 // export const buildThing = (item: ItemGraphql) => {
 //   item.
 // }
-export enum SubItems {
-  CONSOLE,
-  PROCESSOR,
-  MONITORING,
-  SPEAKER,
-  AMPLIFIER,
-  COMPUTER,
-  NETWORK,
-  RADIO,
-  MICROPHONES,
-  SPK_HARDWARE,
-}

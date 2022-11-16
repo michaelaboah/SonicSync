@@ -1,8 +1,9 @@
-import type { Item } from "../../generated/graphql";
+// import type { Item } from "../../generated/graphql";
+import Database from "tauri-plugin-sqlite";
 
 export const CreateItemTable = `CREATE TABLE item 
-( id INTEGER PRIMARY KEY NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, model TEXT NOT NULL, searchable_model TEXT, 
-public_notes TEXT, cost REAL, weight REAL, dimensions TEXT, category INTEGER NOT NULL,
+( id INTEGER PRIMARY KEY NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, model TEXT NOT NULL, 
+public_notes TEXT, cost REAL, weight REAL, dimensions TEXT, category TEXT NOT NULL,
 
 console_id INTEGER, processor_id INTEGER,
 
@@ -17,24 +18,53 @@ FOREIGN KEY (console_id) REFERENCES console_item (id)
 
 /**
  * @description Only use in Execute functions
- * @param  {string} created_at
- * @param  {string} updated_at ?2
- * @param  {string} model ?3
+ * @param  {number}  id
+ * @param  {string}  created_at
+ * @param  {string}  updated_at ?2
+ * @param  {string}  model ?3
  * @param  {?number} console_id ?4
  * @param  {?number} processor_id ?5
- * @param  {?string} searchable_model ?6
- * @param  {?string} public_notes ?7
- * @param  {?number} cost ?8
- * @param  {?number} weight ?9
- * @param  {?string} dimensions ?10
- * @param  {number} category ?11
+ * @param  {?string} public_notes ?6
+ * @param  {?number} cost ?7
+ * @param  {?number} weight ?8
+ * @param  {?string} dimensions ?9
+ * @param  {string}  category ?10
  */
 export const ADD_ITEM = `
 INSERT INTO item 
-(created_at,	updated_at,	model,	console_id,	processor_id,	searchable_model,	public_notes,	cost,	weight,	dimensions,	category)
+(id, createdAt,	updatedAt,	model,	console_id,	processor_id,	public_notes,	cost,	weight,	dimensions,	category)
 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)
 `;
 
-export const storeItem = (values: Item): Item[] => {
-  return [values];
+interface ItemTable {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  model: string;
+  console_id?: number;
+  processor_id?: number;
+  // searchable_model: string;
+  publicNotes: string;
+  cost?: number;
+  weight?: number;
+  dimensions?: string;
+  category: string;
+}
+const Sqlite = Database.open("sqlite:internal.db");
+
+export const storeItem = async (values: ItemTable): Promise<void> => {
+  const { id, createdAt, updatedAt, model, publicNotes, cost, weight, dimensions, category } = values;
+  // let addValues = [values];
+  const db = await Sqlite;
+  const sqlResponse = await db.select(
+    `INSERT INTO item 
+  (id, createdAt,	updatedAt,	model,	console_id,	processor_id,	public_notes,	cost,	weight,	dimensions,	category)
+  VALUES (${id}, '${createdAt}', '${updatedAt}', '${model}', ${null}, ${null}, '${publicNotes}', ${cost}, ${weight}, '${dimensions}', '${category}');`
+  );
+  console.log(sqlResponse);
+  // return sqlResponse;
 };
+
+// `INSERT INTO item
+// (id, createdAt,	updatedAt,	model,	console_id,	processor_id,	public_notes,	cost,	weight,	dimensions,	category)
+// VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)`

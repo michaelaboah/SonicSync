@@ -33,10 +33,24 @@
     // { actionId: 7, title: "filler" },
     { actionId: 8, title: "Go to Production Page", onRun: () => push("#/ProductionPage"), shortcut: "$mod+8" },
     {
+      actionId: 9,
+      title: "Go to Preferences Page",
+      onRun: () => push("#/ProductionPage"),
+      shortcut: "$mod+9",
+      keywords: ["Preferences", "Settings", "User", "Page"],
+    },
+    {
       actionId: 20,
       title: "Toggle Dark Mode",
       onRun: () => ($persist.darkMode = !$persist.darkMode),
       keywords: ["dark", "mode", "toggle"],
+    },
+    {
+      actionId: 21,
+      title: "Toggle Auto Store",
+      description: "Toggling this option will enable or disable the storage of new pieces of Gear/Items .",
+      onRun: () => ($persist.sql_auto_store = !$persist.sql_auto_store),
+      keywords: ["database", "sql", "toggle"],
     },
   ]);
 
@@ -59,6 +73,10 @@
     titleClass="{$persist.darkMode ? 'text-slate-200' : 'text-black'}"
     optionSelectedStyle="{$persist.darkMode ? { backgroundColor: 'slategrey' } : { backgroundColor: 'lightskyblue' }}"
     overlayStyle="{{ paddingTop: '4vw' }}"
+    descriptionStyle="{{
+      color: $persist.darkMode ? 'white' : 'black',
+      textAlign: 'right',
+    }}"
     keyboardButtonStyle="{{
       backgroundColor: $persist.darkMode ? 'grey' : 'whitesmoke',
       height: '3vh',
@@ -69,7 +87,7 @@
   />
 </Box>
 
-<slot />
+<slot class="" />
 
 <style>
 </style>
