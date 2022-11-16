@@ -1,3 +1,5 @@
+import type { Item } from "../../generated/graphql";
+
 export const CreateItemTable = `CREATE TABLE item 
 ( id INTEGER PRIMARY KEY NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, model TEXT NOT NULL, searchable_model TEXT, 
 public_notes TEXT, cost REAL, weight REAL, dimensions TEXT, category INTEGER NOT NULL,
@@ -32,3 +34,7 @@ INSERT INTO item
 (created_at,	updated_at,	model,	console_id,	processor_id,	searchable_model,	public_notes,	cost,	weight,	dimensions,	category)
 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)
 `;
+
+export const storeItem = (values: Item): Item[] => {
+  return [values];
+};

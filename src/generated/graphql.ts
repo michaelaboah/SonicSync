@@ -78,9 +78,9 @@ export type ConsoleItem = {
   auxInputs: Scalars['Int'];
   can_expand: Scalars['Boolean'];
   faders: Scalars['Int'];
+  id: Scalars['ID'];
   max_sample_rate: SampleRate;
   midi: MidiType;
-  model: Scalars['String'];
   motorized: Scalars['Boolean'];
   notes: Array<Scalars['String']>;
   phantomPowerInputs: Scalars['Int'];
@@ -420,6 +420,7 @@ export enum PowerConnector {
 
 export type ProcessingItem = {
   __typename?: 'ProcessingItem';
+  id: Scalars['ID'];
   max_sample_rate: SampleRate;
   midi: MidiType;
   network_connectivity: Array<NetworkPort>;
@@ -573,7 +574,7 @@ export type UserResponse = {
 export type AllItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllItemsQuery = { __typename?: 'Query', findAllItems: Array<{ __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, model: string, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null }> };
+export type AllItemsQuery = { __typename?: 'Query', findAllItems: Array<{ __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null }> };
 
 export type CreateEquipmentMutationVariables = Exact<{
   inputOptions: EquipmentInput;
@@ -589,7 +590,7 @@ export type EquipmentModelSearchQueryVariables = Exact<{
 
 export type EquipmentModelSearchQuery = { __typename?: 'Query', fullTextSearch: Array<{ __typename?: 'Equipment', createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null }> };
 
-export type ConsoleFragFragment = { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, model: string, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
+export type ConsoleFragFragment = { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
 export type GenericFragFragment = { __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null };
 
@@ -618,7 +619,7 @@ export type GlobalItemSearchQueryVariables = Exact<{
 }>;
 
 
-export type GlobalItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, model: string, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null }> };
+export type GlobalItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id: string, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, notes: Array<string>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number } | null }> };
 
 export type LoginUserMutationVariables = Exact<{
   inputOptions: UserInput;
@@ -673,7 +674,6 @@ export const ConsoleFragFragmentDoc = gql`
   can_expand
   max_sample_rate
   notes
-  model
   power {
     ...PowerFrag
   }

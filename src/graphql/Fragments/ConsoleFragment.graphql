@@ -15,7 +15,6 @@ fragment ConsoleFrag on ConsoleItem {
   can_expand
   max_sample_rate
   notes
-  model
   power {
     ...PowerFrag
   }

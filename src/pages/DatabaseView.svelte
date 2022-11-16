@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Box, Button, InputWrapper, SimpleGrid, TextInput, Paper, Group } from "@svelteuidev/core";
-  import { ADD_ITEM } from "../database/entities/Item";
   import Sqlite from "../database/Sqlite";
 
   let executeString = ``;
@@ -18,16 +17,6 @@
     response = await db.select<Array<{ response: any }>>(selectString);
     console.log(response);
   };
-
-  const test = async () => {
-    const db = await Sqlite;
-    const thing = await db.execute(ADD_ITEM, [
-      ["date", "date", "Test Model", null, null, "Search", "public notes", 2, 5, "JSON", 0],
-    ]);
-    console.log(thing);
-  };
-
-  test();
 </script>
 
 <Box class="h-full">

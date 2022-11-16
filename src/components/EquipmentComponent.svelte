@@ -13,11 +13,12 @@
     Tooltip,
   } from "@svelteuidev/core";
   import { buildItem, type Gear, type Item } from "../Classes";
-  import { AsyncGlobalItemSearch, type Item as ItemGraphql } from "../generated/graphql";
+  import { AsyncGlobalItemSearch, Categories, type Item as ItemGraphql } from "../generated/graphql";
   //@ts-ignore
   import Select from "svelte-select";
   import { gearList } from "../stores/ProjectStore";
   import { persist } from "../stores/renderStore";
+  import { storeItem } from "../database/entities/Item";
   let size = $persist.ui_font_size;
   export let gear: Gear;
   export let index: number;
@@ -31,6 +32,27 @@
   $: totalPower = (gear.quantity * basePower) as number;
 
   const asyncTest = async (fillerText: string) => {
+    // if ($persist.sql_auto_store) {
+    //   const {
+    //     data: { fuzzyItemSearch },
+    //   } = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
+
+    //   const sqlTest = storeItem({
+    //     ...fuzzyItemSearch,
+    //     processor: null,
+    //     console: null,
+    //     createdAt: "",
+    //     id: "",
+    //     updatedAt: "",
+    //     category: Categories.Generic,
+    //     model: "",
+    //   });
+    //   console.log(sqlTest);
+    //   return fuzzyItemSearch;
+    // } else {
+    //   const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
+    //   return response.data.fuzzyItemSearch;
+    // }
     const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
     return response.data.fuzzyItemSearch;
   };
