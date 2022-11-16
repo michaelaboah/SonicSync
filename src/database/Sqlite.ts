@@ -18,7 +18,6 @@ SELECT CASE WHEN EXISTS
 
 export const initialize_database = async (): Promise<void> => {
   const db = await Sqlite;
-
   tableNames.forEach(async (name, index: number) => {
     const results = await db.select<{ exists: string }[]>(tableCheck(name));
     if (!Object.values(results[0])[0]) createTables(TABLES[index]);

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { Box, Button, InputWrapper, SimpleGrid, TextInput, Paper, Group, Title } from "@svelteuidev/core";
-  import Sqlite, { initialize_database } from "../database/Sqlite";
+  import { Box, Button, InputWrapper, SimpleGrid, TextInput, Paper, Group } from "@svelteuidev/core";
+  import { ADD_ITEM } from "../database/entities/Item";
+  import Sqlite from "../database/Sqlite";
 
   let executeString = ``;
   let selectString = ``;
@@ -17,15 +18,19 @@
     response = await db.select<Array<{ response: any }>>(selectString);
     console.log(response);
   };
+
+  const test = async () => {
+    const db = await Sqlite;
+    const thing = await db.execute(ADD_ITEM, [
+      ["date", "date", "Test Model", null, null, "Search", "public notes", 2, 5, "JSON", 0],
+    ]);
+    console.log(thing);
+  };
+
+  test();
 </script>
 
-<!-- promise was fulfilled -->
-
 <Box class="h-full">
-  {#await initialize_database() then value}
-    <Title>Database Check:</Title>
-    {value}
-  {/await}
   <SimpleGrid cols="{2}" spacing="xl">
     <!-- Execute Coloumn -->
     <Box>
