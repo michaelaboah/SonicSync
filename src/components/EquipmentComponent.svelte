@@ -11,14 +11,14 @@
     TextInput,
     theme,
     Tooltip,
-  } from "@svelteuidev/core";
-  import { buildItem, type Gear, type Item } from "../Classes";
-  import { AsyncGlobalItemSearch, Categories, type Item as ItemGraphql } from "../generated/graphql";
+  } from '@svelteuidev/core';
+  import { buildItem, type Gear, type Item } from '../Classes';
+  import { AsyncGlobalItemSearch, Categories, type Item as ItemGraphql } from '../generated/graphql';
   //@ts-ignore
-  import Select from "svelte-select";
-  import { gearList } from "../stores/ProjectStore";
-  import { persist } from "../stores/renderStore";
-  import { storeItem } from "../database/entities/Item";
+  import Select from 'svelte-select';
+  import { gearList } from '../stores/ProjectStore';
+  import { persist } from '../stores/renderStore';
+  import { storeItem } from '../database/entities/Item';
   let size = $persist.ui_font_size;
   export let gear: Gear;
   export let index: number;
@@ -90,10 +90,12 @@
       model: gear.model,
       updatedAt: gear.updatedAt,
       createdAt: gear.createdAt,
-      publicNotes: gear.publicNotes ? gear.publicNotes : "",
+      console_id: null,
+      processor_id: null,
+      publicNotes: gear.publicNotes ? gear.publicNotes : '',
       cost: gear.cost ? gear.cost : 0,
       weight: gear.weight ? gear.weight : 0,
-      dimensions: gear.dimensions ? JSON.stringify(gear.dimensions) : "",
+      dimensions: gear.dimensions ? JSON.stringify(gear.dimensions) : '',
       category: gear.category.toString(),
     });
 
@@ -105,31 +107,31 @@
   }
 
   const numberFormatter = (value: string | undefined) => {
-    if (value) return !Number.isNaN(parseFloat(value)) ? ("$ " + value).replace(/B(?=(d{3})+(?!d))/g, ",") : "$ ";
-    else return "Not a Number";
+    if (value) return !Number.isNaN(parseFloat(value)) ? ('$ ' + value).replace(/B(?=(d{3})+(?!d))/g, ',') : '$ ';
+    else return 'Not a Number';
   };
 
   const wattageFormatter = (value: string | undefined) => {
-    if (value) return !Number.isNaN(parseFloat(value)) ? `${value} watts` : "bad";
-    else return "N/A";
+    if (value) return !Number.isNaN(parseFloat(value)) ? `${value} watts` : 'bad';
+    else return 'N/A';
   };
 
   const useStylesDisabled = createStyles((theme) => ({
     root: {
-      textAlign: "center",
-      "& input:disabled": {
-        backgroundColor: "white !important",
-        color: "black !important",
-        border: "1px solid var(--svelteui-colors-gray400) !important",
-        opacity: "1 !important",
+      textAlign: 'center',
+      '& input:disabled': {
+        backgroundColor: 'white !important',
+        color: 'black !important',
+        border: '1px solid var(--svelteui-colors-gray400) !important',
+        opacity: '1 !important',
         // width: "6rem",
         [`${theme.dark} &`]: {
           // using of SvelteUI utilities
           // bc === backgroundColor
-          backgroundColor: theme.colors.dark800 + "!important",
-          opacity: "1 !important",
-          color: "white !important",
-          border: "0px solid var(--svelteui-colors-gray400) !important",
+          backgroundColor: theme.colors.dark800 + '!important',
+          opacity: '1 !important',
+          color: 'white !important',
+          border: '0px solid var(--svelteui-colors-gray400) !important',
         },
       },
     },

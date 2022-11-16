@@ -1,5 +1,5 @@
-// import type { Item } from "../../generated/graphql";
-import Database from "tauri-plugin-sqlite";
+import type { Item } from '../../generated/graphql';
+import Database from 'tauri-plugin-sqlite';
 
 export const CreateItemTable = `CREATE TABLE item 
 ( id INTEGER PRIMARY KEY NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, model TEXT NOT NULL, 
@@ -41,8 +41,8 @@ interface ItemTable {
   createdAt: string;
   updatedAt: string;
   model: string;
-  console_id?: number;
-  processor_id?: number;
+  console_id?: number | null;
+  processor_id?: number | null;
   // searchable_model: string;
   publicNotes: string;
   cost?: number;
@@ -50,20 +50,38 @@ interface ItemTable {
   dimensions?: string;
   category: string;
 }
-const Sqlite = Database.open("sqlite:internal.db");
+const Sqlite = Database.open('sqlite:internal.db');
 
+/**
+ * @param  {ItemTable} values
+ * @error Code 19: Item already exists
+ */
 export const storeItem = async (values: ItemTable): Promise<void> => {
-  const { id, createdAt, updatedAt, model, publicNotes, cost, weight, dimensions, category } = values;
-  // let addValues = [values];
   const db = await Sqlite;
-  const sqlResponse = await db.select(
-    `INSERT INTO item 
-  (id, createdAt,	updatedAt,	model,	console_id,	processor_id,	public_notes,	cost,	weight,	dimensions,	category)
-  VALUES (${id}, '${createdAt}', '${updatedAt}', '${model}', ${null}, ${null}, '${publicNotes}', ${cost}, ${weight}, '${dimensions}', '${category}');`
+  console.log([2, ...Object.values(values)]);
+  await db.select(
+    `INSERT INTO item
+        (id, createdAt,	updatedAt,	model,	console_id,	processor_id,	public_notes,	cost,	weight,	dimensions,	category)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)`,
+    Object.values(values)
   );
-  console.log(sqlResponse);
-  // return sqlResponse;
 };
+
+// {
+//   const { id, createdAt, updatedAt, model, publicNotes, cost, weight, dimensions, category } = values;
+//   const db = await Sqlite;
+//   await db.select(
+//     `INSERT INTO item
+//   (id, createdAt,	updatedAt,	model,	console_id,	processor_id,	public_notes,	cost,	weight,	dimensions,	category)
+//   VALUES (${id}, '${createdAt}', '${updatedAt}', '${model}', ${null}, ${null}, '${publicNotes}', ${cost}, ${weight}, '${dimensions}', '${category}');`
+//   ).catch(err => {
+//     if (err.includes("code 19")) {
+//       console.log("Normal Behavior");
+//     } else {
+//       console.log("Irregular Behavior: " + err);
+//     }
+//   })
+// }
 
 // `INSERT INTO item
 // (id, createdAt,	updatedAt,	model,	console_id,	processor_id,	public_notes,	cost,	weight,	dimensions,	category)
