@@ -84,22 +84,7 @@
   const handleSelect = (e: { detail: ItemGraphql }) => {
     gear = { ...gear, ...e.detail };
     $gearList[index] = gear;
-    console.log(gear.createdAt);
-    storeItem({
-      id: gear.id,
-      model: gear.model,
-      updatedAt: gear.updatedAt,
-      createdAt: gear.createdAt,
-      console_id: null,
-      processor_id: null,
-      publicNotes: gear.publicNotes ? gear.publicNotes : '',
-      cost: gear.cost ? gear.cost : 0,
-      weight: gear.weight ? gear.weight : 0,
-      dimensions: gear.dimensions ? JSON.stringify(gear.dimensions) : '',
-      category: gear.category.toString(),
-    });
-
-    // console.log(test);
+    storeItem(gear);
   };
 
   function getModel(e: any) {

@@ -1,4 +1,5 @@
 fragment ConsoleFrag on ConsoleItem {
+  id
   totalInputs
   totalOutputs
   totalBusses

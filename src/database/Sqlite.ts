@@ -20,7 +20,11 @@ export const initialize_database = async (): Promise<void> => {
   const db = await Sqlite;
   tableNames.forEach(async (name, index: number) => {
     const results = await db.select<{ exists: string }[]>(tableCheck(name));
-    if (!Object.values(results[0])[0]) createTables(TABLES[index]);
+
+    // Checks to see if the table exists, if not creates it.
+    Object.values(results[0]).forEach((x) =>
+      x === 'true' ? console.log(`Table exists: ${x}`) : createTables(TABLES[index])
+    );
   });
 };
 

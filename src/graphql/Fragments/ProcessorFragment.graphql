@@ -1,4 +1,5 @@
 fragment ProcessorFrag on ProcessingItem {
+  id
   totalInputs
   totalOutputs
   physicalInputs
