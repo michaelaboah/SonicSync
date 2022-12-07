@@ -1,0 +1,14 @@
+mutation CreateMonitoringItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      monitoring_item {
+        ...MonitoringFrag
+      }
+    }
+  }
+}

@@ -1,18 +1,32 @@
-query FuzzyTextSearch($fuzzySearch: String!) {
-  fuzzyTextSearch(fuzzySearch: $fuzzySearch) {
-    # id
-    # createdAt
-    # updatedAt
-    category
-    manufacturer
-    model
-    # publicNotes
-    cost
-    powerDraw
-    weight
-    depth
-    rackUnit
-    frequencyRange
-    # itemArray
+query FuzzyItemSearch($model: String!) {
+  fuzzyItemSearch(model: $model) {
+    ...GenericFrag
+    amplifier {
+      ...AmpFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+    computer {
+      ...ComputerFrag
+    }
+    processor {
+      ...ProcessorFrag
+    }
+    network_item {
+      ...NetworkItemFrag
+    }
+    microphone {
+      ...MicrophoneFrag
+    }
+    radio_item {
+      ...RadioFrag
+    }
+    speaker_item {
+      ...SpeakerFrag
+    }
+    monitoring_item {
+      ...MonitoringFrag
+    }
   }
 }

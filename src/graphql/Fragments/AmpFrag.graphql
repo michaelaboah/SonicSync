@@ -1,0 +1,17 @@
+fragment AmpFrag on AmplifierItem {
+  id
+  totalInputs
+  totalOutputs
+  midi
+  physical_connectivity {
+    ...PhysicalPortFrag
+  }
+  network_connectivity {
+    ...NetworkFrag
+  }
+  signalProtocol
+  max_sample_rate
+  power {
+    ...PowerFrag
+  }
+}

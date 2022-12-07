@@ -1,0 +1,14 @@
+mutation CreateComputerItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      computer {
+        ...ComputerFrag
+      }
+    }
+  }
+}

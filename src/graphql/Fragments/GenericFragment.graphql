@@ -7,9 +7,8 @@ fragment GenericFrag on Item {
   weight
   publicNotes
   category
+  notes
   dimensions {
-    width
-    length
-    height
+    ...DimensionFrag
   }
 }
