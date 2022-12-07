@@ -1,0 +1,14 @@
+mutation CreateAmplifierItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      amplifier {
+        ...AmpFrag
+      }
+    }
+  }
+}

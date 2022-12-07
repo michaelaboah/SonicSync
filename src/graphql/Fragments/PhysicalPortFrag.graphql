@@ -1,0 +1,6 @@
+fragment PhysicalPortFrag on PhysicalPort {
+  port_identifier
+  connector_type
+  signal_lines
+  input
+}

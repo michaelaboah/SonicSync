@@ -1,0 +1,14 @@
+mutation CreateConsoleItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      console {
+        ...ConsoleFrag
+      }
+    }
+  }
+}

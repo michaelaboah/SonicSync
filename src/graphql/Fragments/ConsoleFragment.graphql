@@ -1,5 +1,4 @@
 fragment ConsoleFrag on ConsoleItem {
-  id
   totalInputs
   totalOutputs
   totalBusses
@@ -15,7 +14,6 @@ fragment ConsoleFrag on ConsoleItem {
   signalProtocol
   can_expand
   max_sample_rate
-  notes
   power {
     ...PowerFrag
   }
