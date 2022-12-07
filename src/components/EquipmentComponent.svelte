@@ -13,12 +13,16 @@
     Tooltip,
   } from '@svelteuidev/core';
   import { buildItem, type Gear, type Item } from '../Classes';
-  import { AsyncGlobalItemSearch, Categories, type Item as ItemGraphql } from '../generated/graphql';
+  import {
+    AsyncGlobalItemSearch,
+    // Categories,
+    type Item as ItemGraphql,
+  } from '../generated/graphql';
   //@ts-ignore
   import Select from 'svelte-select';
   import { gearList } from '../stores/ProjectStore';
   import { persist } from '../stores/renderStore';
-  import { storeItem } from '../database/entities/Item';
+  // import { storeItem } from '../database/entities/Item';
   let size = $persist.ui_font_size;
   export let gear: Gear;
   export let index: number;
@@ -84,7 +88,7 @@
   const handleSelect = (e: { detail: ItemGraphql }) => {
     gear = { ...gear, ...e.detail };
     $gearList[index] = gear;
-    storeItem(gear);
+    // storeItem(gear);
   };
 
   function getModel(e: any) {
