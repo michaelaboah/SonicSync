@@ -1,7 +1,7 @@
 import SQLite from 'tauri-plugin-sqlite';
 import type { ComputerItem } from '../../../generated/graphql';
 
-const CREATE_COMPUTER_ITEM_TABLE = `CREATE TABLE computer_item (
+export const CREATE_COMPUTER_ITEM_TABLE = `CREATE TABLE computer_item (
   id integer NOT NULL PRIMARY KEY autoincrement,
   cpu_processor text NOT NULL,
   ram_size integer NOT NULL,
@@ -13,7 +13,7 @@ const CREATE_COMPUTER_ITEM_TABLE = `CREATE TABLE computer_item (
   computer_ports JSON NULL,
   power JSON NULL
 );`;
-export default CREATE_COMPUTER_ITEM_TABLE;
+// export default CREATE_COMPUTER_ITEM_TABLE;
 
 export const insertComputerItem = async (computer: ComputerItem) => {
   const db = await SQLite.open('sqlite:internal.db');

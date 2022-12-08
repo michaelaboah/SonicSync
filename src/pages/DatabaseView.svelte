@@ -1,16 +1,5 @@
 <script lang="ts">
-  import {
-    Box,
-    Button,
-    InputWrapper,
-    SimpleGrid,
-    TextInput,
-    Paper,
-    Group,
-    Center,
-    Code,
-    Text,
-  } from '@svelteuidev/core';
+  import { Box, Button, InputWrapper, SimpleGrid, TextInput, Paper, Group, Center, Text } from '@svelteuidev/core';
   import Sqlite from '../database/Sqlite';
 
   let executeString = ``;

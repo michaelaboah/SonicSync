@@ -1,13 +1,13 @@
-import CREATE_AMPLIFIER_ITEM from './categories/AmplifierItem';
-import CREATE_COMPUTER_ITEM_TABLE from './categories/ComputerItem';
-import CREATE_CONSOLE_ITEM_TABLE from './categories/ConsoleItem';
-import CREATE_MICROPHONE_ITEM_TABLE from './categories/MicrophoneItem';
-import CREATE_MONITORING_ITEM from './categories/MonitoringItem';
-import CREATE_NETWORK_ITEM from './categories/NetworkItem';
-import CREATE_PROCESSING_ITEM_TABLE from './categories/ProcessingItem';
-import CREATERFITEM from './categories/RFItem';
-import CREATE_ITEM_TABLE from './Item';
-import CREATE_RFBAND from './RFBand';
+import { CREATE_AMPLIFIER_ITEM } from './categories/AmplifierItem';
+import { CREATE_COMPUTER_ITEM_TABLE } from './categories/ComputerItem';
+import { CREATE_CONSOLE_ITEM_TABLE } from './categories/ConsoleItem';
+import { CREATE_MICROPHONE_ITEM_TABLE } from './categories/MicrophoneItem';
+import { CREATE_MONITORING_ITEM } from './categories/MonitoringItem';
+import { CREATE_NETWORK_ITEM } from './categories/NetworkItem';
+import { CREATE_PROCESSING_ITEM_TABLE } from './categories/ProcessingItem';
+import { CREATERFITEM } from './categories/RFItem';
+import { CREATE_ITEM_TABLE } from './Item';
+import { CREATE_RFBAND } from './RFBand';
 
 export const ITEM_RELATIONSHIPS = [
   `CREATE INDEX rfband_rf_item_id_index ON rfband (rf_item_id);`,
@@ -37,4 +37,4 @@ export const TABLES = [
   CREATERFITEM,
 ];
 
-export const ROUTINE_PRAGMA_QUERIES = [`PRAGMA foreign_keys = ON;`];
+export const ROUTINE_PRAGMA_QUERIES = [`PRAGMA foreign_keys = ON;`, `PRAGMA integrity_check`];

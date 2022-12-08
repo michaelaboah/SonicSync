@@ -1,4 +1,4 @@
-const CREATE_CONSOLE_ITEM_TABLE = `
+export const CREATE_CONSOLE_ITEM_TABLE = `
 CREATE TABLE console_item (
   id integer NOT NULL PRIMARY KEY autoincrement,
   total_inputs integer NOT NULL,
@@ -24,4 +24,4 @@ CREATE TABLE console_item (
   ) NOT NULL,
   power JSON NULL
 );`;
-export default CREATE_CONSOLE_ITEM_TABLE;
+// export default CREATE_CONSOLE_ITEM_TABLE;

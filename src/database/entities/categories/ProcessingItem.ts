@@ -1,4 +1,4 @@
-const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processing_item (
+export const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processing_item (
   id integer NOT NULL PRIMARY KEY autoincrement,
   total_inputs integer NOT NULL,
   total_outputs integer NOT NULL,
@@ -18,4 +18,4 @@ const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processing_item (
   physical_connectivity JSON NULL,
   power JSON NULL
 );`;
-export default CREATE_PROCESSING_ITEM_TABLE;
+// export default CREATE_PROCESSING_ITEM_TABLE;

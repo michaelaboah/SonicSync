@@ -1,4 +1,4 @@
-const CREATESPEAKER_ITEM = `CREATE TABLE speaker_item (
+export const CREATE_SPEAKER_ITEM = `CREATE TABLE speaker_item (
     id integer NOT NULL PRIMARY KEY autoincrement,
     driver JSON NOT NULL,
     built_in_processing integer NOT NULL,
@@ -12,4 +12,4 @@ const CREATESPEAKER_ITEM = `CREATE TABLE speaker_item (
     network_connectivity JSON NULL
 );`;
 
-export default CREATESPEAKER_ITEM;
+// export default CREATE_SPEAKER_ITEM;

@@ -1,7 +1,7 @@
 import SQLite from 'tauri-plugin-sqlite';
 import type { MonitoringItem } from '../../../generated/graphql';
 
-const CREATE_MONITORING_ITEM = `
+export const CREATE_MONITORING_ITEM = `
 CREATE TABLE monitoring_item (
   id integer NOT NULL PRIMARY KEY autoincrement,
   distro integer NULL,
@@ -20,4 +20,4 @@ export const insertMonitoringItem = async (data: MonitoringItem) => {
   return result;
 };
 
-export default CREATE_MONITORING_ITEM;
+// export default CREATE_MONITORING_ITEM;

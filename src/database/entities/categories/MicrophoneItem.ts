@@ -1,7 +1,7 @@
 import SQLite from 'tauri-plugin-sqlite';
 import type { MicrophoneItem } from '../../../generated/graphql';
 
-const CREATE_MICROPHONE_ITEM_TABLE = `CREATE TABLE microphone_item (
+export const CREATE_MICROPHONE_ITEM_TABLE = `CREATE TABLE microphone_item (
   id integer NOT NULL PRIMARY KEY autoincrement,
   max_spl integer NOT NULL,
   phantom integer NULL,
@@ -14,7 +14,7 @@ const CREATE_MICROPHONE_ITEM_TABLE = `CREATE TABLE microphone_item (
   microphone_type text NOT NULL
 );`;
 
-export default CREATE_MICROPHONE_ITEM_TABLE;
+// export default CREATE_MICROPHONE_ITEM_TABLE;
 export const insertMicrophone = async (microphone: MicrophoneItem) => {
   const db = await SQLite.open('sqlite:internal.db');
   const result = await db.execute(

@@ -1,7 +1,7 @@
 import SQLite from 'tauri-plugin-sqlite';
 import type { AmplifierItem } from '../../../generated/graphql';
 
-const CREATE_AMPLIFIER_ITEM = `CREATE TABLE amplifier_item (
+export const CREATE_AMPLIFIER_ITEM = `CREATE TABLE amplifier_item (
   id integer NOT NULL PRIMARY KEY autoincrement,
   total_inputs integer NOT NULL,
   total_outputs integer NOT NULL,
@@ -18,7 +18,7 @@ const CREATE_AMPLIFIER_ITEM = `CREATE TABLE amplifier_item (
   ) NOT NULL,
   power JSON NULL
 );`;
-export default CREATE_AMPLIFIER_ITEM;
+// export default CREATE_AMPLIFIER_ITEM;
 
 export const insertAmplifier = async (amplifier: AmplifierItem) => {
   const db = await SQLite.open('sqlite:internal.db');

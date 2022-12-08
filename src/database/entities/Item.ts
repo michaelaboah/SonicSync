@@ -3,7 +3,7 @@ import SQLite from 'tauri-plugin-sqlite';
 import { Categories, type Item } from '../../generated/graphql';
 import { insertMicrophone } from './categories/MicrophoneItem';
 import { insertMonitoringItem } from './categories/MonitoringItem';
-const CREATE_ITEM_TABLE = `
+export const CREATE_ITEM_TABLE = `
 CREATE TABLE item (
     id integer NOT NULL PRIMARY KEY autoincrement,
     created_at datetime NOT NULL DEFAULT 'NOW()',
@@ -106,9 +106,11 @@ const INSERT_ITEM = async (jsonData: any) => {
     case Categories.Speaker:
       // code to handle speaker_item_id foreign key
       break;
-    default:
-      // code to handle invalid foreign key
-      break;
+    // default:
+    //   {
+    //   }
+    //   // code to handle invalid foreign key
+    //   break;
   }
 };
 
@@ -248,4 +250,4 @@ const data = `
 
 INSERT_ITEM(data);
 
-export default CREATE_ITEM_TABLE;
+// export default CREATE_ITEM_TABLE;

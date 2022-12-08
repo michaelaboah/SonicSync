@@ -1,4 +1,4 @@
-const CREATE_NETWORK_ITEM = `CREATE TABLE network_item (
+export const CREATE_NETWORK_ITEM = `CREATE TABLE network_item (
     id integer NOT NULL PRIMARY KEY autoincrement,
     network_type integer NOT NULL,
     poe_ports integer NOT NULL,
@@ -8,4 +8,4 @@ const CREATE_NETWORK_ITEM = `CREATE TABLE network_item (
     power JSON NULL
 );`;
 
-export default CREATE_NETWORK_ITEM;
+// export default CREATE_NETWORK_ITEM;

@@ -1,4 +1,4 @@
-const CREATERFITEM = `CREATE TABLE rfitem (
+export const CREATERFITEM = `CREATE TABLE rfitem (
     id integer NOT NULL PRIMARY KEY autoincrement,
     physical_range integer NOT NULL,
     lower_frequency_response integer NOT NULL,
@@ -7,4 +7,4 @@ const CREATERFITEM = `CREATE TABLE rfitem (
     reciever JSON NULL
 );`;
 
-export default CREATERFITEM;
+// export default CREATERFITEM;

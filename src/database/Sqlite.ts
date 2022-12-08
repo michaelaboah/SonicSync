@@ -1,9 +1,6 @@
 import Database from 'tauri-plugin-sqlite';
-import { TABLES } from './entities/SQLController';
-
-export const Sqlite = Database.open('sqlite:internal.db');
-
-export const tableNames = ['item', 'console_item', 'processing_item'];
+import { ROUTINE_PRAGMA_QUERIES, TABLES } from './entities/SQLController';
+const Sqlite = Database.open('sqlite:internal.db');
 
 const ENABLE_FOREIGN_KEYS = `PRAGMA foreign_keys = ON;`;
 const tableCheck = (tableName: string) => `
@@ -16,14 +13,13 @@ SELECT CASE WHEN EXISTS
 
 export const initialize_database = async (): Promise<void> => {
   const db = await Sqlite;
-  tableNames.forEach(async (name, index: number) => {
-    const results = await db.select<{ exists: string }[]>(tableCheck(name));
+  TABLES.forEach((table) => createTables(table));
 
-    // Checks to see if the table exists, if not creates it.
-    Object.values(results[0]).forEach((x) =>
-      x === 'true' ? console.log(`Table exists: ${x}`) : createTables(TABLES[index])
-    );
-  });
+  ROUTINE_PRAGMA_QUERIES.forEach(async (routine: string) => await db.execute(routine));
+  const check = await db.select<{ integrity_check: string }[]>(`PRAGMA integrity_check`);
+  if (check[0].integrity_check === 'ok') {
+    console.log('Database is OK');
+  }
 };
 
 export const createTables = async (table: string) => {
@@ -31,7 +27,7 @@ export const createTables = async (table: string) => {
   await db.execute(ENABLE_FOREIGN_KEYS);
   await db.execute(table).catch((err: string) => {
     if (err.includes('code 1')) {
-      console.log('Normal Behavior');
+      // console.log('Normal Behavior');
     } else {
       console.log('Irregular Behavior' + err);
     }

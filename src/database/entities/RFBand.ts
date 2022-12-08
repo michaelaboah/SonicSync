@@ -1,4 +1,4 @@
-const CREATE_RFBAND = `CREATE TABLE rfband (
+export const CREATE_RFBAND = `CREATE TABLE rfband (
     id integer NOT NULL PRIMARY KEY autoincrement,
     rf_item_id integer NOT NULL,
     band_name text NOT NULL,
@@ -256,4 +256,4 @@ const CREATE_RFBAND = `CREATE TABLE rfband (
     CONSTRAINT rfband_rf_item_id_foreign FOREIGN key(rf_item_id) REFERENCES rfitem(id) ON UPDATE CASCADE
 );`;
 
-export default CREATE_RFBAND;
+// export default CREATE_RFBAND;
