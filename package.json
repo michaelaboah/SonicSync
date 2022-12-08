@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "tauri": "tauri",
-    "gen": "graphql-codegen --config graphql-codegen.yml"
+    "gen": "graphql-codegen --config graphql-codegen.yml",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
