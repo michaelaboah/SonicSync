@@ -1,11 +1,11 @@
 fragment ProcessorFrag on ProcessingItem {
-  totalInputs
-  totalOutputs
-  physicalInputs
-  physicalOutputs
+  total_inputs
+  total_outputs
+  physical_inputs
+  physical_outputs
   midi
-  protocolInputs
-  signalProtocol
+  protocol_inputs
+  signal_protocol
   max_sample_rate
   network_connectivity {
     ...NetworkFrag

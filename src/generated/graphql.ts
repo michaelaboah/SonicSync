@@ -26,9 +26,9 @@ export type AmplifierInput = {
   notes: Array<Scalars['String']>;
   physical_connectivity: Array<PhysicalConnectivty>;
   power: ElectricalInput;
-  signalProtocol: Protocol;
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 export type AmplifierItem = {
@@ -39,9 +39,9 @@ export type AmplifierItem = {
   network_connectivity: Array<NetworkPort>;
   physical_connectivity: Array<PhysicalPort>;
   power?: Maybe<IElectrical>;
-  signalProtocol: Protocol;
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 export type AmplifierItemTest = {
@@ -51,9 +51,9 @@ export type AmplifierItemTest = {
   network_connectivity: Array<NetworkConnectivty>;
   physical_connectivity: Array<PhysicalConnectivty>;
   power?: InputMaybe<ElectricalInput>;
-  signalProtocol: Protocol;
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 /** Common types of Analog or Copper based connections. *Note: Generally more robust than digital counterparts, but lacks flexibility. */
@@ -152,7 +152,7 @@ export enum ComputerPortType {
 }
 
 export type ConsoleInput = {
-  auxInputs: Scalars['Int'];
+  aux_inputs: Scalars['Int'];
   can_expand: Scalars['Boolean'];
   faders: Scalars['Int'];
   max_sample_rate: SampleRate;
@@ -160,58 +160,58 @@ export type ConsoleInput = {
   model: Scalars['String'];
   motorized: Scalars['Boolean'];
   notes: Array<Scalars['String']>;
-  phantomPowerInputs: Scalars['Int'];
-  physicalAuxInputs: Scalars['Int'];
-  physicalInputs: Scalars['Int'];
-  physicalOutputs: Scalars['Int'];
+  phantom_power_inputs: Scalars['Int'];
+  physical_aux_inputs: Scalars['Int'];
+  physical_inputs: Scalars['Int'];
+  physical_outputs: Scalars['Int'];
   power: ElectricalInput;
-  protocolInputs: Scalars['Int'];
+  protocol_inputs: Scalars['Int'];
   searchModel?: InputMaybe<Scalars['String']>;
-  signalProtocol: Protocol;
-  totalBusses: Scalars['Int'];
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_busses: Scalars['Int'];
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 export type ConsoleInputTest = {
-  auxInputs: Scalars['Int'];
+  aux_inputs: Scalars['Int'];
   can_expand: Scalars['Boolean'];
   faders: Scalars['Int'];
   id?: InputMaybe<Scalars['Int']>;
   max_sample_rate: SampleRate;
   midi?: InputMaybe<MidiType>;
   motorized: Scalars['Boolean'];
-  phantomPowerInputs: Scalars['Int'];
-  physicalAuxInputs: Scalars['Int'];
-  physicalInputs: Scalars['Int'];
-  physicalOutputs: Scalars['Int'];
+  phantom_power_inputs: Scalars['Int'];
+  physical_aux_inputs: Scalars['Int'];
+  physical_inputs: Scalars['Int'];
+  physical_outputs: Scalars['Int'];
   power: ElectricalInput;
-  protocolInputs: Scalars['Int'];
-  signalProtocol: Protocol;
-  totalBusses: Scalars['Int'];
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  protocol_inputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_busses: Scalars['Int'];
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 export type ConsoleItem = {
   __typename?: 'ConsoleItem';
-  auxInputs: Scalars['Int'];
+  aux_inputs: Scalars['Int'];
   can_expand: Scalars['Boolean'];
   faders: Scalars['Int'];
   id?: Maybe<Scalars['Int']>;
   max_sample_rate: SampleRate;
   midi?: Maybe<MidiType>;
   motorized: Scalars['Boolean'];
-  phantomPowerInputs: Scalars['Int'];
-  physicalAuxInputs: Scalars['Int'];
-  physicalInputs: Scalars['Int'];
-  physicalOutputs: Scalars['Int'];
+  phantom_power_inputs: Scalars['Int'];
+  physical_aux_inputs: Scalars['Int'];
+  physical_inputs: Scalars['Int'];
+  physical_outputs: Scalars['Int'];
   power: IElectrical;
-  protocolInputs: Scalars['Int'];
-  signalProtocol: Protocol;
-  totalBusses: Scalars['Int'];
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  protocol_inputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_busses: Scalars['Int'];
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 export enum CountryCodes {
@@ -480,6 +480,17 @@ export type Dimensions = {
   width: Scalars['Float'];
 };
 
+export type DriverArrangment = {
+  __typename?: 'DriverArrangment';
+  /** Diameter of a speaker driver */
+  speaker_size: Scalars['Float'];
+};
+
+export type DriverArrangmentTest = {
+  /** Diameter of a speaker driver */
+  speaker_size: Scalars['Float'];
+};
+
 /** Input for the electrical properties of an Item, only available in select Item type. Ex: ProcessorItem or ConsoleItem */
 export type ElectricalInput = {
   /** Electrical connector used as power input. EX: Powercon Blue */
@@ -568,7 +579,7 @@ export type IGeneric = {
   /** Store when item was created. */
   createdAt: Scalars['String'];
   dimensions?: Maybe<Dimension>;
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   /** Global notes for current item. */
   publicNotes?: Maybe<Scalars['String']>;
   /** Store when item was last changed. */
@@ -588,7 +599,7 @@ export type Item = IGeneric & {
   /** Store when item was created. */
   createdAt: Scalars['String'];
   dimensions?: Maybe<Dimension>;
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   microphone?: Maybe<MicrophoneItem>;
   model: Scalars['String'];
   monitoring_item?: Maybe<MonitoringItem>;
@@ -939,14 +950,14 @@ export type ProcessingItem = {
   max_sample_rate: SampleRate;
   midi: MidiType;
   network_connectivity: Array<NetworkPort>;
-  physicalInputs: Scalars['Int'];
-  physicalOutputs: Scalars['Int'];
   physical_connectivity: Array<PhysicalPort>;
+  physical_inputs: Scalars['Int'];
+  physical_outputs: Scalars['Int'];
   power: IElectrical;
-  protocolInputs: Scalars['Int'];
-  signalProtocol: Protocol;
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  protocol_inputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 export type ProcessingItemTest = {
@@ -954,27 +965,27 @@ export type ProcessingItemTest = {
   max_sample_rate: SampleRate;
   midi: MidiType;
   network_connectivity: Array<NetworkConnectivty>;
-  physicalInputs: Scalars['Int'];
-  physicalOutputs: Scalars['Int'];
   physical_connectivity: Array<PhysicalConnectivty>;
+  physical_inputs: Scalars['Int'];
+  physical_outputs: Scalars['Int'];
   power: ElectricalInput;
-  protocolInputs: Scalars['Int'];
-  signalProtocol: Protocol;
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  protocol_inputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 export type ProcessorInput = {
   max_sample_rate: SampleRate;
   midi?: InputMaybe<MidiType>;
   network_connectivity: Array<NetworkConnectivty>;
-  physicalInputs: Scalars['Int'];
-  physicalOutputs: Scalars['Int'];
+  physical_inputs: Scalars['Int'];
+  physical_outputs: Scalars['Int'];
   power: ElectricalInput;
-  protocolInputs: Scalars['Int'];
-  signalProtocol: Protocol;
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
+  protocol_inputs: Scalars['Int'];
+  signal_protocol: Protocol;
+  total_inputs: Scalars['Int'];
+  total_outputs: Scalars['Int'];
 };
 
 /** Network based audio protocols and computer connections. */
@@ -1134,6 +1145,7 @@ export type SpeakerInput = {
 
 export type SpeakerInputTest = {
   built_in_processing: Scalars['Boolean'];
+  driver: DriverArrangmentTest;
   id?: InputMaybe<Scalars['Int']>;
   lower_frequency_response: Scalars['Int'];
   /** Maximum SPL of the speaker. */
@@ -1149,6 +1161,7 @@ export type SpeakerInputTest = {
 export type SpeakerItem = {
   __typename?: 'SpeakerItem';
   built_in_processing: Scalars['Boolean'];
+  driver: DriverArrangment;
   id?: Maybe<Scalars['Int']>;
   lower_frequency_response: Scalars['Int'];
   /** Maximum SPL of the speaker. */
@@ -1213,42 +1226,42 @@ export type CreateAmplifierItemMutationVariables = Exact<{
 }>;
 
 
-export type CreateAmplifierItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, totalInputs: number, totalOutputs: number, midi?: MidiType | null, signalProtocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
+export type CreateAmplifierItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateComputerItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
 
-export type CreateComputerItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
+export type CreateComputerItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateConsoleItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
 
-export type CreateConsoleItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
+export type CreateConsoleItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateMicrophoneItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
 
-export type CreateMicrophoneItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
+export type CreateMicrophoneItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateMonitoringItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
 
-export type CreateMonitoringItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
+export type CreateMonitoringItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateProcessingItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
 
-export type CreateProcessingItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
+export type CreateProcessingItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type EquipmentModelSearchQueryVariables = Exact<{
   fullSearch: Scalars['String'];
@@ -1260,17 +1273,17 @@ export type EquipmentModelSearchQuery = { __typename?: 'Query', fullTextSearch: 
 export type FindAllItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllItemsQuery = { __typename?: 'Query', findAllItems: Array<{ __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, totalInputs: number, totalOutputs: number, midi?: MidiType | null, signalProtocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, network_item?: { __typename?: 'NetworkItem', id?: number | null, network_type: NetworkType, poe_ports: number, max_speed: number, fiber: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, radio_item?: { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } } | null, speaker_item?: { __typename?: 'SpeakerItem', id?: number | null, built_in_processing: boolean, wireless: boolean, max_spl: number, lower_frequency_response: number, upper_frequency_response: number, mounting_options: Array<string>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
+export type FindAllItemsQuery = { __typename?: 'Query', findAllItems: Array<{ __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, network_item?: { __typename?: 'NetworkItem', id?: number | null, network_type: NetworkType, poe_ports: number, max_speed: number, fiber: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, radio_item?: { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } } | null, speaker_item?: { __typename?: 'SpeakerItem', id?: number | null, built_in_processing: boolean, wireless: boolean, max_spl: number, lower_frequency_response: number, upper_frequency_response: number, mounting_options: Array<string>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
 
-export type AmpFragFragment = { __typename?: 'AmplifierItem', id?: number | null, totalInputs: number, totalOutputs: number, midi?: MidiType | null, signalProtocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null };
+export type AmpFragFragment = { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null };
 
 export type ComputerFragFragment = { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
-export type ConsoleFragFragment = { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
+export type ConsoleFragFragment = { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
 export type DimensionFragFragment = { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null };
 
-export type GenericFragFragment = { __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null };
+export type GenericFragFragment = { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null };
 
 export type MicrophoneFragFragment = { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null };
 
@@ -1284,7 +1297,7 @@ export type PhysicalPortFragFragment = { __typename?: 'PhysicalPort', port_ident
 
 export type PowerFragFragment = { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null };
 
-export type ProcessorFragFragment = { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
+export type ProcessorFragFragment = { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
 export type RadioFragFragment = { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } };
 
@@ -1295,7 +1308,7 @@ export type FuzzyItemSearchQueryVariables = Exact<{
 }>;
 
 
-export type FuzzyItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, totalInputs: number, totalOutputs: number, midi?: MidiType | null, signalProtocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, network_item?: { __typename?: 'NetworkItem', id?: number | null, network_type: NetworkType, poe_ports: number, max_speed: number, fiber: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, radio_item?: { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } } | null, speaker_item?: { __typename?: 'SpeakerItem', id?: number | null, built_in_processing: boolean, wireless: boolean, max_spl: number, lower_frequency_response: number, upper_frequency_response: number, mounting_options: Array<string>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
+export type FuzzyItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, network_item?: { __typename?: 'NetworkItem', id?: number | null, network_type: NetworkType, poe_ports: number, max_speed: number, fiber: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, radio_item?: { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } } | null, speaker_item?: { __typename?: 'SpeakerItem', id?: number | null, built_in_processing: boolean, wireless: boolean, max_spl: number, lower_frequency_response: number, upper_frequency_response: number, mounting_options: Array<string>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
 
 export type GetEquipmentQueryVariables = Exact<{
   model: Scalars['String'];
@@ -1309,7 +1322,7 @@ export type GlobalItemSearchQueryVariables = Exact<{
 }>;
 
 
-export type GlobalItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id: number, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, processor?: { __typename?: 'ProcessingItem', totalInputs: number, totalOutputs: number, physicalInputs: number, physicalOutputs: number, midi: MidiType, protocolInputs: number, signalProtocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', totalInputs: number, totalOutputs: number, totalBusses: number, physicalInputs: number, physicalOutputs: number, auxInputs: number, physicalAuxInputs: number, phantomPowerInputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocolInputs: number, signalProtocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
+export type GlobalItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
 
 export type LoginUserMutationVariables = Exact<{
   inputOptions: UserInput;
@@ -1365,8 +1378,8 @@ export const PowerFragFragmentDoc = gql`
 export const AmpFragFragmentDoc = gql`
     fragment AmpFrag on AmplifierItem {
   id
-  totalInputs
-  totalOutputs
+  total_inputs
+  total_outputs
   midi
   physical_connectivity {
     ...PhysicalPortFrag
@@ -1374,7 +1387,7 @@ export const AmpFragFragmentDoc = gql`
   network_connectivity {
     ...NetworkFrag
   }
-  signalProtocol
+  signal_protocol
   max_sample_rate
   power {
     ...PowerFrag
@@ -1409,19 +1422,19 @@ export const ComputerFragFragmentDoc = gql`
 ${PowerFragFragmentDoc}`;
 export const ConsoleFragFragmentDoc = gql`
     fragment ConsoleFrag on ConsoleItem {
-  totalInputs
-  totalOutputs
-  totalBusses
-  physicalInputs
-  physicalOutputs
-  auxInputs
-  physicalAuxInputs
-  phantomPowerInputs
+  total_inputs
+  total_outputs
+  total_busses
+  physical_inputs
+  physical_outputs
+  aux_inputs
+  physical_aux_inputs
+  phantom_power_inputs
   faders
   motorized
   midi
-  protocolInputs
-  signalProtocol
+  protocol_inputs
+  signal_protocol
   can_expand
   max_sample_rate
   power {
@@ -1502,13 +1515,13 @@ export const NetworkItemFragFragmentDoc = gql`
 ${PowerFragFragmentDoc}`;
 export const ProcessorFragFragmentDoc = gql`
     fragment ProcessorFrag on ProcessingItem {
-  totalInputs
-  totalOutputs
-  physicalInputs
-  physicalOutputs
+  total_inputs
+  total_outputs
+  physical_inputs
+  physical_outputs
   midi
-  protocolInputs
-  signalProtocol
+  protocol_inputs
+  signal_protocol
   max_sample_rate
   network_connectivity {
     ...NetworkFrag

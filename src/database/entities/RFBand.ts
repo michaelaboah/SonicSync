@@ -1,4 +1,6 @@
-export const CREATE_RFBAND = `CREATE TABLE rfband (
+// import SQLite from 'tauri-plugin-sqlite';
+
+const CREATE_RFBAND = `CREATE TABLE rfband (
     id integer NOT NULL PRIMARY KEY autoincrement,
     rf_item_id integer NOT NULL,
     band_name text NOT NULL,
@@ -255,5 +257,41 @@ export const CREATE_RFBAND = `CREATE TABLE rfband (
     deprecated integer NOT NULL,
     CONSTRAINT rfband_rf_item_id_foreign FOREIGN key(rf_item_id) REFERENCES rfitem(id) ON UPDATE CASCADE
 );`;
+/*
 
-// export default CREATE_RFBAND;
+export const insert_rfband = async (rfband: RfBand): Promise<number | string> => {
+    const db = await SQLite.open('sqlite:internal.db');
+    try {
+        const result = await db.select<{ id: number }[]>(
+            `INSERT INTO rfband (
+                rf_item_id,
+                band_name,
+                lower_frequency_range,
+                upper_frequency_range,
+                manufacturer,
+                nation_code
+            ) VALUES (
+                ?1,
+                ?2,
+                ?3,
+                ?4,
+                ?5,
+                ?6
+            ) RETURNING id;`,
+            [
+                rfband.rf_item_id,
+                rfband.band_name,
+                rfband.lower_frequency_range,
+                rfband.upper_frequency_range,
+                rfband.manufacturer,
+                rfband.nation_code,
+            ]
+        );
+        return result[0].id;
+    } catch (error: any) {
+        console.error(`Error inserting RF band: ${error.message}`);
+        return JSON.stringify(error);
+    }
+};
+*/
+export default CREATE_RFBAND;

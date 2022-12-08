@@ -1,7 +1,7 @@
 fragment AmpFrag on AmplifierItem {
   id
-  totalInputs
-  totalOutputs
+  total_inputs
+  total_outputs
   midi
   physical_connectivity {
     ...PhysicalPortFrag
@@ -9,7 +9,7 @@ fragment AmpFrag on AmplifierItem {
   network_connectivity {
     ...NetworkFrag
   }
-  signalProtocol
+  signal_protocol
   max_sample_rate
   power {
     ...PowerFrag
