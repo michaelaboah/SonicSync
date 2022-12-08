@@ -1,9 +1,21 @@
 <script lang="ts">
-  import { Box, Button, InputWrapper, SimpleGrid, TextInput, Paper, Group } from "@svelteuidev/core";
-  import Sqlite from "../database/Sqlite";
+  import {
+    Box,
+    Button,
+    InputWrapper,
+    SimpleGrid,
+    TextInput,
+    Paper,
+    Group,
+    Center,
+    Code,
+    Text,
+  } from '@svelteuidev/core';
+  import Sqlite from '../database/Sqlite';
 
   let executeString = ``;
   let selectString = ``;
+  let insertJSON = ``;
   let results: boolean;
   let response: Array<{ response: any }>;
   const executeQuery = async () => {
@@ -42,6 +54,10 @@
       <Paper withBorder class="text-center">{JSON.stringify(response)}</Paper>
     </Box>
   </SimpleGrid>
+  <Center inline="{false}">
+    <textarea bind:value="{insertJSON}"></textarea>
+  </Center>
+  <Text>{insertJSON}</Text>
 </Box>
 
 <style>

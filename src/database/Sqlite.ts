@@ -1,16 +1,8 @@
 import Database from 'tauri-plugin-sqlite';
-import CREATE_CONSOLE_ITEM_TABLE from './entities/categories/ConsoleItem';
-import CREATE_ITEM_TABLE from './entities/Item';
-import CREATE_PROCESSING_ITEM_TABLE from './entities/categories/ProcessingItem';
-import CREATE_MONITORING_ITEM from './entities/categories/MonitoringItem';
+import { TABLES } from './entities/SQLController';
+
 export const Sqlite = Database.open('sqlite:internal.db');
 
-export const TABLES = [
-  CREATE_ITEM_TABLE,
-  CREATE_CONSOLE_ITEM_TABLE,
-  CREATE_PROCESSING_ITEM_TABLE,
-  CREATE_MONITORING_ITEM,
-];
 export const tableNames = ['item', 'console_item', 'processing_item'];
 
 const ENABLE_FOREIGN_KEYS = `PRAGMA foreign_keys = ON;`;
