@@ -1,14 +1,10 @@
-import client from '../apollo/apolloClient';
+import client from "../apollo/apolloClient";
 import type {
-  ApolloQueryResult,
-  ObservableQuery,
-  WatchQueryOptions,
-  QueryOptions,
-  MutationOptions,
-} from '@apollo/client';
-import { readable } from 'svelte/store';
-import type { Readable } from 'svelte/store';
-import gql from 'graphql-tag';
+        ApolloQueryResult, ObservableQuery, WatchQueryOptions, QueryOptions, MutationOptions
+      } from "@apollo/client";
+import { readable } from "svelte/store";
+import type { Readable } from "svelte/store";
+import gql from "graphql-tag"
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -78,7 +74,7 @@ export enum Analog {
   /** 3 pin XLR connection. Most common single direction analog connection. */
   XlrAnalog = 'XLR_ANALOG',
   /** 3 pin XLR connection. A digital connection that uses AES-3 for carrying 2 complete signals. *Note: Lower ohm rating, may not be compatible with XLR_ANALOG. */
-  XlrDigital = 'XLR_DIGITAL',
+  XlrDigital = 'XLR_DIGITAL'
 }
 
 /** Possible category that an Item can be apart of. */
@@ -93,7 +89,7 @@ export enum Categories {
   Processor = 'PROCESSOR',
   Radio = 'RADIO',
   Speaker = 'SPEAKER',
-  SpkHardware = 'SPK_HARDWARE',
+  SpkHardware = 'SPK_HARDWARE'
 }
 
 /** Addition of computer ports,  */
@@ -152,7 +148,7 @@ export enum ComputerPortType {
   UsbA = 'USB_A',
   UsbB = 'USB_B',
   UsbC = 'USB_C',
-  UsbCThunderbolt = 'USB_C_THUNDERBOLT',
+  UsbCThunderbolt = 'USB_C_THUNDERBOLT'
 }
 
 export type ConsoleInput = {
@@ -195,26 +191,6 @@ export type ConsoleInputTest = {
   total_busses: Scalars['Int'];
   total_inputs: Scalars['Int'];
   total_outputs: Scalars['Int'];
-};
-
-export type ConsoleInputTest = {
-  auxInputs: Scalars['Int'];
-  can_expand: Scalars['Boolean'];
-  faders: Scalars['Int'];
-  id?: InputMaybe<Scalars['Int']>;
-  max_sample_rate: SampleRate;
-  midi?: InputMaybe<MidiType>;
-  motorized: Scalars['Boolean'];
-  phantomPowerInputs: Scalars['Int'];
-  physicalAuxInputs: Scalars['Int'];
-  physicalInputs: Scalars['Int'];
-  physicalOutputs: Scalars['Int'];
-  power: ElectricalInput;
-  protocolInputs: Scalars['Int'];
-  signalProtocol: Protocol;
-  totalBusses: Scalars['Int'];
-  totalInputs: Scalars['Int'];
-  totalOutputs: Scalars['Int'];
 };
 
 export type ConsoleItem = {
@@ -481,7 +457,7 @@ export enum CountryCodes {
   Yt = 'YT',
   Za = 'ZA',
   Zm = 'ZM',
-  Zw = 'ZW',
+  Zw = 'ZW'
 }
 
 /**
@@ -734,7 +710,7 @@ export enum MicrophoneType {
   Condensor = 'CONDENSOR',
   Dynamic = 'DYNAMIC',
   PrePoloraizedCondensor = 'PRE_POLORAIZED_CONDENSOR',
-  Ribbon = 'RIBBON',
+  Ribbon = 'RIBBON'
 }
 
 /** Common types of Midi connection interfaces */
@@ -742,7 +718,7 @@ export enum MidiType {
   /** Connection type found in most older / analog equipment. *Note: Conversion is likely necessary for newer equipment. */
   Serial = 'SERIAL',
   /** Connection type found in most newer equipment. *Note: Signal may not be as robust as serial. */
-  Usb = 'USB',
+  Usb = 'USB'
 }
 
 export type MonitoringInput = {
@@ -787,47 +763,58 @@ export type Mutation = {
   updateItem: ItemResponse;
 };
 
+
 export type MutationCreateEquipmentArgs = {
   inputOptions: EquipmentInput;
 };
+
 
 export type MutationCreateItemArgs = {
   itemInput: ItemInput;
 };
 
+
 export type MutationCreatePostArgs = {
   title: Scalars['String'];
 };
+
 
 export type MutationDeleteEquipmentArgs = {
   id?: InputMaybe<Scalars['Int']>;
   model: Scalars['String'];
 };
 
+
 export type MutationDeleteEquipmentRangeArgs = {
   ids: Array<Scalars['Int']>;
 };
+
 
 export type MutationDeletePostArgs = {
   id: Scalars['Int'];
 };
 
+
 export type MutationDeletePostsArgs = {
   ids: Array<Scalars['Int']>;
 };
+
 
 export type MutationLoginUserArgs = {
   inputOptions: UserInput;
 };
 
+
 export type MutationRegisterUserArgs = {
   inputOptions: UserInput;
 };
+
 
 export type MutationUpdateEquipmentArgs = {
   id: Scalars['Int'];
   updateOptions: EquipmentInput;
 };
+
 
 export type MutationUpdateItemArgs = {
   edits: ItemInputEdit;
@@ -885,7 +872,7 @@ export type NetworkPort = {
 export enum NetworkSpeeds {
   Gigabit = 'GIGABIT',
   Superspeed = 'SUPERSPEED',
-  TenGigabit = 'TEN_GIGABIT',
+  TenGigabit = 'TEN_GIGABIT'
 }
 
 /** Assignable types for various types of networking equipment */
@@ -899,7 +886,7 @@ export enum NetworkType {
   Router = 'ROUTER',
   RouterSwAp = 'ROUTER_SW_AP',
   SwitchManaged = 'SWITCH_MANAGED',
-  SwitchUnmanaged = 'SWITCH_UNMANAGED',
+  SwitchUnmanaged = 'SWITCH_UNMANAGED'
 }
 
 /** Addition of physical ports. Various Protocols are handled via the: (Analog Enummeration) */
@@ -954,7 +941,7 @@ export enum PowerConnector {
   /** Locking connector for outdoor live electrical connections. Designed for rugged applications. Max voltage: 250V. Max amperage: 20A. *Note: CAN be disconnected under live load. */
   PowerconTrue1 = 'POWERCON_TRUE1',
   /** Successor to POWERCON_TRUE1. Designed for rugged, outdoor, live, applications. Max voltage: 250V. Max amperage: 20A. *Note: CAN be disconnected under live load. */
-  PowerconTrue1Top = 'POWERCON_TRUE1_TOP',
+  PowerconTrue1Top = 'POWERCON_TRUE1_TOP'
 }
 
 export type ProcessingItem = {
@@ -1018,7 +1005,7 @@ export enum Protocol {
   /** Audio over Fiber, networked & P2P systems. Streams audio signals across connected devices with low latency. Compatible with selected Optocore gear. *Note: Proprietary by Optocore. */
   Optocore = 'OPTOCORE',
   /** Audio over Ethernet. Streams 16 audio signals across connected devices with low latency. Compatible with selected gear from Music Tribe child companies. *Note: Proprietary by Music Tribe. */
-  Ultranet = 'ULTRANET',
+  Ultranet = 'ULTRANET'
 }
 
 export type Query = {
@@ -1039,29 +1026,36 @@ export type Query = {
   users: Array<User>;
 };
 
+
 export type QueryFindItemArgs = {
   model: Scalars['String'];
 };
+
 
 export type QueryFullTextSearchArgs = {
   fullSearch: Scalars['String'];
 };
 
+
 export type QueryFuzzyItemSearchArgs = {
   model: Scalars['String'];
 };
+
 
 export type QueryFuzzyTextSearchArgs = {
   fuzzySearch: Scalars['String'];
 };
 
+
 export type QueryGetEquipmentArgs = {
   model: Scalars['String'];
 };
 
+
 export type QueryPostArgs = {
   id: Scalars['Int'];
 };
+
 
 export type QuerySearchArgs = {
   searchTitle: Scalars['String'];
@@ -1133,7 +1127,7 @@ export enum SampleRate {
   /** Standard-Definition or 44.1kHz Sample Rate. Used for predominately for consumer distrubution. Note: Commonly found in regular CDs. */
   Sd = 'SD',
   /** Ultra-High-Definition or 96.0kHz Sample Rate. Used for predominately for professional recording, high quality distrubution and archival purposes. Note: Commonly found in high-end audio equipment. */
-  Uhd = 'UHD',
+  Uhd = 'UHD'
 }
 
 export type SpeakerInput = {
@@ -1193,7 +1187,7 @@ export enum TransmitterConnector {
   /** Sennheiser's proprietary connector */
   TriPin = 'TRI_PIN',
   /** Basic 1/8" connector */
-  Trrs = 'TRRS',
+  Trrs = 'TRRS'
 }
 
 export type TransmitterInput = {
@@ -1224,1848 +1218,371 @@ export type CreateEquipmentMutationVariables = Exact<{
   inputOptions: EquipmentInput;
 }>;
 
-export type CreateEquipmentMutation = {
-  __typename?: 'Mutation';
-  createEquipment?: {
-    __typename?: 'EquipmentResponse';
-    equipment?: {
-      __typename?: 'Equipment';
-      createdAt: string;
-      updatedAt: string;
-      category: string;
-      manufacturer: string;
-      model: string;
-      publicNotes?: string | null;
-      cost?: number | null;
-      powerDraw?: number | null;
-      weight?: number | null;
-      depth?: number | null;
-      rackUnit?: number | null;
-      frequencyRange?: string | null;
-    } | null;
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    equipmentItems?: Array<{
-      __typename?: 'Equipment';
-      id: number;
-      createdAt: string;
-      updatedAt: string;
-      category: string;
-      manufacturer: string;
-      model: string;
-      publicNotes?: string | null;
-      cost?: number | null;
-      powerDraw?: number | null;
-      weight?: number | null;
-      depth?: number | null;
-      rackUnit?: number | null;
-      frequencyRange?: string | null;
-    }> | null;
-  } | null;
-};
+
+export type CreateEquipmentMutation = { __typename?: 'Mutation', createEquipment?: { __typename?: 'EquipmentResponse', equipment?: { __typename?: 'Equipment', createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, equipmentItems?: Array<{ __typename?: 'Equipment', id: number, createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null }> | null } | null };
 
 export type CreateAmplifierItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
-export type CreateAmplifierItemMutation = {
-  __typename?: 'Mutation';
-  createItem?: {
-    __typename?: 'ItemResponse';
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    item?: {
-      __typename?: 'Item';
-      id?: number | null;
-      createdAt: string;
-      updatedAt: string;
-      cost?: number | null;
-      model: string;
-      weight?: number | null;
-      publicNotes?: string | null;
-      category: Categories;
-      notes?: Array<string> | null;
-      amplifier?: {
-        __typename?: 'AmplifierItem';
-        id?: number | null;
-        total_inputs: number;
-        total_outputs: number;
-        midi?: MidiType | null;
-        signal_protocol: Protocol;
-        max_sample_rate: SampleRate;
-        physical_connectivity: Array<{
-          __typename?: 'PhysicalPort';
-          port_identifier?: string | null;
-          connector_type: Analog;
-          signal_lines: number;
-          input: boolean;
-        }>;
-        network_connectivity: Array<{
-          __typename?: 'NetworkPort';
-          protocol: Protocol;
-          power_over_ethernet: boolean;
-          port_identifier?: string | null;
-          max_connection_speed: NetworkSpeeds;
-        }>;
-        power?: {
-          __typename?: 'IElectrical';
-          wattage: number;
-          redundant?: boolean | null;
-          lower_voltage: number;
-          max_wattage: number;
-          input_connector: PowerConnector;
-          output_connector?: PowerConnector | null;
-        } | null;
-      } | null;
-      dimensions?: {
-        __typename?: 'Dimension';
-        width: number;
-        length: number;
-        height: number;
-        rack_unit?: number | null;
-      } | null;
-    } | null;
-  } | null;
-};
+
+export type CreateAmplifierItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateComputerItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
-export type CreateComputerItemMutation = {
-  __typename?: 'Mutation';
-  createItem?: {
-    __typename?: 'ItemResponse';
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    item?: {
-      __typename?: 'Item';
-      id?: number | null;
-      createdAt: string;
-      updatedAt: string;
-      cost?: number | null;
-      model: string;
-      weight?: number | null;
-      publicNotes?: string | null;
-      category: Categories;
-      notes?: Array<string> | null;
-      computer?: {
-        __typename?: 'ComputerItem';
-        id?: number | null;
-        cpu_processor: string;
-        ram_size: number;
-        total_storage: number;
-        model_year?: string | null;
-        operating_system?: string | null;
-        dedicated_graphics: boolean;
-        network_connectivity: Array<{
-          __typename?: 'NetworkPort';
-          protocol: Protocol;
-          power_over_ethernet: boolean;
-          port_identifier?: string | null;
-          max_connection_speed: NetworkSpeeds;
-        }>;
-        computer_ports: Array<{
-          __typename?: 'ComputerPort';
-          port_type: ComputerPortType;
-          number_of_ports: number;
-          front_port?: boolean | null;
-          version?: string | null;
-        }>;
-        power: {
-          __typename?: 'IElectrical';
-          wattage: number;
-          redundant?: boolean | null;
-          lower_voltage: number;
-          max_wattage: number;
-          input_connector: PowerConnector;
-          output_connector?: PowerConnector | null;
-        };
-      } | null;
-      dimensions?: {
-        __typename?: 'Dimension';
-        width: number;
-        length: number;
-        height: number;
-        rack_unit?: number | null;
-      } | null;
-    } | null;
-  } | null;
-};
+
+export type CreateComputerItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateConsoleItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
-export type CreateConsoleItemMutation = {
-  __typename?: 'Mutation';
-  createItem?: {
-    __typename?: 'ItemResponse';
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    item?: {
-      __typename?: 'Item';
-      id?: number | null;
-      createdAt: string;
-      updatedAt: string;
-      cost?: number | null;
-      model: string;
-      weight?: number | null;
-      publicNotes?: string | null;
-      category: Categories;
-      notes?: Array<string> | null;
-      console?: {
-        __typename?: 'ConsoleItem';
-        total_inputs: number;
-        total_outputs: number;
-        total_busses: number;
-        physical_inputs: number;
-        physical_outputs: number;
-        aux_inputs: number;
-        physical_aux_inputs: number;
-        phantom_power_inputs: number;
-        faders: number;
-        motorized: boolean;
-        midi?: MidiType | null;
-        protocol_inputs: number;
-        signal_protocol: Protocol;
-        can_expand: boolean;
-        max_sample_rate: SampleRate;
-        power: {
-          __typename?: 'IElectrical';
-          wattage: number;
-          redundant?: boolean | null;
-          lower_voltage: number;
-          max_wattage: number;
-          input_connector: PowerConnector;
-          output_connector?: PowerConnector | null;
-        };
-      } | null;
-      dimensions?: {
-        __typename?: 'Dimension';
-        width: number;
-        length: number;
-        height: number;
-        rack_unit?: number | null;
-      } | null;
-    } | null;
-  } | null;
-};
+
+export type CreateConsoleItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateMicrophoneItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
-export type CreateMicrophoneItemMutation = {
-  __typename?: 'Mutation';
-  createItem?: {
-    __typename?: 'ItemResponse';
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    item?: {
-      __typename?: 'Item';
-      id?: number | null;
-      createdAt: string;
-      updatedAt: string;
-      cost?: number | null;
-      model: string;
-      weight?: number | null;
-      publicNotes?: string | null;
-      category: Categories;
-      notes?: Array<string> | null;
-      microphone?: {
-        __typename?: 'MicrophoneItem';
-        id?: number | null;
-        max_spl: number;
-        phantom?: boolean | null;
-        low_cut?: boolean | null;
-        pad?: boolean | null;
-        diaphragm_size?: number | null;
-        output_impedance?: number | null;
-        frequency_response?: string | null;
-        connector?: Analog | null;
-        microphone_type?: Array<MicrophoneType> | null;
-      } | null;
-      dimensions?: {
-        __typename?: 'Dimension';
-        width: number;
-        length: number;
-        height: number;
-        rack_unit?: number | null;
-      } | null;
-    } | null;
-  } | null;
-};
+
+export type CreateMicrophoneItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateMonitoringItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
-export type CreateMonitoringItemMutation = {
-  __typename?: 'Mutation';
-  createItem?: {
-    __typename?: 'ItemResponse';
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    item?: {
-      __typename?: 'Item';
-      id?: number | null;
-      createdAt: string;
-      updatedAt: string;
-      cost?: number | null;
-      model: string;
-      weight?: number | null;
-      publicNotes?: string | null;
-      category: Categories;
-      notes?: Array<string> | null;
-      monitoring_item?: {
-        __typename?: 'MonitoringItem';
-        id?: number | null;
-        distro?: boolean | null;
-        network_connectivity: Array<{
-          __typename?: 'NetworkPort';
-          protocol: Protocol;
-          power_over_ethernet: boolean;
-          port_identifier?: string | null;
-          max_connection_speed: NetworkSpeeds;
-        }>;
-        physical_connectivity?: Array<{
-          __typename?: 'PhysicalPort';
-          port_identifier?: string | null;
-          connector_type: Analog;
-          signal_lines: number;
-          input: boolean;
-        }> | null;
-        power: {
-          __typename?: 'IElectrical';
-          wattage: number;
-          redundant?: boolean | null;
-          lower_voltage: number;
-          max_wattage: number;
-          input_connector: PowerConnector;
-          output_connector?: PowerConnector | null;
-        };
-      } | null;
-      dimensions?: {
-        __typename?: 'Dimension';
-        width: number;
-        length: number;
-        height: number;
-        rack_unit?: number | null;
-      } | null;
-    } | null;
-  } | null;
-};
+
+export type CreateMonitoringItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type CreateProcessingItemMutationVariables = Exact<{
   itemInput: ItemInput;
 }>;
 
-export type CreateProcessingItemMutation = {
-  __typename?: 'Mutation';
-  createItem?: {
-    __typename?: 'ItemResponse';
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    item?: {
-      __typename?: 'Item';
-      id?: number | null;
-      createdAt: string;
-      updatedAt: string;
-      cost?: number | null;
-      model: string;
-      weight?: number | null;
-      publicNotes?: string | null;
-      category: Categories;
-      notes?: Array<string> | null;
-      processor?: {
-        __typename?: 'ProcessingItem';
-        total_inputs: number;
-        total_outputs: number;
-        physical_inputs: number;
-        physical_outputs: number;
-        midi: MidiType;
-        protocol_inputs: number;
-        signal_protocol: Protocol;
-        max_sample_rate: SampleRate;
-        network_connectivity: Array<{
-          __typename?: 'NetworkPort';
-          protocol: Protocol;
-          power_over_ethernet: boolean;
-          port_identifier?: string | null;
-          max_connection_speed: NetworkSpeeds;
-        }>;
-        power: {
-          __typename?: 'IElectrical';
-          wattage: number;
-          redundant?: boolean | null;
-          lower_voltage: number;
-          max_wattage: number;
-          input_connector: PowerConnector;
-          output_connector?: PowerConnector | null;
-        };
-      } | null;
-      dimensions?: {
-        __typename?: 'Dimension';
-        width: number;
-        length: number;
-        height: number;
-        rack_unit?: number | null;
-      } | null;
-    } | null;
-  } | null;
-};
+
+export type CreateProcessingItemMutation = { __typename?: 'Mutation', createItem?: { __typename?: 'ItemResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, item?: { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null } | null } | null };
 
 export type EquipmentModelSearchQueryVariables = Exact<{
   fullSearch: Scalars['String'];
 }>;
 
-export type EquipmentModelSearchQuery = {
-  __typename?: 'Query';
-  fullTextSearch: Array<{
-    __typename?: 'Equipment';
-    createdAt: string;
-    updatedAt: string;
-    category: string;
-    manufacturer: string;
-    model: string;
-    publicNotes?: string | null;
-    cost?: number | null;
-    powerDraw?: number | null;
-    weight?: number | null;
-    depth?: number | null;
-    rackUnit?: number | null;
-    frequencyRange?: string | null;
-  }>;
-};
 
-export type FindAllItemsQueryVariables = Exact<{ [key: string]: never }>;
+export type EquipmentModelSearchQuery = { __typename?: 'Query', fullTextSearch: Array<{ __typename?: 'Equipment', createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null }> };
 
-export type FindAllItemsQuery = {
-  __typename?: 'Query';
-  findAllItems: Array<{
-    __typename?: 'Item';
-    id?: number | null;
-    createdAt: string;
-    updatedAt: string;
-    cost?: number | null;
-    model: string;
-    weight?: number | null;
-    publicNotes?: string | null;
-    category: Categories;
-    notes?: Array<string> | null;
-    amplifier?: {
-      __typename?: 'AmplifierItem';
-      id?: number | null;
-      total_inputs: number;
-      total_outputs: number;
-      midi?: MidiType | null;
-      signal_protocol: Protocol;
-      max_sample_rate: SampleRate;
-      physical_connectivity: Array<{
-        __typename?: 'PhysicalPort';
-        port_identifier?: string | null;
-        connector_type: Analog;
-        signal_lines: number;
-        input: boolean;
-      }>;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      power?: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      } | null;
-    } | null;
-    console?: {
-      __typename?: 'ConsoleItem';
-      total_inputs: number;
-      total_outputs: number;
-      total_busses: number;
-      physical_inputs: number;
-      physical_outputs: number;
-      aux_inputs: number;
-      physical_aux_inputs: number;
-      phantom_power_inputs: number;
-      faders: number;
-      motorized: boolean;
-      midi?: MidiType | null;
-      protocol_inputs: number;
-      signal_protocol: Protocol;
-      can_expand: boolean;
-      max_sample_rate: SampleRate;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    computer?: {
-      __typename?: 'ComputerItem';
-      id?: number | null;
-      cpu_processor: string;
-      ram_size: number;
-      total_storage: number;
-      model_year?: string | null;
-      operating_system?: string | null;
-      dedicated_graphics: boolean;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      computer_ports: Array<{
-        __typename?: 'ComputerPort';
-        port_type: ComputerPortType;
-        number_of_ports: number;
-        front_port?: boolean | null;
-        version?: string | null;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    processor?: {
-      __typename?: 'ProcessingItem';
-      total_inputs: number;
-      total_outputs: number;
-      physical_inputs: number;
-      physical_outputs: number;
-      midi: MidiType;
-      protocol_inputs: number;
-      signal_protocol: Protocol;
-      max_sample_rate: SampleRate;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    network_item?: {
-      __typename?: 'NetworkItem';
-      id?: number | null;
-      network_type: NetworkType;
-      poe_ports: number;
-      max_speed: number;
-      fiber: boolean;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    microphone?: {
-      __typename?: 'MicrophoneItem';
-      id?: number | null;
-      max_spl: number;
-      phantom?: boolean | null;
-      low_cut?: boolean | null;
-      pad?: boolean | null;
-      diaphragm_size?: number | null;
-      output_impedance?: number | null;
-      frequency_response?: string | null;
-      connector?: Analog | null;
-      microphone_type?: Array<MicrophoneType> | null;
-    } | null;
-    radio_item?: {
-      __typename?: 'RFItem';
-      id?: number | null;
-      physical_range: number;
-      lower_frequency_response: number;
-      upper_frequency_response: number;
-      transmitter: { __typename?: 'Transmitter'; connector: TransmitterConnector };
-      reciever: {
-        __typename?: 'Reciever';
-        cascade_antenna: boolean;
-        network_ports: Array<{
-          __typename?: 'NetworkPort';
-          protocol: Protocol;
-          power_over_ethernet: boolean;
-          port_identifier?: string | null;
-          max_connection_speed: NetworkSpeeds;
-        }>;
-        physical_ports: Array<{
-          __typename?: 'PhysicalPort';
-          port_identifier?: string | null;
-          connector_type: Analog;
-          signal_lines: number;
-          input: boolean;
-        }>;
-        power: {
-          __typename?: 'IElectrical';
-          wattage: number;
-          redundant?: boolean | null;
-          lower_voltage: number;
-          max_wattage: number;
-          input_connector: PowerConnector;
-          output_connector?: PowerConnector | null;
-        };
-      };
-    } | null;
-    speaker_item?: {
-      __typename?: 'SpeakerItem';
-      id?: number | null;
-      built_in_processing: boolean;
-      wireless: boolean;
-      max_spl: number;
-      lower_frequency_response: number;
-      upper_frequency_response: number;
-      mounting_options: Array<string>;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      physical_connectivity: Array<{
-        __typename?: 'PhysicalPort';
-        port_identifier?: string | null;
-        connector_type: Analog;
-        signal_lines: number;
-        input: boolean;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    monitoring_item?: {
-      __typename?: 'MonitoringItem';
-      id?: number | null;
-      distro?: boolean | null;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      physical_connectivity?: Array<{
-        __typename?: 'PhysicalPort';
-        port_identifier?: string | null;
-        connector_type: Analog;
-        signal_lines: number;
-        input: boolean;
-      }> | null;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    dimensions?: {
-      __typename?: 'Dimension';
-      width: number;
-      length: number;
-      height: number;
-      rack_unit?: number | null;
-    } | null;
-  }>;
-};
+export type FindAllItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type AmpFragFragment = {
-  __typename?: 'AmplifierItem';
-  id?: number | null;
-  total_inputs: number;
-  total_outputs: number;
-  midi?: MidiType | null;
-  signal_protocol: Protocol;
-  max_sample_rate: SampleRate;
-  physical_connectivity: Array<{
-    __typename?: 'PhysicalPort';
-    port_identifier?: string | null;
-    connector_type: Analog;
-    signal_lines: number;
-    input: boolean;
-  }>;
-  network_connectivity: Array<{
-    __typename?: 'NetworkPort';
-    protocol: Protocol;
-    power_over_ethernet: boolean;
-    port_identifier?: string | null;
-    max_connection_speed: NetworkSpeeds;
-  }>;
-  power?: {
-    __typename?: 'IElectrical';
-    wattage: number;
-    redundant?: boolean | null;
-    lower_voltage: number;
-    max_wattage: number;
-    input_connector: PowerConnector;
-    output_connector?: PowerConnector | null;
-  } | null;
-};
 
-export type ComputerFragFragment = {
-  __typename?: 'ComputerItem';
-  id?: number | null;
-  cpu_processor: string;
-  ram_size: number;
-  total_storage: number;
-  model_year?: string | null;
-  operating_system?: string | null;
-  dedicated_graphics: boolean;
-  network_connectivity: Array<{
-    __typename?: 'NetworkPort';
-    protocol: Protocol;
-    power_over_ethernet: boolean;
-    port_identifier?: string | null;
-    max_connection_speed: NetworkSpeeds;
-  }>;
-  computer_ports: Array<{
-    __typename?: 'ComputerPort';
-    port_type: ComputerPortType;
-    number_of_ports: number;
-    front_port?: boolean | null;
-    version?: string | null;
-  }>;
-  power: {
-    __typename?: 'IElectrical';
-    wattage: number;
-    redundant?: boolean | null;
-    lower_voltage: number;
-    max_wattage: number;
-    input_connector: PowerConnector;
-    output_connector?: PowerConnector | null;
-  };
-};
+export type FindAllItemsQuery = { __typename?: 'Query', findAllItems: Array<{ __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, network_item?: { __typename?: 'NetworkItem', id?: number | null, network_type: NetworkType, poe_ports: number, max_speed: number, fiber: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, radio_item?: { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } } | null, speaker_item?: { __typename?: 'SpeakerItem', id?: number | null, built_in_processing: boolean, wireless: boolean, max_spl: number, lower_frequency_response: number, upper_frequency_response: number, mounting_options: Array<string>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
 
-export type ConsoleFragFragment = {
-  __typename?: 'ConsoleItem';
-  total_inputs: number;
-  total_outputs: number;
-  total_busses: number;
-  physical_inputs: number;
-  physical_outputs: number;
-  aux_inputs: number;
-  physical_aux_inputs: number;
-  phantom_power_inputs: number;
-  faders: number;
-  motorized: boolean;
-  midi?: MidiType | null;
-  protocol_inputs: number;
-  signal_protocol: Protocol;
-  can_expand: boolean;
-  max_sample_rate: SampleRate;
-  power: {
-    __typename?: 'IElectrical';
-    wattage: number;
-    redundant?: boolean | null;
-    lower_voltage: number;
-    max_wattage: number;
-    input_connector: PowerConnector;
-    output_connector?: PowerConnector | null;
-  };
-};
+export type AmpFragFragment = { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null };
 
-export type DimensionFragFragment = {
-  __typename?: 'Dimension';
-  width: number;
-  length: number;
-  height: number;
-  rack_unit?: number | null;
-};
+export type ComputerFragFragment = { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
-export type GenericFragFragment = {
-  __typename?: 'Item';
-  id?: number | null;
-  createdAt: string;
-  updatedAt: string;
-  cost?: number | null;
-  model: string;
-  weight?: number | null;
-  publicNotes?: string | null;
-  category: Categories;
-  notes?: Array<string> | null;
-  dimensions?: {
-    __typename?: 'Dimension';
-    width: number;
-    length: number;
-    height: number;
-    rack_unit?: number | null;
-  } | null;
-};
+export type ConsoleFragFragment = { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
-export type MicrophoneFragFragment = {
-  __typename?: 'MicrophoneItem';
-  id?: number | null;
-  max_spl: number;
-  phantom?: boolean | null;
-  low_cut?: boolean | null;
-  pad?: boolean | null;
-  diaphragm_size?: number | null;
-  output_impedance?: number | null;
-  frequency_response?: string | null;
-  connector?: Analog | null;
-  microphone_type?: Array<MicrophoneType> | null;
-};
+export type DimensionFragFragment = { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null };
 
-export type MonitoringFragFragment = {
-  __typename?: 'MonitoringItem';
-  id?: number | null;
-  distro?: boolean | null;
-  network_connectivity: Array<{
-    __typename?: 'NetworkPort';
-    protocol: Protocol;
-    power_over_ethernet: boolean;
-    port_identifier?: string | null;
-    max_connection_speed: NetworkSpeeds;
-  }>;
-  physical_connectivity?: Array<{
-    __typename?: 'PhysicalPort';
-    port_identifier?: string | null;
-    connector_type: Analog;
-    signal_lines: number;
-    input: boolean;
-  }> | null;
-  power: {
-    __typename?: 'IElectrical';
-    wattage: number;
-    redundant?: boolean | null;
-    lower_voltage: number;
-    max_wattage: number;
-    input_connector: PowerConnector;
-    output_connector?: PowerConnector | null;
-  };
-};
+export type GenericFragFragment = { __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null };
 
-export type NetworkFragFragment = {
-  __typename?: 'NetworkPort';
-  protocol: Protocol;
-  power_over_ethernet: boolean;
-  port_identifier?: string | null;
-  max_connection_speed: NetworkSpeeds;
-};
+export type MicrophoneFragFragment = { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null };
 
-export type NetworkItemFragFragment = {
-  __typename?: 'NetworkItem';
-  id?: number | null;
-  network_type: NetworkType;
-  poe_ports: number;
-  max_speed: number;
-  fiber: boolean;
-  network_connectivity: Array<{
-    __typename?: 'NetworkPort';
-    protocol: Protocol;
-    power_over_ethernet: boolean;
-    port_identifier?: string | null;
-    max_connection_speed: NetworkSpeeds;
-  }>;
-  power: {
-    __typename?: 'IElectrical';
-    wattage: number;
-    redundant?: boolean | null;
-    lower_voltage: number;
-    max_wattage: number;
-    input_connector: PowerConnector;
-    output_connector?: PowerConnector | null;
-  };
-};
+export type MonitoringFragFragment = { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
-export type PhysicalPortFragFragment = {
-  __typename?: 'PhysicalPort';
-  port_identifier?: string | null;
-  connector_type: Analog;
-  signal_lines: number;
-  input: boolean;
-};
+export type NetworkFragFragment = { __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds };
 
-export type PowerFragFragment = {
-  __typename?: 'IElectrical';
-  wattage: number;
-  redundant?: boolean | null;
-  lower_voltage: number;
-  max_wattage: number;
-  input_connector: PowerConnector;
-  output_connector?: PowerConnector | null;
-};
+export type NetworkItemFragFragment = { __typename?: 'NetworkItem', id?: number | null, network_type: NetworkType, poe_ports: number, max_speed: number, fiber: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
-export type ProcessorFragFragment = {
-  __typename?: 'ProcessingItem';
-  total_inputs: number;
-  total_outputs: number;
-  physical_inputs: number;
-  physical_outputs: number;
-  midi: MidiType;
-  protocol_inputs: number;
-  signal_protocol: Protocol;
-  max_sample_rate: SampleRate;
-  network_connectivity: Array<{
-    __typename?: 'NetworkPort';
-    protocol: Protocol;
-    power_over_ethernet: boolean;
-    port_identifier?: string | null;
-    max_connection_speed: NetworkSpeeds;
-  }>;
-  power: {
-    __typename?: 'IElectrical';
-    wattage: number;
-    redundant?: boolean | null;
-    lower_voltage: number;
-    max_wattage: number;
-    input_connector: PowerConnector;
-    output_connector?: PowerConnector | null;
-  };
-};
+export type PhysicalPortFragFragment = { __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean };
 
-export type RadioFragFragment = {
-  __typename?: 'RFItem';
-  id?: number | null;
-  physical_range: number;
-  lower_frequency_response: number;
-  upper_frequency_response: number;
-  transmitter: { __typename?: 'Transmitter'; connector: TransmitterConnector };
-  reciever: {
-    __typename?: 'Reciever';
-    cascade_antenna: boolean;
-    network_ports: Array<{
-      __typename?: 'NetworkPort';
-      protocol: Protocol;
-      power_over_ethernet: boolean;
-      port_identifier?: string | null;
-      max_connection_speed: NetworkSpeeds;
-    }>;
-    physical_ports: Array<{
-      __typename?: 'PhysicalPort';
-      port_identifier?: string | null;
-      connector_type: Analog;
-      signal_lines: number;
-      input: boolean;
-    }>;
-    power: {
-      __typename?: 'IElectrical';
-      wattage: number;
-      redundant?: boolean | null;
-      lower_voltage: number;
-      max_wattage: number;
-      input_connector: PowerConnector;
-      output_connector?: PowerConnector | null;
-    };
-  };
-};
+export type PowerFragFragment = { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null };
 
-export type SpeakerFragFragment = {
-  __typename?: 'SpeakerItem';
-  id?: number | null;
-  built_in_processing: boolean;
-  wireless: boolean;
-  max_spl: number;
-  lower_frequency_response: number;
-  upper_frequency_response: number;
-  mounting_options: Array<string>;
-  network_connectivity: Array<{
-    __typename?: 'NetworkPort';
-    protocol: Protocol;
-    power_over_ethernet: boolean;
-    port_identifier?: string | null;
-    max_connection_speed: NetworkSpeeds;
-  }>;
-  physical_connectivity: Array<{
-    __typename?: 'PhysicalPort';
-    port_identifier?: string | null;
-    connector_type: Analog;
-    signal_lines: number;
-    input: boolean;
-  }>;
-  power: {
-    __typename?: 'IElectrical';
-    wattage: number;
-    redundant?: boolean | null;
-    lower_voltage: number;
-    max_wattage: number;
-    input_connector: PowerConnector;
-    output_connector?: PowerConnector | null;
-  };
-};
+export type ProcessorFragFragment = { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
+
+export type RadioFragFragment = { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } };
+
+export type SpeakerFragFragment = { __typename?: 'SpeakerItem', id?: number | null, built_in_processing: boolean, wireless: boolean, max_spl: number, lower_frequency_response: number, upper_frequency_response: number, mounting_options: Array<string>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } };
 
 export type FuzzyItemSearchQueryVariables = Exact<{
   model: Scalars['String'];
 }>;
 
-export type FuzzyItemSearchQuery = {
-  __typename?: 'Query';
-  fuzzyItemSearch: Array<{
-    __typename?: 'Item';
-    id?: number | null;
-    createdAt: string;
-    updatedAt: string;
-    cost?: number | null;
-    model: string;
-    weight?: number | null;
-    publicNotes?: string | null;
-    category: Categories;
-    notes?: Array<string> | null;
-    amplifier?: {
-      __typename?: 'AmplifierItem';
-      id?: number | null;
-      total_inputs: number;
-      total_outputs: number;
-      midi?: MidiType | null;
-      signal_protocol: Protocol;
-      max_sample_rate: SampleRate;
-      physical_connectivity: Array<{
-        __typename?: 'PhysicalPort';
-        port_identifier?: string | null;
-        connector_type: Analog;
-        signal_lines: number;
-        input: boolean;
-      }>;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      power?: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      } | null;
-    } | null;
-    console?: {
-      __typename?: 'ConsoleItem';
-      total_inputs: number;
-      total_outputs: number;
-      total_busses: number;
-      physical_inputs: number;
-      physical_outputs: number;
-      aux_inputs: number;
-      physical_aux_inputs: number;
-      phantom_power_inputs: number;
-      faders: number;
-      motorized: boolean;
-      midi?: MidiType | null;
-      protocol_inputs: number;
-      signal_protocol: Protocol;
-      can_expand: boolean;
-      max_sample_rate: SampleRate;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    computer?: {
-      __typename?: 'ComputerItem';
-      id?: number | null;
-      cpu_processor: string;
-      ram_size: number;
-      total_storage: number;
-      model_year?: string | null;
-      operating_system?: string | null;
-      dedicated_graphics: boolean;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      computer_ports: Array<{
-        __typename?: 'ComputerPort';
-        port_type: ComputerPortType;
-        number_of_ports: number;
-        front_port?: boolean | null;
-        version?: string | null;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    processor?: {
-      __typename?: 'ProcessingItem';
-      total_inputs: number;
-      total_outputs: number;
-      physical_inputs: number;
-      physical_outputs: number;
-      midi: MidiType;
-      protocol_inputs: number;
-      signal_protocol: Protocol;
-      max_sample_rate: SampleRate;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    network_item?: {
-      __typename?: 'NetworkItem';
-      id?: number | null;
-      network_type: NetworkType;
-      poe_ports: number;
-      max_speed: number;
-      fiber: boolean;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    microphone?: {
-      __typename?: 'MicrophoneItem';
-      id?: number | null;
-      max_spl: number;
-      phantom?: boolean | null;
-      low_cut?: boolean | null;
-      pad?: boolean | null;
-      diaphragm_size?: number | null;
-      output_impedance?: number | null;
-      frequency_response?: string | null;
-      connector?: Analog | null;
-      microphone_type?: Array<MicrophoneType> | null;
-    } | null;
-    radio_item?: {
-      __typename?: 'RFItem';
-      id?: number | null;
-      physical_range: number;
-      lower_frequency_response: number;
-      upper_frequency_response: number;
-      transmitter: { __typename?: 'Transmitter'; connector: TransmitterConnector };
-      reciever: {
-        __typename?: 'Reciever';
-        cascade_antenna: boolean;
-        network_ports: Array<{
-          __typename?: 'NetworkPort';
-          protocol: Protocol;
-          power_over_ethernet: boolean;
-          port_identifier?: string | null;
-          max_connection_speed: NetworkSpeeds;
-        }>;
-        physical_ports: Array<{
-          __typename?: 'PhysicalPort';
-          port_identifier?: string | null;
-          connector_type: Analog;
-          signal_lines: number;
-          input: boolean;
-        }>;
-        power: {
-          __typename?: 'IElectrical';
-          wattage: number;
-          redundant?: boolean | null;
-          lower_voltage: number;
-          max_wattage: number;
-          input_connector: PowerConnector;
-          output_connector?: PowerConnector | null;
-        };
-      };
-    } | null;
-    speaker_item?: {
-      __typename?: 'SpeakerItem';
-      id?: number | null;
-      built_in_processing: boolean;
-      wireless: boolean;
-      max_spl: number;
-      lower_frequency_response: number;
-      upper_frequency_response: number;
-      mounting_options: Array<string>;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      physical_connectivity: Array<{
-        __typename?: 'PhysicalPort';
-        port_identifier?: string | null;
-        connector_type: Analog;
-        signal_lines: number;
-        input: boolean;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    monitoring_item?: {
-      __typename?: 'MonitoringItem';
-      id?: number | null;
-      distro?: boolean | null;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      physical_connectivity?: Array<{
-        __typename?: 'PhysicalPort';
-        port_identifier?: string | null;
-        connector_type: Analog;
-        signal_lines: number;
-        input: boolean;
-      }> | null;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    dimensions?: {
-      __typename?: 'Dimension';
-      width: number;
-      length: number;
-      height: number;
-      rack_unit?: number | null;
-    } | null;
-  }>;
-};
+
+export type FuzzyItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, amplifier?: { __typename?: 'AmplifierItem', id?: number | null, total_inputs: number, total_outputs: number, midi?: MidiType | null, signal_protocol: Protocol, max_sample_rate: SampleRate, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power?: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } | null } | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, computer?: { __typename?: 'ComputerItem', id?: number | null, cpu_processor: string, ram_size: number, total_storage: number, model_year?: string | null, operating_system?: string | null, dedicated_graphics: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, computer_ports: Array<{ __typename?: 'ComputerPort', port_type: ComputerPortType, number_of_ports: number, front_port?: boolean | null, version?: string | null }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, network_item?: { __typename?: 'NetworkItem', id?: number | null, network_type: NetworkType, poe_ports: number, max_speed: number, fiber: boolean, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, microphone?: { __typename?: 'MicrophoneItem', id?: number | null, max_spl: number, phantom?: boolean | null, low_cut?: boolean | null, pad?: boolean | null, diaphragm_size?: number | null, output_impedance?: number | null, frequency_response?: string | null, connector?: Analog | null, microphone_type?: Array<MicrophoneType> | null } | null, radio_item?: { __typename?: 'RFItem', id?: number | null, physical_range: number, lower_frequency_response: number, upper_frequency_response: number, transmitter: { __typename?: 'Transmitter', connector: TransmitterConnector }, reciever: { __typename?: 'Reciever', cascade_antenna: boolean, network_ports: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_ports: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } } | null, speaker_item?: { __typename?: 'SpeakerItem', id?: number | null, built_in_processing: boolean, wireless: boolean, max_spl: number, lower_frequency_response: number, upper_frequency_response: number, mounting_options: Array<string>, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, monitoring_item?: { __typename?: 'MonitoringItem', id?: number | null, distro?: boolean | null, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, physical_connectivity?: Array<{ __typename?: 'PhysicalPort', port_identifier?: string | null, connector_type: Analog, signal_lines: number, input: boolean }> | null, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
 
 export type GetEquipmentQueryVariables = Exact<{
   model: Scalars['String'];
 }>;
 
-export type GetEquipmentQuery = {
-  __typename?: 'Query';
-  getEquipment?: {
-    __typename?: 'Equipment';
-    createdAt: string;
-    updatedAt: string;
-    category: string;
-    manufacturer: string;
-    model: string;
-    publicNotes?: string | null;
-    cost?: number | null;
-    powerDraw?: number | null;
-    weight?: number | null;
-    depth?: number | null;
-    rackUnit?: number | null;
-    frequencyRange?: string | null;
-  } | null;
-};
+
+export type GetEquipmentQuery = { __typename?: 'Query', getEquipment?: { __typename?: 'Equipment', createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null } | null };
 
 export type GlobalItemSearchQueryVariables = Exact<{
   model: Scalars['String'];
 }>;
 
-export type GlobalItemSearchQuery = {
-  __typename?: 'Query';
-  fuzzyItemSearch: Array<{
-    __typename?: 'Item';
-    id?: number | null;
-    createdAt: string;
-    updatedAt: string;
-    cost?: number | null;
-    model: string;
-    weight?: number | null;
-    publicNotes?: string | null;
-    category: Categories;
-    notes?: Array<string> | null;
-    processor?: {
-      __typename?: 'ProcessingItem';
-      total_inputs: number;
-      total_outputs: number;
-      physical_inputs: number;
-      physical_outputs: number;
-      midi: MidiType;
-      protocol_inputs: number;
-      signal_protocol: Protocol;
-      max_sample_rate: SampleRate;
-      network_connectivity: Array<{
-        __typename?: 'NetworkPort';
-        protocol: Protocol;
-        power_over_ethernet: boolean;
-        port_identifier?: string | null;
-        max_connection_speed: NetworkSpeeds;
-      }>;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    console?: {
-      __typename?: 'ConsoleItem';
-      total_inputs: number;
-      total_outputs: number;
-      total_busses: number;
-      physical_inputs: number;
-      physical_outputs: number;
-      aux_inputs: number;
-      physical_aux_inputs: number;
-      phantom_power_inputs: number;
-      faders: number;
-      motorized: boolean;
-      midi?: MidiType | null;
-      protocol_inputs: number;
-      signal_protocol: Protocol;
-      can_expand: boolean;
-      max_sample_rate: SampleRate;
-      power: {
-        __typename?: 'IElectrical';
-        wattage: number;
-        redundant?: boolean | null;
-        lower_voltage: number;
-        max_wattage: number;
-        input_connector: PowerConnector;
-        output_connector?: PowerConnector | null;
-      };
-    } | null;
-    dimensions?: {
-      __typename?: 'Dimension';
-      width: number;
-      length: number;
-      height: number;
-      rack_unit?: number | null;
-    } | null;
-  }>;
-};
+
+export type GlobalItemSearchQuery = { __typename?: 'Query', fuzzyItemSearch: Array<{ __typename?: 'Item', id?: number | null, createdAt: string, updatedAt: string, cost?: number | null, model: string, weight?: number | null, publicNotes?: string | null, category: Categories, notes?: Array<string> | null, processor?: { __typename?: 'ProcessingItem', total_inputs: number, total_outputs: number, physical_inputs: number, physical_outputs: number, midi: MidiType, protocol_inputs: number, signal_protocol: Protocol, max_sample_rate: SampleRate, network_connectivity: Array<{ __typename?: 'NetworkPort', protocol: Protocol, power_over_ethernet: boolean, port_identifier?: string | null, max_connection_speed: NetworkSpeeds }>, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, console?: { __typename?: 'ConsoleItem', total_inputs: number, total_outputs: number, total_busses: number, physical_inputs: number, physical_outputs: number, aux_inputs: number, physical_aux_inputs: number, phantom_power_inputs: number, faders: number, motorized: boolean, midi?: MidiType | null, protocol_inputs: number, signal_protocol: Protocol, can_expand: boolean, max_sample_rate: SampleRate, power: { __typename?: 'IElectrical', wattage: number, redundant?: boolean | null, lower_voltage: number, max_wattage: number, input_connector: PowerConnector, output_connector?: PowerConnector | null } } | null, dimensions?: { __typename?: 'Dimension', width: number, length: number, height: number, rack_unit?: number | null } | null }> };
 
 export type LoginUserMutationVariables = Exact<{
   inputOptions: UserInput;
 }>;
 
-export type LoginUserMutation = {
-  __typename?: 'Mutation';
-  loginUser: {
-    __typename?: 'UserResponse';
-    accessToken: string;
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    user?: { __typename?: 'User'; createdAt: string; updatedAt: string; id: number; email: string } | null;
-  };
-};
+
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'UserResponse', accessToken: string, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', createdAt: string, updatedAt: string, id: number, email: string } | null } };
 
 export type UpdateEquipmentMutationVariables = Exact<{
   updateOptions: EquipmentInput;
   updateEquipmentId: Scalars['Int'];
 }>;
 
-export type UpdateEquipmentMutation = {
-  __typename?: 'Mutation';
-  updateEquipment?: {
-    __typename?: 'EquipmentResponse';
-    errors?: Array<{ __typename?: 'FieldError'; field: string; message: string }> | null;
-    equipment?: {
-      __typename?: 'Equipment';
-      id: number;
-      createdAt: string;
-      updatedAt: string;
-      category: string;
-      manufacturer: string;
-      model: string;
-      publicNotes?: string | null;
-      cost?: number | null;
-      powerDraw?: number | null;
-      weight?: number | null;
-      depth?: number | null;
-      rackUnit?: number | null;
-      frequencyRange?: string | null;
-    } | null;
-    equipmentItems?: Array<{
-      __typename?: 'Equipment';
-      id: number;
-      createdAt: string;
-      updatedAt: string;
-      category: string;
-      manufacturer: string;
-      model: string;
-      publicNotes?: string | null;
-      cost?: number | null;
-      powerDraw?: number | null;
-      weight?: number | null;
-      depth?: number | null;
-      rackUnit?: number | null;
-      frequencyRange?: string | null;
-    }> | null;
-  } | null;
-};
 
-export type ByeQueryVariables = Exact<{ [key: string]: never }>;
+export type UpdateEquipmentMutation = { __typename?: 'Mutation', updateEquipment?: { __typename?: 'EquipmentResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, equipment?: { __typename?: 'Equipment', id: number, createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null } | null, equipmentItems?: Array<{ __typename?: 'Equipment', id: number, createdAt: string, updatedAt: string, category: string, manufacturer: string, model: string, publicNotes?: string | null, cost?: number | null, powerDraw?: number | null, weight?: number | null, depth?: number | null, rackUnit?: number | null, frequencyRange?: string | null }> | null } | null };
 
-export type ByeQuery = { __typename?: 'Query'; bye: string };
+export type ByeQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQuery = {
-  __typename?: 'Query';
-  me?: { __typename?: 'User'; id: number; createdAt: string; updatedAt: string; email: string } | null;
-};
+export type ByeQuery = { __typename?: 'Query', bye: string };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, createdAt: string, updatedAt: string, email: string } | null };
 
 export const PhysicalPortFragFragmentDoc = gql`
-  fragment PhysicalPortFrag on PhysicalPort {
-    port_identifier
-    connector_type
-    signal_lines
-    input
-  }
-`;
+    fragment PhysicalPortFrag on PhysicalPort {
+  port_identifier
+  connector_type
+  signal_lines
+  input
+}
+    `;
 export const NetworkFragFragmentDoc = gql`
-  fragment NetworkFrag on NetworkPort {
-    protocol
-    power_over_ethernet
-    port_identifier
-    max_connection_speed
-  }
-`;
+    fragment NetworkFrag on NetworkPort {
+  protocol
+  power_over_ethernet
+  port_identifier
+  max_connection_speed
+}
+    `;
 export const PowerFragFragmentDoc = gql`
-  fragment PowerFrag on IElectrical {
-    wattage
-    redundant
-    lower_voltage
-    max_wattage
-    input_connector
-    output_connector
-  }
-`;
+    fragment PowerFrag on IElectrical {
+  wattage
+  redundant
+  lower_voltage
+  max_wattage
+  input_connector
+  output_connector
+}
+    `;
 export const AmpFragFragmentDoc = gql`
-  fragment AmpFrag on AmplifierItem {
-    id
-    total_inputs
-    total_outputs
-    midi
-    physical_connectivity {
-      ...PhysicalPortFrag
-    }
-    network_connectivity {
-      ...NetworkFrag
-    }
-    signal_protocol
-    max_sample_rate
-    power {
-      ...PowerFrag
-    }
+    fragment AmpFrag on AmplifierItem {
+  id
+  total_inputs
+  total_outputs
+  midi
+  physical_connectivity {
+    ...PhysicalPortFrag
   }
-  ${PhysicalPortFragFragmentDoc}
-  ${NetworkFragFragmentDoc}
-  ${PowerFragFragmentDoc}
-`;
+  network_connectivity {
+    ...NetworkFrag
+  }
+  signal_protocol
+  max_sample_rate
+  power {
+    ...PowerFrag
+  }
+}
+    ${PhysicalPortFragFragmentDoc}
+${NetworkFragFragmentDoc}
+${PowerFragFragmentDoc}`;
 export const ComputerFragFragmentDoc = gql`
-  fragment ComputerFrag on ComputerItem {
-    id
-    cpu_processor
-    ram_size
-    total_storage
-    model_year
-    operating_system
-    dedicated_graphics
-    network_connectivity {
-      ...NetworkFrag
-    }
-    computer_ports {
-      port_type
-      number_of_ports
-      front_port
-      version
-    }
-    power {
-      ...PowerFrag
-    }
+    fragment ComputerFrag on ComputerItem {
+  id
+  cpu_processor
+  ram_size
+  total_storage
+  model_year
+  operating_system
+  dedicated_graphics
+  network_connectivity {
+    ...NetworkFrag
   }
-  ${NetworkFragFragmentDoc}
-  ${PowerFragFragmentDoc}
-`;
+  computer_ports {
+    port_type
+    number_of_ports
+    front_port
+    version
+  }
+  power {
+    ...PowerFrag
+  }
+}
+    ${NetworkFragFragmentDoc}
+${PowerFragFragmentDoc}`;
 export const ConsoleFragFragmentDoc = gql`
-  fragment ConsoleFrag on ConsoleItem {
-    total_inputs
-    total_outputs
-    total_busses
-    physical_inputs
-    physical_outputs
-    aux_inputs
-    physical_aux_inputs
-    phantom_power_inputs
-    faders
-    motorized
-    midi
-    protocol_inputs
-    signal_protocol
-    can_expand
-    max_sample_rate
-    power {
-      ...PowerFrag
-    }
+    fragment ConsoleFrag on ConsoleItem {
+  total_inputs
+  total_outputs
+  total_busses
+  physical_inputs
+  physical_outputs
+  aux_inputs
+  physical_aux_inputs
+  phantom_power_inputs
+  faders
+  motorized
+  midi
+  protocol_inputs
+  signal_protocol
+  can_expand
+  max_sample_rate
+  power {
+    ...PowerFrag
   }
-  ${PowerFragFragmentDoc}
-`;
+}
+    ${PowerFragFragmentDoc}`;
 export const DimensionFragFragmentDoc = gql`
-  fragment DimensionFrag on Dimension {
-    width
-    length
-    height
-    rack_unit
-  }
-`;
+    fragment DimensionFrag on Dimension {
+  width
+  length
+  height
+  rack_unit
+}
+    `;
 export const GenericFragFragmentDoc = gql`
-  fragment GenericFrag on Item {
-    id
-    createdAt
-    updatedAt
-    cost
-    model
-    weight
-    publicNotes
-    category
-    notes
-    dimensions {
-      ...DimensionFrag
-    }
+    fragment GenericFrag on Item {
+  id
+  createdAt
+  updatedAt
+  cost
+  model
+  weight
+  publicNotes
+  category
+  notes
+  dimensions {
+    ...DimensionFrag
   }
-  ${DimensionFragFragmentDoc}
-`;
+}
+    ${DimensionFragFragmentDoc}`;
 export const MicrophoneFragFragmentDoc = gql`
-  fragment MicrophoneFrag on MicrophoneItem {
-    id
-    max_spl
-    phantom
-    low_cut
-    pad
-    diaphragm_size
-    output_impedance
-    frequency_response
-    connector
-    microphone_type
-  }
-`;
+    fragment MicrophoneFrag on MicrophoneItem {
+  id
+  max_spl
+  phantom
+  low_cut
+  pad
+  diaphragm_size
+  output_impedance
+  frequency_response
+  connector
+  microphone_type
+}
+    `;
 export const MonitoringFragFragmentDoc = gql`
-  fragment MonitoringFrag on MonitoringItem {
-    id
-    distro
-    network_connectivity {
-      ...NetworkFrag
-    }
-    physical_connectivity {
-      ...PhysicalPortFrag
-    }
-    power {
-      ...PowerFrag
-    }
+    fragment MonitoringFrag on MonitoringItem {
+  id
+  distro
+  network_connectivity {
+    ...NetworkFrag
   }
-  ${NetworkFragFragmentDoc}
-  ${PhysicalPortFragFragmentDoc}
-  ${PowerFragFragmentDoc}
-`;
+  physical_connectivity {
+    ...PhysicalPortFrag
+  }
+  power {
+    ...PowerFrag
+  }
+}
+    ${NetworkFragFragmentDoc}
+${PhysicalPortFragFragmentDoc}
+${PowerFragFragmentDoc}`;
 export const NetworkItemFragFragmentDoc = gql`
-  fragment NetworkItemFrag on NetworkItem {
-    id
-    network_type
-    poe_ports
-    max_speed
-    fiber
-    network_connectivity {
-      ...NetworkFrag
-    }
-    power {
-      ...PowerFrag
-    }
+    fragment NetworkItemFrag on NetworkItem {
+  id
+  network_type
+  poe_ports
+  max_speed
+  fiber
+  network_connectivity {
+    ...NetworkFrag
   }
-  ${NetworkFragFragmentDoc}
-  ${PowerFragFragmentDoc}
-`;
+  power {
+    ...PowerFrag
+  }
+}
+    ${NetworkFragFragmentDoc}
+${PowerFragFragmentDoc}`;
 export const ProcessorFragFragmentDoc = gql`
-  fragment ProcessorFrag on ProcessingItem {
-    total_inputs
-    total_outputs
-    physical_inputs
-    physical_outputs
-    midi
-    protocol_inputs
-    signal_protocol
-    max_sample_rate
-    network_connectivity {
-      ...NetworkFrag
-    }
-    power {
-      ...PowerFrag
-    }
+    fragment ProcessorFrag on ProcessingItem {
+  total_inputs
+  total_outputs
+  physical_inputs
+  physical_outputs
+  midi
+  protocol_inputs
+  signal_protocol
+  max_sample_rate
+  network_connectivity {
+    ...NetworkFrag
   }
-  ${NetworkFragFragmentDoc}
-  ${PowerFragFragmentDoc}
-`;
+  power {
+    ...PowerFrag
+  }
+}
+    ${NetworkFragFragmentDoc}
+${PowerFragFragmentDoc}`;
 export const RadioFragFragmentDoc = gql`
-  fragment RadioFrag on RFItem {
-    id
-    physical_range
-    lower_frequency_response
-    upper_frequency_response
-    transmitter {
-      connector
-    }
-    reciever {
-      network_ports {
-        ...NetworkFrag
-      }
-      physical_ports {
-        ...PhysicalPortFrag
-      }
-      cascade_antenna
-      power {
-        ...PowerFrag
-      }
-    }
+    fragment RadioFrag on RFItem {
+  id
+  physical_range
+  lower_frequency_response
+  upper_frequency_response
+  transmitter {
+    connector
   }
-  ${NetworkFragFragmentDoc}
-  ${PhysicalPortFragFragmentDoc}
-  ${PowerFragFragmentDoc}
-`;
-export const SpeakerFragFragmentDoc = gql`
-  fragment SpeakerFrag on SpeakerItem {
-    id
-    built_in_processing
-    wireless
-    max_spl
-    lower_frequency_response
-    upper_frequency_response
-    mounting_options
-    network_connectivity {
+  reciever {
+    network_ports {
       ...NetworkFrag
     }
-    physical_connectivity {
+    physical_ports {
       ...PhysicalPortFrag
     }
+    cascade_antenna
     power {
       ...PowerFrag
     }
   }
-  ${NetworkFragFragmentDoc}
-  ${PhysicalPortFragFragmentDoc}
-  ${PowerFragFragmentDoc}
-`;
+}
+    ${NetworkFragFragmentDoc}
+${PhysicalPortFragFragmentDoc}
+${PowerFragFragmentDoc}`;
+export const SpeakerFragFragmentDoc = gql`
+    fragment SpeakerFrag on SpeakerItem {
+  id
+  built_in_processing
+  wireless
+  max_spl
+  lower_frequency_response
+  upper_frequency_response
+  mounting_options
+  network_connectivity {
+    ...NetworkFrag
+  }
+  physical_connectivity {
+    ...PhysicalPortFrag
+  }
+  power {
+    ...PowerFrag
+  }
+}
+    ${NetworkFragFragmentDoc}
+${PhysicalPortFragFragmentDoc}
+${PowerFragFragmentDoc}`;
 export const CreateEquipmentDoc = gql`
-  mutation CreateEquipment($inputOptions: EquipmentInput!) {
-    createEquipment(inputOptions: $inputOptions) {
-      equipment {
-        createdAt
-        updatedAt
-        category
-        manufacturer
-        model
-        publicNotes
-        cost
-        powerDraw
-        weight
-        depth
-        rackUnit
-        frequencyRange
-      }
-      errors {
-        field
-        message
-      }
-      equipmentItems {
-        id
-        createdAt
-        updatedAt
-        category
-        manufacturer
-        model
-        publicNotes
-        cost
-        powerDraw
-        weight
-        depth
-        rackUnit
-        frequencyRange
-      }
-    }
-  }
-`;
-export const CreateAmplifierItemDoc = gql`
-  mutation CreateAmplifierItem($itemInput: ItemInput!) {
-    createItem(itemInput: $itemInput) {
-      errors {
-        field
-        message
-      }
-      item {
-        ...GenericFrag
-        amplifier {
-          ...AmpFrag
-        }
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${AmpFragFragmentDoc}
-`;
-export const CreateComputerItemDoc = gql`
-  mutation CreateComputerItem($itemInput: ItemInput!) {
-    createItem(itemInput: $itemInput) {
-      errors {
-        field
-        message
-      }
-      item {
-        ...GenericFrag
-        computer {
-          ...ComputerFrag
-        }
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${ComputerFragFragmentDoc}
-`;
-export const CreateConsoleItemDoc = gql`
-  mutation CreateConsoleItem($itemInput: ItemInput!) {
-    createItem(itemInput: $itemInput) {
-      errors {
-        field
-        message
-      }
-      item {
-        ...GenericFrag
-        console {
-          ...ConsoleFrag
-        }
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${ConsoleFragFragmentDoc}
-`;
-export const CreateMicrophoneItemDoc = gql`
-  mutation CreateMicrophoneItem($itemInput: ItemInput!) {
-    createItem(itemInput: $itemInput) {
-      errors {
-        field
-        message
-      }
-      item {
-        ...GenericFrag
-        microphone {
-          ...MicrophoneFrag
-        }
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${MicrophoneFragFragmentDoc}
-`;
-export const CreateMonitoringItemDoc = gql`
-  mutation CreateMonitoringItem($itemInput: ItemInput!) {
-    createItem(itemInput: $itemInput) {
-      errors {
-        field
-        message
-      }
-      item {
-        ...GenericFrag
-        monitoring_item {
-          ...MonitoringFrag
-        }
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${MonitoringFragFragmentDoc}
-`;
-export const CreateProcessingItemDoc = gql`
-  mutation CreateProcessingItem($itemInput: ItemInput!) {
-    createItem(itemInput: $itemInput) {
-      errors {
-        field
-        message
-      }
-      item {
-        ...GenericFrag
-        processor {
-          ...ProcessorFrag
-        }
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${ProcessorFragFragmentDoc}
-`;
-export const EquipmentModelSearchDoc = gql`
-  query EquipmentModelSearch($fullSearch: String!) {
-    fullTextSearch(fullSearch: $fullSearch) {
+    mutation CreateEquipment($inputOptions: EquipmentInput!) {
+  createEquipment(inputOptions: $inputOptions) {
+    equipment {
       createdAt
       updatedAt
       category
@@ -3079,462 +1596,752 @@ export const EquipmentModelSearchDoc = gql`
       rackUnit
       frequencyRange
     }
-  }
-`;
-export const FindAllItemsDoc = gql`
-  query FindAllItems {
-    findAllItems {
-      ...GenericFrag
-      amplifier {
-        ...AmpFrag
-      }
-      console {
-        ...ConsoleFrag
-      }
-      computer {
-        ...ComputerFrag
-      }
-      processor {
-        ...ProcessorFrag
-      }
-      network_item {
-        ...NetworkItemFrag
-      }
-      microphone {
-        ...MicrophoneFrag
-      }
-      radio_item {
-        ...RadioFrag
-      }
-      speaker_item {
-        ...SpeakerFrag
-      }
-      monitoring_item {
-        ...MonitoringFrag
-      }
+    errors {
+      field
+      message
     }
-  }
-  ${GenericFragFragmentDoc}
-  ${AmpFragFragmentDoc}
-  ${ConsoleFragFragmentDoc}
-  ${ComputerFragFragmentDoc}
-  ${ProcessorFragFragmentDoc}
-  ${NetworkItemFragFragmentDoc}
-  ${MicrophoneFragFragmentDoc}
-  ${RadioFragFragmentDoc}
-  ${SpeakerFragFragmentDoc}
-  ${MonitoringFragFragmentDoc}
-`;
-export const FuzzyItemSearchDoc = gql`
-  query FuzzyItemSearch($model: String!) {
-    fuzzyItemSearch(model: $model) {
-      ...GenericFrag
-      amplifier {
-        ...AmpFrag
-      }
-      console {
-        ...ConsoleFrag
-      }
-      computer {
-        ...ComputerFrag
-      }
-      processor {
-        ...ProcessorFrag
-      }
-      network_item {
-        ...NetworkItemFrag
-      }
-      microphone {
-        ...MicrophoneFrag
-      }
-      radio_item {
-        ...RadioFrag
-      }
-      speaker_item {
-        ...SpeakerFrag
-      }
-      monitoring_item {
-        ...MonitoringFrag
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${AmpFragFragmentDoc}
-  ${ConsoleFragFragmentDoc}
-  ${ComputerFragFragmentDoc}
-  ${ProcessorFragFragmentDoc}
-  ${NetworkItemFragFragmentDoc}
-  ${MicrophoneFragFragmentDoc}
-  ${RadioFragFragmentDoc}
-  ${SpeakerFragFragmentDoc}
-  ${MonitoringFragFragmentDoc}
-`;
-export const GetEquipmentDoc = gql`
-  query GetEquipment($model: String!) {
-    getEquipment(model: $model) {
-      createdAt
-      updatedAt
-      category
-      manufacturer
-      model
-      publicNotes
-      cost
-      powerDraw
-      weight
-      depth
-      rackUnit
-      frequencyRange
-    }
-  }
-`;
-export const GlobalItemSearchDoc = gql`
-  query GlobalItemSearch($model: String!) {
-    fuzzyItemSearch(model: $model) {
-      ...GenericFrag
-      processor {
-        ...ProcessorFrag
-      }
-      console {
-        ...ConsoleFrag
-      }
-    }
-  }
-  ${GenericFragFragmentDoc}
-  ${ProcessorFragFragmentDoc}
-  ${ConsoleFragFragmentDoc}
-`;
-export const LoginUserDoc = gql`
-  mutation LoginUser($inputOptions: UserInput!) {
-    loginUser(inputOptions: $inputOptions) {
-      errors {
-        field
-        message
-      }
-      user {
-        createdAt
-        updatedAt
-        id
-        email
-      }
-      accessToken
-    }
-  }
-`;
-export const UpdateEquipmentDoc = gql`
-  mutation UpdateEquipment($updateOptions: EquipmentInput!, $updateEquipmentId: Int!) {
-    updateEquipment(updateOptions: $updateOptions, id: $updateEquipmentId) {
-      errors {
-        field
-        message
-      }
-      equipment {
-        id
-        createdAt
-        updatedAt
-        category
-        manufacturer
-        model
-        publicNotes
-        cost
-        powerDraw
-        weight
-        depth
-        rackUnit
-        frequencyRange
-      }
-      equipmentItems {
-        id
-        createdAt
-        updatedAt
-        category
-        manufacturer
-        model
-        publicNotes
-        cost
-        powerDraw
-        weight
-        depth
-        rackUnit
-        frequencyRange
-      }
-    }
-  }
-`;
-export const ByeDoc = gql`
-  query Bye {
-    bye
-  }
-`;
-export const MeDoc = gql`
-  query Me {
-    me: me {
+    equipmentItems {
       id
       createdAt
       updatedAt
+      category
+      manufacturer
+      model
+      publicNotes
+      cost
+      powerDraw
+      weight
+      depth
+      rackUnit
+      frequencyRange
+    }
+  }
+}
+    `;
+export const CreateAmplifierItemDoc = gql`
+    mutation CreateAmplifierItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      amplifier {
+        ...AmpFrag
+      }
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${AmpFragFragmentDoc}`;
+export const CreateComputerItemDoc = gql`
+    mutation CreateComputerItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      computer {
+        ...ComputerFrag
+      }
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${ComputerFragFragmentDoc}`;
+export const CreateConsoleItemDoc = gql`
+    mutation CreateConsoleItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      console {
+        ...ConsoleFrag
+      }
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${ConsoleFragFragmentDoc}`;
+export const CreateMicrophoneItemDoc = gql`
+    mutation CreateMicrophoneItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      microphone {
+        ...MicrophoneFrag
+      }
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${MicrophoneFragFragmentDoc}`;
+export const CreateMonitoringItemDoc = gql`
+    mutation CreateMonitoringItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      monitoring_item {
+        ...MonitoringFrag
+      }
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${MonitoringFragFragmentDoc}`;
+export const CreateProcessingItemDoc = gql`
+    mutation CreateProcessingItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      processor {
+        ...ProcessorFrag
+      }
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${ProcessorFragFragmentDoc}`;
+export const EquipmentModelSearchDoc = gql`
+    query EquipmentModelSearch($fullSearch: String!) {
+  fullTextSearch(fullSearch: $fullSearch) {
+    createdAt
+    updatedAt
+    category
+    manufacturer
+    model
+    publicNotes
+    cost
+    powerDraw
+    weight
+    depth
+    rackUnit
+    frequencyRange
+  }
+}
+    `;
+export const FindAllItemsDoc = gql`
+    query FindAllItems {
+  findAllItems {
+    ...GenericFrag
+    amplifier {
+      ...AmpFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+    computer {
+      ...ComputerFrag
+    }
+    processor {
+      ...ProcessorFrag
+    }
+    network_item {
+      ...NetworkItemFrag
+    }
+    microphone {
+      ...MicrophoneFrag
+    }
+    radio_item {
+      ...RadioFrag
+    }
+    speaker_item {
+      ...SpeakerFrag
+    }
+    monitoring_item {
+      ...MonitoringFrag
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${AmpFragFragmentDoc}
+${ConsoleFragFragmentDoc}
+${ComputerFragFragmentDoc}
+${ProcessorFragFragmentDoc}
+${NetworkItemFragFragmentDoc}
+${MicrophoneFragFragmentDoc}
+${RadioFragFragmentDoc}
+${SpeakerFragFragmentDoc}
+${MonitoringFragFragmentDoc}`;
+export const FuzzyItemSearchDoc = gql`
+    query FuzzyItemSearch($model: String!) {
+  fuzzyItemSearch(model: $model) {
+    ...GenericFrag
+    amplifier {
+      ...AmpFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+    computer {
+      ...ComputerFrag
+    }
+    processor {
+      ...ProcessorFrag
+    }
+    network_item {
+      ...NetworkItemFrag
+    }
+    microphone {
+      ...MicrophoneFrag
+    }
+    radio_item {
+      ...RadioFrag
+    }
+    speaker_item {
+      ...SpeakerFrag
+    }
+    monitoring_item {
+      ...MonitoringFrag
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${AmpFragFragmentDoc}
+${ConsoleFragFragmentDoc}
+${ComputerFragFragmentDoc}
+${ProcessorFragFragmentDoc}
+${NetworkItemFragFragmentDoc}
+${MicrophoneFragFragmentDoc}
+${RadioFragFragmentDoc}
+${SpeakerFragFragmentDoc}
+${MonitoringFragFragmentDoc}`;
+export const GetEquipmentDoc = gql`
+    query GetEquipment($model: String!) {
+  getEquipment(model: $model) {
+    createdAt
+    updatedAt
+    category
+    manufacturer
+    model
+    publicNotes
+    cost
+    powerDraw
+    weight
+    depth
+    rackUnit
+    frequencyRange
+  }
+}
+    `;
+export const GlobalItemSearchDoc = gql`
+    query GlobalItemSearch($model: String!) {
+  fuzzyItemSearch(model: $model) {
+    ...GenericFrag
+    processor {
+      ...ProcessorFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+  }
+}
+    ${GenericFragFragmentDoc}
+${ProcessorFragFragmentDoc}
+${ConsoleFragFragmentDoc}`;
+export const LoginUserDoc = gql`
+    mutation LoginUser($inputOptions: UserInput!) {
+  loginUser(inputOptions: $inputOptions) {
+    errors {
+      field
+      message
+    }
+    user {
+      createdAt
+      updatedAt
+      id
       email
     }
+    accessToken
   }
-`;
-export const CreateEquipment = (options: Omit<MutationOptions<any, CreateEquipmentMutationVariables>, 'mutation'>) => {
-  const m = client.mutate<CreateEquipmentMutation, CreateEquipmentMutationVariables>({
-    mutation: CreateEquipmentDoc,
-    ...options,
-  });
-  return m;
-};
+}
+    `;
+export const UpdateEquipmentDoc = gql`
+    mutation UpdateEquipment($updateOptions: EquipmentInput!, $updateEquipmentId: Int!) {
+  updateEquipment(updateOptions: $updateOptions, id: $updateEquipmentId) {
+    errors {
+      field
+      message
+    }
+    equipment {
+      id
+      createdAt
+      updatedAt
+      category
+      manufacturer
+      model
+      publicNotes
+      cost
+      powerDraw
+      weight
+      depth
+      rackUnit
+      frequencyRange
+    }
+    equipmentItems {
+      id
+      createdAt
+      updatedAt
+      category
+      manufacturer
+      model
+      publicNotes
+      cost
+      powerDraw
+      weight
+      depth
+      rackUnit
+      frequencyRange
+    }
+  }
+}
+    `;
+export const ByeDoc = gql`
+    query Bye {
+  bye
+}
+    `;
+export const MeDoc = gql`
+    query Me {
+  me: me {
+    id
+    createdAt
+    updatedAt
+    email
+  }
+}
+    `;
+export const CreateEquipment = (
+            options: Omit<
+              MutationOptions<any, CreateEquipmentMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateEquipmentMutation, CreateEquipmentMutationVariables>({
+              mutation: CreateEquipmentDoc,
+              ...options,
+            });
+            return m;
+          }
 export const CreateAmplifierItem = (
-  options: Omit<MutationOptions<any, CreateAmplifierItemMutationVariables>, 'mutation'>
-) => {
-  const m = client.mutate<CreateAmplifierItemMutation, CreateAmplifierItemMutationVariables>({
-    mutation: CreateAmplifierItemDoc,
-    ...options,
-  });
-  return m;
-};
+            options: Omit<
+              MutationOptions<any, CreateAmplifierItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateAmplifierItemMutation, CreateAmplifierItemMutationVariables>({
+              mutation: CreateAmplifierItemDoc,
+              ...options,
+            });
+            return m;
+          }
 export const CreateComputerItem = (
-  options: Omit<MutationOptions<any, CreateComputerItemMutationVariables>, 'mutation'>
-) => {
-  const m = client.mutate<CreateComputerItemMutation, CreateComputerItemMutationVariables>({
-    mutation: CreateComputerItemDoc,
-    ...options,
-  });
-  return m;
-};
+            options: Omit<
+              MutationOptions<any, CreateComputerItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateComputerItemMutation, CreateComputerItemMutationVariables>({
+              mutation: CreateComputerItemDoc,
+              ...options,
+            });
+            return m;
+          }
 export const CreateConsoleItem = (
-  options: Omit<MutationOptions<any, CreateConsoleItemMutationVariables>, 'mutation'>
-) => {
-  const m = client.mutate<CreateConsoleItemMutation, CreateConsoleItemMutationVariables>({
-    mutation: CreateConsoleItemDoc,
-    ...options,
-  });
-  return m;
-};
+            options: Omit<
+              MutationOptions<any, CreateConsoleItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateConsoleItemMutation, CreateConsoleItemMutationVariables>({
+              mutation: CreateConsoleItemDoc,
+              ...options,
+            });
+            return m;
+          }
 export const CreateMicrophoneItem = (
-  options: Omit<MutationOptions<any, CreateMicrophoneItemMutationVariables>, 'mutation'>
-) => {
-  const m = client.mutate<CreateMicrophoneItemMutation, CreateMicrophoneItemMutationVariables>({
-    mutation: CreateMicrophoneItemDoc,
-    ...options,
-  });
-  return m;
-};
+            options: Omit<
+              MutationOptions<any, CreateMicrophoneItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateMicrophoneItemMutation, CreateMicrophoneItemMutationVariables>({
+              mutation: CreateMicrophoneItemDoc,
+              ...options,
+            });
+            return m;
+          }
 export const CreateMonitoringItem = (
-  options: Omit<MutationOptions<any, CreateMonitoringItemMutationVariables>, 'mutation'>
-) => {
-  const m = client.mutate<CreateMonitoringItemMutation, CreateMonitoringItemMutationVariables>({
-    mutation: CreateMonitoringItemDoc,
-    ...options,
-  });
-  return m;
-};
+            options: Omit<
+              MutationOptions<any, CreateMonitoringItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateMonitoringItemMutation, CreateMonitoringItemMutationVariables>({
+              mutation: CreateMonitoringItemDoc,
+              ...options,
+            });
+            return m;
+          }
 export const CreateProcessingItem = (
-  options: Omit<MutationOptions<any, CreateProcessingItemMutationVariables>, 'mutation'>
-) => {
-  const m = client.mutate<CreateProcessingItemMutation, CreateProcessingItemMutationVariables>({
-    mutation: CreateProcessingItemDoc,
-    ...options,
-  });
-  return m;
-};
+            options: Omit<
+              MutationOptions<any, CreateProcessingItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateProcessingItemMutation, CreateProcessingItemMutationVariables>({
+              mutation: CreateProcessingItemDoc,
+              ...options,
+            });
+            return m;
+          }
 export const EquipmentModelSearch = (
-  options: Omit<WatchQueryOptions<EquipmentModelSearchQueryVariables>, 'query'>
-): Readable<
-  ApolloQueryResult<EquipmentModelSearchQuery> & {
-    query: ObservableQuery<EquipmentModelSearchQuery, EquipmentModelSearchQueryVariables>;
-  }
-> => {
-  const q = client.watchQuery({
-    query: EquipmentModelSearchDoc,
-    ...options,
-  });
-  var result = readable<
-    ApolloQueryResult<EquipmentModelSearchQuery> & {
-      query: ObservableQuery<EquipmentModelSearchQuery, EquipmentModelSearchQueryVariables>;
-    }
-  >({ data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q }, (set) => {
-    q.subscribe((v: any) => {
-      set({ ...v, query: q });
-    });
-  });
-  return result;
-};
-
-export const AsyncEquipmentModelSearch = (options: Omit<QueryOptions<EquipmentModelSearchQueryVariables>, 'query'>) => {
-  return client.query<EquipmentModelSearchQuery>({ query: EquipmentModelSearchDoc, ...options });
-};
-
+            options: Omit<
+              WatchQueryOptions<EquipmentModelSearchQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<EquipmentModelSearchQuery> & {
+              query: ObservableQuery<
+                EquipmentModelSearchQuery,
+                EquipmentModelSearchQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: EquipmentModelSearchDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<EquipmentModelSearchQuery> & {
+                query: ObservableQuery<
+                  EquipmentModelSearchQuery,
+                  EquipmentModelSearchQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncEquipmentModelSearch = (
+                options: Omit<
+                  QueryOptions<EquipmentModelSearchQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<EquipmentModelSearchQuery>({query: EquipmentModelSearchDoc, ...options})
+              }
+            
 export const FindAllItems = (
-  options: Omit<WatchQueryOptions<FindAllItemsQueryVariables>, 'query'>
-): Readable<
-  ApolloQueryResult<FindAllItemsQuery> & {
-    query: ObservableQuery<FindAllItemsQuery, FindAllItemsQueryVariables>;
-  }
-> => {
-  const q = client.watchQuery({
-    query: FindAllItemsDoc,
-    ...options,
-  });
-  var result = readable<
-    ApolloQueryResult<FindAllItemsQuery> & {
-      query: ObservableQuery<FindAllItemsQuery, FindAllItemsQueryVariables>;
-    }
-  >({ data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q }, (set) => {
-    q.subscribe((v: any) => {
-      set({ ...v, query: q });
-    });
-  });
-  return result;
-};
-
-export const AsyncFindAllItems = (options: Omit<QueryOptions<FindAllItemsQueryVariables>, 'query'>) => {
-  return client.query<FindAllItemsQuery>({ query: FindAllItemsDoc, ...options });
-};
-
+            options: Omit<
+              WatchQueryOptions<FindAllItemsQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<FindAllItemsQuery> & {
+              query: ObservableQuery<
+                FindAllItemsQuery,
+                FindAllItemsQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: FindAllItemsDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<FindAllItemsQuery> & {
+                query: ObservableQuery<
+                  FindAllItemsQuery,
+                  FindAllItemsQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncFindAllItems = (
+                options: Omit<
+                  QueryOptions<FindAllItemsQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<FindAllItemsQuery>({query: FindAllItemsDoc, ...options})
+              }
+            
 export const FuzzyItemSearch = (
-  options: Omit<WatchQueryOptions<FuzzyItemSearchQueryVariables>, 'query'>
-): Readable<
-  ApolloQueryResult<FuzzyItemSearchQuery> & {
-    query: ObservableQuery<FuzzyItemSearchQuery, FuzzyItemSearchQueryVariables>;
-  }
-> => {
-  const q = client.watchQuery({
-    query: FuzzyItemSearchDoc,
-    ...options,
-  });
-  var result = readable<
-    ApolloQueryResult<FuzzyItemSearchQuery> & {
-      query: ObservableQuery<FuzzyItemSearchQuery, FuzzyItemSearchQueryVariables>;
-    }
-  >({ data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q }, (set) => {
-    q.subscribe((v: any) => {
-      set({ ...v, query: q });
-    });
-  });
-  return result;
-};
-
-export const AsyncFuzzyItemSearch = (options: Omit<QueryOptions<FuzzyItemSearchQueryVariables>, 'query'>) => {
-  return client.query<FuzzyItemSearchQuery>({ query: FuzzyItemSearchDoc, ...options });
-};
-
+            options: Omit<
+              WatchQueryOptions<FuzzyItemSearchQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<FuzzyItemSearchQuery> & {
+              query: ObservableQuery<
+                FuzzyItemSearchQuery,
+                FuzzyItemSearchQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: FuzzyItemSearchDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<FuzzyItemSearchQuery> & {
+                query: ObservableQuery<
+                  FuzzyItemSearchQuery,
+                  FuzzyItemSearchQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncFuzzyItemSearch = (
+                options: Omit<
+                  QueryOptions<FuzzyItemSearchQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<FuzzyItemSearchQuery>({query: FuzzyItemSearchDoc, ...options})
+              }
+            
 export const GetEquipment = (
-  options: Omit<WatchQueryOptions<GetEquipmentQueryVariables>, 'query'>
-): Readable<
-  ApolloQueryResult<GetEquipmentQuery> & {
-    query: ObservableQuery<GetEquipmentQuery, GetEquipmentQueryVariables>;
-  }
-> => {
-  const q = client.watchQuery({
-    query: GetEquipmentDoc,
-    ...options,
-  });
-  var result = readable<
-    ApolloQueryResult<GetEquipmentQuery> & {
-      query: ObservableQuery<GetEquipmentQuery, GetEquipmentQueryVariables>;
-    }
-  >({ data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q }, (set) => {
-    q.subscribe((v: any) => {
-      set({ ...v, query: q });
-    });
-  });
-  return result;
-};
-
-export const AsyncGetEquipment = (options: Omit<QueryOptions<GetEquipmentQueryVariables>, 'query'>) => {
-  return client.query<GetEquipmentQuery>({ query: GetEquipmentDoc, ...options });
-};
-
+            options: Omit<
+              WatchQueryOptions<GetEquipmentQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<GetEquipmentQuery> & {
+              query: ObservableQuery<
+                GetEquipmentQuery,
+                GetEquipmentQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: GetEquipmentDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<GetEquipmentQuery> & {
+                query: ObservableQuery<
+                  GetEquipmentQuery,
+                  GetEquipmentQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncGetEquipment = (
+                options: Omit<
+                  QueryOptions<GetEquipmentQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<GetEquipmentQuery>({query: GetEquipmentDoc, ...options})
+              }
+            
 export const GlobalItemSearch = (
-  options: Omit<WatchQueryOptions<GlobalItemSearchQueryVariables>, 'query'>
-): Readable<
-  ApolloQueryResult<GlobalItemSearchQuery> & {
-    query: ObservableQuery<GlobalItemSearchQuery, GlobalItemSearchQueryVariables>;
-  }
-> => {
-  const q = client.watchQuery({
-    query: GlobalItemSearchDoc,
-    ...options,
-  });
-  var result = readable<
-    ApolloQueryResult<GlobalItemSearchQuery> & {
-      query: ObservableQuery<GlobalItemSearchQuery, GlobalItemSearchQueryVariables>;
-    }
-  >({ data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q }, (set) => {
-    q.subscribe((v: any) => {
-      set({ ...v, query: q });
-    });
-  });
-  return result;
-};
-
-export const AsyncGlobalItemSearch = (options: Omit<QueryOptions<GlobalItemSearchQueryVariables>, 'query'>) => {
-  return client.query<GlobalItemSearchQuery>({ query: GlobalItemSearchDoc, ...options });
-};
-
-export const LoginUser = (options: Omit<MutationOptions<any, LoginUserMutationVariables>, 'mutation'>) => {
-  const m = client.mutate<LoginUserMutation, LoginUserMutationVariables>({
-    mutation: LoginUserDoc,
-    ...options,
-  });
-  return m;
-};
-export const UpdateEquipment = (options: Omit<MutationOptions<any, UpdateEquipmentMutationVariables>, 'mutation'>) => {
-  const m = client.mutate<UpdateEquipmentMutation, UpdateEquipmentMutationVariables>({
-    mutation: UpdateEquipmentDoc,
-    ...options,
-  });
-  return m;
-};
+            options: Omit<
+              WatchQueryOptions<GlobalItemSearchQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<GlobalItemSearchQuery> & {
+              query: ObservableQuery<
+                GlobalItemSearchQuery,
+                GlobalItemSearchQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: GlobalItemSearchDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<GlobalItemSearchQuery> & {
+                query: ObservableQuery<
+                  GlobalItemSearchQuery,
+                  GlobalItemSearchQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncGlobalItemSearch = (
+                options: Omit<
+                  QueryOptions<GlobalItemSearchQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<GlobalItemSearchQuery>({query: GlobalItemSearchDoc, ...options})
+              }
+            
+export const LoginUser = (
+            options: Omit<
+              MutationOptions<any, LoginUserMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<LoginUserMutation, LoginUserMutationVariables>({
+              mutation: LoginUserDoc,
+              ...options,
+            });
+            return m;
+          }
+export const UpdateEquipment = (
+            options: Omit<
+              MutationOptions<any, UpdateEquipmentMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<UpdateEquipmentMutation, UpdateEquipmentMutationVariables>({
+              mutation: UpdateEquipmentDoc,
+              ...options,
+            });
+            return m;
+          }
 export const Bye = (
-  options: Omit<WatchQueryOptions<ByeQueryVariables>, 'query'>
-): Readable<
-  ApolloQueryResult<ByeQuery> & {
-    query: ObservableQuery<ByeQuery, ByeQueryVariables>;
-  }
-> => {
-  const q = client.watchQuery({
-    query: ByeDoc,
-    ...options,
-  });
-  var result = readable<
-    ApolloQueryResult<ByeQuery> & {
-      query: ObservableQuery<ByeQuery, ByeQueryVariables>;
-    }
-  >({ data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q }, (set) => {
-    q.subscribe((v: any) => {
-      set({ ...v, query: q });
-    });
-  });
-  return result;
-};
-
-export const AsyncBye = (options: Omit<QueryOptions<ByeQueryVariables>, 'query'>) => {
-  return client.query<ByeQuery>({ query: ByeDoc, ...options });
-};
-
+            options: Omit<
+              WatchQueryOptions<ByeQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<ByeQuery> & {
+              query: ObservableQuery<
+                ByeQuery,
+                ByeQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: ByeDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<ByeQuery> & {
+                query: ObservableQuery<
+                  ByeQuery,
+                  ByeQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncBye = (
+                options: Omit<
+                  QueryOptions<ByeQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<ByeQuery>({query: ByeDoc, ...options})
+              }
+            
 export const Me = (
-  options: Omit<WatchQueryOptions<MeQueryVariables>, 'query'>
-): Readable<
-  ApolloQueryResult<MeQuery> & {
-    query: ObservableQuery<MeQuery, MeQueryVariables>;
-  }
-> => {
-  const q = client.watchQuery({
-    query: MeDoc,
-    ...options,
-  });
-  var result = readable<
-    ApolloQueryResult<MeQuery> & {
-      query: ObservableQuery<MeQuery, MeQueryVariables>;
-    }
-  >({ data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q }, (set) => {
-    q.subscribe((v: any) => {
-      set({ ...v, query: q });
-    });
-  });
-  return result;
-};
-
-export const AsyncMe = (options: Omit<QueryOptions<MeQueryVariables>, 'query'>) => {
-  return client.query<MeQuery>({ query: MeDoc, ...options });
-};
+            options: Omit<
+              WatchQueryOptions<MeQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<MeQuery> & {
+              query: ObservableQuery<
+                MeQuery,
+                MeQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: MeDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<MeQuery> & {
+                query: ObservableQuery<
+                  MeQuery,
+                  MeQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+              export const AsyncMe = (
+                options: Omit<
+                  QueryOptions<MeQueryVariables>,
+                  "query"
+                >
+              ) => {
+                return client.query<MeQuery>({query: MeDoc, ...options})
+              }
+            
