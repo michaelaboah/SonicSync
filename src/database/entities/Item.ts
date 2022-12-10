@@ -31,7 +31,7 @@ CREATE TABLE item (
     speaker_item_id integer NULL,
     monitoring_item_id integer NULL,
     searchable_model text NULL,
-    notes text NULL,
+    notes JSON NULL,
     CONSTRAINT item_amplifier_id_foreign FOREIGN key(amplifier_id) REFERENCES amplifier_item(id) ON DELETE
     SET NULL ON UPDATE CASCADE,
         CONSTRAINT item_console_id_foreign FOREIGN key(console_id) REFERENCES console_item(id) ON DELETE
@@ -145,19 +145,19 @@ export const INSERT_ITEM = async (jsonData: any) => {
       break;
   }
   console.log(parsed);
-  await insert_item(db, parsed);
+  await insert_item_fields(db, parsed);
 };
 
 const data = `
 {
 	"item": {
 		"id": 1,
-		"createdAt": "1670377351000",
-		"updatedAt": "1670377351000",
+		"created_at": "1670377351000",
+		"updated_at": "1670377351000",
 		"cost": 2000,
 		"model": "D800-Dante A-Net Distro",
 		"weight": 12,
-		"publicNotes": "",
+		"public_notes": "",
 		"category": "MONITORING",
 		"notes": null,
 		"dimensions": {
@@ -284,33 +284,35 @@ const data = `
 
 INSERT_ITEM(data);
 
-async function insert_item(db: SQLite, parsed: Item) {
+async function insert_item_fields(db: SQLite, parsed: Item) {
   if (parsed.id) {
     delete parsed.id;
   }
-  await db.select(`
-    INSERT INTO item (created_at, updated_at, public_notes, cost, weight, dimensions, model, category, amplifier_id, console_id, computer_id, processor_id, network_item_id, microphone_id, radio_item_id, speaker_item_id, monitoring_item_id, searchable_model, notes)
-    VALUES (
-      '${parsed.createdAt}',
-      '${parsed.updatedAt}',
-      '${parsed.publicNotes}',
-      ${parsed.cost},
-      ${parsed.weight},
-      '${JSON.stringify(parsed.dimensions)}',
-      '${parsed.model}',
-      '${parsed.category}',
-      ${parsed.amplifier?.id},
-      ${parsed.console?.id},
-      ${parsed.computer?.id},
-      ${parsed.processor?.id},
-      ${parsed.network_item?.id},
-      ${parsed.microphone?.id},
-      ${parsed.radio_item?.id},
-      ${parsed.speaker_item?.id},
-      ${parsed.monitoring_item?.id},
-      '${'parsed.searchable_model'}',
-      '${parsed.notes}'
-    )
-  `);
+  await db.select(
+    `
+    INSERT INTO item (created_at, updated_at, public_notes, cost, weight, dimensions, model, category, amplifier_id, console_id, computer_id, processor_id, network_item_id, microphone_id, radio_item_id, speaker_item_id, monitoring_item_id, notes)
+    VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)
+  `,
+    [
+      parsed.created_at,
+      parsed.updated_at,
+      parsed.public_notes,
+      parsed.cost,
+      parsed.weight,
+      JSON.stringify(parsed.dimensions),
+      parsed.model,
+      parsed.category,
+      parsed.amplifier?.id,
+      parsed.console?.id,
+      parsed.computer?.id,
+      parsed.processor?.id,
+      parsed.network_item?.id,
+      parsed.microphone?.id,
+      parsed.radio_item?.id,
+      parsed.speaker_item?.id,
+      parsed.monitoring_item?.id,
+      JSON.stringify(parsed.notes),
+    ]
+  );
 }
 export default CREATE_ITEM_TABLE;

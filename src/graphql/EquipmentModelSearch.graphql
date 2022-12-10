@@ -1,12 +1,12 @@
 query EquipmentModelSearch($fullSearch: String!) {
   fullTextSearch(fullSearch: $fullSearch) {
     # id
-    createdAt
-    updatedAt
+    created_at
+    updated_at
     category
     manufacturer
     model
-    publicNotes
+    public_notes
     cost
     powerDraw
     weight

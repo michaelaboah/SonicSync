@@ -1,14 +1,14 @@
-import type { SvelteUISize } from "@svelteuidev/core";
-import type { Item as ItemGraphql } from "./generated/graphql";
+import type { SvelteUISize } from '@svelteuidev/core';
+import type { Item as ItemGraphql } from './generated/graphql';
 
 // export interface Equipment {
 //   modelId: number;
-//   createdAt?: Date;
-//   updatedAt?: Date;
+//   created_at?: Date;
+//   updated_at?: Date;
 //   category: string;
 //   manufacturer: string;
 //   model: string;
-//   publicNotes?: string;
+//   public_notes?: string;
 //   cost: number;
 //   powerDraw?: number;
 //   weight?: number;
@@ -35,7 +35,7 @@ export interface Item {
   itemId: number;
   description: string;
   itemQuantity: number;
-  publicNotes?: string;
+  public_notes?: string;
   privateNotes?: string;
   box?: Box;
 }

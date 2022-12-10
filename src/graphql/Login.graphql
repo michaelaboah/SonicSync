@@ -5,8 +5,8 @@ mutation LoginUser($inputOptions: UserInput!) {
       message
     }
     user {
-      createdAt
-      updatedAt
+      created_at
+      updated_at
       id
       email
     }

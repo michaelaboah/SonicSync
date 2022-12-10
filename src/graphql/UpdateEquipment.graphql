@@ -6,12 +6,12 @@ mutation UpdateEquipment($updateOptions: EquipmentInput!, $updateEquipmentId: In
     }
     equipment {
       id
-      createdAt
-      updatedAt
+      created_at
+      updated_at
       category
       manufacturer
       model
-      publicNotes
+      public_notes
       cost
       powerDraw
       weight
@@ -21,12 +21,12 @@ mutation UpdateEquipment($updateOptions: EquipmentInput!, $updateEquipmentId: In
     }
     equipmentItems {
       id
-      createdAt
-      updatedAt
+      created_at
+      updated_at
       category
       manufacturer
       model
-      publicNotes
+      public_notes
       cost
       powerDraw
       weight

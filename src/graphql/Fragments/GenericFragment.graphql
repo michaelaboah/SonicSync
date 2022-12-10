@@ -1,11 +1,11 @@
 fragment GenericFrag on Item {
   id
-  createdAt
-  updatedAt
+  created_at
+  updated_at
   cost
   model
   weight
-  publicNotes
+  public_notes
   category
   notes
   dimensions {

@@ -45,9 +45,9 @@
     //     ...fuzzyItemSearch,
     //     processor: null,
     //     console: null,
-    //     createdAt: "",
+    //     created_at: "",
     //     id: "",
-    //     updatedAt: "",
+    //     updated_at: "",
     //     category: Categories.Generic,
     //     model: "",
     //   });
@@ -217,7 +217,7 @@
       </Group>
     </Grid.Col>
   </Grid>
-  {#each gear.items as { description, itemQuantity, publicNotes, privateNotes, itemId } (itemId)}
+  {#each gear.items as { description, itemQuantity, public_notes, privateNotes, itemId } (itemId)}
     <Group direction="row" ml="sm" mb="sm" mt="sm">
       <TextInput
         size="xs"
@@ -236,7 +236,7 @@
           bind:value="{itemQuantity}"
         />
       </div>
-      <TextInput size="xs" label="Public Notes" bind:value="{publicNotes}" />
+      <TextInput size="xs" label="Public Notes" bind:value="{public_notes}" />
       <TextInput size="xs" label="Private Notes" bind:value="{privateNotes}" labelProps="{{ color: 'red' }}" />
       <Tooltip label="Delete Item" openDelay="{300}">
         <CloseButton iconSize="md" on:click="{() => deleteItem(itemId)}" variant="outline" mt="lg" />

@@ -2,12 +2,12 @@ mutation CreateEquipment($inputOptions: EquipmentInput!) {
   createEquipment(inputOptions: $inputOptions) {
     equipment {
       # id
-      createdAt
-      updatedAt
+      created_at
+      updated_at
       category
       manufacturer
       model
-      publicNotes
+      public_notes
       cost
       powerDraw
       weight
@@ -21,12 +21,12 @@ mutation CreateEquipment($inputOptions: EquipmentInput!) {
     }
     equipmentItems {
       id
-      createdAt
-      updatedAt
+      created_at
+      updated_at
       category
       manufacturer
       model
-      publicNotes
+      public_notes
       cost
       powerDraw
       weight
