@@ -30,7 +30,7 @@ CREATE TABLE console_item (
 export default CREATE_CONSOLE_ITEM_TABLE;
 
 export const insert_console_item = async (console_item: ConsoleItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite:internal.db');
+  const db = await SQLite.open('sqlite-internal.db');
   try {
     const result = await db.select<{ id: number }[]>(
       `INSERT INTO console_item (

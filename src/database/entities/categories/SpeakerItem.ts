@@ -18,7 +18,7 @@ const CREATE_SPEAKER_ITEM = `CREATE TABLE speaker_item (
 export default CREATE_SPEAKER_ITEM;
 
 export const insert_speaker_item = async (speaker: SpeakerItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite:internal.db');
+  const db = await SQLite.open('sqlite-internal.db');
   try {
     const result = await db.select<{ id: number }[]>(
       `INSERT INTO speaker_item (

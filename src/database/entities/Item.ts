@@ -54,7 +54,7 @@ CREATE TABLE item (
 `;
 
 export const INSERT_ITEM = async (jsonData: any) => {
-  const db = await SQLite.open('sqlite:internal.db');
+  const db = await SQLite.open('sqlite-internal.db');
   let parsed: Item = JSON.parse(jsonData);
   // Use the tauri.sql.execute method to insert the JSON data into the database
 

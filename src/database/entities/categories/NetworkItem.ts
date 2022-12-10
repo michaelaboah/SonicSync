@@ -13,7 +13,7 @@ const CREATE_NETWORK_ITEM = `CREATE TABLE network_item (
 
 export default CREATE_NETWORK_ITEM;
 export const insert_network_item = async (network: NetworkItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite:internal.db');
+  const db = await SQLite.open('sqlite-internal.db');
   try {
     const result = await db.select<{ id: number }[]>(
       `INSERT INTO network_item (

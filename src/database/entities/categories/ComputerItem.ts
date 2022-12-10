@@ -16,7 +16,7 @@ const CREATE_COMPUTER_ITEM_TABLE = `CREATE TABLE computer_item (
 export default CREATE_COMPUTER_ITEM_TABLE;
 
 export const insert_computer_item = async (computer: ComputerItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite:internal.db');
+  const db = await SQLite.open('sqlite-internal.db');
   try {
     const result = await db.select<{ id: number }[]>(
       `INSERT INTO computer_item (

@@ -1,6 +1,6 @@
 import Database from 'tauri-plugin-sqlite';
 import { ROUTINE_PRAGMA_QUERIES, TABLES } from './entities/SQLController';
-const Sqlite = Database.open('sqlite:internal.db');
+const Sqlite = Database.open('sqlite-internal.db');
 
 const ENABLE_FOREIGN_KEYS = `PRAGMA foreign_keys = ON;`;
 const tableCheck = (tableName: string) => `

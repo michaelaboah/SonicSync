@@ -24,7 +24,7 @@ const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processing_item (
 export default CREATE_PROCESSING_ITEM_TABLE;
 
 export const insert_processor_item = async (processing: ProcessingItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite:internal.db');
+  const db = await SQLite.open('sqlite-internal.db');
   try {
     const result = await db.select<{ id: number }[]>(
       `INSERT INTO processing_item (
