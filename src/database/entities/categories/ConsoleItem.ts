@@ -20,9 +20,9 @@ CREATE TABLE console_item (
   can_expand integer NULL DEFAULT NULL,
   max_sample_rate text CHECK (
       max_sample_rate in (
-          '44.1 kHz',
-          '48 kHz',
-          '96 kHz'
+          'SD',
+          'HD',
+          'UHD'
       )
   ) NOT NULL,
   power JSON NULL

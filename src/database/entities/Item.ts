@@ -1,4 +1,3 @@
-// import Database from 'tauri-plugin-sqlite';
 import SQLite from 'tauri-plugin-sqlite';
 import { Categories, type Item } from '../../generated/graphql';
 import { insert_amplifier_item } from './categories/AmplifierItem';
@@ -19,7 +18,7 @@ CREATE TABLE item (
     cost DOUBLE NULL,
     weight DOUBLE NULL,
     dimensions JSON NULL,
-    model text NOT NULL,
+    model text UNIQUE NOT NULL,
     category integer NOT NULL,
     amplifier_id integer NULL,
     console_id integer NULL,
@@ -53,247 +52,108 @@ CREATE TABLE item (
 );
 `;
 
-export const INSERT_ITEM = async (jsonData: any) => {
+export const insert_item = async (reference: Item) => {
   const db = await SQLite.open('sqlite-internal.db');
-  let parsed: Item = JSON.parse(jsonData);
-  // Use the tauri.sql.execute method to insert the JSON data into the database
-
-  switch (parsed.category) {
+  let insert: Item = structuredClone(reference);
+  const thing = await insert_item_fields(db, insert);
+  console.log(thing);
+  switch (insert.category) {
     case Categories.Amplifier:
       // code to handle amplifier_id foreign key
-      if (parsed.amplifier) {
-        let amplifier_primary_key = await insert_amplifier_item(parsed.amplifier);
+      if (insert.amplifier) {
+        let amplifier_primary_key = await insert_amplifier_item(insert.amplifier);
         typeof amplifier_primary_key === 'number'
-          ? (parsed.amplifier.id = amplifier_primary_key)
+          ? (insert.amplifier.id = amplifier_primary_key)
           : console.log(`Error found: ${amplifier_primary_key}`);
       }
       break;
     case Categories.Console:
       // code to handle console_id foreign key
-      if (parsed.console) {
-        let console_primary_key = await insert_console_item(parsed.console);
+      if (insert.console) {
+        let console_primary_key = await insert_console_item(insert.console);
         typeof console_primary_key === 'number'
-          ? (parsed.console.id = console_primary_key)
+          ? (insert.console.id = console_primary_key)
           : console.log(`Error found: ${console_primary_key}`);
       }
       break;
     case Categories.Computer:
-      if (parsed.computer) {
-        let computer_primary_key = await insert_computer_item(parsed.computer);
+      if (insert.computer) {
+        let computer_primary_key = await insert_computer_item(insert.computer);
         typeof computer_primary_key === 'number'
-          ? (parsed.computer.id = computer_primary_key)
+          ? (insert.computer.id = computer_primary_key)
           : console.log(`Error found: ${computer_primary_key}`);
       }
       break;
     case Categories.Processor:
       // code to handle processor_id foreign key
-      if (parsed.processor) {
-        let processor_primary_key = await insert_processor_item(parsed.processor);
+      if (insert.processor) {
+        let processor_primary_key = await insert_processor_item(insert.processor);
         typeof processor_primary_key === 'number'
-          ? (parsed.processor.id = processor_primary_key)
+          ? (insert.processor.id = processor_primary_key)
           : console.log(`Error found: ${processor_primary_key}`);
       }
       break;
     case Categories.Network:
       // code to handle network_item_id foreign key
-      if (parsed.network_item) {
-        let network_primary_key = await insert_network_item(parsed.network_item);
+      if (insert.network_item) {
+        let network_primary_key = await insert_network_item(insert.network_item);
         typeof network_primary_key === 'number'
-          ? (parsed.network_item.id = network_primary_key)
+          ? (insert.network_item.id = network_primary_key)
           : console.log(`Error found: ${network_primary_key}`);
       }
       break;
     case Categories.Microphones:
       // code to handle microphone_id foreign key
-      if (parsed.microphone) {
-        let microphone_primary_key = await insert_microphone_item(parsed.microphone);
+      if (insert.microphone) {
+        let microphone_primary_key = await insert_microphone_item(insert.microphone);
         typeof microphone_primary_key === 'number'
-          ? parsed.microphone.id
+          ? insert.microphone.id
           : console.log(`Error found: ${microphone_primary_key}`);
       }
       break;
     case Categories.Monitoring:
       // code to handle monitoring_item_id foreign key
-      if (parsed.monitoring_item) {
-        let monitoring_primary_key = insert_monitoring_item(parsed.monitoring_item);
+      if (insert.monitoring_item) {
+        let monitoring_primary_key = await insert_monitoring_item(insert.monitoring_item);
         typeof monitoring_primary_key === 'number'
-          ? parsed.monitoring_item.id
+          ? insert.monitoring_item.id
           : console.log(`Error found: ${monitoring_primary_key}`);
       }
       break;
     case Categories.Radio:
       // code to handle radio_item_id foreign key
-      if (parsed.radio_item) {
-        let radio_primary_key = insert_rfitem(parsed.radio_item);
-        typeof radio_primary_key === 'number' ? parsed.radio_item.id : console.log(`Error found: ${radio_primary_key}`);
+      if (insert.radio_item) {
+        let radio_primary_key = await insert_rfitem(insert.radio_item);
+        typeof radio_primary_key === 'number' ? insert.radio_item.id : console.log(`Error found: ${radio_primary_key}`);
       }
       break;
     case Categories.Speaker:
       // code to handle speaker_item_id foreign key
-      if (parsed.speaker_item) {
-        let speaker_primary_key = insert_speaker_item(parsed.speaker_item);
+      if (insert.speaker_item) {
+        let speaker_primary_key = await insert_speaker_item(insert.speaker_item);
         typeof speaker_primary_key === 'number'
-          ? parsed.speaker_item.id
+          ? insert.speaker_item.id
           : console.log(`Error found: ${speaker_primary_key}`);
       }
       break;
     default:
+      // code to handle invalid foreign key
       {
         console.log('No subcategory found, either a generic item or error.');
       }
-      // code to handle invalid foreign key
       break;
   }
-  console.log(parsed);
-  await insert_item_fields(db, parsed);
+  // console.log(insert);
 };
 
-const data = `
-{
-	"item": {
-		"id": 1,
-		"created_at": "1670377351000",
-		"updated_at": "1670377351000",
-		"cost": 2000,
-		"model": "D800-Dante A-Net Distro",
-		"weight": 12,
-		"public_notes": "",
-		"category": "MONITORING",
-		"notes": null,
-		"dimensions": {
-			"width": 19,
-			"length": 14.25,
-			"height": 3.5,
-			"rack_unit": 2
-		},
-		"amplifier": null,
-		"console": null,
-		"computer": null,
-		"processor": null,
-		"network_item": null,
-		"microphone": null,
-		"radio_item": null,
-		"speaker_item": null,
-		"monitoring_item": {
-			"id": 1,
-			"distro": true,
-			"network_connectivity": [{
-					"protocol": "IP",
-					"power_over_ethernet": false,
-					"port_identifier": "Network",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": false,
-					"port_identifier": "A-Net In",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": false,
-					"port_identifier": "A-Net Out",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": false,
-					"port_identifier": "A-Net Mixes",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "DANTE",
-					"power_over_ethernet": false,
-					"port_identifier": "Dante Primary",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "DANTE",
-					"power_over_ethernet": false,
-					"port_identifier": "Dante Secondary",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 1",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 2",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 3",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 3",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 4",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 5",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 6",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 7",
-					"max_connection_speed": "GIGABIT"
-				},
-				{
-					"protocol": "A_NET",
-					"power_over_ethernet": true,
-					"port_identifier": "A-Net 8",
-					"max_connection_speed": "GIGABIT"
-				}
-			],
-			"physical_connectivity": null,
-			"power": {
-				"wattage": 300,
-				"redundant": false,
-				"lower_voltage": 100,
-				"max_wattage": 300,
-				"input_connector": "IEC",
-				"output_connector": null
-			}
-		}
-	}
-}
-`;
-
-INSERT_ITEM(data);
-
-async function insert_item_fields(db: SQLite, parsed: Item) {
+async function insert_item_fields(db: SQLite, parsed: Item): Promise<boolean | string> {
   if (parsed.id) {
     delete parsed.id;
   }
-  await db.select(
-    `
-    INSERT INTO item (created_at, updated_at, public_notes, cost, weight, dimensions, model, category, amplifier_id, console_id, computer_id, processor_id, network_item_id, microphone_id, radio_item_id, speaker_item_id, monitoring_item_id, notes)
-    VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)
-  `,
-    [
+  const ITEM_INSERT_QUERY = `INSERT INTO item (created_at, updated_at, public_notes, cost, weight, dimensions, model, category, amplifier_id, console_id, computer_id, processor_id, network_item_id, microphone_id, radio_item_id, speaker_item_id, monitoring_item_id, notes)
+  VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)`;
+  try {
+    const item_insert_result = await db.execute(ITEM_INSERT_QUERY, [
       parsed.created_at,
       parsed.updated_at,
       parsed.public_notes,
@@ -312,7 +172,14 @@ async function insert_item_fields(db: SQLite, parsed: Item) {
       parsed.speaker_item?.id,
       parsed.monitoring_item?.id,
       JSON.stringify(parsed.notes),
-    ]
-  );
+    ]);
+    return item_insert_result;
+  } catch (error: any) {
+    if (error === 'UNIQUE constraint failed: item.model (code 19)') {
+      return `Item '${parsed.model}' already exists.`;
+    }
+    return error;
+  }
 }
+
 export default CREATE_ITEM_TABLE;

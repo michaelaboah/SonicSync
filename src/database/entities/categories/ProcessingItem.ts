@@ -12,9 +12,9 @@ const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processing_item (
   signal_protocol integer NOT NULL,
   max_sample_rate text CHECK (
       max_sample_rate in (
-          '44.1 kHz',
-          '48 kHz',
-          '96 kHz'
+          'SD',
+          'HD',
+          'UHD'
       )
   ) NOT NULL,
   network_connectivity JSON NULL,

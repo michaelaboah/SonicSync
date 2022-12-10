@@ -12,9 +12,9 @@ CREATE TABLE amplifier_item (
   signal_protocol integer NOT NULL,
   max_sample_rate text CHECK (
       max_sample_rate in (
-          '44.1 kHz',
-          '48 kHz',
-          '96 kHz'
+          'SD',
+          'HD',
+          'UHD'
       )
   ) NOT NULL,
   power JSON NULL
@@ -57,7 +57,7 @@ export const insert_amplifier_item = async (amplifier: AmplifierItem): Promise<n
     );
     return result[0].id;
   } catch (error: any) {
-    console.error(`Error inserting amplifier item: ${error.message}`);
+    console.error(`Error inserting amplifier item: ${error}`);
     return JSON.stringify(error);
   }
 };

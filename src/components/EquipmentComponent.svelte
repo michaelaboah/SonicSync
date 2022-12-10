@@ -14,6 +14,7 @@
   } from '@svelteuidev/core';
   import { buildItem, type Gear, type Item } from '../Classes';
   import {
+    AsyncFuzzyItemSearch,
     AsyncGlobalItemSearch,
     // Categories,
     type Item as ItemGraphql,
@@ -22,6 +23,7 @@
   import Select from 'svelte-select';
   import { gearList } from '../stores/ProjectStore';
   import { persist } from '../stores/renderStore';
+  import { insert_item } from '../database/entities/Item';
   // import { storeItem } from '../database/entities/Item';
   let size = $persist.ui_font_size;
   export let gear: Gear;
@@ -57,7 +59,7 @@
     //   const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
     //   return response.data.fuzzyItemSearch;
     // }
-    const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
+    const response = await AsyncFuzzyItemSearch({ variables: { model: fillerText } });
     return response.data.fuzzyItemSearch;
   };
 
@@ -88,7 +90,6 @@
   const handleSelect = (e: { detail: ItemGraphql }) => {
     gear = { ...gear, ...e.detail };
     $gearList[index] = gear;
-    // storeItem(gear);
   };
 
   function getModel(e: any) {
@@ -214,6 +215,13 @@
       <Group position="left" mt="xl">
         <Button compact on:click="{addItem}" disabled="{!gear.model}">Add Item</Button>
         <Button compact on:click="{deleteGear}">Remove Gear: {index}</Button>
+        <Button
+          compact
+          on:click="{() => {
+            console.log(gear);
+            insert_item(gear);
+          }}"
+        />
       </Group>
     </Grid.Col>
   </Grid>
