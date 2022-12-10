@@ -13,12 +13,7 @@
     Tooltip,
   } from '@svelteuidev/core';
   import { buildItem, type Gear, type Item } from '../Classes';
-  import {
-    AsyncFuzzyItemSearch,
-    AsyncGlobalItemSearch,
-    // Categories,
-    type Item as ItemGraphql,
-  } from '../generated/graphql';
+  import { AsyncFuzzyItemSearch, type Item as ItemGraphql } from '../generated/graphql';
   //@ts-ignore
   import Select from 'svelte-select';
   import { gearList } from '../stores/ProjectStore';
@@ -38,27 +33,6 @@
   $: totalPower = (gear.quantity * basePower) as number;
 
   const asyncTest = async (fillerText: string) => {
-    // if ($persist.sql_auto_store) {
-    //   const {
-    //     data: { fuzzyItemSearch },
-    //   } = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
-
-    //   const sqlTest = storeItem({
-    //     ...fuzzyItemSearch,
-    //     processor: null,
-    //     console: null,
-    //     created_at: "",
-    //     id: "",
-    //     updated_at: "",
-    //     category: Categories.Generic,
-    //     model: "",
-    //   });
-    //   console.log(sqlTest);
-    //   return fuzzyItemSearch;
-    // } else {
-    //   const response = await AsyncGlobalItemSearch({ variables: { model: fillerText } });
-    //   return response.data.fuzzyItemSearch;
-    // }
     const response = await AsyncFuzzyItemSearch({ variables: { model: fillerText } });
     return response.data.fuzzyItemSearch;
   };
@@ -90,6 +64,10 @@
   const handleSelect = (e: { detail: ItemGraphql }) => {
     gear = { ...gear, ...e.detail };
     $gearList[index] = gear;
+
+    if ($persist.sql_auto_store) {
+      insert_item(gear);
+    }
   };
 
   function getModel(e: any) {

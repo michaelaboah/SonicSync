@@ -52,11 +52,10 @@ CREATE TABLE item (
 );
 `;
 
-export const insert_item = async (reference: Item) => {
+export const insert_item = async (reference: Item): Promise<boolean | string[]> => {
   const db = await SQLite.open('sqlite-internal.db');
   let insert: Item = structuredClone(reference);
-  const thing = await insert_item_fields(db, insert);
-  console.log(thing);
+  const errors: string[] = [];
   switch (insert.category) {
     case Categories.Amplifier:
       // code to handle amplifier_id foreign key
@@ -64,7 +63,7 @@ export const insert_item = async (reference: Item) => {
         let amplifier_primary_key = await insert_amplifier_item(insert.amplifier);
         typeof amplifier_primary_key === 'number'
           ? (insert.amplifier.id = amplifier_primary_key)
-          : console.log(`Error found: ${amplifier_primary_key}`);
+          : errors.push(`Error found: ${amplifier_primary_key}`);
       }
       break;
     case Categories.Console:
@@ -73,7 +72,7 @@ export const insert_item = async (reference: Item) => {
         let console_primary_key = await insert_console_item(insert.console);
         typeof console_primary_key === 'number'
           ? (insert.console.id = console_primary_key)
-          : console.log(`Error found: ${console_primary_key}`);
+          : errors.push(`Error found: ${console_primary_key}`);
       }
       break;
     case Categories.Computer:
@@ -81,7 +80,7 @@ export const insert_item = async (reference: Item) => {
         let computer_primary_key = await insert_computer_item(insert.computer);
         typeof computer_primary_key === 'number'
           ? (insert.computer.id = computer_primary_key)
-          : console.log(`Error found: ${computer_primary_key}`);
+          : errors.push(`Error found: ${computer_primary_key}`);
       }
       break;
     case Categories.Processor:
@@ -90,7 +89,7 @@ export const insert_item = async (reference: Item) => {
         let processor_primary_key = await insert_processor_item(insert.processor);
         typeof processor_primary_key === 'number'
           ? (insert.processor.id = processor_primary_key)
-          : console.log(`Error found: ${processor_primary_key}`);
+          : errors.push(`Error found: ${processor_primary_key}`);
       }
       break;
     case Categories.Network:
@@ -99,7 +98,7 @@ export const insert_item = async (reference: Item) => {
         let network_primary_key = await insert_network_item(insert.network_item);
         typeof network_primary_key === 'number'
           ? (insert.network_item.id = network_primary_key)
-          : console.log(`Error found: ${network_primary_key}`);
+          : errors.push(`Error found: ${network_primary_key}`);
       }
       break;
     case Categories.Microphones:
@@ -108,7 +107,7 @@ export const insert_item = async (reference: Item) => {
         let microphone_primary_key = await insert_microphone_item(insert.microphone);
         typeof microphone_primary_key === 'number'
           ? insert.microphone.id
-          : console.log(`Error found: ${microphone_primary_key}`);
+          : errors.push(`Error found: ${microphone_primary_key}`);
       }
       break;
     case Categories.Monitoring:
@@ -117,14 +116,14 @@ export const insert_item = async (reference: Item) => {
         let monitoring_primary_key = await insert_monitoring_item(insert.monitoring_item);
         typeof monitoring_primary_key === 'number'
           ? insert.monitoring_item.id
-          : console.log(`Error found: ${monitoring_primary_key}`);
+          : errors.push(`Error found: ${monitoring_primary_key}`);
       }
       break;
     case Categories.Radio:
       // code to handle radio_item_id foreign key
       if (insert.radio_item) {
         let radio_primary_key = await insert_rfitem(insert.radio_item);
-        typeof radio_primary_key === 'number' ? insert.radio_item.id : console.log(`Error found: ${radio_primary_key}`);
+        typeof radio_primary_key === 'number' ? insert.radio_item.id : errors.push(`Error found: ${radio_primary_key}`);
       }
       break;
     case Categories.Speaker:
@@ -133,20 +132,27 @@ export const insert_item = async (reference: Item) => {
         let speaker_primary_key = await insert_speaker_item(insert.speaker_item);
         typeof speaker_primary_key === 'number'
           ? insert.speaker_item.id
-          : console.log(`Error found: ${speaker_primary_key}`);
+          : errors.push(`Error found: ${speaker_primary_key}`);
       }
       break;
     default:
       // code to handle invalid foreign key
       {
-        console.log('No subcategory found, either a generic item or error.');
+        errors.push('No subcategory found, either a generic item or error.');
       }
       break;
   }
-  // console.log(insert);
+
+  const item_sucess = await insert_generic(db, insert);
+  if (typeof item_sucess === 'string') {
+    errors.push(item_sucess);
+    return errors;
+  } else {
+    return item_sucess;
+  }
 };
 
-async function insert_item_fields(db: SQLite, parsed: Item): Promise<boolean | string> {
+async function insert_generic(db: SQLite, parsed: Item): Promise<boolean | string> {
   if (parsed.id) {
     delete parsed.id;
   }
