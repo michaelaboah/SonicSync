@@ -1,52 +1,55 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@apollo/client': ^3.7.2
-  '@graphql-codegen/cli': ^2.16.1
-  '@graphql-codegen/typescript': ^2.8.5
-  '@graphql-codegen/typescript-operations': ^2.5.10
-  '@graphql-codegen/typescript-urql': ^3.7.3
-  '@graphql-codegen/urql-svelte-operations-store': ^1.3.3
-  '@sveltejs/vite-plugin-svelte': ^1.4.0
-  '@svelteuidev/composables': ^0.7.6
-  '@svelteuidev/core': ^0.7.6
-  '@svelteuidev/dates': ^0.7.6
-  '@svelteuidev/motion': ^0.7.6
-  '@svelteuidev/prism': ^0.7.6
-  '@tauri-apps/api': ^1.2.0
-  '@tauri-apps/cli': ^1.2.2
+  '@apollo/client': ^3.7.1
+  '@graphql-codegen/cli': ^2.13.8
+  '@graphql-codegen/typescript': ^2.8.0
+  '@graphql-codegen/typescript-operations': ^2.5.5
+  '@graphql-codegen/typescript-urql': ^3.7.2
+  '@graphql-codegen/urql-svelte-operations-store': ^1.3.2
+  '@revolist/revogrid': 4.2.0-next.13
+  '@revolist/svelte-datagrid': ^3.2.16
+  '@sveltejs/vite-plugin-svelte': ^1.0.1
+  '@svelteuidev/composables': ^0.7.5
+  '@svelteuidev/core': ^0.7.5
+  '@svelteuidev/dates': ^0.7.5
+  '@svelteuidev/motion': ^0.7.5
+  '@svelteuidev/prism': ^0.7.5
+  '@tauri-apps/api': ^1.1.0
+  '@tauri-apps/cli': ^1.1.0
   '@tsconfig/svelte': ^3.0.0
-  '@types/node': ^18.11.13
+  '@types/node': ^18.7.10
   apollo-link-token-refresh: ^0.4.0
   autoprefixer: ^10.4.13
   core: link:@apollo/client/core
-  dayjs: ^1.11.7
+  dayjs: ^1.11.6
   dotenv: ^16.0.3
   graphql-codegen-svelte-apollo: ^1.1.0
   graphql-tag: ^2.12.6
   graphql-ws: ^5.11.2
   jwt-decode: ^3.1.2
-  postcss: ^8.4.19
+  postcss: ^8.4.18
   printjs: ^1.1.0
   radix-icons-svelte: ^1.2.1
-  simple-svelte-autocomplete: ^2.5.1
-  svelte: ^3.54.0
+  simple-svelte-autocomplete: ^2.5.0
+  svelte: ^3.49.0
   svelte-apollo: ^0.5.0
-  svelte-check: ^2.10.2
+  svelte-check: ^2.8.0
   svelte-command-palette: ^1.2.1
-  svelte-droplet: ^0.2.1
+  svelte-droplet: ^0.2.0
   svelte-preprocess: ^4.10.7
   svelte-select: ^4.4.7
   svelte-spa-router: ^3.3.0
-  tailwindcss: ^3.2.4
+  tailwindcss: ^3.2.1
   tauri-plugin-sqlite: github:lzdyes/tauri-plugin-sqlite#v0.1.1
   tauri-plugin-store-api: github:tauri-apps/tauri-plugin-store#dev
-  tslib: ^2.4.1
-  typescript: ^4.9.4
-  vite: ^3.2.5
+  tslib: ^2.4.0
+  typescript: ^4.6.4
+  vite: ^3.0.2
 
 dependencies:
   '@apollo/client': 3.7.2_bjgwlwebsm7ulvpmjq4c2w36jm
+  '@revolist/revogrid': 4.2.0-next.13
   '@svelteuidev/composables': 0.7.6
   '@svelteuidev/core': 0.7.6_refr7krhqpjzi4q7tavyecgqhy
   '@svelteuidev/dates': 0.7.6_dn7pooqhpolkwd44yledl56g3u
@@ -72,6 +75,7 @@ devDependencies:
   '@graphql-codegen/typescript-operations': 2.5.10_graphql@16.6.0
   '@graphql-codegen/typescript-urql': 3.7.3_sy4knu3obj4ys7pjcqbyfxmqle
   '@graphql-codegen/urql-svelte-operations-store': 1.3.3_sy4knu3obj4ys7pjcqbyfxmqle
+  '@revolist/svelte-datagrid': 3.2.16
   '@sveltejs/vite-plugin-svelte': 1.4.0_svelte@3.54.0+vite@3.2.5
   '@tauri-apps/cli': 1.2.2
   '@tsconfig/svelte': 3.0.0
@@ -1481,6 +1485,31 @@ packages:
 
   /@repeaterjs/repeater/3.0.4:
     resolution: {integrity: sha512-AW8PKd6iX3vAZ0vA43nOUOnbq/X5ihgU+mSXXqunMkeQADGiqw/PY0JNeYtD5sr0PAy51YPgAPbDoeapv9r8WA==}
+    dev: true
+
+  /@revolist/revogrid/3.3.0:
+    resolution: {integrity: sha512-fmLRNh53mo7R+kfchpnqg+dlPVvSjotodTUYn6pnI45M9vr5Bs3iiov6LyVCTy4WIYEgYG9ikCSkcZuLtojTog==}
+    dependencies:
+      lodash: 4.17.21
+    dev: true
+
+  /@revolist/revogrid/4.2.0-next.13:
+    resolution: {integrity: sha512-hHikijQLb9NhMaqyRA1aTnpHaXTQdR3bYsBprBBw32yK6BJp5IaiuD9pV/7vCmkZ3bGfGWGRpqKKWR8BsuN94w==}
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+
+  /@revolist/svelte-datagrid/3.2.16:
+    resolution: {integrity: sha512-zSLpHxg/2hAo85UFCUFYK3+T7TVwZI1hSNdYguPiUt0m4zygdLL8YpPYv3x4pEOM5G6JzyciDtxlzB5u9iA0GQ==}
+    dependencies:
+      '@revolist/revogrid': 3.3.0
+      '@stencil/core': 2.17.4
+    dev: true
+
+  /@stencil/core/2.17.4:
+    resolution: {integrity: sha512-SGRlHpjV1RyFvzw6jFMVKpLNox9Eds3VvpbpD2SW9CuxdLonHDSFtQks5zmT4zs1Rse9I6kFc2mFK/dHNTalkg==}
+    engines: {node: '>=12.10.0', npm: '>=6.0.0'}
+    hasBin: true
     dev: true
 
   /@stitches/core/1.2.8:
@@ -3359,7 +3388,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /log-symbols/4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}

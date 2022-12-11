@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@revolist/revogrid": "4.2.0-next.13",
     "@svelteuidev/composables": "^0.7.5",
     "@svelteuidev/core": "^0.7.5",
     "@svelteuidev/dates": "^0.7.5",
@@ -32,8 +33,8 @@
     "printjs": "^1.1.0",
     "svelte-command-palette": "^1.2.1",
     "svelte-spa-router": "^3.3.0",
-    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev",
-    "tauri-plugin-sqlite": "github:lzdyes/tauri-plugin-sqlite#v0.1.1"
+    "tauri-plugin-sqlite": "github:lzdyes/tauri-plugin-sqlite#v0.1.1",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.8",
@@ -41,6 +42,7 @@
     "@graphql-codegen/typescript-operations": "^2.5.5",
     "@graphql-codegen/typescript-urql": "^3.7.2",
     "@graphql-codegen/urql-svelte-operations-store": "^1.3.2",
+    "@revolist/svelte-datagrid": "^3.2.16",
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
     "@tauri-apps/cli": "^1.1.0",
     "@tsconfig/svelte": "^3.0.0",
