@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    Badge,
     Box,
     Button,
     CloseButton,
@@ -7,6 +8,7 @@
     Grid,
     Group,
     NumberInput,
+    Space,
     Text,
     TextInput,
     theme,
@@ -18,20 +20,17 @@
   import Select from 'svelte-select';
   import { gearList } from '../stores/ProjectStore';
   import { persist } from '../stores/renderStore';
-  import { insert_item } from '../database/entities/Item';
-  // import { storeItem } from '../database/entities/Item';
-  let size = $persist.ui_font_size;
+  import { insert_item, item_exists } from '../database/entities/Item';
+
   export let gear: Gear;
   export let index: number;
 
-  // $: if (gear.category) {
-  //   basePower = gear[gear.category.toLowerCase()].power.wattage as number;
-  // }
-
+  let size = $persist.ui_font_size;
   let basePower: number = 0;
   $: totalCost = gear.quantity * (gear.cost ??= 0);
   $: totalPower = (gear.quantity * basePower) as number;
 
+  // $: console.log(gear.model);
   const asyncTest = async (fillerText: string) => {
     const response = await AsyncFuzzyItemSearch({ variables: { model: fillerText } });
     return response.data.fuzzyItemSearch;
@@ -66,7 +65,7 @@
     $gearList[index] = gear;
 
     if ($persist.sql_auto_store) {
-      insert_item(gear);
+      insert_item(gear).then((x) => console.log(x));
     }
   };
 
@@ -108,14 +107,28 @@
   $: ({ cx, getStyles } = useStylesDisabled());
 
   let isDark = $persist.darkMode ? theme.colors.dark200 : theme.colors.white;
+
+  $: promise_stored = item_exists(gear.model);
 </script>
 
 <Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
   <Grid grow>
     <Grid.Col span="{9}">
       <Group>
+        <!-- Select Fuzzy Search -->
         <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3 mr-2 w-1/4">
-          <Text mt="md" mb="xs" weight="normal" size="{size}">Quick Search Model</Text>
+          <Group noWrap position="apart">
+            <Text mt="md" mb="xs" weight="normal" size="{size}">Quick Search Model</Text>
+            <!-- {@const thing = insert_item(gear)} -->
+            {#await promise_stored then value}
+              <!-- {value}   -->
+              {#if typeof value === 'boolean' && value === true}
+                <Tooltip label="This item is stored locally." openDelay="{1300}">
+                  <Badge>Stored!</Badge>
+                </Tooltip>
+              {/if}
+            {/await}
+          </Group>
           <Select
             value="{gear.model}"
             loadOptions="{asyncTest}"
@@ -126,6 +139,7 @@
             optionIdentifier="model"
           />
         </div>
+        <!-- Quantity -->
         <div class="w-24">
           <NumberInput
             defaultValue="{0}"
@@ -138,27 +152,31 @@
             class="{cx(getStyles())}"
           />
         </div>
-        <Tooltip
-          closeDelay="{300}"
-          label="This is the Initial or Default cost of this Item, please change as necessary"
-          wrapLines
-          width="{200}"
-          withArrow
-          arrowSize="{4}"
-          color="indigo"
-          override="{{ textAlign: 'center' }}"
-        >
-          <div class="w-32">
-            <NumberInput
-              bind:value="{gear.cost}"
-              min="{0}"
-              defaultValue="{basePower}"
-              size="xs"
-              label="Initial Cost"
-              formatter="{numberFormatter}"
-            />
-          </div>
-        </Tooltip>
+        <!-- Cost -->
+        <div>
+          <Tooltip
+            closeDelay="{1300}"
+            label="This is the Initial or Default cost of this Item, please change as necessary"
+            wrapLines
+            width="{200}"
+            withArrow
+            arrowSize="{4}"
+            color="indigo"
+            override="{{ textAlign: 'center' }}"
+          >
+            <div class="w-32">
+              <NumberInput
+                bind:value="{gear.cost}"
+                min="{0}"
+                defaultValue="{basePower}"
+                size="xs"
+                label="Initial Cost"
+                formatter="{numberFormatter}"
+              />
+            </div>
+          </Tooltip>
+        </div>
+        <!-- Total Cost -->
         <div class="w-32">
           <NumberInput
             value="{totalCost}"
@@ -171,7 +189,7 @@
             class="{cx(getStyles())}"
           />
         </div>
-
+        <!-- Total Power -->
         <div class="w-32">
           <NumberInput
             value="{totalPower}"
@@ -195,9 +213,8 @@
         <Button compact on:click="{deleteGear}">Remove Gear: {index}</Button>
         <Button
           compact
-          on:click="{() => {
-            console.log(gear);
-            insert_item(gear);
+          on:click="{async () => {
+            // console.log();
           }}"
         />
       </Group>
@@ -205,6 +222,7 @@
   </Grid>
   {#each gear.items as { description, itemQuantity, public_notes, privateNotes, itemId } (itemId)}
     <Group direction="row" ml="sm" mb="sm" mt="sm">
+      <!-- Description -->
       <TextInput
         size="xs"
         label="Description"
@@ -212,6 +230,7 @@
         class="w-1/5"
         bind:value="{description}"
       />
+      <!-- Quantity -->
       <div class="w-32">
         <NumberInput
           size="xs"
