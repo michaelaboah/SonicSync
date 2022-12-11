@@ -1,8 +1,8 @@
 [package]
 name = "Deadalus-Tauri"
 version = "0.0.1"
-description = "A Tauri App"
-authors = ["you"]
+description = "Sound Design Production Tool"
+authors = ["Michael Aboah"]
 license = ""
 repository = ""
 edition = "2021"

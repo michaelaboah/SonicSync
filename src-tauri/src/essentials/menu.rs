@@ -1,7 +1,6 @@
 pub mod menu_bar {
 
     #[derive(Clone, serde::Serialize)]
-
     struct Payload {
         message: String,
     }
