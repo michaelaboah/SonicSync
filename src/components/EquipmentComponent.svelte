@@ -8,7 +8,6 @@
     Grid,
     Group,
     NumberInput,
-    Space,
     Text,
     TextInput,
     theme,

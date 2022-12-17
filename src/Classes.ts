@@ -1,26 +1,6 @@
 import type { SvelteUISize } from '@svelteuidev/core';
 import type { Item as ItemGraphql } from './generated/graphql';
 
-// export interface Equipment {
-//   modelId: number;
-//   created_at?: Date;
-//   updated_at?: Date;
-//   category: string;
-//   manufacturer: string;
-//   model: string;
-//   public_notes?: string;
-//   cost: number;
-//   powerDraw?: number;
-//   weight?: number;
-//   depth?: number;
-//   rackUnit?: number;
-//   frequencyRange?: string;
-//   items?: Item[];
-//   quantity?: number;
-// }
-
-// const buildEquipment = () => ({} as Equipment);
-
 export interface Box {
   id: number;
   name: number;
@@ -28,14 +8,13 @@ export interface Box {
   width: number;
   height: number;
 }
-
 export const buildBox = (currentBox?: Box) => ({ ...currentBox } as Box);
 
 export interface Item {
   itemId: number;
   description: string;
   itemQuantity: number;
-  public_notes?: string;
+  publicNotes?: string;
   privateNotes?: string;
   box?: Box;
 }
@@ -68,6 +47,7 @@ export const buildProdInfo = (productionInfo?: ProductionInformation): Productio
 export interface Project {
   productionInformation: ProductionInformation;
   gearList: Gear[];
+  ioList: IO;
 }
 
 export const createProject = (project?: Project): Project => ({ ...project } as Project);
@@ -80,6 +60,20 @@ export interface UserPreferences {
   ui_font_size: SvelteUISize;
 }
 
-// export const buildThing = (item: ItemGraphql) => {
-//   item.
-// }
+export interface Input {
+  channel: number | null;
+  input_description: string | null;
+  input_device: string | null;
+  note: string | null;
+}
+
+export interface Output {
+  channel: number;
+  output_device: string;
+  destination: string;
+}
+
+export type IO = {
+  input_list: Input[];
+  output_list: Output[];
+};
