@@ -9,7 +9,7 @@
     Text,
     // Tooltip,
   } from "@svelteuidev/core";
-  import { persist } from "../stores/renderStore";
+  import { persist } from "../stores/RenderStore";
   let rest: any;
   export let image: string | undefined;
   export let dropZoneName: string = "Image";

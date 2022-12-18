@@ -5,6 +5,7 @@ import {
   type Gear,
   type Input,
   type IO,
+  type Output,
   type ProductionInformation,
   type Project,
 } from '../Classes';
@@ -81,9 +82,11 @@ export const input_test: Input[] = [
   { channel: 63, input_device: '', input_description: '', note: null },
   { channel: 64, input_device: '', input_description: '', note: null },
 ];
+
+export const output_test: Output[] = [{ channel: 1, output_device: 'SD 9', destination: 'Galaxy' }];
 export const ioList = writable<IO>({
   input_list: input_test,
-  output_list: [],
+  output_list: output_test,
 });
 
 export const prodInfo = writable<ProductionInformation>(buildProdInfo());

@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import CommandPalette, { defineActions, createStoreMethods } from "svelte-command-palette";
   import { push } from "svelte-spa-router";
-  import { persist } from "../stores/renderStore";
+  import { persist } from "../stores/RenderStore";
 
   // define actions using the defineActions API
 

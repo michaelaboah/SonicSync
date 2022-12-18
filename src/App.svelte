@@ -10,7 +10,7 @@
   import ContextLayer from "./components/ContextLayer.svelte";
   import { themeKey } from "./utils/contextKeys";
   import { currentFile, loadProject, project } from "./stores/ProjectStore"; //, loadProject
-  import { persist } from "./stores/renderStore";
+  import { persist } from "./stores/RenderStore";
   import { push } from "svelte-spa-router";
 
   onMount(async () => {

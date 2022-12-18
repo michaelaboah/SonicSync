@@ -5,5 +5,6 @@
   "jsxSingleQuote": false,
   "svelteSortOrder": "scripts-markup-styles",
   "svelteStrictMode": true,
-  "svelteAllowShorthand": false
+  "svelteAllowShorthand": false,
+  "tabWidth": 4
 }
