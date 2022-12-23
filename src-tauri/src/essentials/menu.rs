@@ -4,7 +4,7 @@ pub mod menu_bar {
     struct Payload {
         message: String,
     }
-    use crate::essentials::communication;
+
     use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
     pub fn generate_menu_bar(app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
@@ -33,13 +33,23 @@ pub mod menu_bar {
                 ])
                 .add_item(open_preferences),
             )),
+            #[cfg(not(target_os = "macos"))] // AKA windows || linux
             MenuEntry::Submenu(Submenu::new(
                 "File",
                 Menu::with_items([MenuItem::CloseWindow.into()])
+                    .add_item(new)
                     .add_item(save)
                     .add_item(save_as)
                     .add_item(open)
-                    .add_item(new),
+                    .add_item(open_preferences),
+            )),
+            MenuEntry::Submenu(Submenu::new(
+                "File",
+                Menu::with_items([MenuItem::CloseWindow.into()])
+                    .add_item(new)
+                    .add_item(save)
+                    .add_item(save_as)
+                    .add_item(open),
             )),
             MenuEntry::Submenu(Submenu::new(
                 "Edit",
@@ -70,7 +80,10 @@ pub mod menu_bar {
         ]);
         menu
     }
+}
 
+pub mod menu_events {
+    use crate::essentials::communication;
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
             "save" => communication::events::menu_emit("save", event),

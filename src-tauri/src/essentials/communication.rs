@@ -15,10 +15,7 @@ pub mod events {
 
 pub mod commands {
     use serde_json::Value;
-    use std::{
-        fs::{self},
-        path::PathBuf,
-    };
+    use std::fs::{self};
     use tauri::api::dialog;
 
     #[tauri::command]
@@ -31,48 +28,35 @@ pub mod commands {
         println!("Here is your data: {:?}", data);
         match file_path {
             Some(path) => {
-                let data_str = match serde_json::to_string_pretty(&data) {
-                    Ok(data_str) => data_str,
+                match serde_json::to_string_pretty(&data) {
+                    Ok(data_str) => match fs::write(path, data_str) {
+                        Ok(_) => println!("Data successfully saved to file at path: {}", path),
+                        Err(error) => {
+                            let error_msg = format!("Failed to save data to file at path {}: {}\n. This path was not provided by the user.", path, error);
+                            dialog::MessageDialogBuilder::new("File Save error", error_msg)
+                                .kind(dialog::MessageDialogKind::Error);
+                        }
+                    },
                     Err(error) => {
                         println!("Failed to convert data to JSON string: {}", error);
-                        return;
                     }
                 };
-
-                let path_buf = PathBuf::from(path);
-                let path_str = match path_buf.to_str() {
-                    Some(path_str) => path_str,
-                    None => {
-                        println!("Invalid file path: {:?}", path_buf);
-                        return;
-                    }
-                };
-
-                match fs::write(path_str, data_str) {
-                    Ok(_) => println!("Data successfully saved to file at path: {}", path_str),
-                    Err(error) => {
-                        println!(
-                            "Failed to save data to file at path {}: {}",
-                            path_str, error
-                        );
-                    }
-                }
             }
             None => {
                 dialog::FileDialogBuilder::new().save_file(move |ref file| {
-                    if let Some(ref file_path) = file {
-                        let path_buf = PathBuf::from(file_path);
-                        let path_str = match path_buf.to_str() {
-                            Some(path_str) => path_str,
-                            None => {
-                                println!("Invalid file path: {:?}", path_buf);
-                                return;
-                            }
-                        };
-
-                        match fs::write(path_str, data.to_string()) {
+                    if let Some(ref file_buf) = file {
+                        let path_str = file_buf
+                            .as_os_str()
+                            .to_str()
+                            .unwrap_or("File buffer conversion failed");
+                        match fs::write(file_buf, data.to_string()) {
                             Ok(_) => {
-                                println!("Data successfully saved to file at path: {}", path_str)
+                                let success_msg = format!(
+                                    "Data successfully saved to file at path: {}",
+                                    path_str
+                                );
+                                dialog::MessageDialogBuilder::new("File Save Sucess", success_msg)
+                                    .kind(dialog::MessageDialogKind::Info);
                             }
                             Err(error) => {
                                 println!(
@@ -84,7 +68,13 @@ pub mod commands {
                                     format!("File error at menu line: 79. Error: {}", error),
                                 );
                             }
-                        }
+                        };
+                    } else {
+                        dialog::MessageDialogBuilder::new(
+                            "File Save Error",
+                            format!("Invalid file path"),
+                        )
+                        .kind(dialog::MessageDialogKind::Error);
                     }
                 });
             }
