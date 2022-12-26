@@ -37,7 +37,7 @@
                 <Button size="{BUTTON_SIZE}" on:click="{() => push('#/DatabaseView')}">Database Page</Button>
             </Grid.Col>
             <Grid.Col span="{2}">
-                <Button size="{BUTTON_SIZE}" on:click="{() => push('#/Sheets')}">Sheets Page</Button>
+                <Button size="{BUTTON_SIZE}" on:click="{() => {}}">Placeholder</Button>
             </Grid.Col>
             <Grid.Col span="{2}">
                 <Button size="{BUTTON_SIZE}" on:click="{() => console.log($project)}">Project</Button>

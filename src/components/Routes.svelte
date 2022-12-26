@@ -7,7 +7,6 @@
     import ProductionPage from '../pages/ProductionPage.svelte';
     import { Box } from '@svelteuidev/core';
     import DatabaseView from '../pages/DatabaseView.svelte';
-    import Sheets from '../pages/Sheets/Sheets.svelte';
     const routes = {
         '/': MainMenu,
         '/Bye': Bye,
@@ -15,7 +14,6 @@
         '/PreferencesPage': PreferencesPage,
         '/ProductionPage': ProductionPage,
         '/DatabaseView': DatabaseView,
-        '/Sheets': Sheets,
     };
 </script>
 
