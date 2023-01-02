@@ -42,7 +42,7 @@ export const TABLES = [
 
 const db = await SQLite.open('sqlite-internal.db');
 
-async function queryItems(model: string): Promise<Item[]> {
+export async function queryItems(model: string): Promise<Item[]> {
     const foundItems = await db.select<ItemTable[]>(`Select * FROM item WHERE item.model LIKE '%${model}%';`);
     const databaseItems = await Promise.all(foundItems.map(mapFoundItems));
     return databaseItems;
