@@ -40,13 +40,29 @@ export const TABLES = [
     CREATE_RADIO_ITEM,
 ];
 
-export async function queryItems(model: string): Promise<Item[]> {
+/**
+    Queries the item table in the database for items that match the given model
+    @param {string} model - The model to search for in the item table
+    @returns {Promise<Item[]>} - A promise that resolves to an array of items that match the search criteria
+    */
+export async function queryItems(model?: string): Promise<Item[]> {
     const db = await SQLite.open('sqlite-internal.db');
-    const foundItems = await db.select<ItemTable[]>(`Select * FROM item WHERE item.model LIKE '%${model}%';`);
+    let foundItems: ItemTable[] = [];
+    if (model) {
+        foundItems = await db.select<ItemTable[]>(`SELECT * FROM item WHERE item.model LIKE '%${model}%';`);
+    } else {
+        foundItems = await db.select<ItemTable[]>(`SELECT * FROM item;`);
+    }
+
     const databaseItems = await Promise.all(foundItems.map(mapFoundItems));
     return databaseItems;
 }
 
+/**
+    Maps an item table row to an Item object, including any nested foreign key objects
+    @param {ItemTable} item - The item table row to be mapped
+    @returns {Promise<Item>} - A promise that resolves to the mapped Item object
+    */
 const mapFoundItems = async (item: ItemTable): Promise<Item> => {
     const db = await SQLite.open('sqlite-internal.db');
     const {
@@ -99,5 +115,5 @@ const mapFoundItems = async (item: ItemTable): Promise<Item> => {
     // databaseItems.push(foundItem);}
 };
 
-queryItems('Galaxy').then((x) => console.log(x));
+queryItems().then((x) => console.log(x));
 export const ROUTINE_PRAGMA_QUERIES = [`PRAGMA foreign_keys = ON;`, `PRAGMA integrity_check`];
