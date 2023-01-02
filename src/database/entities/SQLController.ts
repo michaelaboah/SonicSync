@@ -66,11 +66,20 @@ const mapFoundItems = async (item: ItemTable): Promise<Item> => {
     //(typeof foreignId[1] === 'number' ? console.log(foreignId) : null)
 
     let foreignEntries = Object.entries(foreignItemKeys);
-    let foundForeignItem: any;
+    let foundForeignItem: any[] = [];
     for (const [key, value] of foreignEntries) {
         if (typeof value === 'number') {
             const fkQuery = `SELECT * FROM ${key.split('_')[0]}_item fk WHERE fk.id = '${value}'`;
             foundForeignItem = await db.select<any[]>(fkQuery);
+            for (let [fKey, fValue] of Object.entries(foundForeignItem[0])) {
+                if (typeof fValue === 'string' && fValue.includes('{')) {
+                    foundForeignItem[0] = { ...foundForeignItem[0], [fKey]: JSON.parse(fValue) };
+                }
+                // else if (typeof fValue === 'string' && !fValue.includes('{')) {
+
+                //     console.log('Enum');
+                // }
+            }
         }
     }
     return {
@@ -90,5 +99,5 @@ const mapFoundItems = async (item: ItemTable): Promise<Item> => {
     // databaseItems.push(foundItem);}
 };
 
-queryItems('Galaxy').then((x) => console.log(JSON.stringify(x)));
+queryItems('Galaxy').then((x) => console.log(x));
 export const ROUTINE_PRAGMA_QUERIES = [`PRAGMA foreign_keys = ON;`, `PRAGMA integrity_check`];
