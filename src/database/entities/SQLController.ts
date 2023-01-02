@@ -40,15 +40,15 @@ export const TABLES = [
     CREATE_RADIO_ITEM,
 ];
 
-const db = await SQLite.open('sqlite-internal.db');
-
 export async function queryItems(model: string): Promise<Item[]> {
+    const db = await SQLite.open('sqlite-internal.db');
     const foundItems = await db.select<ItemTable[]>(`Select * FROM item WHERE item.model LIKE '%${model}%';`);
     const databaseItems = await Promise.all(foundItems.map(mapFoundItems));
     return databaseItems;
 }
 
 const mapFoundItems = async (item: ItemTable): Promise<Item> => {
+    const db = await SQLite.open('sqlite-internal.db');
     const {
         id,
         category,
