@@ -55,8 +55,8 @@ import { insert_speaker_item } from './categories/SpeakerItem';
 
 export interface ItemTable {
     id: number;
-    created_at: Date;
-    updated_at: Date;
+    created_at: string;
+    updated_at: string;
     public_notes: string | null;
     cost: number | null;
     weight: number | null;

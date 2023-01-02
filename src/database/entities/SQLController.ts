@@ -9,7 +9,8 @@ import CREATE_RADIO_ITEM from './categories/RadioItem';
 import CREATE_SPEAKER_ITEM from './categories/SpeakerItem';
 import CREATE_ITEM_TABLE, { type ItemTable } from './Item';
 import CREATE_RFBAND from './RFBand';
-
+import type { Item } from '../../generated/graphql';
+import SQLite from 'tauri-plugin-sqlite';
 export const ITEM_RELATIONSHIPS = [
     `CREATE INDEX rfband_rf_item_id_index ON rfband (rf_item_id);`,
     `CREATE UNIQUE INDEX rfband_band_name_unique ON rfband (band_name);`,
@@ -39,12 +40,11 @@ export const TABLES = [
     CREATE_RADIO_ITEM,
 ];
 
-import SQLite from 'tauri-plugin-sqlite';
 const db = await SQLite.open('sqlite-internal.db');
 
-async function test(model: string) {
+async function queryItems(model: string): Promise<Item[]> {
+    const databaseItems: Item[] = [];
     const foundItems = await db.select<ItemTable[]>(`Select * FROM item WHERE item.model LIKE '%${model}%';`);
-    console.log(foundItems);
 
     for (const item of foundItems) {
         const {
@@ -59,18 +59,35 @@ async function test(model: string) {
             updated_at,
             weight,
             searchable_model,
-            ...rest
+            ...foreignItemKeys
         } = item;
         //(typeof foreignId[1] === 'number' ? console.log(foreignId) : null)
 
-        Object.entries(rest).forEach(async (foreignId) => {
-            if (typeof foreignId[1] === 'number') {
-                const fkQuery = `SELECT * FROM ${foreignId[0].split('_')[0]}_item fk WHERE fk.id = '${foreignId[1]}'`;
-                const subItem = await db.select<any[]>(fkQuery);
+        let foreignEntries = Object.entries(foreignItemKeys);
+        let foundForeignItem: any;
+        for (const subItem of foreignEntries) {
+            if (typeof subItem[1] === 'number') {
+                const fkQuery = `SELECT * FROM ${subItem[0].split('_')[0]}_item fk WHERE fk.id = '${subItem[1]}'`;
+                foundForeignItem = await db.select<any[]>(fkQuery);
             }
-        });
+        }
+        let foundItem: Item = {
+            id,
+            category,
+            dimensions: JSON.parse(dimensions),
+            cost,
+            created_at,
+            updated_at,
+            model,
+            notes: JSON.parse(notes),
+            public_notes,
+            weight,
+        };
+        foundItem[category.toLowerCase()] = foundForeignItem[0];
+        databaseItems.push(foundItem);
     }
+    return databaseItems;
 }
 
-test('Galaxy');
+queryItems('Galaxy');
 export const ROUTINE_PRAGMA_QUERIES = [`PRAGMA foreign_keys = ON;`, `PRAGMA integrity_check`];
