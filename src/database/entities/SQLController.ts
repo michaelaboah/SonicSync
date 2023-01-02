@@ -43,51 +43,52 @@ export const TABLES = [
 const db = await SQLite.open('sqlite-internal.db');
 
 async function queryItems(model: string): Promise<Item[]> {
-    const databaseItems: Item[] = [];
     const foundItems = await db.select<ItemTable[]>(`Select * FROM item WHERE item.model LIKE '%${model}%';`);
-
-    for (const item of foundItems) {
-        const {
-            id,
-            category,
-            dimensions,
-            cost,
-            created_at,
-            model,
-            notes,
-            public_notes,
-            updated_at,
-            weight,
-            searchable_model,
-            ...foreignItemKeys
-        } = item;
-        //(typeof foreignId[1] === 'number' ? console.log(foreignId) : null)
-
-        let foreignEntries = Object.entries(foreignItemKeys);
-        let foundForeignItem: any;
-        for (const subItem of foreignEntries) {
-            if (typeof subItem[1] === 'number') {
-                const fkQuery = `SELECT * FROM ${subItem[0].split('_')[0]}_item fk WHERE fk.id = '${subItem[1]}'`;
-                foundForeignItem = await db.select<any[]>(fkQuery);
-            }
-        }
-        let foundItem: Item = {
-            id,
-            category,
-            dimensions: JSON.parse(dimensions),
-            cost,
-            created_at,
-            updated_at,
-            model,
-            notes: JSON.parse(notes),
-            public_notes,
-            weight,
-        };
-        foundItem[category.toLowerCase()] = foundForeignItem[0];
-        databaseItems.push(foundItem);
-    }
+    const databaseItems = await Promise.all(foundItems.map(mapFoundItems));
     return databaseItems;
 }
 
-queryItems('Galaxy');
+const mapFoundItems = async (item: ItemTable): Promise<Item> => {
+    const {
+        id,
+        category,
+        dimensions,
+        cost,
+        created_at,
+        model,
+        notes,
+        public_notes,
+        updated_at,
+        weight,
+        searchable_model,
+        ...foreignItemKeys
+    } = item;
+    //(typeof foreignId[1] === 'number' ? console.log(foreignId) : null)
+
+    let foreignEntries = Object.entries(foreignItemKeys);
+    let foundForeignItem: any;
+    for (const [key, value] of foreignEntries) {
+        if (typeof value === 'number') {
+            const fkQuery = `SELECT * FROM ${key.split('_')[0]}_item fk WHERE fk.id = '${value}'`;
+            foundForeignItem = await db.select<any[]>(fkQuery);
+        }
+    }
+    return {
+        id,
+        category,
+        dimensions: JSON.parse(dimensions),
+        cost,
+        created_at,
+        updated_at,
+        model,
+        notes: JSON.parse(notes),
+        public_notes,
+        weight,
+        [category.toLowerCase()]: foundForeignItem[0],
+    } as Item;
+    // foundItem[category.toLowerCase()] = foundForeignItem[0];
+    // databaseItems.push(foundItem);}
+};
+
+queryItems('Galaxy').then((x) => console.log(JSON.stringify(x)));
 export const ROUTINE_PRAGMA_QUERIES = [`PRAGMA foreign_keys = ON;`, `PRAGMA integrity_check`];
