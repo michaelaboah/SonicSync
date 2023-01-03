@@ -4,7 +4,6 @@
         Box,
         Button,
         CloseButton,
-        createStyles,
         Grid,
         Group,
         NumberInput,
@@ -20,6 +19,7 @@
     import { gearList } from '../stores/ProjectStore';
     import { persist } from '../stores/RenderStore';
     import { insert_item, item_exists } from '../database/entities/Item';
+    import { useStylesDisabled } from '../utils/styles';
 
     export let gear: Gear;
     export let index: number;
@@ -81,27 +81,6 @@
         if (value) return !Number.isNaN(parseFloat(value)) ? `${value} watts` : 'bad';
         else return 'N/A';
     };
-
-    const useStylesDisabled = createStyles((theme) => ({
-        root: {
-            textAlign: 'center',
-            '& input:disabled': {
-                backgroundColor: 'white !important',
-                color: 'black !important',
-                border: '1px solid var(--svelteui-colors-gray400) !important',
-                opacity: '1 !important',
-                // width: "6rem",
-                [`${theme.dark} &`]: {
-                    // using of SvelteUI utilities
-                    // bc === backgroundColor
-                    backgroundColor: theme.colors.dark800 + '!important',
-                    opacity: '1 !important',
-                    color: 'white !important',
-                    border: '0px solid var(--svelteui-colors-gray400) !important',
-                },
-            },
-        },
-    }));
 
     $: ({ cx, getStyles } = useStylesDisabled());
 

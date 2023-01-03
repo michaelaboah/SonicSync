@@ -115,5 +115,4 @@ const mapFoundItems = async (item: ItemTable): Promise<Item> => {
     // databaseItems.push(foundItem);}
 };
 
-queryItems().then((x) => console.log(x));
 export const ROUTINE_PRAGMA_QUERIES = [`PRAGMA foreign_keys = ON;`, `PRAGMA integrity_check`];

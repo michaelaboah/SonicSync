@@ -7,6 +7,7 @@
     import ProductionPage from '../pages/ProductionPage.svelte';
     import { Box } from '@svelteuidev/core';
     import DatabaseView from '../pages/DatabaseView.svelte';
+    import EquipmentLibraryPage from '../pages/EquipmentLibraryPage.svelte';
     const routes = {
         '/': MainMenu,
         '/Bye': Bye,
@@ -14,6 +15,7 @@
         '/PreferencesPage': PreferencesPage,
         '/ProductionPage': ProductionPage,
         '/DatabaseView': DatabaseView,
+        '/EquipmentLibraryPage': EquipmentLibraryPage,
     };
 </script>
 

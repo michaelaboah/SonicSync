@@ -11,7 +11,7 @@
 
 <Header fixed height="full" override="{{ mt: '0' }}" pt="10" pb="10">
     <Box>
-        <Grid spacing="md" cols="{26}">
+        <Grid spacing="md" cols="{28}">
             <Grid.Col span="{2}">
                 <ActionIcon
                     ml="lg"
@@ -37,7 +37,11 @@
                 <Button size="{BUTTON_SIZE}" on:click="{() => push('#/DatabaseView')}">Database Page</Button>
             </Grid.Col>
             <Grid.Col span="{2}">
-                <Button size="{BUTTON_SIZE}" on:click="{() => {}}">Placeholder</Button>
+                <Button disabled size="{BUTTON_SIZE}" on:click="{() => {}}">IO List</Button>
+            </Grid.Col>
+            <Grid.Col span="{2}">
+                <Button size="{BUTTON_SIZE}" on:click="{() => push('#/EquipmentLibraryPage')}">Equipment Library</Button
+                >
             </Grid.Col>
             <Grid.Col span="{2}">
                 <Button size="{BUTTON_SIZE}" on:click="{() => console.log($project)}">Project</Button>
