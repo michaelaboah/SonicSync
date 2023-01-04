@@ -8,31 +8,29 @@ async function setupPersist(storePath?: string) {
 }
 
 setupPersist();
-
-export const tauri_store = new Store('settings.dat');
-// tauri_store.load();
-console.log('hello');
-
+const default_prefs = {
+    darkMode: false,
+    rememberMe: false,
+    credentials: { email: '', password: '' },
+    ui_font_size: 'xs',
+    sql_auto_store: true,
+} as UserPreferences;
+export const tauri_store = new Store('.frontend_store.dat');
+// tauri_store.set('preferences', default_prefs);
+// tauri_store.save();
 const managePersistance = () => {
-    const default_prefs = {
-        darkMode: false,
-        rememberMe: false,
-        credentials: { email: '', password: '' },
-        ui_font_size: 'xs',
-        sql_auto_store: true,
-    } as UserPreferences;
-
     const { subscribe, set, update } = writable<UserPreferences>(default_prefs);
     tauri_store.get<UserPreferences>('preferences').then((value) => {
+        console.log(value);
         if (!value || value === undefined) {
-            set(default_prefs);
+            tauri_store.set('preferences', default_prefs);
+            tauri_store.save();
         } else {
             set(value);
         }
     });
 
     subscribe((n) => {
-        console.log(JSON.stringify(tauri_store));
         if (n !== default_prefs) {
             tauri_store.set('preferences', n);
             tauri_store.save();
