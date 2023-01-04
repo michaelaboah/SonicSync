@@ -15,7 +15,7 @@ const default_prefs = {
     ui_font_size: 'xs',
     sql_auto_store: true,
 } as UserPreferences;
-export const tauri_store = new Store('.frontend_store.dat');
+const tauri_store = new Store('.frontend_store.dat');
 
 const managePersistance = () => {
     const { subscribe, set, update } = writable<UserPreferences>(default_prefs);
