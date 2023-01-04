@@ -4,13 +4,14 @@ import { Store } from 'tauri-plugin-store-api';
 import { fs, path } from '@tauri-apps/api';
 
 async function setupPersist(storePath?: string) {
-    console.log(await path.appLocalDataDir());
+    // console.log(await path.appLocalDataDir());
 }
 
 setupPersist();
 
 export const tauri_store = new Store('settings.dat');
 // tauri_store.load();
+console.log('hello');
 
 const managePersistance = () => {
     const default_prefs = {

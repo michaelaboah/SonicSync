@@ -16,8 +16,7 @@
         "all": true
       },
       "fs": {
-        "all": true,          
-        "scope": ["$HOME"]
+        "all": true          
       },
       "path": {
         "all": true

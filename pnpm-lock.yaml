@@ -39,7 +39,6 @@ specifiers:
   svelte-select: ^4.4.7
   svelte-spa-router: ^3.3.0
   tailwindcss: ^3.2.1
-  tauri-plugin-sqlite: github:lzdyes/tauri-plugin-sqlite#v0.1.1
   tauri-plugin-store-api: github:tauri-apps/tauri-plugin-store#dev
   tslib: ^2.4.0
   typescript: ^4.6.4
@@ -64,7 +63,6 @@ dependencies:
   printjs: 1.1.0
   svelte-command-palette: 1.2.1_vjccw6zkwqrmxudvmy4reaayx4
   svelte-spa-router: 3.3.0
-  tauri-plugin-sqlite: github.com/lzdyes/tauri-plugin-sqlite/3d09a5a963f96a06debe27b3e37d9337aca18dcc
   tauri-plugin-store-api: github.com/tauri-apps/tauri-plugin-store/9bd993aa67766596638bbfd91e79a1bf8f632014
 
 devDependencies:
@@ -1557,13 +1555,6 @@ packages:
       prism-svelte: 0.5.0
       prismjs: 1.28.0
       svelte: 3.54.0
-    dev: false
-
-  /@tauri-apps/api/1.0.0-rc.4:
-    resolution: {integrity: sha512-1HaUsx8+TzFHDoQ+Mmd6RWaMsPyZlurQHgACDt+il5e/ui6pDkumVXaS92SnY5XOcS4gBC0BkgjVfkWgcm/Oww==}
-    engines: {node: '>= 12.13.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
-    dependencies:
-      type-fest: 2.12.2
     dev: false
 
   /@tauri-apps/api/1.1.0:
@@ -4666,11 +4657,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /type-fest/2.12.2:
-    resolution: {integrity: sha512-qt6ylCGpLjZ7AaODxbpyBZSs9fCI9SkL3Z9q2oxMBQhs/uyY+VD8jHA8ULCGmWQJlBgqvO3EJeAngOHD8zQCrQ==}
-    engines: {node: '>=12.20'}
-    dev: false
-
   /typescript/4.9.4:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
     engines: {node: '>=4.2.0'}
@@ -5014,15 +5000,6 @@ packages:
 
   /zen-observable/0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
-
-  github.com/lzdyes/tauri-plugin-sqlite/3d09a5a963f96a06debe27b3e37d9337aca18dcc:
-    resolution: {tarball: https://codeload.github.com/lzdyes/tauri-plugin-sqlite/tar.gz/3d09a5a963f96a06debe27b3e37d9337aca18dcc}
-    name: tauri-plugin-sqlite-api
-    version: 0.1.1
-    dependencies:
-      '@tauri-apps/api': 1.0.0-rc.4
-      tslib: 2.4.1
-    dev: false
 
   github.com/tauri-apps/tauri-plugin-store/9bd993aa67766596638bbfd91e79a1bf8f632014:
     resolution: {tarball: https://codeload.github.com/tauri-apps/tauri-plugin-store/tar.gz/9bd993aa67766596638bbfd91e79a1bf8f632014}
