@@ -1,4 +1,5 @@
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import type { MicrophoneItem } from '../../../generated/graphql';
 
 const CREATE_MICROPHONE_ITEM_TABLE = `CREATE TABLE microphone_item (
@@ -17,10 +18,10 @@ const CREATE_MICROPHONE_ITEM_TABLE = `CREATE TABLE microphone_item (
 export default CREATE_MICROPHONE_ITEM_TABLE;
 
 export const insert_microphone_item = async (microphone: MicrophoneItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite-internal.db');
-  try {
-    const result = await db.select<{ id: number }[]>(
-      `INSERT INTO microphone_item (
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    try {
+        const result = await db.select<{ id: number }[]>(
+            `INSERT INTO microphone_item (
               max_spl,
               phantom,
               low_cut,
@@ -41,21 +42,21 @@ export const insert_microphone_item = async (microphone: MicrophoneItem): Promis
               ?8,
               ?9
           ) RETURNING id;`,
-      [
-        microphone.max_spl,
-        microphone.phantom,
-        microphone.low_cut,
-        microphone.pad,
-        microphone.diaphragm_size,
-        microphone.output_impedance,
-        microphone.frequency_response,
-        microphone.connector,
-        JSON.stringify(microphone.microphone_type),
-      ]
-    );
-    return result[0].id;
-  } catch (error: any) {
-    console.error(`Error inserting microphone item: ${error.message}`);
-    return JSON.stringify(error);
-  }
+            [
+                microphone.max_spl,
+                microphone.phantom,
+                microphone.low_cut,
+                microphone.pad,
+                microphone.diaphragm_size,
+                microphone.output_impedance,
+                microphone.frequency_response,
+                microphone.connector,
+                JSON.stringify(microphone.microphone_type),
+            ]
+        );
+        return result[0].id;
+    } catch (error: any) {
+        console.error(`Error inserting microphone item: ${error.message}`);
+        return JSON.stringify(error);
+    }
 };

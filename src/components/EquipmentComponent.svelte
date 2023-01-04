@@ -19,7 +19,7 @@
     import { gearList } from '../stores/ProjectStore';
     import { persist } from '../stores/RenderStore';
     import { insert_item, item_exists } from '../database/entities/Item';
-    import { useStylesDisabled } from '../utils/styles';
+    import { useStylesDisabled, costFormatter, wattageFormatter } from '../utils/styles';
 
     export let gear: Gear;
     export let index: number;
@@ -71,16 +71,6 @@
     function getModel(e: any) {
         return e.model;
     }
-
-    const numberFormatter = (value: string | undefined) => {
-        if (value) return !Number.isNaN(parseFloat(value)) ? ('$ ' + value).replace(/B(?=(d{3})+(?!d))/g, ',') : '$ ';
-        else return 'Not a Number';
-    };
-
-    const wattageFormatter = (value: string | undefined) => {
-        if (value) return !Number.isNaN(parseFloat(value)) ? `${value} watts` : 'bad';
-        else return 'N/A';
-    };
 
     $: ({ cx, getStyles } = useStylesDisabled());
 
@@ -149,7 +139,7 @@
                                 defaultValue="{basePower}"
                                 size="xs"
                                 label="Initial Cost"
-                                formatter="{numberFormatter}"
+                                formatter="{costFormatter}"
                             />
                         </div>
                     </Tooltip>
@@ -162,7 +152,7 @@
                         size="xs"
                         label="Total Cost"
                         hideControls
-                        formatter="{numberFormatter}"
+                        formatter="{costFormatter}"
                         disabled
                         class="{cx(getStyles())}"
                     />

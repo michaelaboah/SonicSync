@@ -1,4 +1,5 @@
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import type { NetworkItem } from '../../../generated/graphql';
 
 const CREATE_NETWORK_ITEM = `CREATE TABLE network_item (
@@ -13,10 +14,10 @@ const CREATE_NETWORK_ITEM = `CREATE TABLE network_item (
 
 export default CREATE_NETWORK_ITEM;
 export const insert_network_item = async (network: NetworkItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite-internal.db');
-  try {
-    const result = await db.select<{ id: number }[]>(
-      `INSERT INTO network_item (
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    try {
+        const result = await db.select<{ id: number }[]>(
+            `INSERT INTO network_item (
                 network_type,
                 poe_ports,
                 max_speed,
@@ -31,18 +32,18 @@ export const insert_network_item = async (network: NetworkItem): Promise<number 
                 ?5,
                 ?6
             ) RETURNING id;`,
-      [
-        network.network_type,
-        network.poe_ports,
-        network.max_speed,
-        network.fiber,
-        JSON.stringify(network.network_connectivity),
-        JSON.stringify(network.power),
-      ]
-    );
-    return result[0].id;
-  } catch (error: any) {
-    console.error(`Error inserting network item: ${error.message}`);
-    return JSON.stringify(error);
-  }
+            [
+                network.network_type,
+                network.poe_ports,
+                network.max_speed,
+                network.fiber,
+                JSON.stringify(network.network_connectivity),
+                JSON.stringify(network.power),
+            ]
+        );
+        return result[0].id;
+    } catch (error: any) {
+        console.error(`Error inserting network item: ${error.message}`);
+        return JSON.stringify(error);
+    }
 };

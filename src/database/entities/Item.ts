@@ -40,7 +40,7 @@ CREATE TABLE item (
     SET NULL ON UPDATE CASCADE
 );
 `;
-
+import { resolveResource } from '@tauri-apps/api/path';
 import SQLite from 'tauri-plugin-sqlite';
 import { Categories, type Item } from '../../generated/graphql';
 import { insert_amplifier_item } from './categories/AmplifierItem';
@@ -84,7 +84,7 @@ export interface ItemTable {
  * otherwise returns an error message.
  */
 export const insert_item = async (reference: Item): Promise<boolean | string[]> => {
-    const db = await SQLite.open('sqlite-internal.db');
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
     const errors: string[] = [];
     const exists = await item_exists(reference.model);
     if (typeof exists && exists) {
@@ -232,7 +232,7 @@ async function insert_generic(db: SQLite, parsed: Item): Promise<boolean | strin
 }
 
 export const item_exists = async (model_name: string): Promise<boolean | string> => {
-    const db = await SQLite.open('sqlite-internal.db');
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
     const CHECK_QUERY = `SELECT EXISTS (
     SELECT 1
     FROM item

@@ -1,4 +1,5 @@
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import type { MonitoringItem } from '../../../generated/graphql';
 
 const CREATE_MONITORING_ITEM = `
@@ -12,14 +13,14 @@ CREATE TABLE monitoring_item (
 `;
 
 export const insert_monitoring_item = async (monitoring: MonitoringItem): Promise<number | string> => {
-  if (monitoring.id) {
-    delete monitoring.id;
-  }
-  const db = await SQLite.open('sqlite-internal.db');
-  console.log(Object.values(monitoring));
-  try {
-    const result = await db.select<{ id: number }[]>(
-      `INSERT INTO monitoring_item (
+    if (monitoring.id) {
+        delete monitoring.id;
+    }
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    console.log(Object.values(monitoring));
+    try {
+        const result = await db.select<{ id: number }[]>(
+            `INSERT INTO monitoring_item (
       distro,
       network_connectivity,
       physical_connectivity,
@@ -31,19 +32,19 @@ export const insert_monitoring_item = async (monitoring: MonitoringItem): Promis
       ?3,
       ?4
     ) RETURNING id;`,
-      [
-        monitoring.distro,
-        JSON.stringify(monitoring.network_connectivity),
-        JSON.stringify(monitoring.physical_connectivity),
-        JSON.stringify(monitoring.power),
-      ]
-    );
-    return result[0].id;
-  } catch (error: any) {
-    console.error(`Error inserting monitoring item: ${error.message}`);
-    return JSON.stringify(error);
-  }
-  // await db.close();
+            [
+                monitoring.distro,
+                JSON.stringify(monitoring.network_connectivity),
+                JSON.stringify(monitoring.physical_connectivity),
+                JSON.stringify(monitoring.power),
+            ]
+        );
+        return result[0].id;
+    } catch (error: any) {
+        console.error(`Error inserting monitoring item: ${error.message}`);
+        return JSON.stringify(error);
+    }
+    // await db.close();
 };
 
 export default CREATE_MONITORING_ITEM;

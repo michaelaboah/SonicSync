@@ -11,6 +11,7 @@ import CREATE_ITEM_TABLE, { type ItemTable } from './Item';
 import CREATE_RFBAND from './RFBand';
 import type { Item } from '../../generated/graphql';
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 export const ITEM_RELATIONSHIPS = [
     `CREATE INDEX rfband_rf_item_id_index ON rfband (rf_item_id);`,
     `CREATE UNIQUE INDEX rfband_band_name_unique ON rfband (band_name);`,
@@ -46,7 +47,7 @@ export const TABLES = [
     @returns {Promise<Item[]>} - A promise that resolves to an array of items that match the search criteria
     */
 export async function queryItems(model?: string): Promise<Item[]> {
-    const db = await SQLite.open('sqlite-internal.db');
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
     let foundItems: ItemTable[] = [];
     if (model) {
         foundItems = await db.select<ItemTable[]>(`SELECT * FROM item WHERE item.model LIKE '%${model}%';`);
@@ -64,7 +65,7 @@ export async function queryItems(model?: string): Promise<Item[]> {
     @returns {Promise<Item>} - A promise that resolves to the mapped Item object
     */
 const mapFoundItems = async (item: ItemTable): Promise<Item> => {
-    const db = await SQLite.open('sqlite-internal.db');
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
     const {
         id,
         category,

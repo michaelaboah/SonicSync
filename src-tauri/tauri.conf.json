@@ -16,7 +16,7 @@
         "all": true
       },
       "fs": {
-        "all": false,          
+        "all": true,          
         "scope": ["$HOME"]
       },
       "path": {
@@ -51,7 +51,7 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": ["resources/sqlite-internal.db"],
       "shortDescription": "",
       "targets": "all",
       "windows": {

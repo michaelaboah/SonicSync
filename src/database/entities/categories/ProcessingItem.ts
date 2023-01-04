@@ -1,4 +1,5 @@
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import type { ProcessingItem } from '../../../generated/graphql';
 
 const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processor_item (
@@ -24,7 +25,7 @@ const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processor_item (
 export default CREATE_PROCESSING_ITEM_TABLE;
 
 export const insert_processor_item = async (processing: ProcessingItem): Promise<number | string> => {
-    const db = await SQLite.open('sqlite-internal.db');
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
     try {
         const result = await db.select<{ id: number }[]>(
             `INSERT INTO processor_item (

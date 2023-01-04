@@ -1,4 +1,5 @@
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import type { ConsoleItem } from '../../../generated/graphql';
 
 const CREATE_CONSOLE_ITEM_TABLE = `
@@ -30,10 +31,10 @@ CREATE TABLE console_item (
 export default CREATE_CONSOLE_ITEM_TABLE;
 
 export const insert_console_item = async (console_item: ConsoleItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite-internal.db');
-  try {
-    const result = await db.select<{ id: number }[]>(
-      `INSERT INTO console_item (
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    try {
+        const result = await db.select<{ id: number }[]>(
+            `INSERT INTO console_item (
               total_inputs,
               total_outputs,
               total_busses,
@@ -68,28 +69,28 @@ export const insert_console_item = async (console_item: ConsoleItem): Promise<nu
               ?15,
               ?16
           ) RETURNING id;`,
-      [
-        console_item.total_inputs,
-        console_item.total_outputs,
-        console_item.total_busses,
-        console_item.physical_inputs,
-        console_item.physical_outputs,
-        console_item.aux_inputs,
-        console_item.physical_aux_inputs,
-        console_item.phantom_power_inputs,
-        console_item.faders,
-        console_item.motorized,
-        console_item.midi,
-        console_item.protocol_inputs,
-        console_item.signal_protocol,
-        console_item.can_expand,
-        console_item.max_sample_rate,
-        JSON.stringify(console_item.power),
-      ]
-    );
-    return result[0].id;
-  } catch (error: any) {
-    console.error(`Error inserting console item: ${error.message}`);
-    return JSON.stringify(error);
-  }
+            [
+                console_item.total_inputs,
+                console_item.total_outputs,
+                console_item.total_busses,
+                console_item.physical_inputs,
+                console_item.physical_outputs,
+                console_item.aux_inputs,
+                console_item.physical_aux_inputs,
+                console_item.phantom_power_inputs,
+                console_item.faders,
+                console_item.motorized,
+                console_item.midi,
+                console_item.protocol_inputs,
+                console_item.signal_protocol,
+                console_item.can_expand,
+                console_item.max_sample_rate,
+                JSON.stringify(console_item.power),
+            ]
+        );
+        return result[0].id;
+    } catch (error: any) {
+        console.error(`Error inserting console item: ${error.message}`);
+        return JSON.stringify(error);
+    }
 };

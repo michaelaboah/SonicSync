@@ -1,6 +1,7 @@
-import Database from 'tauri-plugin-sqlite';
+import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import { ROUTINE_PRAGMA_QUERIES, TABLES } from './entities/SQLController';
-const Sqlite = Database.open('sqlite-internal.db');
+import { SQL_DB_PATH } from '../utils/ClientContants';
 
 const ENABLE_FOREIGN_KEYS = `PRAGMA foreign_keys = ON;`;
 const tableCheck = (tableName: string) => `
@@ -11,27 +12,29 @@ SELECT CASE WHEN EXISTS
   END AS TableExists
 `;
 
-export const initialize_database = async (): Promise<void> => {
-  const db = await Sqlite;
-  TABLES.forEach((table) => createTables(table));
+console.log(SQL_DB_PATH);
 
-  ROUTINE_PRAGMA_QUERIES.forEach(async (routine: string) => await db.execute(routine));
-  const check = await db.select<{ integrity_check: string }[]>(`PRAGMA integrity_check`);
-  if (check[0].integrity_check === 'ok') {
-    console.log('Database is OK');
-  }
+export const initialize_database = async (): Promise<void> => {
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    TABLES.forEach((table) => createTables(table));
+
+    ROUTINE_PRAGMA_QUERIES.forEach(async (routine: string) => await db.execute(routine));
+    const check = await db.select<{ integrity_check: string }[]>(`PRAGMA integrity_check`);
+    if (check[0].integrity_check === 'ok') {
+        console.log('Database is OK');
+    }
 };
 
 export const createTables = async (table: string) => {
-  const db = await Sqlite;
-  await db.execute(ENABLE_FOREIGN_KEYS);
-  await db.execute(table).catch((err: string) => {
-    if (err.includes('code 1')) {
-      // console.log('Normal Behavior');
-    } else {
-      console.log('Irregular Behavior' + err);
-    }
-  });
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    await db.execute(ENABLE_FOREIGN_KEYS);
+    await db.execute(table).catch((err: string) => {
+        if (err.includes('code 1')) {
+            // console.log('Normal Behavior');
+        } else {
+            console.log('Irregular Behavior' + err);
+        }
+    });
 };
 
-export default Sqlite;
+// export default Sqlite;

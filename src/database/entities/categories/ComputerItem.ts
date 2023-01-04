@@ -1,4 +1,5 @@
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import type { ComputerItem } from '../../../generated/graphql';
 
 const CREATE_COMPUTER_ITEM_TABLE = `CREATE TABLE computer_item (
@@ -16,10 +17,10 @@ const CREATE_COMPUTER_ITEM_TABLE = `CREATE TABLE computer_item (
 export default CREATE_COMPUTER_ITEM_TABLE;
 
 export const insert_computer_item = async (computer: ComputerItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite-internal.db');
-  try {
-    const result = await db.select<{ id: number }[]>(
-      `INSERT INTO computer_item (
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    try {
+        const result = await db.select<{ id: number }[]>(
+            `INSERT INTO computer_item (
       cpu_processor,
       ram_size,
       total_storage,
@@ -41,23 +42,23 @@ export const insert_computer_item = async (computer: ComputerItem): Promise<numb
       ?8,
       ?9
     ) RETURNING id;`,
-      [
-        computer.cpu_processor,
-        computer.ram_size,
-        computer.total_storage,
-        computer.model_year,
-        computer.operating_system,
-        computer.dedicated_graphics,
-        JSON.stringify(computer.network_connectivity),
-        JSON.stringify(computer.computer_ports),
-        JSON.stringify(computer.power),
-      ]
-    );
-    return result[0].id;
-  } catch (error: any) {
-    console.error(`Error inserting computer item: ${error.message}`);
-    return JSON.stringify(error);
-  }
+            [
+                computer.cpu_processor,
+                computer.ram_size,
+                computer.total_storage,
+                computer.model_year,
+                computer.operating_system,
+                computer.dedicated_graphics,
+                JSON.stringify(computer.network_connectivity),
+                JSON.stringify(computer.computer_ports),
+                JSON.stringify(computer.power),
+            ]
+        );
+        return result[0].id;
+    } catch (error: any) {
+        console.error(`Error inserting computer item: ${error.message}`);
+        return JSON.stringify(error);
+    }
 };
 
 const test_computer = `{

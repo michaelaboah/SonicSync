@@ -260,7 +260,7 @@ const CREATE_RFBAND = `CREATE TABLE rfband (
 /*
 
 export const insert_rfband = async (rfband: RfBand): Promise<number | string> => {
-    const db = await SQLite.open('sqlite-internal.db');
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
     try {
         const result = await db.select<{ id: number }[]>(
             `INSERT INTO rfband (

@@ -19,3 +19,13 @@ export const useStylesDisabled = createStyles((theme) => ({
         },
     },
 }));
+
+export const costFormatter = (value: string | undefined) => {
+    if (value) return !Number.isNaN(parseFloat(value)) ? ('$ ' + value).replace(/B(?=(d{3})+(?!d))/g, ',') : '$ ';
+    else return 'Not a Number';
+};
+
+export const wattageFormatter = (value: string | undefined) => {
+    if (value) return !Number.isNaN(parseFloat(value)) ? `${value} watts` : 'bad';
+    else return 'N/A';
+};

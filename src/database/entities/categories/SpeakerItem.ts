@@ -1,4 +1,5 @@
 import SQLite from 'tauri-plugin-sqlite';
+import { resolveResource } from '@tauri-apps/api/path';
 import type { SpeakerItem } from '../../../generated/graphql';
 
 const CREATE_SPEAKER_ITEM = `CREATE TABLE speaker_item (
@@ -18,10 +19,10 @@ const CREATE_SPEAKER_ITEM = `CREATE TABLE speaker_item (
 export default CREATE_SPEAKER_ITEM;
 
 export const insert_speaker_item = async (speaker: SpeakerItem): Promise<number | string> => {
-  const db = await SQLite.open('sqlite-internal.db');
-  try {
-    const result = await db.select<{ id: number }[]>(
-      `INSERT INTO speaker_item (
+    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    try {
+        const result = await db.select<{ id: number }[]>(
+            `INSERT INTO speaker_item (
                 driver,
                 built_in_processing,
                 wireless,
@@ -44,22 +45,22 @@ export const insert_speaker_item = async (speaker: SpeakerItem): Promise<number 
                 ?9,
                 ?10
             ) RETURNING id;`,
-      [
-        JSON.stringify(speaker.driver),
-        speaker.built_in_processing,
-        speaker.wireless,
-        speaker.max_spl,
-        JSON.stringify(speaker.power),
-        speaker.lower_frequency_response,
-        speaker.upper_frequency_response,
-        speaker.mounting_options,
-        JSON.stringify(speaker.physical_connectivity),
-        JSON.stringify(speaker.network_connectivity),
-      ]
-    );
-    return result[0].id;
-  } catch (error: any) {
-    console.error(`Error inserting speaker item: ${error.message}`);
-    return JSON.stringify(error);
-  }
+            [
+                JSON.stringify(speaker.driver),
+                speaker.built_in_processing,
+                speaker.wireless,
+                speaker.max_spl,
+                JSON.stringify(speaker.power),
+                speaker.lower_frequency_response,
+                speaker.upper_frequency_response,
+                speaker.mounting_options,
+                JSON.stringify(speaker.physical_connectivity),
+                JSON.stringify(speaker.network_connectivity),
+            ]
+        );
+        return result[0].id;
+    } catch (error: any) {
+        console.error(`Error inserting speaker item: ${error.message}`);
+        return JSON.stringify(error);
+    }
 };
