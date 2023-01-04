@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Box, Divider, Footer, Grid, Group, NumberInput, Skeleton, Stack, Text, theme } from '@svelteuidev/core';
-    import { queryItems } from '../database/entities/SQLController';
     import { persist } from '../stores/RenderStore';
     import { useStylesDisabled } from '../utils/styles';
 
-    $: internalItems = queryItems();
+    $: internalItems = [];
+    // = queryItems();
     $: ({ cx, getStyles } = useStylesDisabled());
 </script>
 

@@ -22,11 +22,10 @@ fn main() {
     let menu = menu_bar::generate_menu_bar(&ctx.package_info().name);
 
     tauri::Builder::default()
-        .setup(|app| {
-            setup_database(app)?;
-
-            Ok(())
-        })
+        // .setup(|app| {
+        //     setup_database(app)?;
+        //     Ok(())
+        // })
         .plugin(PluginBuilder::default().build())
         .plugin(tauri_plugin_persisted_scope::init())
         .plugin(Builder::default().build())
@@ -36,20 +35,15 @@ fn main() {
         .run(ctx)
         .expect("error while running tauri application");
 }
-
+///
+/// 1) Does the user's database exist?
+///     true => do nothing, exit function
+///     false => copy from resource.
+/// 2) Find SQL db in resource
+///     true => get pathbuf of db {find_resource()}
+///     false => unimplemented!()
+/// 3) Copy db resource into App Data dir
 fn setup_database(app: &mut tauri::App) -> Result<(), Box<dyn error::Error>> {
-    find_resource("resources/sqlite-internal.db", app);
-
-    let db_path: Result<PathBuf, io::Error> = app
-        .path_resolver()
-        .resolve_resource("resources/sqlite-internal.db")
-        .map(|path| match path.try_exists() {
-            Ok(true) => Ok(path),
-            Ok(false) => Ok(path),
-            Err(path_err) => Err(path_err),
-        })
-        .unwrap();
-
     let data_dir = app
         .path_resolver()
         .app_data_dir()
@@ -67,7 +61,9 @@ fn setup_database(app: &mut tauri::App) -> Result<(), Box<dyn error::Error>> {
             Err(path_err) => Err(path_err),
         })
         .unwrap();
-    fs::copy(db_path?, data_dir?).expect("Copy Error");
+    let db_exists = std::path::Path::new(&data_dir?).exists();
+    println!("DB Found?: {db_exists}");
+    // fs::copy(db_path?, data_dir?).expect("Copy Error");
     Ok(())
 }
 
@@ -79,14 +75,14 @@ fn find_resource(resource_path: &str, app: &mut tauri::App) -> Result<PathBuf, i
                 Ok(path)
             }
             Ok(false) => {
-                println!("Path doesn't exist: {}", path.to_str().unwrap());
-                Ok(path)
+                //Potentially download the database from the server.
+                unimplemented!("Database resource does not exist");
             }
             Err(path_err) => Err(path_err),
         },
         None => Err(io::Error::new(
             io::ErrorKind::NotFound,
-            "Resource Not Found!: path = resources/sqlite-internal.db",
+            format!("Resource Not Found!: path = {resource_path}"),
         )),
     }
 }

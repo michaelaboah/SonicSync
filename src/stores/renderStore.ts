@@ -1,8 +1,16 @@
 import type { UserPreferences } from '../Classes';
 import { writable } from 'svelte/store';
 import { Store } from 'tauri-plugin-store-api';
+import { fs, path } from '@tauri-apps/api';
 
-const tauri_store = new Store('../settings.dat');
+async function setupPersist(storePath?: string) {
+    console.log(await path.appLocalDataDir());
+}
+
+setupPersist();
+
+export const tauri_store = new Store('settings.dat');
+// tauri_store.load();
 
 const managePersistance = () => {
     const default_prefs = {
@@ -23,6 +31,7 @@ const managePersistance = () => {
     });
 
     subscribe((n) => {
+        console.log(JSON.stringify(tauri_store));
         if (n !== default_prefs) {
             tauri_store.set('preferences', n);
             tauri_store.save();

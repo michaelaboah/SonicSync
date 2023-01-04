@@ -12,7 +12,6 @@
 
     let reference: HTMLElement;
     let rest: any;
-    $: console.log($persist.rememberMe);
     onMount(() => {
         if ($persist.rememberMe) {
             loginOptions = $persist.credentials;

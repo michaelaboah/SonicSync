@@ -18,7 +18,7 @@
     import Select from 'svelte-select';
     import { gearList } from '../stores/ProjectStore';
     import { persist } from '../stores/RenderStore';
-    import { insert_item, item_exists } from '../database/entities/Item';
+
     import { useStylesDisabled, costFormatter, wattageFormatter } from '../utils/styles';
 
     export let gear: Gear;
@@ -64,7 +64,7 @@
         $gearList[index] = gear;
 
         if ($persist.sql_auto_store) {
-            insert_item(gear).then((x) => console.log(x));
+            // insert_item(gear).then((x) => console.log(x));
         }
     };
 
@@ -76,7 +76,8 @@
 
     let isDark = $persist.darkMode ? theme.colors.dark200 : theme.colors.white;
 
-    $: promise_stored = item_exists(gear.model);
+    $: promise_stored = false;
+    // item_exists(gear.model);
 </script>
 
 <Box css="{{ backgroundColor: $persist.darkMode ? theme.colors.dark400 : theme.colors.dark50 }}">
