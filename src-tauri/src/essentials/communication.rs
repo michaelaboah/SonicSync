@@ -38,7 +38,9 @@ pub mod commands {
                         }
                     },
                     Err(error) => {
-                        println!("Failed to convert data to JSON string: {}", error);
+                        let error_msg = format!("Failed to convert data to JSON string: {}", error);
+                        dialog::MessageDialogBuilder::new("File Save error", error_msg)
+                            .kind(dialog::MessageDialogKind::Error);
                     }
                 };
             }
