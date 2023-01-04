@@ -16,12 +16,12 @@ const default_prefs = {
     sql_auto_store: true,
 } as UserPreferences;
 export const tauri_store = new Store('.frontend_store.dat');
-// tauri_store.set('preferences', default_prefs);
-// tauri_store.save();
+
 const managePersistance = () => {
     const { subscribe, set, update } = writable<UserPreferences>(default_prefs);
     tauri_store.get<UserPreferences>('preferences').then((value) => {
         console.log(value);
+        // if get is undefined/null then initialize the file.
         if (!value || value === undefined) {
             tauri_store.set('preferences', default_prefs);
             tauri_store.save();
