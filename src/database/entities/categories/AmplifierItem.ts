@@ -23,7 +23,7 @@ CREATE TABLE amplifier_item (
 export default CREATE_AMPLIFIER_ITEM;
 
 export const insert_amplifier_item = async (amplifier: AmplifierItem): Promise<number | string> => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     try {
         const result = await db.select<{ id: number }[]>(
             `INSERT INTO amplifier_item ( 

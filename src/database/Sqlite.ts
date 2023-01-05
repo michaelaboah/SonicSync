@@ -15,7 +15,7 @@ SELECT CASE WHEN EXISTS
 console.log(SQL_DB_PATH);
 
 export const initialize_database = async (): Promise<void> => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     TABLES.forEach((table) => createTables(table));
 
     ROUTINE_PRAGMA_QUERIES.forEach(async (routine: string) => await db.execute(routine));
@@ -26,7 +26,7 @@ export const initialize_database = async (): Promise<void> => {
 };
 
 export const createTables = async (table: string) => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     await db.execute(ENABLE_FOREIGN_KEYS);
     await db.execute(table).catch((err: string) => {
         if (err.includes('code 1')) {

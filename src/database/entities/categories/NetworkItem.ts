@@ -14,7 +14,7 @@ const CREATE_NETWORK_ITEM = `CREATE TABLE network_item (
 
 export default CREATE_NETWORK_ITEM;
 export const insert_network_item = async (network: NetworkItem): Promise<number | string> => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     try {
         const result = await db.select<{ id: number }[]>(
             `INSERT INTO network_item (

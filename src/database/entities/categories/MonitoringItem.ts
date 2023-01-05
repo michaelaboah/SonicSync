@@ -16,7 +16,7 @@ export const insert_monitoring_item = async (monitoring: MonitoringItem): Promis
     if (monitoring.id) {
         delete monitoring.id;
     }
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     console.log(Object.values(monitoring));
     try {
         const result = await db.select<{ id: number }[]>(

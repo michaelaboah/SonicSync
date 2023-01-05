@@ -84,7 +84,7 @@ export interface ItemTable {
  * otherwise returns an error message.
  */
 export const insert_item = async (reference: Item): Promise<boolean | string[]> => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     const errors: string[] = [];
     const exists = await item_exists(reference.model);
     if (typeof exists && exists) {
@@ -232,7 +232,7 @@ async function insert_generic(db: SQLite, parsed: Item): Promise<boolean | strin
 }
 
 export const item_exists = async (model_name: string): Promise<boolean | string> => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     const CHECK_QUERY = `SELECT EXISTS (
     SELECT 1
     FROM item

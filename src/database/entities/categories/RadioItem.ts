@@ -14,7 +14,7 @@ const CREATE_RADIO_ITEM = `CREATE TABLE rfitem (
 export default CREATE_RADIO_ITEM;
 
 export const insert_rfitem = async (rfitem: RfItem): Promise<number | string> => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     try {
         const result = await db.select<{ id: number }[]>(
             `INSERT INTO rfitem (

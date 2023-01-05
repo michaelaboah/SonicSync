@@ -1,13 +1,7 @@
 import type { UserPreferences } from '../Classes';
 import { writable } from 'svelte/store';
 import { Store } from 'tauri-plugin-store-api';
-import { fs, path } from '@tauri-apps/api';
 
-async function setupPersist(storePath?: string) {
-    // console.log(await path.appLocalDataDir());
-}
-
-setupPersist();
 const default_prefs = {
     darkMode: false,
     rememberMe: false,

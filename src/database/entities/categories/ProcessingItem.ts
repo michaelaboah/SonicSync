@@ -25,7 +25,7 @@ const CREATE_PROCESSING_ITEM_TABLE = `CREATE TABLE processor_item (
 export default CREATE_PROCESSING_ITEM_TABLE;
 
 export const insert_processor_item = async (processing: ProcessingItem): Promise<number | string> => {
-    const db = await SQLite.open(await resolveResource(import.meta.env.VITE_DB_DEV));
+    const db = await SQLite.open('src-tauri/resources/sqlite-internal.db');
     try {
         const result = await db.select<{ id: number }[]>(
             `INSERT INTO processor_item (
