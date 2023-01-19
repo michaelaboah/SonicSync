@@ -1,4 +1,3 @@
-use crate::sql::entities::{creation_structs::CreateItem, enums::Categories, structs::Item};
 use crate::sql::error_handling::*;
 use sqlx::sqlite::Sqlite;
 use sqlx::Pool;
