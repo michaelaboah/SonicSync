@@ -10,17 +10,17 @@ pub struct Dimension {
 
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct PhysicalPort {
-    port_identifier: Option<String>,
-    connector_type: Analog,
-    signal_lines: i64,
-    input: bool,
+    pub port_identifier: Option<String>,
+    pub connector_type: Analog,
+    pub signal_lines: i64,
+    pub input: bool,
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct NetworkPort {
-    port_identifier: Option<String>,
-    max_connection_speed: NetworkSpeeds,
-    power_over_ethernet: bool,
-    protocol: Protocol,
+    pub port_identifier: Option<String>,
+    pub max_connection_speed: NetworkSpeeds,
+    pub power_over_ethernet: bool,
+    pub protocol: Protocol,
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Power {
@@ -33,13 +33,13 @@ pub struct Power {
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Transmitter {
-    connector: TransmitterConnector,
+    pub(crate) connector: TransmitterConnector,
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
-pub struct Reciever {
-    network_ports: Vec<NetworkPort>,
-    physical_ports: Vec<PhysicalPort>,
-    power: Power,
+pub struct Receiver {
+    pub network_ports: Vec<NetworkPort>,
+    pub physical_ports: Vec<PhysicalPort>,
+    pub power: Power,
 }
 
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]

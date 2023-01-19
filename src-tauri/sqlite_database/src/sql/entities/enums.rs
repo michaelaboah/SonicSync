@@ -1,6 +1,6 @@
+#[allow(non_camel_case_types)]
 use num_derive::FromPrimitive;
 use serde::{Deserialize, Serialize};
-// use std::mem::transmute;
 
 #[derive(
     Debug, Default, sqlx::Type, Deserialize, PartialEq, Serialize, Clone, Copy, FromPrimitive,

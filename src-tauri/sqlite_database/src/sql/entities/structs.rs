@@ -3,6 +3,10 @@ use super::field_structs::*;
 use serde::{Deserialize, Serialize};
 use sqlx::Decode;
 
+trait Constructor {
+    fn new(self) -> Self;
+}
+
 #[derive(Debug, Default, sqlx::FromRow, Decode, Serialize, Deserialize, PartialEq, Clone)]
 pub struct Item {
     pub id: i64,
@@ -113,7 +117,7 @@ pub struct MicrophoneItem {
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct SpeakerItem {
-    pub id: i64,
+    pub speaker_id: i64,
     pub driver: DriverArrangment,
     pub built_in_processing: bool,
     pub wireless: bool,
@@ -127,7 +131,7 @@ pub struct SpeakerItem {
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct MonitoringItem {
-    pub id: i64,
+    pub monitoring_id: i64,
     pub distro: bool,
     pub network_connectivity: Vec<NetworkPort>,
     pub physical_connectivity: Option<Vec<PhysicalPort>>,
@@ -136,10 +140,10 @@ pub struct MonitoringItem {
 
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct RFItem {
-    pub id: i64,
+    pub rf_id: i64,
     pub physical_range: i64,
     pub lower_frequency_response: i64,
     pub upper_frequency_response: i64,
     pub transmitter: Transmitter,
-    pub reciever: Reciever,
+    pub reciever: Receiver,
 }
