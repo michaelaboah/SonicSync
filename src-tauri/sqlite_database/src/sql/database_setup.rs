@@ -1,15 +1,15 @@
-use sqlx::{Connection, SqliteConnection};
+
 
 pub mod sql_setup {
 
-    use crate::sql::entities::structs::Item;
+    
     use sqlx::sqlite::SqlitePoolOptions;
-    use std::fs;
+    
     #[tokio::main]
     //Should change path from &str to Path or PathBuf
 
     pub async fn initialize_db(path: &str) -> Result<(), Box<dyn std::error::Error>> {
-        let pool = SqlitePoolOptions::new()
+        let _pool = SqlitePoolOptions::new()
             .max_connections(5)
             .connect(path)
             .await?;
