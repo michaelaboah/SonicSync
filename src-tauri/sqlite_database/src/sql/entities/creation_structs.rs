@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::sqlite::Sqlite;
 use sqlx::Pool;
 
-trait SqlConvert<T> {
+pub trait SqlConvert<T> {
     fn convert_query(&self) -> T;
 }
 #[derive(Debug, Default, sqlx::FromRow, PartialEq)]
@@ -60,8 +60,6 @@ impl CreateItem {
             searchable_model: Some(item.model.to_owned()),
         }
     }
-
-    
     pub async fn query_to_item(&self, pool: &Pool<Sqlite>) -> Item {
         let dim = self
             .dimensions

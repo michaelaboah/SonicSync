@@ -1,3 +1,5 @@
+use std::ops::Not;
+
 use sqlx::sqlite::SqliteQueryResult;
 
 #[derive(Debug)]
@@ -13,6 +15,18 @@ pub enum SqlResult {
     QuerySuccess(SqliteQueryResult),
     AcceptableError(String),
     UnacceptableError(String),
+}
+
+impl Not for SqlResult {
+    type Output = bool;
+
+    fn not(self) -> Self::Output {
+        match self {
+            SqlResult::QuerySuccess(_) => true,
+            SqlResult::AcceptableError(_) => true,
+            SqlResult::UnacceptableError(_) => false,
+        }
+    }
 }
 
 #[derive(Debug)]

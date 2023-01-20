@@ -1,10 +1,18 @@
+use super::creation_structs::CreateItem;
 use super::enums::*;
 use super::field_structs::*;
 use serde::{Deserialize, Serialize};
 use sqlx::Decode;
 
+#[cfg(test)]
+use mockall::{automock, mock, predicate::*};
+
 trait Constructor {
     fn new(self) -> Self;
+}
+
+pub trait StructConvert<T> {
+    fn to_query(&self) -> T;
 }
 
 #[derive(Debug, Default, sqlx::FromRow, Decode, Serialize, Deserialize, PartialEq, Clone)]
@@ -28,6 +36,71 @@ pub struct Item {
     pub speaker_item: Option<SpeakerItem>,
     pub monitoring_item: Option<MonitoringItem>,
     pub notes: Option<Vec<String>>,
+}
+
+impl Item {
+    pub fn new(
+        id: i64,
+        created_at: String,
+        updated_at: String,
+        public_notes: Option<String>,
+        cost: f64,
+        weight: f64,
+        dimensions: Option<Dimension>,
+        model: String,
+        category: Categories,
+    ) -> Self {
+        Self {
+            id,
+            created_at,
+            updated_at,
+            public_notes,
+            cost,
+            weight,
+            dimensions,
+            model,
+            category,
+            amplifier: None,
+            console: None,
+            computer: None,
+            processor: None,
+            network_item: None,
+            microphone: None,
+            radio_item: None,
+            speaker_item: None,
+            monitoring_item: None,
+            notes: None,
+        }
+    }
+}
+
+impl StructConvert<CreateItem> for Item {
+    fn to_query(&self) -> CreateItem {
+        CreateItem {
+            id: self.id,
+            created_at: self.created_at.to_owned(),
+            updated_at: self.updated_at.to_owned(),
+            public_notes: self.public_notes.to_owned(),
+            cost: self.cost,
+            weight: self.weight,
+            model: self.model.to_owned(),
+            dimensions: Some(serde_json::to_string(&self.dimensions).unwrap_or_default()),
+            category: self.category as i64,
+            amplifier_item_id: self.amplifier.as_ref().map(|item| item.amplifier_id),
+            console_item_id: self.console.as_ref().map(|item| item.id),
+            computer_item_id: self.computer.as_ref().map(|item| item.computer_id),
+            processor_item_id: self.processor.as_ref().map(|item| item.processor_id),
+            network_item_id: self.network_item.as_ref().map(|item| item.network_id),
+            microphone_item_id: self.microphone.as_ref().map(|item| item.microphone_id),
+            radio_item_id: self.radio_item.as_ref().map(|item| item.rf_id),
+            speaker_item_id: self.speaker_item.as_ref().map(|item| item.speaker_id),
+            monitoring_item_id: self.monitoring_item.as_ref().map(|item| item.monitoring_id),
+            notes: serde_json::to_string(&self.notes)
+                .map(|thing| Some(thing))
+                .unwrap_or_default(),
+            searchable_model: Some(self.model.to_owned()),
+        }
+    }
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct ConsoleItem {
