@@ -1,6 +1,9 @@
-use crate::sql::entities::{creation_structs::*, enums::*, structs::*};
+use crate::{
+    database_setup::DatabasePool,
+    sql::entities::{creation_structs::*, enums::*, structs::*},
+};
 use sqlx::{Pool, Sqlite};
-use tauri;
+use tauri::State;
 
 #[tauri::command(async)]
 pub async fn find_similar_item(model: &str, pool: &Pool<Sqlite>) -> Vec<Item> {
@@ -30,13 +33,21 @@ pub async fn find_all_items(pool: &Pool<Sqlite>) -> Vec<CreateItem> {
     all_items
 }
 
-#[tauri::command(async)]
-pub async fn find_single_item(id: i64, pool: &Pool<Sqlite>) -> CreateItem {
+#[tauri::command]
+pub async fn find_single_item(
+    id: i64,
+    db_state: State<'_, DatabasePool>,
+) -> Result<serde_json::Value, ()> {
+    let mutex_lock = db_state.0.lock().await;
+    let ref pool = *mutex_lock;
     let single_item = sqlx::query_as!(CreateItem, "SELECT * FROM item WHERE id = ?", id)
         .fetch_one(pool)
         .await
-        .expect("Fetch error at find_one_item;");
-    single_item
+        .expect("msg");
+    let converted_item = single_item.query_to_item(pool).await;
+    let json_value = serde_json::to_value(converted_item).unwrap_or_default();
+    //Export as serde_json::Value
+    Ok(json_value)
 }
 
 #[tauri::command(async)]
