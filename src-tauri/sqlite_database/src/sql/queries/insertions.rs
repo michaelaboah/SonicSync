@@ -1,14 +1,43 @@
 use crate::error_handling::*;
-use crate::sql::entities::{creation_structs as create, enums, structs};
+use crate::sql::entities::{creation_structs::*, enums::*, structs::*};
 
 use sqlx::{Pool, Sqlite};
 
+/// #### This function inserts a single item into the database, given an `Item` struct and a SQLite connection pool.
+/// The struct must implement the `StructConvert<CreateItem>` trait.
+///
+/// ## Arguments
+/// * `insert` - A reference to an `Item` struct that will be inserted into the database.
+/// * `pool` - A reference to a SQLite connection pool.
+///
+/// ## Returns
+/// This function returns a `Result` containing a `SqlResult` variant. On success, the variant is `QuerySuccess`,
+/// containing a string message indicating the successful insertion. On error, the variant is `QueryError`,
+/// containing a string message indicating the error.
+///
+/// ## Example
+/// ```rust
+/// use crate::
+/// use sqlx::SqlResult;
+/// use sqlx::SqliteCustomError;
+///
+/// let pool = Pool::new("sqlite::memory:").await.unwrap();
+/// let item = Item::default();
+///     
+/// let res = insert_single_item(&item, &pool).await;
+/// println!("{:#?}", &res);
+/// assert_eq!(res, Ok(SqlResult::QuerySuccess("Item inserted successfully".to_string())));
+/// ```
+
 pub async fn insert_single_item(
-    insert: &structs::Item,
+    insert: &Item,
     pool: &Pool<Sqlite>,
-) -> Result<SqlResult, SqliteCustomError> {
+) -> Result<SqlResult, SqliteCustomError>
+where
+    Item: StructConvert<CreateItem>,
+{
     let _res = category_insertion(insert, pool).await;
-    let table = create::CreateItem::item_to_query(&insert);
+    let table = insert.to_query();
     let insertion_results = sqlx::query!("INSERT INTO item (id, created_at, updated_at, public_notes, cost, weight, dimensions, model, category, amplifier_item_id,
             console_item_id, computer_item_id, processor_item_id, network_item_id, microphone_item_id, radio_item_id, speaker_item_id, monitoring_item_id,
              notes)
@@ -41,12 +70,12 @@ pub async fn insert_single_item(
 }
 
 async fn category_insertion(
-    insert: &structs::Item,
+    insert: &Item,
     pool: &Pool<Sqlite>,
 ) -> Result<SqlResult, SqliteCustomError> {
     match &insert.category {
-        enums::Categories::GENERIC => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
-        enums::Categories::AMPLIFIER => match &insert.amplifier {
+        Categories::GENERIC => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+        Categories::AMPLIFIER => match &insert.amplifier {
             Some(amplifier) => {
                 let power_bind =
                     serde_json::to_value(amplifier.power.to_owned()).unwrap_or_default();
@@ -73,7 +102,7 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        enums::Categories::CONSOLE => match &insert.console {
+        Categories::CONSOLE => match &insert.console {
             Some(console) => {
                 let power_bind = serde_json::to_string(&console.power).unwrap_or_default();
                 let insertion_results = sqlx::query!("INSERT INTO console_item (
@@ -103,7 +132,7 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        enums::Categories::COMPUTER => match &insert.computer {
+        Categories::COMPUTER => match &insert.computer {
             Some(computer) => {
                 let power_bind =
                     serde_json::to_value(computer.power.to_owned()).unwrap_or_default();
@@ -131,7 +160,7 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        enums::Categories::PROCESSOR => match &insert.processor {
+        Categories::PROCESSOR => match &insert.processor {
             Some(processor) => {
                 let power_bind =
                     serde_json::to_value(processor.power.to_owned()).unwrap_or_default();
@@ -162,7 +191,7 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        enums::Categories::MONITORING => match &insert.monitoring_item {
+        Categories::MONITORING => match &insert.monitoring_item {
             Some(monitor) => {
                 let power_bind = serde_json::to_value(monitor.power.to_owned()).unwrap_or_default();
                 let net_conn_bind = serde_json::to_value(monitor.network_connectivity.to_owned())
@@ -183,7 +212,7 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        enums::Categories::SPEAKER => match &insert.speaker_item {
+        Categories::SPEAKER => match &insert.speaker_item {
             Some(speaker) => {
                 let power_bind = serde_json::to_value(speaker.power.to_owned()).unwrap_or_default();
                 let net_conn_bind = serde_json::to_value(speaker.network_connectivity.to_owned())
@@ -213,8 +242,8 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        // enums::Categories::SPK_HARDWARE => match &insert.spk_hardware {},
-        enums::Categories::NETWORK => match &insert.network_item {
+        // Categories::SPK_HARDWARE => match &insert.spk_hardware {},
+        Categories::NETWORK => match &insert.network_item {
             Some(net) => {
                 let power_bind = serde_json::to_value(net.power.to_owned()).unwrap_or_default();
                 let net_conn_bind =
@@ -235,7 +264,7 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        enums::Categories::RADIO => match &insert.radio_item {
+        Categories::RADIO => match &insert.radio_item {
             Some(radio) => {
                 let transmitter_bind =
                     serde_json::to_value(radio.transmitter.to_owned()).unwrap_or_default();
@@ -256,7 +285,7 @@ async fn category_insertion(
             }
             None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         },
-        enums::Categories::MICROPHONES => match &insert.microphone {
+        Categories::MICROPHONES => match &insert.microphone {
             Some(ref microphone) => {
                 let mic_type_bind =
                     serde_json::to_value(microphone.microphone_type.to_owned()).unwrap_or_default();
@@ -283,7 +312,7 @@ async fn category_insertion(
 }
 
 pub async fn insert_multiple_items(
-    inserts: Vec<structs::Item>,
+    inserts: Vec<Item>,
     pool: &Pool<Sqlite>,
 ) -> Vec<Result<SqlResult, SqliteCustomError>> {
     let mut results: Vec<Result<SqlResult, SqliteCustomError>> = vec![];

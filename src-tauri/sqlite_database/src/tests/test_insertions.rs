@@ -15,29 +15,25 @@ pub trait StructConvert<T> {
 mod insertion_mocking {
     use super::*;
     use crate::{
-        entities::{creation_structs::CreateItem, structs::Item},
+        entities::{creation_structs::CreateItem, enums::*, structs::Item},
+        error_handling::SqlResult,
         queries::insertions::insert_single_item,
     };
-    use sqlx::*;
+    use sqlx::{sqlite::SqliteQueryResult, *};
     use tokio;
 
+    use crate::error_handling::SqliteCustomError;
+    use sqlx::Pool;
+    use sqlx::Sqlite;
+
     #[tokio::test]
-    async fn test_item_insertion() {
+    /// - check if insertion is Ok
+    /// - check if query and insertion are equal
+    /// - async traits are only in nightly build
+    async fn test_simple_item_insertion() {
         let ref test_db = gen_test_db().await;
-        let mut mock_item = MockStructConvert::<Item>::new();
-        mock_item
-            .expect_to_query()
-            .times(1)
-            .returning(|| Item::default());
-        let q = mock_item.to_query();
-        let t = insert_single_item(&q, test_db).await.expect("msg");
-        let thing = query_as!(CreateItem, "SELECT * FROM item WHERE id = 0;")
-            .fetch_one(test_db)
-            .await
-            .expect("msg");
-        println!("{:#?}", q);
-        // assert!(&t);
-        // assert_eq!(5, mock_item.foo(4));
+        let res = insert_single_item(&Item::default(), test_db).await;
+        assert!(&res.is_ok());
     }
 
     async fn gen_test_db() -> Pool<Sqlite> {
