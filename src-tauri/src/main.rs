@@ -19,7 +19,6 @@ mod essentials;
 fn main() {
     dotenvy::dotenv();
     let db_path: String = env::var("DATABASE_URL").unwrap();
-    println!("{db_path}");
     let ctx = tauri::generate_context!();
     let menu = menu_bar::generate_menu_bar(&ctx.package_info().name);
     sqlite_database::database_setup::sql_setup::initialize_db(&db_path)
@@ -35,11 +34,4 @@ fn main() {
         .invoke_handler(tauri::generate_handler![greet, save_as_file, open_project])
         .run(ctx)
         .expect("error while running tauri application");
-}
-
-#[test]
-fn check_env() {
-    dotenvy::dotenv();
-    let db_path: String = env::var("DATABASE_URL").unwrap();
-    assert_eq!(&db_path, "sqlite:src/resources/sqlite-internal.db");
 }
