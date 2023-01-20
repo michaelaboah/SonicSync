@@ -2,6 +2,13 @@
     import { prodInfo } from '../stores/ProjectStore';
     import { persist } from '../stores/RenderStore';
     import { Box, Button, Text } from '@svelteuidev/core';
+    import { invoke } from '@tauri-apps/api/tauri';
+    import { onMount } from 'svelte';
+
+    onMount(async () => {
+        let test = await invoke('find_single_item', { id: 7 });
+        console.log(test);
+    });
 </script>
 
 <Box>
