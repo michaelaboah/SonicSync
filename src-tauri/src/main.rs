@@ -8,13 +8,22 @@ use essentials::{
     communication::commands::{greet, open_project, save_as_file},
     menu::{menu_bar, menu_events},
 };
-use std::env;
-use tauri::{self};
+use std::{env, path::PathBuf, sync::Mutex};
+use tauri::{self, State};
 use tauri_plugin_persisted_scope;
 use tauri_plugin_store::PluginBuilder;
 use tauri_plugin_window_state::Builder;
 mod essentials;
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+
+struct Note(Mutex<String>);
+
+fn test_state(path: &str, note: State<Note>) -> String {
+    let mut nt = note.0.lock().unwrap();
+    let mut base = PathBuf::from(path);
+    *nt = base.display().to_string();
+    format!("")
+}
 
 fn main() {
     dotenvy::dotenv();
@@ -26,6 +35,7 @@ fn main() {
 
     tauri::Builder::default()
         .setup(|app| Ok(()))
+        .manage(Note(Default::default()))
         .plugin(PluginBuilder::default().build())
         .plugin(tauri_plugin_persisted_scope::init())
         .plugin(Builder::default().build())

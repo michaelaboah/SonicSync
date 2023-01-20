@@ -2821,6 +2821,7 @@ dependencies = [
  "serde_json",
  "sqlx",
  "tauri",
+ "thiserror",
  "tokio",
 ]
 

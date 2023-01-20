@@ -1,7 +1,7 @@
 use crate::error_handling::*;
 use crate::sql::entities::{creation_structs::*, enums::*, structs::*};
-
 use sqlx::{Pool, Sqlite};
+use tauri;
 
 /// #### This function inserts a single item into the database, given an `Item` struct and a SQLite connection pool.
 /// The struct must implement the `StructConvert<CreateItem>` trait.
