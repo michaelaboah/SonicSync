@@ -15,6 +15,7 @@ use tauri;
 use tauri_plugin_persisted_scope;
 use tauri_plugin_store::PluginBuilder;
 use tauri_plugin_window_state::Builder;
+use tokio::runtime;
 mod essentials;
 
 fn main() {
@@ -22,8 +23,21 @@ fn main() {
     // let db_path: String = env::var("DATABASE_URL").unwrap();
     let ctx = tauri::generate_context!();
     let menu = menu_bar::generate_menu_bar(&ctx.package_info().name);
-    let pool = sqlite_database::database_setup::initialize_db("sqlite:/Users/michaelaboah/Documents/Programming/SoundTools/Deadalus-Tauri/src-tauri/resources/sqlite-internal.db")
-        .expect("failed to initialize database");
+
+    // let mut rt = runtime::Runtime::new().unwrap();
+    // rt.
+    // let thing = rt.block_on(async move {
+    //     println!("Hello from async block");
+    //     let db_thread = tokio::spawn(async {
+    //         let pool = sqlite_database::database_setup::initialize_db("sqlite:/Users/michaelaboah/Documents/Programming/SoundTools/Deadalus-Tauri/src-tauri/resources/sqlite-internal.db").await.unwrap();
+    //         pool
+    //     });
+    //     db_thread
+    // });
+
+    let db_thread = std::thread::spawn(|| {
+        let pool = sqlite_database::database_setup::initialize_db("sqlite:/Users/michaelaboah/Documents/Programming/SoundTools/Deadalus-Tauri/src-tauri/resources/sqlite-internal.db").unwrap();
+    });
 
     tauri::Builder::default()
         // .manage(pool)
