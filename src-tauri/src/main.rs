@@ -8,26 +8,16 @@ use essentials::{
     communication::commands::{greet, open_project, save_as_file},
     menu::{menu_bar, menu_events},
 };
-use sqlite_database::{
-    __cmd__find_single_item, queries::deletions::*, queries::insertions::*, queries::search::*,
-};
+use sqlite_database::{queries::deletions::*, queries::insertions::*, queries::search::*};
 use std::env;
 use tauri;
 use tauri_plugin_persisted_scope;
 use tauri_plugin_store::PluginBuilder;
 use tauri_plugin_window_state::Builder;
 mod essentials;
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-
-// fn test_state(path: &str, note: State<Note>) -> String {
-//     let mut nt = note.0.lock().unwrap();
-//     let mut base = PathBuf::from(path);
-//     *nt = base.display().to_string();
-//     format!("")
-// }
 
 fn main() {
-    dotenvy::dotenv();
+    dotenvy::dotenv().unwrap();
     let db_path: String = env::var("DATABASE_URL").unwrap();
     let ctx = tauri::generate_context!();
     let menu = menu_bar::generate_menu_bar(&ctx.package_info().name);
@@ -35,7 +25,6 @@ fn main() {
         .expect("failed to initialize database");
 
     tauri::Builder::default()
-        .setup(|app| Ok(()))
         .manage(pool)
         .plugin(PluginBuilder::default().build())
         .plugin(tauri_plugin_persisted_scope::init())
@@ -48,6 +37,8 @@ fn main() {
             open_project,
             find_single_item,
             find_all_items,
+            fuzzy_find_single_item,
+            find_similar_item,
             insert_single_item,
             delete_all_items,
             delete_single_item,

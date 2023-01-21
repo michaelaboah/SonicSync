@@ -33,7 +33,7 @@ pub mod menu_bar {
                 ])
                 .add_item(open_preferences),
             )),
-            #[cfg(not(target_os = "macos"))] // AKA windows || linux
+            #[cfg(target_os = "windows")]
             MenuEntry::Submenu(Submenu::new(
                 "File",
                 Menu::with_items([MenuItem::CloseWindow.into()])

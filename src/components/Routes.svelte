@@ -6,7 +6,6 @@
     import PreferencesPage from '../pages/PreferencesPage.svelte';
     import ProductionPage from '../pages/ProductionPage.svelte';
     import { Box } from '@svelteuidev/core';
-    import DatabaseView from '../pages/DatabaseView.svelte';
     import EquipmentLibraryPage from '../pages/EquipmentLibraryPage.svelte';
     const routes = {
         '/': MainMenu,
@@ -14,7 +13,6 @@
         '/EquipmentListPage': EquipmentListPage,
         '/PreferencesPage': PreferencesPage,
         '/ProductionPage': ProductionPage,
-        '/DatabaseView': DatabaseView,
         '/EquipmentLibraryPage': EquipmentLibraryPage,
     };
 </script>

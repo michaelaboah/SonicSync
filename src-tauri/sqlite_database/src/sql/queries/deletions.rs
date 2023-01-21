@@ -1,7 +1,4 @@
 use crate::database_setup::DatabasePool;
-use crate::error_handling::*;
-use crate::sql::entities::{creation_structs::*, enums::*, structs::*};
-use sqlx::{Pool, Sqlite};
 use tauri::{self, State};
 
 #[tauri::command]

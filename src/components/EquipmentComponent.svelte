@@ -18,7 +18,6 @@
     import Select from 'svelte-select';
     import { gearList } from '../stores/ProjectStore';
     import { persist } from '../stores/RenderStore';
-
     import { useStylesDisabled, costFormatter, wattageFormatter } from '../utils/styles';
     import { invoke } from '@tauri-apps/api/tauri';
 
@@ -26,14 +25,20 @@
     export let index: number;
 
     let size = $persist.ui_font_size;
-    let basePower: number = 0;
+    // let cat: string = gear.category.toLowerCase();
+    //Find how to get the power from within the sub-category
+    let basePower = 0;
     $: totalCost = gear.quantity * (gear.cost ??= 0);
     $: totalPower = (gear.quantity * basePower) as number;
 
     // $: console.log(gear.model);
-    const asyncTest = async (fillerText: string) => {
-        const response = await AsyncFuzzyItemSearch({ variables: { model: fillerText } });
-        return response.data.fuzzyItemSearch;
+    const quickSearch = async (modelName: string) => {
+        const databaseResponse = await invoke<Item[]>('find_similar_item', { model: modelName });
+        if (databaseResponse.length === 0) {
+            const serverResponse = await AsyncFuzzyItemSearch({ variables: { model: modelName } });
+            return serverResponse.data.fuzzyItemSearch;
+        }
+        return databaseResponse;
     };
 
     const addItem = () => {
@@ -100,10 +105,11 @@
                             {/if}
                         {/await}
                     </Group>
+                    <!-- Add limit of 4 -->
                     <Select
                         value="{gear.model}"
-                        loadOptions="{asyncTest}"
-                        placeholder="placeholder"
+                        loadOptions="{quickSearch}"
+                        placeholder="Placeholder"
                         on:select="{handleSelect}"
                         getSelectionLabel="{getModel}"
                         getOptionLabel="{getModel}"

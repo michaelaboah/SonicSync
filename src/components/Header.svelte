@@ -34,7 +34,7 @@
                 <Button size="{BUTTON_SIZE}" on:click="{() => push('#/ProductionPage')}">Production Page</Button>
             </Grid.Col>
             <Grid.Col span="{2}">
-                <Button size="{BUTTON_SIZE}" on:click="{() => push('#/DatabaseView')}">Database Page</Button>
+                <Button size="{BUTTON_SIZE}" on:click="{() => {}}" disabled>Fill Page</Button>
             </Grid.Col>
             <Grid.Col span="{2}">
                 <Button disabled size="{BUTTON_SIZE}" on:click="{() => {}}">IO List</Button>

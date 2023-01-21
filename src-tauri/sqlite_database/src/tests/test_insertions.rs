@@ -32,7 +32,7 @@ mod insertion_mocking {
     /// - async traits are only in nightly build
     async fn test_simple_item_insertion() {
         let ref test_db = gen_test_db().await;
-        let res = insert_single_item(&Item::default(), test_db).await;
+        let res = insert_single_item(serde_json::to_value(Item::default()), test_db).await;
         assert!(&res.is_ok());
     }
 
