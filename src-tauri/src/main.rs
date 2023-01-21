@@ -8,7 +8,9 @@ use essentials::{
     communication::commands::{greet, open_project, save_as_file},
     menu::{menu_bar, menu_events},
 };
-use sqlite_database::{__cmd__find_single_item, queries::search::find_single_item};
+use sqlite_database::{
+    __cmd__find_single_item, queries::deletions::*, queries::insertions::*, queries::search::*,
+};
 use std::env;
 use tauri;
 use tauri_plugin_persisted_scope;
@@ -44,7 +46,12 @@ fn main() {
             greet,
             save_as_file,
             open_project,
-            find_single_item
+            find_single_item,
+            find_all_items,
+            insert_single_item,
+            delete_all_items,
+            delete_single_item,
+            fuzzy_delete_single_item,
         ])
         .run(ctx)
         .expect("error while running tauri application");

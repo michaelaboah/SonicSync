@@ -2,9 +2,12 @@
     import { Box, Divider, Footer, Grid, Group, NumberInput, Skeleton, Stack, Text, theme } from '@svelteuidev/core';
     import { persist } from '../stores/RenderStore';
     import { useStylesDisabled } from '../utils/styles';
+    import { invoke } from '@tauri-apps/api/tauri';
+    import type { Item } from '../generated/graphql';
 
-    $: internalItems = [];
+    $: internalItems = invoke<Item[]>('find_all_items');
     // = queryItems();
+    // invoke("find_all_items");
     $: ({ cx, getStyles } = useStylesDisabled());
 </script>
 
@@ -54,11 +57,24 @@
     {/await}
 </Stack>
 
-<Footer fixed height="35" p="xl">
+<Footer fixed height="35" p="md">
     <Group>
         <Text>Total Items Stored:</Text>
         <div class="w-24">
-            <NumberInput value="{5}" min="{0}" size="xs" hideControls disabled class="{cx(getStyles())}" />
+            {#await internalItems}
+                <NumberInput value="{999}" min="{0}" size="xs" hideControls disabled class="{cx(getStyles())}" />
+            {:then items}
+                <NumberInput
+                    value="{items.length}"
+                    min="{0}"
+                    size="xs"
+                    hideControls
+                    disabled
+                    class="{cx(getStyles())}"
+                />
+            {:catch error}
+                <NumberInput value="{0}" min="{0}" size="xs" hideControls disabled />
+            {/await}
         </div>
     </Group>
 </Footer>

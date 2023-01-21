@@ -1,16 +1,17 @@
 fragment ProcessorFrag on ProcessingItem {
-  total_inputs
-  total_outputs
-  physical_inputs
-  physical_outputs
-  midi
-  protocol_inputs
-  signal_protocol
-  max_sample_rate
-  network_connectivity {
-    ...NetworkFrag
-  }
-  power {
-    ...PowerFrag
-  }
+    processor_id
+    total_inputs
+    total_outputs
+    physical_inputs
+    physical_outputs
+    midi
+    protocol_inputs
+    signal_protocol
+    max_sample_rate
+    network_connectivity {
+        ...NetworkFrag
+    }
+    power {
+        ...PowerFrag
+    }
 }

@@ -1,7 +1,13 @@
+use crate::database_setup::DatabasePool;
 use crate::error_handling::*;
 use crate::sql::entities::{creation_structs::*, enums::*, structs::*};
 use sqlx::{Pool, Sqlite};
-use tauri;
+use tauri::{self, State};
+
+// pub enum InsertionType<'a> {
+//     JsonValue(serde_json::Value),
+//     ItemStruct(&'a Item),
+// }
 
 /// #### This function inserts a single item into the database, given an `Item` struct and a SQLite connection pool.
 /// The struct must implement the `StructConvert<CreateItem>` trait.
@@ -28,44 +34,86 @@ use tauri;
 /// println!("{:#?}", &res);
 /// assert_eq!(res, Ok(SqlResult::QuerySuccess("Item inserted successfully".to_string())));
 /// ```
-
+#[tauri::command]
 pub async fn insert_single_item(
-    insert: &Item,
-    pool: &Pool<Sqlite>,
-) -> Result<SqlResult, SqliteCustomError>
+    json: serde_json::Value,
+    db_state: State<'_, DatabasePool>,
+) -> Result<(), ()>
 where
     Item: StructConvert<CreateItem>,
 {
-    let _res = category_insertion(insert, pool).await;
-    let table = insert.to_query();
+    let mutex_lock = db_state.0.lock().await;
+    let ref pool = *mutex_lock;
+
+    // match insert {
+    //     InsertionType::JsonValue(json) => {
+    let ref parsed_item = serde_json::from_value::<Item>(json).unwrap();
+    let _res = category_insertion(parsed_item, pool).await;
+    let table = parsed_item.to_query();
     let insertion_results = sqlx::query!("INSERT INTO item (id, created_at, updated_at, public_notes, cost, weight, dimensions, model, category, amplifier_item_id,
-            console_item_id, computer_item_id, processor_item_id, network_item_id, microphone_item_id, radio_item_id, speaker_item_id, monitoring_item_id,
-             notes)
-            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19)",
-            table.id,
-            table.created_at,
-            table.updated_at,
-            table.public_notes,
-            table.cost,
-            table.weight,
-            table.dimensions,
-            table.model,
-            table.category,
-            table.amplifier_item_id,
-            table.console_item_id,
-            table.computer_item_id,
-            table.processor_item_id,
-            table.network_item_id,
-            table.microphone_item_id,
-            table.radio_item_id,
-            table.speaker_item_id,
-            table.monitoring_item_id,
-            table.notes
-        )
-            .execute(pool)
-            .await;
+                console_item_id, computer_item_id, processor_item_id, network_item_id, microphone_item_id, radio_item_id, speaker_item_id, monitoring_item_id,
+                 notes)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19)",
+                table.id,
+                table.created_at,
+                table.updated_at,
+                table.public_notes,
+                table.cost,
+                table.weight,
+                table.dimensions,
+                table.model,
+                table.category,
+                table.amplifier_item_id,
+                table.console_item_id,
+                table.computer_item_id,
+                table.processor_item_id,
+                table.network_item_id,
+                table.microphone_item_id,
+                table.radio_item_id,
+                table.speaker_item_id,
+                table.monitoring_item_id,
+                table.notes
+            )
+                .execute(pool)
+                .await;
     let item_insert = sqlite_error_handler(insertion_results);
-    item_insert
+    // item_insert
+    println!("{:#?}", item_insert);
+    Ok(())
+    // }
+    // InsertionType::ItemStruct(item) => {
+    //     let _res = category_insertion(item, pool).await;
+    //     let table = item.to_query();
+    //     let insertion_results = sqlx::query!("INSERT INTO item (id, created_at, updated_at, public_notes, cost, weight, dimensions, model, category, amplifier_item_id,
+    //         console_item_id, computer_item_id, processor_item_id, network_item_id, microphone_item_id, radio_item_id, speaker_item_id, monitoring_item_id,
+    //          notes)
+    //         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19)",
+    //         table.id,
+    //         table.created_at,
+    //         table.updated_at,
+    //         table.public_notes,
+    //         table.cost,
+    //         table.weight,
+    //         table.dimensions,
+    //         table.model,
+    //         table.category,
+    //         table.amplifier_item_id,
+    //         table.console_item_id,
+    //         table.computer_item_id,
+    //         table.processor_item_id,
+    //         table.network_item_id,
+    //         table.microphone_item_id,
+    //         table.radio_item_id,
+    //         table.speaker_item_id,
+    //         table.monitoring_item_id,
+    //         table.notes
+    //     )
+    //         .execute(pool)
+    //         .await;
+    //     let item_insert = sqlite_error_handler(insertion_results);
+    //     item_insert
+    // }
+    // }
     // None => Ok(SqlResult::QuerySuccess(format!("Nothing to Add")))
 }
 
@@ -311,16 +359,19 @@ async fn category_insertion(
     }
 }
 
-pub async fn insert_multiple_items(
-    inserts: Vec<Item>,
-    pool: &Pool<Sqlite>,
-) -> Vec<Result<SqlResult, SqliteCustomError>> {
-    let mut results: Vec<Result<SqlResult, SqliteCustomError>> = vec![];
-    for insert in inserts.iter() {
-        results.push(insert_single_item(insert, pool).await)
-    }
-    results
-}
+// Not sure why a clone is required for the db_state
+// #[tauri::command]
+// pub async fn insert_multiple_items(
+//     json_inserts: Vec<serde_json::Value>,
+//     db_state: State<'_, DatabasePool>,
+// ) -> Result<(), ()> {
+//     let mut results: Vec<Result<SqlResult, SqliteCustomError>> = vec![];
+//     for insert in json_inserts {
+//         // let ref parsed = serde_json::from_value::<Item>(*insert).unwrap();
+//         results.push(insert_single_item(insert, db_state.clone()).await)
+//     }
+//     Ok(())
+// }
 
 // #[cfg(test)]
 // mod tests {

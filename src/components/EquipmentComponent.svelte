@@ -20,6 +20,7 @@
     import { persist } from '../stores/RenderStore';
 
     import { useStylesDisabled, costFormatter, wattageFormatter } from '../utils/styles';
+    import { invoke } from '@tauri-apps/api/tauri';
 
     export let gear: Gear;
     export let index: number;
@@ -64,7 +65,7 @@
         $gearList[index] = gear;
 
         if ($persist.sql_auto_store) {
-            // insert_item(gear).then((x) => console.log(x));
+            invoke('insert_single_item', { json: gear });
         }
     };
 
@@ -77,6 +78,7 @@
     let isDark = $persist.darkMode ? theme.colors.dark200 : theme.colors.white;
 
     $: promise_stored = false;
+    //Need to get errors back from commands necessary traits must be impl
     // item_exists(gear.model);
 </script>
 
