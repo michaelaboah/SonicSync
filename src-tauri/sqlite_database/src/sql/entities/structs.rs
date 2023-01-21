@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::Decode;
 
 #[cfg(test)]
-use mockall::{automock, mock, predicate::*};
+use mockall::{predicate::*};
 
 trait Constructor {
     fn new(self) -> Self;
