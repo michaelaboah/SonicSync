@@ -22,8 +22,8 @@ use tauri::{self, State};
 /// containing a string message indicating the error.
 ///
 /// ## Example
-/// ```rust
-/// use crate::
+/// ```no_run
+///
 /// use sqlx::SqlResult;
 /// use sqlx::SqliteCustomError;
 ///

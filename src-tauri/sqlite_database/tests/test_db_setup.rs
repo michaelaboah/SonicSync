@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, io};
 
 use sqlite_database::error_handling::{SqliteCustomError, SqliteErrorKind};
 use sqlx::{sqlite::SqlitePoolOptions, Pool, Sqlite};
@@ -16,17 +16,28 @@ async fn test_recover_wrong_db() {
     let resource_path = "tests/testing_resources/test.db";
     let db_path = "tests/testing_resources/wrong.db";
     let built_pool = init_db_mock(db_path, resource_path).await;
-    // assert!(Some(built_pool).is_some());
+    assert!(built_pool.is_ok());
+}
 
-    println!("{:#?}", built_pool);
-    // println!("{:#?}", pool);
+#[tokio::test]
+async fn test_bad_path() {
+    let resource_path = "tests/testing_resources/test.db";
+    let db_path = "test/testing_resources/wrong.db";
+    //                     ^^^This is incorrect
+    let built_pool = init_db_mock(db_path, resource_path).await;
+    assert!(built_pool.is_err());
+    let match_kind = matches!(
+        built_pool.expect_err("expected").error_kind,
+        SqliteErrorKind::MissingDatabaseFile
+    );
+    assert!(match_kind);
 }
 
 #[tokio::test]
 async fn test_equal_err_kind() {
-    let resource_path = "tests/testing_resources/test.db";
     let db_path = "tests/testing_resources/wrong.db";
-    SqlitePoolOptions::new()
+
+    let _ = SqlitePoolOptions::new()
         .max_connections(1)
         .connect(db_path)
         .await
@@ -38,16 +49,24 @@ async fn test_equal_err_kind() {
             assert!(does_match);
         });
 }
+
+// enum TestError<'a> {
+//     SqlError(SqliteCustomError<'a>),
+//     IOError(Err),
+// }
 /// Mock database initialization
 ///
-async fn init_db_mock(db_path: &str, resource_path: &str) -> Pool<Sqlite> {
+async fn init_db_mock<'a>(
+    db_path: &'a str,
+    resource_path: &'a str,
+) -> Result<Pool<Sqlite>, SqliteCustomError<'a>> {
     let pool = match SqlitePoolOptions::new()
         .max_connections(5)
         .connect(db_path)
         .await
     {
         // Happy Path err_count = 0
-        Ok(sqlite_pool) => sqlite_pool,
+        Ok(sqlite_pool) => Ok(sqlite_pool),
         Err(pool_err) => {
             if matches!(
                 SqliteCustomError::from(pool_err).error_kind,
@@ -72,13 +91,23 @@ async fn init_db_mock(db_path: &str, resource_path: &str) -> Pool<Sqlite> {
                                     );
                                 }).expect("Second DB connect failure")
                         };
-                        thing
+                        Ok(thing)
                     }
                     Err(err) => {
                         // Unhappy Path, fs::copy is uncessesful. Log then panic
-                        // err.kind() == std::io::ErrorKind::eprintln!("fs copy err{err}");
-                        panic!("The database is faulty, exiting program");
-                        // Err(err)
+                        let handled_fs_err = match err.kind() {
+                            io::ErrorKind::NotFound => SqliteCustomError::new(
+                                14,
+                                "Missing Production database file entity, likely a bad path",
+                                SqliteErrorKind::MissingDatabaseFile,
+                            ),
+                            _ => SqliteCustomError::new(
+                                666,
+                                "Unknown Error",
+                                SqliteErrorKind::Unknown(err.to_string()),
+                            ),
+                        };
+                        Err(handled_fs_err)
                     }
                 }
             } else {

@@ -73,6 +73,16 @@ impl std::convert::From<sqlx::Error> for SqliteCustomError<'_> {
     }
 }
 
+impl<'a> SqliteCustomError<'a> {
+    pub fn new(code: u16, message: &'a str, error_kind: SqliteErrorKind) -> Self {
+        Self {
+            code,
+            message,
+            error_kind,
+        }
+    }
+}
+
 pub fn sqlite_error_handler(
     query_result: Result<SqliteQueryResult, sqlx::Error>,
 ) -> Result<SqlResult, SqliteCustomError<'static>> {
