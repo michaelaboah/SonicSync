@@ -6,8 +6,6 @@
     import type { Item } from '../generated/graphql';
 
     $: internalItems = invoke<Item[]>('find_all_items');
-    // = queryItems();
-    // invoke("find_all_items");
     $: ({ cx, getStyles } = useStylesDisabled());
 </script>
 
@@ -45,8 +43,8 @@
                     <Grid.Col span="{1}">{category}</Grid.Col>
                     <Grid.Col span="{1}">$ {cost}</Grid.Col>
                     <Grid.Col span="{1}">{dimensions?.length}</Grid.Col>
-                    <Grid.Col span="{1}">{dimensions?.rack_unit}</Grid.Col>
-                    <Grid.Col span="{1}">{notes}</Grid.Col>
+                    <Grid.Col span="{1}">{dimensions?.rack_unit ? dimensions.rack_unit : 'N/A'}</Grid.Col>
+                    <Grid.Col span="{1}">{notes ? notes : 'N/A'}</Grid.Col>
                 </Grid>
             </Box>
             <Divider />
