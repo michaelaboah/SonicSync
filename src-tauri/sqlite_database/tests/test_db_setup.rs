@@ -10,33 +10,33 @@ fn test_find_db() {
     assert!(find_db);
 }
 
+//inprogress
 #[tokio::test]
 async fn test_recover_wrong_db() {
     let resource_path = "tests/testing_resources/test.db";
-    let db_path = "test/testing_resources/wrong.db";
+    let db_path = "tests/testing_resources/wrong.db";
     let built_pool = init_db_mock(db_path, resource_path).await;
-    assert!(Some(built_pool).is_some());
+    // assert!(Some(built_pool).is_some());
+
+    println!("{:#?}", built_pool);
     // println!("{:#?}", pool);
 }
 
 #[tokio::test]
 async fn test_equal_err_kind() {
     let resource_path = "tests/testing_resources/test.db";
-    let db_path = "test/testing_resources/wrong.db";
-    let pool = match SqlitePoolOptions::new()
-        .max_connections(5)
+    let db_path = "tests/testing_resources/wrong.db";
+    SqlitePoolOptions::new()
+        .max_connections(1)
         .connect(db_path)
         .await
-    {
-        Ok(pool) => (),
-        Err(e) => {
+        .map_err(|e| {
             let does_match = matches!(
                 SqliteCustomError::from(e).error_kind,
                 SqliteErrorKind::MissingDatabaseFile
             );
             assert!(does_match);
-        }
-    };
+        });
 }
 /// Mock database initialization
 ///
@@ -55,6 +55,7 @@ async fn init_db_mock(db_path: &str, resource_path: &str) -> Pool<Sqlite> {
             ) {
                 match fs::copy(resource_path, db_path) {
                     Ok(bytes) => {
+                        println!("{bytes}");
                         let thing = if bytes == 0 {
                             // Unhappy path, packaged db_resource is empty. Can attempt to download from server
                             panic!("The database in resources is empty");
@@ -75,7 +76,7 @@ async fn init_db_mock(db_path: &str, resource_path: &str) -> Pool<Sqlite> {
                     }
                     Err(err) => {
                         // Unhappy Path, fs::copy is uncessesful. Log then panic
-                        eprintln!("fs copy err{err}");
+                        // err.kind() == std::io::ErrorKind::eprintln!("fs copy err{err}");
                         panic!("The database is faulty, exiting program");
                         // Err(err)
                     }
