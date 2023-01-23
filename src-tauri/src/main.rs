@@ -24,11 +24,11 @@ fn main() {
     let ctx = tauri::generate_context!();
     let menu = menu_bar::generate_menu_bar(&ctx.package_info().name);
 
-    // let db_thread = std::thread::spawn(|| {
-    //     println!("Hello from db thread");
-    let pool = sqlite_database::database_setup::initialize_db("sqlite:/Users/michaelaboah/Documents/Programming/SoundTools/Deadalus-Tauri/src-tauri/resources/sqlite-internal.db", "../src-tauri/sqlite_database/src/schema_resources/internal-schema.sql").unwrap();
-    // pool
-    // });
+    let db_thread = std::thread::spawn(|| {
+        println!("Hello from db thread");
+        let pool = sqlite_database::database_setup::initialize_db("sqlite:/Users/michaelaboah/Documents/Programming/SoundTools/Deadalus-Tauri/src-tauri/resources/sqlite-internal.db", "../src-tauri/sqlite_database/src/schema_resources/internal-schema.sql").unwrap();
+        pool
+    });
     // log::error!(target: "app_events", "App, {:#?}", pool);
     // let pool = db_thread
     //     .join()
@@ -36,17 +36,18 @@ fn main() {
     // eprintln!("{:#?}", pool);
     tauri::Builder::default()
         .setup(|app| {
-            // let app_db_path = find_resource("resources/sqlite-internal.db", app)?;
-            // let schema_path = find_resource("resources/internal-schema.sql", app)?;
-            // let pool = sqlite_database::database_setup::initialize_db(
-            //     "app_db_path.to_str().unwrap()",
-            //     "schema_path.to_str().unwrap()",
-            // )
-            // .unwrap();
-            // app.manage(pool);
+            let app_db_path = find_resource("resources/sqlite-internal.db", app)?;
+            let schema_path = find_resource("resources/internal-schema.sql", app)?;
+
+            let pool = sqlite_database::database_setup::initialize_db(
+                app_db_path.to_str().unwrap(),
+                schema_path.to_str().unwrap(),
+            )
+            .unwrap();
+            app.manage(pool);
             Ok(())
         })
-        .manage(pool)
+        // .manage(pool)
         .invoke_handler(tauri::generate_handler![
             greet,
             save_as_file,

@@ -50,7 +50,7 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": ["resources/sqlite-internal.db"],
+      "resources": ["resources/sqlite-internal.db", "resources/internal-schema.sql"],
       "shortDescription": "",
       "targets": "all",
       "windows": {
