@@ -5,7 +5,7 @@
 
 // use dotenvy;
 use essentials::{
-    communication::commands::{greet, open_project, save_as_file},
+    communication::commands::*,
     menu::{menu_bar, menu_events},
 };
 // #[cfg(test)]
@@ -17,37 +17,24 @@ use tauri_plugin_log::{Builder as LogBuilder, LogTarget};
 use tauri_plugin_persisted_scope;
 use tauri_plugin_store::PluginBuilder;
 use tauri_plugin_window_state::Builder;
-use tokio::runtime;
 mod essentials;
 
 fn main() {
     let ctx = tauri::generate_context!();
     let menu = menu_bar::generate_menu_bar(&ctx.package_info().name);
 
-    let db_thread = std::thread::spawn(|| {
-        println!("Hello from db thread");
-        let pool = sqlite_database::database_setup::initialize_db("sqlite:/Users/michaelaboah/Documents/Programming/SoundTools/Deadalus-Tauri/src-tauri/resources/sqlite-internal.db", "../src-tauri/sqlite_database/src/schema_resources/internal-schema.sql").unwrap();
-        pool
-    });
-    // log::error!(target: "app_events", "App, {:#?}", pool);
-    // let pool = db_thread
-    //     .join()
-    //     .expect("Couldn't join on the associated thread");
-    // eprintln!("{:#?}", pool);
     tauri::Builder::default()
         .setup(|app| {
             let app_db_path = find_resource("resources/sqlite-internal.db", app)?;
             let schema_path = find_resource("resources/internal-schema.sql", app)?;
-
             let pool = sqlite_database::database_setup::initialize_db(
                 app_db_path.to_str().unwrap(),
                 schema_path.to_str().unwrap(),
-            )
-            .unwrap();
+            )?;
+
             app.manage(pool);
             Ok(())
         })
-        // .manage(pool)
         .invoke_handler(tauri::generate_handler![
             greet,
             save_as_file,
@@ -127,7 +114,7 @@ pub fn app_dir_insert(insert_path: &str, app: &mut tauri::App) -> Result<path::P
 /// # Examples
 /// ```
 /// let mut app = tauri::App::new();
-/// let resource_path = find_resource("resources/test_resource", &mut app)
+/// let resource_path = find_resource("resources/example.txt", &mut app)
 ///     .expect("Error finding resource");
 /// assert_eq!(resource_path.to_str().unwrap(), "application_resources_dir/test_resource");
 /// ```
@@ -137,24 +124,18 @@ pub fn find_resource(
 ) -> Result<path::PathBuf, io::Error> {
     match app.path_resolver().resolve_resource(resource_path) {
         Some(path) => match path.try_exists() {
-            Ok(true) => {
+            Ok(_) => {
                 println!("Path does exist: {}", path.to_str().unwrap());
                 Ok(path)
             }
-            Ok(false) => {
-                //Potentially download the database from the server.
-                println!("Not here");
-                Err(io::Error::new(
-                    io::ErrorKind::NotFound,
-                    format!("Resource Not Found!: path = {resource_path}"),
-                ))
-                // unimplemented!("Database resource does not exist");
-            }
             Err(path_err) => Err(path_err),
         },
-        None => Err(io::Error::new(
-            io::ErrorKind::NotFound,
-            format!("Resource Not Found!: path = {resource_path}"),
-        )),
+        None => {
+            //try to download from server.
+            Err(io::Error::new(
+                io::ErrorKind::NotFound,
+                format!("Resource Not Found!: path = {resource_path}"),
+            ))
+        }
     }
 }

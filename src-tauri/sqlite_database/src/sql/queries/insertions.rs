@@ -117,10 +117,10 @@ where
     // None => Ok(SqlResult::QuerySuccess(format!("Nothing to Add")))
 }
 
-async fn category_insertion(
-    insert: &Item,
-    pool: &Pool<Sqlite>,
-) -> Result<SqlResult, SqliteCustomError> {
+async fn category_insertion<'a>(
+    insert: &'a Item,
+    pool: &'a Pool<Sqlite>,
+) -> Result<SqlResult, SqliteCustomError<'a>> {
     match &insert.category {
         Categories::GENERIC => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
         Categories::AMPLIFIER => match &insert.amplifier {
