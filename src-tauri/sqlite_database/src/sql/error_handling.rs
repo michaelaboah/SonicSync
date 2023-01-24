@@ -3,22 +3,22 @@ use std::ops::Not;
 use sqlx::sqlite::SqliteQueryResult;
 
 #[derive(Debug)]
-pub enum SqliteErrorKind {
+pub enum SqliteErrorKind<'a> {
     ItemAlreadyExists,
     ConstraintViolation,
     NotFound,
     MissingDatabaseFile,
-    Unknown(String),
+    Unknown(&'a str),
 }
 
 #[derive(Debug)]
-pub enum SqlResult {
+pub enum SqlResult<'a> {
     QuerySuccess(SqliteQueryResult),
-    AcceptableError(String),
-    UnacceptableError(String),
+    AcceptableError(&'a str),
+    UnacceptableError(&'a str),
 }
 
-impl Not for SqlResult {
+impl Not for SqlResult<'_> {
     type Output = bool;
 
     fn not(self) -> Self::Output {
@@ -34,7 +34,7 @@ impl Not for SqlResult {
 pub struct SqliteCustomError<'a> {
     pub code: u16,
     pub message: &'a str,
-    pub error_kind: SqliteErrorKind,
+    pub error_kind: SqliteErrorKind<'a>,
 }
 
 impl std::convert::From<sqlx::Error> for SqliteCustomError<'_> {
@@ -64,17 +64,17 @@ impl std::convert::From<sqlx::Error> for SqliteCustomError<'_> {
                 error_kind: SqliteErrorKind::NotFound,
             },
             // other matches for other error codes
-            c => SqliteCustomError {
+            _ => SqliteCustomError {
                 code: code.parse::<u16>().unwrap(),
                 message: "Unknown, should better implement the err code",
-                error_kind: SqliteErrorKind::Unknown(c.to_string()),
+                error_kind: SqliteErrorKind::Unknown(""),
             },
         }
     }
 }
 
 impl<'a> SqliteCustomError<'a> {
-    pub fn new(code: u16, message: &'a str, error_kind: SqliteErrorKind) -> Self {
+    pub fn new(code: u16, message: &'a str, error_kind: SqliteErrorKind<'a>) -> Self {
         Self {
             code,
             message,
@@ -85,13 +85,13 @@ impl<'a> SqliteCustomError<'a> {
 
 pub fn sqlite_error_handler(
     query_result: Result<SqliteQueryResult, sqlx::Error>,
-) -> Result<SqlResult, SqliteCustomError<'static>> {
+) -> Result<SqlResult<'static>, SqliteCustomError<'static>> {
     match query_result {
         Ok(res) => Ok(SqlResult::QuerySuccess(res)),
         Err(err) => match SqliteCustomError::from(err) {
-            e if e.code == 1555 => Ok(SqlResult::AcceptableError(e.message.to_owned())),
-            e if e.code == 19 => Ok(SqlResult::UnacceptableError(e.message.to_owned())),
-            e if e.code == 1 => Ok(SqlResult::AcceptableError(e.message.to_owned())),
+            e if e.code == 1555 => Ok(SqlResult::AcceptableError(e.message)),
+            e if e.code == 19 => Ok(SqlResult::UnacceptableError(e.message)),
+            e if e.code == 1 => Ok(SqlResult::AcceptableError(e.message)),
             e => Err(e),
         },
     }

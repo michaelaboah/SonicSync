@@ -21,39 +21,55 @@ pub async fn initialize_db(
         .connect(db_path)
         .await
     {
-        Ok(sqlite_pool) => Some(sqlite_pool),
+        // Happy Path err_count = 0
+        Ok(sqlite_pool) => Ok(sqlite_pool),
         Err(pool_err) => {
-            // None
             if matches!(
                 SqliteCustomError::from(pool_err).error_kind,
                 SqliteErrorKind::MissingDatabaseFile
             ) {
                 match std::fs::copy(resource_path, db_path) {
                     Ok(bytes) => {
+                        println!("{bytes}");
                         let thing = if bytes == 0 {
+                            // Unhappy path, packaged db_resource is empty. Can attempt to download from server
                             panic!("The database in resources is empty");
                         } else {
+                            // Happy Path err_count = 1
+                            // if copy is sucessful but connection error panic
                             SqlitePoolOptions::new()
-                            .max_connections(5)
-                            .connect(db_path)
-                            .await
-                            .map_err(|err| {
-                                eprintln!(
-                                    "Error: Database failed to connect on the second attempt.\n Error: {err}"
-                                );
-                            }).expect("Second DB connect failure")
+                                .max_connections(5)
+                                .connect(db_path)
+                                .await
+                                .map_err(|err| {
+                                    eprintln!(
+                                        "Error: Database failed to connect on the second attempt.\n Error: {err}"
+                                    );
+                                }).expect("Second DB connect failure")
                         };
-                        Some(thing)
+                        Ok(thing)
                     }
-                    Err(err) => {
-                        // ""
-                        eprintln!("fs copy err{err}");
-                        panic!("The database is faulty, exiting program");
-                        // None
+                    Err(ref err) => {
+                        // Unhappy Path, fs::copy is uncessesful. Log then panic
+                        // let err_string = err.to_string();
+                        let handled_fs_err = match err.kind() {
+                            std::io::ErrorKind::NotFound => SqliteCustomError::new(
+                                14,
+                                "Missing Production database file entity, likely a bad path",
+                                SqliteErrorKind::MissingDatabaseFile,
+                            ),
+                            _ => SqliteCustomError::new(
+                                666,
+                                "Unknown Error",
+                                SqliteErrorKind::Unknown(""),
+                            ),
+                        };
+                        Err(handled_fs_err)
                     }
                 }
             } else {
-                None
+                // Err(io::)
+                panic!();
             }
         }
     };

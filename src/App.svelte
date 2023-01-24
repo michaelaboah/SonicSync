@@ -12,8 +12,15 @@
     import { currentFile, loadProject, project } from './stores/ProjectStore'; //, loadProject
     import { persist } from './stores/RenderStore';
     import { push } from 'svelte-spa-router';
+    // import { trace, info, error, attachConsole } from 'tauri-plugin-log-api';
 
     onMount(async () => {
+        // await attachConsole();
+
+        // trace('Trace');
+        // info('Info');
+        // error('Error');
+
         await listen('save', (_event) => {
             invoke('save_as_file', { file_path: $currentFile, data: $project }).then((value) => {
                 console.log(value);

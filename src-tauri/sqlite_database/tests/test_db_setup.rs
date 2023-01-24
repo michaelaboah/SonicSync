@@ -93,8 +93,9 @@ async fn init_db_mock<'a>(
                         };
                         Ok(thing)
                     }
-                    Err(err) => {
+                    Err(ref err) => {
                         // Unhappy Path, fs::copy is uncessesful. Log then panic
+                        // let err_string = err.to_string();
                         let handled_fs_err = match err.kind() {
                             io::ErrorKind::NotFound => SqliteCustomError::new(
                                 14,
@@ -104,7 +105,7 @@ async fn init_db_mock<'a>(
                             _ => SqliteCustomError::new(
                                 666,
                                 "Unknown Error",
-                                SqliteErrorKind::Unknown(err.to_string()),
+                                SqliteErrorKind::Unknown(""),
                             ),
                         };
                         Err(handled_fs_err)

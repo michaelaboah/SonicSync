@@ -114,15 +114,15 @@ where
     //     item_insert
     // }
     // }
-    // None => Ok(SqlResult::QuerySuccess(format!("Nothing to Add")))
+    // None => Ok(SqlResult::QuerySuccess("Nothing to Add"))
 }
 
 async fn category_insertion<'a>(
     insert: &'a Item,
     pool: &'a Pool<Sqlite>,
-) -> Result<SqlResult, SqliteCustomError<'a>> {
+) -> Result<SqlResult<'a>, SqliteCustomError<'a>> {
     match &insert.category {
-        Categories::GENERIC => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+        Categories::GENERIC => Ok(SqlResult::AcceptableError("Nothing to Add")),
         Categories::AMPLIFIER => match &insert.amplifier {
             Some(amplifier) => {
                 let power_bind =
@@ -148,7 +148,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         Categories::CONSOLE => match &insert.console {
             Some(console) => {
@@ -178,7 +178,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         Categories::COMPUTER => match &insert.computer {
             Some(computer) => {
@@ -206,7 +206,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         Categories::PROCESSOR => match &insert.processor {
             Some(processor) => {
@@ -237,7 +237,7 @@ async fn category_insertion<'a>(
                     .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         Categories::MONITORING => match &insert.monitoring_item {
             Some(monitor) => {
@@ -258,7 +258,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         Categories::SPEAKER => match &insert.speaker_item {
             Some(speaker) => {
@@ -288,7 +288,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         // Categories::SPK_HARDWARE => match &insert.spk_hardware {},
         Categories::NETWORK => match &insert.network_item {
@@ -310,7 +310,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         Categories::RADIO => match &insert.radio_item {
             Some(radio) => {
@@ -331,7 +331,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
         Categories::MICROPHONES => match &insert.microphone {
             Some(ref microphone) => {
@@ -354,7 +354,7 @@ async fn category_insertion<'a>(
                         .await;
                 sqlite_error_handler(insertion_results)
             }
-            None => Ok(SqlResult::AcceptableError(format!("Nothing to Add"))),
+            None => Ok(SqlResult::AcceptableError("Nothing to Add")),
         },
     }
 }

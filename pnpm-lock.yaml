@@ -39,7 +39,7 @@ specifiers:
   svelte-select: ^4.4.7
   svelte-spa-router: ^3.3.0
   tailwindcss: ^3.2.1
-  tauri-plugin-log-api: git+https://github.com/tauri-apps/tauri-plugin-log.git
+  tauri-plugin-log-api: github:tauri-apps/tauri-plugin-log
   tauri-plugin-store-api: github:tauri-apps/tauri-plugin-store#dev
   tslib: ^2.4.0
   typescript: ^4.6.4
