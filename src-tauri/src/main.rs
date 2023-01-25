@@ -3,7 +3,7 @@
     windows_subsystem = "windows"
 )]
 
-use dotenvy;
+
 use essentials::{
     communication::commands::*,
     menu::{menu_bar, menu_events},

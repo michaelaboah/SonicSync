@@ -6,7 +6,7 @@ pub mod menu_bar {
     }
 
     use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
-    pub fn generate_menu_bar(app_name: &str) -> Menu {
+    pub fn generate_menu_bar(_app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
         let save_as =
             CustomMenuItem::new("save_as", "Save As File").accelerator("cmdOrControl+shift+S");
