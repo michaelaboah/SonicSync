@@ -253,7 +253,7 @@
       "radio_item": null,
       "speaker_item": null,
       "monitoring_item": {
-        "id": 1,
+        "monitoring_id": 1,
         "distro": true,
         "network_connectivity": [
           {
@@ -436,7 +436,7 @@
       },
       "amplifier": null,
       "console": {
-        "id": 1,
+        "console_id": 1,
         "total_outputs": 64,
         "total_inputs": 64,
         "total_busses": 16,

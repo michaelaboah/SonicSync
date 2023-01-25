@@ -1,8 +1,10 @@
+use std::fs;
+
 use crate::database_setup::DatabasePool;
 use crate::error_handling::*;
 use crate::sql::entities::{creation_structs::*, enums::*, structs::*};
 use sqlx::{Pool, Sqlite};
-use tauri::{self, State};
+use tauri::{self, State, api::dialog};
 
 // pub enum InsertionType<'a> {
 //     JsonValue(serde_json::Value),
@@ -156,7 +158,7 @@ async fn category_insertion<'a>(
                 let insertion_results = sqlx::query!("INSERT INTO console_item (
                         console_id, total_inputs, total_outputs, total_busses, physical_inputs, physical_outputs, aux_inputs, physical_aux_inputs, phantom_power_inputs, faders, motorized, midi, protocol_inputs, signal_protocol, can_expand, max_sample_rate, power)
                         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17);",
-                        console.id,
+                        console.console_id,
                         console.total_inputs,
                         console.total_outputs,
                         console.total_busses,
@@ -360,18 +362,44 @@ async fn category_insertion<'a>(
 }
 
 // Not sure why a clone is required for the db_state
-// #[tauri::command]
-// pub async fn insert_multiple_items(
-//     json_inserts: Vec<serde_json::Value>,
-//     db_state: State<'_, DatabasePool>,
-// ) -> Result<(), ()> {
-//     let mut results: Vec<Result<SqlResult, SqliteCustomError>> = vec![];
-//     for insert in json_inserts {
-//         // let ref parsed = serde_json::from_value::<Item>(*insert).unwrap();
-//         results.push(insert_single_item(insert, db_state.clone()).await)
-//     }
-//     Ok(())
-// }
+
+#[tokio::main]
+pub async fn insert_multiple_items(
+    json_inserts: Option<Vec<serde_json::Value>>,
+    db_state: State<'_, DatabasePool>,
+) -> Result<(), ()> {
+    // let mut results = vec![];
+    match json_inserts {
+        Some(json) => {
+loop_into_db(json, db_state).await;
+        }
+        None => {
+            if let Some(path) = dialog::blocking::FileDialogBuilder::new()
+                    .set_title("Open File")
+                    .add_filter("Project File Extensions", &["json", "txt"])
+                    .pick_file()
+                {
+                    match fs::read_to_string(path) {
+                        Ok(contents) => {
+                            let parsed_list = serde_json::from_str::<Vec<serde_json::Value>>(&contents).unwrap();
+                            loop_into_db(parsed_list, db_state).await;
+                        },
+                        Err(_) => (),
+                    }
+                }
+        }
+    }
+
+    Ok(())
+}
+
+async fn loop_into_db(json: Vec<serde_json::Value>, db_state: State<'_, DatabasePool>) {
+    for insert in json {
+        // let ref parsed = serde_json::from_value::<Item>(*insert).unwrap();
+        let _ = insert_single_item(insert, db_state.clone()).await;
+        // results.push()
+    }
+}
 
 // #[cfg(test)]
 // mod tests {

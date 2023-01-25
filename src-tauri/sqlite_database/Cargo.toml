@@ -16,7 +16,7 @@ num-derive = "0.3"
 num-traits = "0.2"
 tauri = { version = "1.2.4", features = [] }
 thiserror = "1.0"
+dotenvy = "0.15.6"
 
 [dev-dependencies]
-dotenvy = "0.15.6"
 mockall = "0.11.3"

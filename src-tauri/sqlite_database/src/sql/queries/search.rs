@@ -1,4 +1,4 @@
-use crate::{database_setup::DatabasePool, sql::entities::creation_structs::*};
+use crate::{database_setup::DatabasePool, sql::entities::creation_structs::CreateItem};
 use serde_json::Value;
 use sqlx;
 use tauri::State;
@@ -30,7 +30,7 @@ pub async fn find_similar_item(
 }
 
 #[tauri::command]
-pub async fn find_all_items(db_state: State<'_, DatabasePool>) -> Result<Value, ()> {
+pub async fn find_all_items(db_state: State<'_, DatabasePool>) -> Result<Vec<Value>, ()> {
     let mutex_lock = db_state.0.lock().await;
     let ref pool = *mutex_lock;
     let all_queries = sqlx::query_as!(CreateItem, "SELECT * FROM item;")
@@ -40,10 +40,12 @@ pub async fn find_all_items(db_state: State<'_, DatabasePool>) -> Result<Value, 
     let mut all_items = vec![];
     for item in all_queries.iter() {
         let converted = item.query_to_item(pool).await;
-        all_items.push(converted);
+        let as_val = serde_json::to_value(converted).unwrap();
+        all_items.push(as_val);
     }
-    let json_value = serde_json::to_value(all_items).unwrap_or_default();
-    Ok(json_value)
+    // let json_value = serde_json::to_vec(all_items).unwrap_or_default();
+    // println!("{:#?}", &json_value);
+    Ok(all_items)
 }
 
 #[tauri::command]

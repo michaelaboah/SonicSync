@@ -87,7 +87,7 @@ impl StructConvert<CreateItem> for Item {
             dimensions: Some(serde_json::to_string(&self.dimensions).unwrap_or_default()),
             category: self.category as i64,
             amplifier_item_id: self.amplifier.as_ref().map(|item| item.amplifier_id),
-            console_item_id: self.console.as_ref().map(|item| item.id),
+            console_item_id: self.console.as_ref().map(|item| item.console_id),
             computer_item_id: self.computer.as_ref().map(|item| item.computer_id),
             processor_item_id: self.processor.as_ref().map(|item| item.processor_id),
             network_item_id: self.network_item.as_ref().map(|item| item.network_id),
@@ -104,7 +104,7 @@ impl StructConvert<CreateItem> for Item {
 }
 #[derive(Debug, Default, sqlx::FromRow, Serialize, Deserialize, PartialEq, Clone)]
 pub struct ConsoleItem {
-    pub id: i64,
+    pub console_id: i64,
     pub total_inputs: i64,
     pub total_outputs: i64,
     pub total_busses: i64,

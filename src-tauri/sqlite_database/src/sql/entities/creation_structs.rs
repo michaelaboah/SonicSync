@@ -46,7 +46,7 @@ impl CreateItem {
             dimensions: Some(serde_json::to_string(&item.dimensions).unwrap_or_default()),
             category: item.category as i64,
             amplifier_item_id: item.amplifier.as_ref().map(|item| item.amplifier_id),
-            console_item_id: item.console.as_ref().map(|item| item.id),
+            console_item_id: item.console.as_ref().map(|item| item.console_id),
             computer_item_id: item.computer.as_ref().map(|item| item.computer_id),
             processor_item_id: item.processor.as_ref().map(|item| item.processor_id),
             network_item_id: item.network_item.as_ref().map(|item| item.network_id),
@@ -395,7 +395,7 @@ struct CreateConsoleItem {
 impl CreateConsoleItem {
     pub fn new(console: ConsoleItem) -> Self {
         CreateConsoleItem {
-            console_id: console.id,
+            console_id: console.console_id,
             total_inputs: todo!(),
             total_outputs: todo!(),
             total_busses: todo!(),
@@ -418,7 +418,7 @@ impl CreateConsoleItem {
 impl SqlConvert<ConsoleItem> for CreateConsoleItem {
     fn convert_query(&self) -> ConsoleItem {
         ConsoleItem {
-            id: self.console_id,
+            console_id: self.console_id,
             total_inputs: self.total_inputs,
             total_outputs: self.total_outputs,
             midi: num::FromPrimitive::from_i64(self.midi).unwrap_or_default(),

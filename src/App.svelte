@@ -41,6 +41,10 @@
             push('#/PreferencesPage');
         });
 
+        await listen("load-json-array-to-db", () => {
+            
+        })
+
         window.onkeydown = function (e) {
             if (e.key === 'Backspace' && e.target == document.body) e.preventDefault();
         };

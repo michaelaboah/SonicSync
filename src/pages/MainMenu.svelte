@@ -5,10 +5,10 @@
     import { invoke } from '@tauri-apps/api/tauri';
     import { onMount } from 'svelte';
 
-    onMount(async () => {
-        let test = await invoke('find_single_item', { id: 7 });
-        console.log(test);
-    });
+    // onMount(async () => {
+    //     let test = await invoke('find_single_item', { id: 1 });
+    //     console.log(test);
+    // });
 </script>
 
 <Box>

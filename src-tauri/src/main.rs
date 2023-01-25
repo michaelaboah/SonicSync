@@ -3,7 +3,7 @@
     windows_subsystem = "windows"
 )]
 
-// use dotenvy;
+use dotenvy;
 use essentials::{
     communication::commands::*,
     menu::{menu_bar, menu_events},
@@ -20,11 +20,12 @@ use tauri_plugin_window_state::Builder;
 mod essentials;
 
 fn main() {
+    // dotenvy::from_filename(".env").unwrap();
     let ctx = tauri::generate_context!();
     let menu = menu_bar::generate_menu_bar(&ctx.package_info().name);
-
     tauri::Builder::default()
         .setup(|app| {
+            app_dir_insert("sqlite-internal.db", app)?;
             let db_resource_path = find_resource("resources/sqlite-internal.db", app)?;
             let db_prod_path = find_prod_resource("sqlite-internal.db", app)?;
             let schema_path = find_resource("resources/internal-schema.sql", app)?;
@@ -56,4 +57,12 @@ fn main() {
         .on_menu_event(|event| menu_events::menu_event_handler(event))
         .run(ctx)
         .expect("error while running tauri application");
+}
+
+
+#[test]
+fn test_env(){
+    dotenvy::from_filename(".env");
+    let env = std::env::var("TEST").unwrap();
+    println!("{env}");
 }

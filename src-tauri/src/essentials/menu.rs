@@ -16,6 +16,8 @@ pub mod menu_bar {
             CustomMenuItem::new("preferences", "Preferences").accelerator("cmdOrControl+,");
         let open_palette =
             CustomMenuItem::new("palette", "Open Command Palette").accelerator("cmdOrControl+P");
+        let database_load_json = CustomMenuItem::new("db_json_load", "Import database items from file");
+        let database_submenu = Submenu::new("Database", Menu::new().add_item(database_load_json));
 
         let menu = Menu::with_items([
             #[cfg(target_os = "macos")]
@@ -41,8 +43,10 @@ pub mod menu_bar {
                     .add_item(save)
                     .add_item(save_as)
                     .add_item(open)
+                    .add_submenu(database_submenu)
                     .add_item(open_preferences),
             )),
+            #[cfg(target_os = "macos")]
             MenuEntry::Submenu(Submenu::new(
                 "File",
                 Menu::with_items([MenuItem::CloseWindow.into()])
@@ -83,6 +87,8 @@ pub mod menu_bar {
 }
 
 pub mod menu_events {
+    use tauri::Manager;
+
     use crate::essentials::communication;
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
@@ -97,6 +103,10 @@ pub mod menu_events {
             .show(|_| ()),
             "palette" => communication::events::menu_emit("toggle-palette", event),
             "preferences" => communication::events::menu_emit("open-preferences", event),
+            "db_json_load" => {
+                sqlite_database::queries::insertions::insert_multiple_items(None, event.window().state());
+                
+            },
             "Learn More" => {
                 let _url = "to be implemented".to_string();
             }
