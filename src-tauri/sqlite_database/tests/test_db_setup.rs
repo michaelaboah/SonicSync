@@ -1,10 +1,10 @@
-use std;
+
 
 #[cfg(test)]
 mod sqlite_db_tests {
     use sqlite_database::database_setup::init_db;
     use sqlite_database::error_handling::{SqliteCustomError, SqliteErrorKind};
-    use sqlx::{sqlite::SqlitePoolOptions, Pool, Sqlite};
+    use sqlx::{sqlite::SqlitePoolOptions};
     #[test]
     fn test_find_db() {
         let resource_path = "tests/testing_resources/test.db";

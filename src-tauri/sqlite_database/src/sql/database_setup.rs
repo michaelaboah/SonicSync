@@ -5,7 +5,7 @@ use sqlx::{sqlite::SqlitePoolOptions, Pool, Sqlite};
 use tauri::api::dialog;
 use tokio::{io::{AsyncWriteExt, self}, sync::Mutex, fs, time::{sleep, Duration}};
 // use crate::
-use crate::error_handling::{SqliteCustomError, SqliteErrorKind};
+use crate::error_handling::{SqliteCustomError, SqliteErrorKind, sqlite_error_handler};
 #[derive(Debug)]
 pub struct DatabasePool(pub Mutex<Pool<Sqlite>>);
 impl DatabasePool {
@@ -47,7 +47,10 @@ pub async fn initialize_db(
             panic!();
         }
     };
-    sqlx::query(&schema).execute(&pool).await.unwrap();
+    sqlx::query(&schema).execute(&pool).await.map_err(|e|{
+        let err_res = sqlite_error_handler(Err(e));
+        println!("{:#?}", err_res);
+    });
     let pool_state = DatabasePool::new(Mutex::new(pool));
     Ok(pool_state)
 }
