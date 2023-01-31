@@ -4,7 +4,7 @@ use crate::database_setup::DatabasePool;
 use crate::error_handling::*;
 use crate::sql::entities::{creation_structs::*, enums::*, structs::*};
 use sqlx::{Pool, Sqlite};
-use tauri::{self, State, api::dialog};
+use tauri::{self, api::dialog, State};
 
 // pub enum InsertionType<'a> {
 //     JsonValue(serde_json::Value),
@@ -198,7 +198,8 @@ async fn category_insertion<'a>(
                         computer.ram_size,
                         computer.total_storage,
                         computer.model_year,
-                        computer.operating_system,
+                        computer.
+                        operating_system,
                         computer.dedicated_graphics,
                         net_conn,
                         port_bind,
@@ -371,22 +372,23 @@ pub async fn insert_multiple_items(
     // let mut results = vec![];
     match json_inserts {
         Some(json) => {
-loop_into_db(json, db_state).await;
+            loop_into_db(json, db_state).await;
         }
         None => {
             if let Some(path) = dialog::blocking::FileDialogBuilder::new()
-                    .set_title("Open File")
-                    .add_filter("Project File Extensions", &["json", "txt"])
-                    .pick_file()
-                {
-                    match fs::read_to_string(path) {
-                        Ok(contents) => {
-                            let parsed_list = serde_json::from_str::<Vec<serde_json::Value>>(&contents).unwrap();
-                            loop_into_db(parsed_list, db_state).await;
-                        },
-                        Err(_) => (),
+                .set_title("Open File")
+                .add_filter("Project File Extensions", &["json", "txt"])
+                .pick_file()
+            {
+                match fs::read_to_string(path) {
+                    Ok(contents) => {
+                        let parsed_list =
+                            serde_json::from_str::<Vec<serde_json::Value>>(&contents).unwrap();
+                        loop_into_db(parsed_list, db_state).await;
                     }
+                    Err(_) => (),
                 }
+            }
         }
     }
 

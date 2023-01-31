@@ -6,7 +6,7 @@ pub mod menu_bar {
     }
 
     use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
-    pub fn generate_menu_bar(_app_name: &str) -> Menu {
+    pub fn generate_menu_bar(app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
         let save_as =
             CustomMenuItem::new("save_as", "Save As File").accelerator("cmdOrControl+shift+S");
@@ -16,7 +16,8 @@ pub mod menu_bar {
             CustomMenuItem::new("preferences", "Preferences").accelerator("cmdOrControl+,");
         let open_palette =
             CustomMenuItem::new("palette", "Open Command Palette").accelerator("cmdOrControl+P");
-        let database_load_json = CustomMenuItem::new("db_json_load", "Import database items from file");
+        let database_load_json =
+            CustomMenuItem::new("db_json_load", "Import database items from file");
         let database_submenu = Submenu::new("Database", Menu::new().add_item(database_load_json));
 
         let menu = Menu::with_items([
@@ -33,6 +34,7 @@ pub mod menu_bar {
                     MenuItem::Separator.into(),
                     MenuItem::Quit.into(),
                 ])
+                .add_submenu(database_submenu)
                 .add_item(open_preferences),
             )),
             #[cfg(target_os = "windows")]
@@ -104,9 +106,11 @@ pub mod menu_events {
             "palette" => communication::events::menu_emit("toggle-palette", event),
             "preferences" => communication::events::menu_emit("open-preferences", event),
             "db_json_load" => {
-                sqlite_database::queries::insertions::insert_multiple_items(None, event.window().state());
-                
-            },
+                sqlite_database::queries::insertions::insert_multiple_items(
+                    None,
+                    event.window().state(),
+                );
+            }
             "Learn More" => {
                 let _url = "to be implemented".to_string();
             }

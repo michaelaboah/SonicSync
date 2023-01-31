@@ -1,8 +1,8 @@
-use std::{fs, io};
-
+use serde::Deserialize;
 use sqlx::{sqlite::SqlitePoolOptions, Pool, Sqlite};
-use tokio::sync::Mutex;
-
+use std::{fs, io};
+use tokio::{io::AsyncWriteExt, sync::Mutex};
+// use crate::
 use crate::error_handling::{SqliteCustomError, SqliteErrorKind};
 #[derive(Debug)]
 pub struct DatabasePool(pub Mutex<Pool<Sqlite>>);
@@ -12,17 +12,25 @@ impl DatabasePool {
     }
 }
 
+
+#[derive(Deserialize)]
+struct S3Resource {
+    resource_data: Vec<u8>,
+}
+
+
 #[tokio::main]
 pub async fn initialize_db(
-    db_path: &str,
+    local_db_path: &str,
     resource_path: &str,
     schema_path: &str,
 ) -> Result<DatabasePool, Box<dyn std::error::Error>> {
-    let built_pool = init_db(db_path, resource_path).await;
+    let built_pool = init_db(local_db_path, resource_path).await;
 
     let schema = match std::fs::read_to_string(schema_path) {
         Ok(schema_string) => schema_string,
         Err(err) => {
+            println!("{:#?}", err.kind());
             //potentially download from server.
             unimplemented!();
         }
@@ -34,16 +42,11 @@ pub async fn initialize_db(
     Ok(pool_state)
 }
 
-
 pub async fn init_db<'a>(
-    db_path: &'a str,
+    local_db_path: &'a str,
     resource_path: &'a str,
 ) -> Result<Pool<Sqlite>, SqliteCustomError<'a>> {
-    let pool = match SqlitePoolOptions::new()
-        .max_connections(5)
-        .connect(db_path)
-        .await
-    {
+    let pool = match sqlite_pool_gen(local_db_path).await {
         // Happy Path err_count = 0
         Ok(sqlite_pool) => Ok(sqlite_pool),
         Err(pool_err) => {
@@ -51,24 +54,51 @@ pub async fn init_db<'a>(
                 SqliteCustomError::from(pool_err).error_kind,
                 SqliteErrorKind::MissingDatabaseFile
             ) {
-                match fs::copy(resource_path, db_path) {
+                match fs::copy(resource_path, local_db_path) {
                     Ok(bytes) => {
                         println!("{bytes}");
-                        let thing = if bytes == 0 {
-                            // Unhappy path, packaged db_resource is empty. Can attempt to download from server
-                            panic!("The database in resources is empty");
+                        // Happy Path
+                        let thing = if bytes > 0 {
+                            sqlite_pool_gen(local_db_path).await
+                            .map_err(|err| 
+                                eprintln!(
+                                    "Error: Database failed to connect on the second attempt.\n Error: {err}"
+                                )
+                            ).expect("Second DB connect failure")
+                            // a copy was not necessary
+                        } else if bytes == 0 {
+                            sqlite_pool_gen(local_db_path).await
+                            .map_err(|err| 
+                                eprintln!(
+                                    "Error: Database failed to connect on the second attempt.\n Error: {err}"
+                                )
+                            ).expect("Second DB connect failure")
                         } else {
-                            // Happy Path err_count = 1
-                            // if copy is sucessful but connection error panic
-                            SqlitePoolOptions::new()
-                                .max_connections(5)
-                                .connect(db_path)
+                            const s3_uri: &str =
+                                "https://im31veb0e3.execute-api.us-east-1.amazonaws.com/testRust";
+                            let response = reqwest::get(s3_uri)
                                 .await
-                                .map_err(|err| {
-                                    eprintln!(
-                                        "Error: Database failed to connect on the second attempt.\n Error: {err}"
-                                    );
-                                }).expect("Second DB connect failure")
+                                .unwrap()
+                                .json::<S3Resource>()
+                                .await;
+
+                            match tokio::fs::File::create(local_db_path).await {
+                                Ok(mut created) => created
+                                    .write_all(&response.unwrap().resource_data)
+                                    .await
+                                    .unwrap(),
+                                Err(_) => {
+                                    todo!()
+                                }
+                            };
+
+                            sqlite_pool_gen(local_db_path).await
+                            .map_err(|err| {
+                                eprintln!(
+                                    "Error: Database failed to connect on the second attempt.\n Error: {err}"
+                                );
+                            }).expect("Second DB connect failure")
+                            // new_file
                         };
                         Ok(thing)
                     }
@@ -99,10 +129,9 @@ pub async fn init_db<'a>(
     pool
 }
 
-// #[ignore = "async tests are not allowed"]
-#[test]
-/// ```compile
-///     use sqlx;
-///     sqlx::query!("Select * from item;")
-/// ```
-fn check_query_macro() {}
+async fn sqlite_pool_gen(local_db_path: &str) -> Result<Pool<Sqlite>, sqlx::Error> {
+    SqlitePoolOptions::new()
+        .max_connections(5)
+        .connect(local_db_path)
+        .await
+}
