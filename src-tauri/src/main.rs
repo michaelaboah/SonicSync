@@ -3,6 +3,7 @@
     windows_subsystem = "windows"
 )]
 
+use std::path::PathBuf;
 
 use essentials::{
     communication::commands::*,
@@ -30,9 +31,9 @@ fn main() {
             let db_prod_path = find_prod_resource("sqlite-internal.db", app)?;
             let schema_path = find_resource("resources/internal-schema.sql", app)?;
             let pool = sqlite_database::database_setup::initialize_db(
-                db_prod_path.to_str().unwrap(),
-                db_resource_path.to_str().unwrap(),
-                schema_path.to_str().unwrap(),
+                db_prod_path,
+                db_resource_path,
+                schema_path,
             )?;
             app.manage(pool);
             Ok(())
@@ -59,10 +60,9 @@ fn main() {
         .expect("error while running tauri application");
 }
 
-
 #[test]
-fn test_env(){
-    dotenvy::from_filename(".env");
+fn test_env() {
+    dotenvy::from_filename(".env").unwrap();
     let env = std::env::var("TEST").unwrap();
     println!("{env}");
 }

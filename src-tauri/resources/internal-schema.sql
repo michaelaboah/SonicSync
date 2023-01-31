@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS speaker_item (
 --     CONSTRAINT rfband_rf_item_id FOREIGN KEY(rf_item_id) REFERENCES rf_item(id) ON UPDATE CASCADE
 -- );
 -- CREATE INDEX IF NOT EXISTS rfband_rf_item_id_index ON rfband (rf_item_id);
-CREATE UNIQUE INDEX IF NOT EXISTS rfband_band_name_unique ON rfband (band_name);
+-- CREATE UNIQUE INDEX IF NOT EXISTS rfband_band_name_unique ON rfband (band_name);
 CREATE UNIQUE INDEX IF NOT EXISTS item_model_unique ON item (model);
 CREATE UNIQUE INDEX IF NOT EXISTS item_amplifier_item_id_unique ON item (amplifier_item_id);
 CREATE UNIQUE INDEX IF NOT EXISTS item_console_item_id_unique ON item (console_item_id);
