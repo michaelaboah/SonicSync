@@ -21,7 +21,7 @@ struct S3Resource {
 }
 
 
-#[tokio::main]
+#[tokio::main(flavor = "multi_thread", worker_threads = 10)]
 pub async fn initialize_db(
     local_db_path: String,
     resource_path: String,

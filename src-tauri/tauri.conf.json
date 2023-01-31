@@ -24,6 +24,9 @@
       "http": {
         "all": true,
         "scope": ["http://localhost:4000/*"]
+      },
+      "window": {
+        "print": true
       }
     },
     "bundle": {

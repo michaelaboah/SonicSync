@@ -364,14 +364,14 @@ async fn category_insertion<'a>(
 
 // Not sure why a clone is required for the db_state
 
-pub fn insert_multiple_items(
+pub async fn insert_multiple_items(
     json_inserts: Option<Vec<serde_json::Value>>,
     db_state: State<'_, DatabasePool>,
 ) -> Result<(), ()> {
     // let mut results = vec![];
     match json_inserts {
         Some(json) => {
-            loop_into_db(json, db_state);
+            loop_into_db(json, db_state).await;
         }
         None => {
             if let Some(path) = dialog::blocking::FileDialogBuilder::new()
@@ -383,7 +383,7 @@ pub fn insert_multiple_items(
                     Ok(contents) => {
                         let parsed_list =
                             serde_json::from_str::<Vec<serde_json::Value>>(&contents).unwrap();
-                        loop_into_db(parsed_list, db_state);
+                        loop_into_db(parsed_list, db_state).await;
                     }
                     Err(_) => (),
                 }
@@ -394,7 +394,6 @@ pub fn insert_multiple_items(
     Ok(())
 }
 
-#[tokio::main]
 async fn loop_into_db(json: Vec<serde_json::Value>, db_state: State<'_, DatabasePool>) {
     for insert in json {
         // let ref parsed = serde_json::from_value::<Item>(*insert).unwrap();

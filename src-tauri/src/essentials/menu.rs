@@ -15,12 +15,13 @@ pub mod menu_bar {
         let open_preferences =
             CustomMenuItem::new("preferences", "Preferences").accelerator("cmdOrControl+,");
         let open_palette =
-            CustomMenuItem::new("palette", "Open Command Palette").accelerator("cmdOrControl+P");
+            CustomMenuItem::new("palette", "Open Command Palette").accelerator("cmdOrControl+L");
         let database_load_json =
             CustomMenuItem::new("db_json_load", "Import database items from file");
         let database_submenu = Submenu::new("Database", Menu::new().add_item(database_load_json));
 
-        let menu = Menu::with_items([
+        //MenuBar
+        Menu::with_items([
             #[cfg(target_os = "macos")]
             MenuEntry::Submenu(Submenu::new(
                 app_name,
@@ -83,13 +84,12 @@ pub mod menu_bar {
                 "Help",
                 Menu::with_items([CustomMenuItem::new("Learn More", "Learn More").into()]),
             )),
-        ]);
-        menu
+        ])
     }
 }
 
 pub mod menu_events {
-    use tauri::Manager;
+    use tauri::{async_runtime, Manager};
 
     use crate::essentials::communication;
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
@@ -106,10 +106,14 @@ pub mod menu_events {
             "palette" => communication::events::menu_emit("toggle-palette", event),
             "preferences" => communication::events::menu_emit("open-preferences", event),
             "db_json_load" => {
-                sqlite_database::queries::insertions::insert_multiple_items(
-                    None,
-                    event.window().state(),
-                );
+                async_runtime::spawn(async move {
+                    sqlite_database::queries::insertions::insert_multiple_items(
+                        None,
+                        event.window().state(),
+                    )
+                    .await
+                    .unwrap();
+                });
             }
             "Learn More" => {
                 let _url = "to be implemented".to_string();
