@@ -16,7 +16,7 @@
     "test:run": "vitest run"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.1",
+    "@apollo/client": "^3.7.5",
     "@svelteuidev/composables": "^0.7.5",
     "@svelteuidev/core": "^0.7.5",
     "@svelteuidev/dates": "^0.7.5",
