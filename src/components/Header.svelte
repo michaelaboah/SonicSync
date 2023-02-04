@@ -23,7 +23,7 @@
                     
                     on:click="{() => push('#/')}"
                 >
-                    <img src="src/static-assets/App-Icon.png" alt="" class="icon" />              
+                    <img src="/App-Icon.png" alt="" class="icon" />              
                 </ActionIcon>
             </Grid.Col>
             <Grid.Col span="{2}">
