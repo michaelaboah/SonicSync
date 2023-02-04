@@ -364,7 +364,6 @@ async fn category_insertion<'a>(
 
 // Not sure why a clone is required for the db_state
 
-#[tokio::main]
 pub async fn insert_multiple_items(
     json_inserts: Option<Vec<serde_json::Value>>,
     db_state: State<'_, DatabasePool>,
