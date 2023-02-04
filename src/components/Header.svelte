@@ -1,9 +1,9 @@
 <script lang="ts">
     import { push } from 'svelte-spa-router';
-    import { ActionIcon, Box, Button, Grid, Header, Image, theme, type SvelteUINumberSize } from '@svelteuidev/core';
+    import { ActionIcon, Box, Button, Grid, Header, theme, type SvelteUINumberSize } from '@svelteuidev/core';
     import { Gear } from 'radix-icons-svelte';
     import { project } from '../stores/ProjectStore';
-    import { persist } from '../stores/renderStore';
+    import { persist } from '../stores/RenderStore';
 
     let BUTTON_SIZE: SvelteUINumberSize = 'sm';
 
@@ -13,17 +13,16 @@
 <Header fixed height="full" override="{{ mt: '0' }}" pt="10" pb="10">
     <Box>
         <Grid spacing="md" cols="{28}">
-            <Grid.Col span="{2}" >
+            <Grid.Col span="{2}">
                 <ActionIcon
-                override={{left: 30, top: 5}}
+                    override="{{ left: 30, top: 5 }}"
                     radius="md"
                     size="md"
                     variant="hover"
                     color="{isDark}"
-                    
                     on:click="{() => push('#/')}"
                 >
-                    <img src="/App-Icon.png" alt="" class="icon" />              
+                    <img src="/App-Icon.png" alt="" class="icon" />
                 </ActionIcon>
             </Grid.Col>
             <Grid.Col span="{2}">

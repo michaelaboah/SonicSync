@@ -1,12 +1,23 @@
 <script lang="ts">
-    import { Box, Button, Divider, Footer, Grid, Group, NumberInput, Skeleton, Stack, Text, theme } from '@svelteuidev/core';
+    import {
+        Box,
+        Button,
+        Divider,
+        Footer,
+        Grid,
+        Group,
+        NumberInput,
+        Skeleton,
+        Stack,
+        Text,
+        theme,
+    } from '@svelteuidev/core';
     import { persist } from '../stores/RenderStore';
     import { useStylesDisabled } from '../utils/styles';
     import { invoke } from '@tauri-apps/api/tauri';
-    import {listen} from "@tauri-apps/api/event"
     import type { Item } from 'src/generated/graphql';
 
-    $: internalItems = invoke<Item[]>("find_all_items")
+    $: internalItems = invoke<Item[]>('find_all_items');
     $: ({ cx, getStyles } = useStylesDisabled());
 </script>
 
@@ -25,38 +36,42 @@
     </Grid>
 
     {#await internalItems}
-
-    <Skeleton height="{8}" width="50%" radius="xl" override="{{ marginTop: '8px' }}" class="object-center" />
+        <Skeleton height="{8}" width="50%" radius="xl" override="{{ marginTop: '8px' }}" class="object-center" />
     {:then items}
-    <button on:click="{() => console.log(internalItems)}">Test</button>
-    {#key items}
-        {#each items as { model, category, id, dimensions, notes, cost } (id)}
-            <Box
-                css="{{
-                    backgroundColor: $persist.darkMode ? theme.colors.dark300 : theme.colors.gray300,
-                    borderStyle: 'solid',
-                    borderWidth: 2,
-                    borderColor: '$blue900',
-                    borderRadius: '$lg',
-                }}"
-                p="1"
-            >
-                <Grid cols="{8}" spacing="xs">
-                    <Grid.Col span="{1}" override="{{ maxWidth: 80 }}">{id}</Grid.Col>
-                    <Grid.Col span="{1}">{model}</Grid.Col>
-                    <Grid.Col span="{1}">{category}</Grid.Col>
-                    <Grid.Col span="{1}">${cost ?  cost : "N/A"}</Grid.Col>
-                    <Grid.Col span="{1}">{dimensions?.length}</Grid.Col>
-                    <Grid.Col span="{1}">{dimensions?.rack_unit ? dimensions.rack_unit : 'N/A'}</Grid.Col>
-                    <Grid.Col span="{1}">{notes ? notes : 'N/A'}</Grid.Col>
-                    <Grid.Col span="{1}" class=""><Button color="red" on:click={async() => {
-                        invoke("delete_single_item", {id}); 
-                        internalItems = invoke('find_all_items');
-                        }}>Delete</Button></Grid.Col>
-                </Grid>
-            </Box>
-            <Divider />
-        {/each}
+        <button on:click="{() => console.log(internalItems)}">Test</button>
+        {#key items}
+            {#each items as { model, category, id, dimensions, notes, cost } (id)}
+                <Box
+                    css="{{
+                        backgroundColor: $persist.darkMode ? theme.colors.dark300 : theme.colors.gray300,
+                        borderStyle: 'solid',
+                        borderWidth: 2,
+                        borderColor: '$blue900',
+                        borderRadius: '$lg',
+                    }}"
+                    p="1"
+                >
+                    <Grid cols="{8}" spacing="xs">
+                        <Grid.Col span="{1}" override="{{ maxWidth: 80 }}">{id}</Grid.Col>
+                        <Grid.Col span="{1}">{model}</Grid.Col>
+                        <Grid.Col span="{1}">{category}</Grid.Col>
+                        <Grid.Col span="{1}">${cost ? cost : 'N/A'}</Grid.Col>
+                        <Grid.Col span="{1}">{dimensions?.length}</Grid.Col>
+                        <Grid.Col span="{1}">{dimensions?.rack_unit ? dimensions.rack_unit : 'N/A'}</Grid.Col>
+                        <Grid.Col span="{1}">{notes ? notes : 'N/A'}</Grid.Col>
+                        <Grid.Col span="{1}" class=""
+                            ><Button
+                                color="red"
+                                on:click="{async () => {
+                                    invoke('delete_single_item', { id });
+                                    internalItems = invoke('find_all_items');
+                                }}">Delete</Button
+                            ></Grid.Col
+                        >
+                    </Grid>
+                </Box>
+                <Divider />
+            {/each}
         {/key}
     {:catch error}
         {error}
