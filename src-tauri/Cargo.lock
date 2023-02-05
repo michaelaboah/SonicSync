@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "Deadalus-Tauri"
-version = "0.0.1-alpha"
+version = "0.0.1"
 dependencies = [
  "dotenvy",
  "log",
@@ -2966,7 +2966,7 @@ dependencies = [
 
 [[package]]
 name = "sqlite_database"
-version = "0.0.1-alpha"
+version = "0.0.1"
 dependencies = [
  "dotenvy",
  "mockall",
