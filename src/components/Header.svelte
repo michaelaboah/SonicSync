@@ -5,7 +5,7 @@
     import { project } from '../stores/ProjectStore';
     import { persist } from '../stores/RenderStore';
 
-    let BUTTON_SIZE: SvelteUINumberSize = 'sm';
+    let BUTTON_SIZE: SvelteUINumberSize = 'xs';
 
     let isDark = $persist.darkMode ? theme.colors.white.toString() : theme.colors.black.toString();
 </script>

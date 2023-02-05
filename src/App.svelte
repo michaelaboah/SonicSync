@@ -53,7 +53,11 @@
     });
 </script>
 
-<SvelteUIProvider withGlobalStyles themeObserver="{$persist.darkMode ? 'dark' : 'light'}">
+<SvelteUIProvider
+    withGlobalStyles
+    themeObserver="{$persist.darkMode ? 'dark' : 'light'}"
+    override="{{ fs: $persist.fontSize[0] }}"
+>
     <AppShell>
         {#key $persist.darkMode}
             <ContextLayer>

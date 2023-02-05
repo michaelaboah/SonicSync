@@ -36,6 +36,7 @@ specifiers:
   svelte-command-palette: ^1.2.1
   svelte-droplet: ^0.2.0
   svelte-preprocess: ^4.10.7
+  svelte-range-slider-pips: ^2.1.1
   svelte-select: ^4.4.7
   svelte-spa-router: ^3.3.0
   tailwindcss: ^3.2.1
@@ -64,7 +65,7 @@ dependencies:
   printjs: 1.1.0
   svelte-command-palette: 1.2.1_vjccw6zkwqrmxudvmy4reaayx4
   svelte-spa-router: 3.3.0
-  tauri-plugin-log-api: github.com/tauri-apps/tauri-plugin-log/9d2a19ad05fafeb80991006e14f0f95fe1109aba
+  tauri-plugin-log-api: github.com/tauri-apps/tauri-plugin-log/33d9b712e9058ed82c110cb186345215f82b88e2
   tauri-plugin-store-api: github.com/tauri-apps/tauri-plugin-store/c71665bf5dcf48ae70a88d622eb38b2548b60a5d
 
 devDependencies:
@@ -87,6 +88,7 @@ devDependencies:
   svelte-check: 2.10.2_qswwftm3nkautdcuekjmzh7z5u
   svelte-droplet: 0.2.1
   svelte-preprocess: 4.10.7_h6srxojrvjp24glw3d2fwsdfl4
+  svelte-range-slider-pips: 2.1.1
   svelte-select: 4.4.7
   tailwindcss: 3.2.4_v776zzvn44o7tpgzieipaairwm
   tslib: 2.4.1
@@ -4475,6 +4477,10 @@ packages:
       typescript: 4.9.4
     dev: true
 
+  /svelte-range-slider-pips/2.1.1:
+    resolution: {integrity: sha512-fLkhfnyEc4uMOCZCl8IPyC0e9lujrjqdSyrKw28Y8j99YUPZR+pHnSxde7PqhM0ST6eyO4ugh2nFnLZTIoG9aQ==}
+    dev: true
+
   /svelte-select/4.4.7:
     resolution: {integrity: sha512-fIf9Z8rPI6F8naHZ9wjXT0Pv5gLyhdHAFkHFJnCfVVfELE8e82uOoF0xEVQP6Kir+b4Q5yOvNAzZ61WbSU6A0A==}
     dev: true
@@ -4994,8 +5000,8 @@ packages:
   /zen-observable/0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
 
-  github.com/tauri-apps/tauri-plugin-log/9d2a19ad05fafeb80991006e14f0f95fe1109aba:
-    resolution: {tarball: https://codeload.github.com/tauri-apps/tauri-plugin-log/tar.gz/9d2a19ad05fafeb80991006e14f0f95fe1109aba}
+  github.com/tauri-apps/tauri-plugin-log/33d9b712e9058ed82c110cb186345215f82b88e2:
+    resolution: {tarball: https://codeload.github.com/tauri-apps/tauri-plugin-log/tar.gz/33d9b712e9058ed82c110cb186345215f82b88e2}
     name: tauri-plugin-log-api
     version: 0.0.0
     dependencies:

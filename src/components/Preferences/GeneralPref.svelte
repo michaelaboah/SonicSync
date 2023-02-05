@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Box, Divider, Group, NativeSelect, Space, Stack, Switch, Title } from '@svelteuidev/core';
+    import { Box, Divider, Group, Space, Stack, Switch, Title } from '@svelteuidev/core';
+    import RangeSlider from 'svelte-range-slider-pips';
     import { persist } from '../../stores/RenderStore';
 </script>
 
@@ -22,20 +23,23 @@
     </Box>
 
     <Box m="40">
+        <Title align="right" order="{4}">Font</Title>
+        <Divider size="md" />
         <Group position="right" grow ml="lg">
             <Space />
             <Box>
-                <Title align="right" order="{4}">Font</Title>
-                <Divider size="md" />
                 <Group position="right" grow>
                     <Space />
-                    <NativeSelect
-                        data="{['xs', 'sm', 'md', 'lg', 'xl']}"
-                        bind:value="{$persist.ui_font_size}"
-                        label="Select your prefered Font-Size"
-                        size="{$persist.ui_font_size}"
-                        description="test description"
-                    />
+                    <Box css="{{ fs: 15 }}">
+                        <RangeSlider
+                            bind:values="{$persist.fontSize}"
+                            min="{15}"
+                            step="{5}"
+                            max="{30}"
+                            pips
+                            all="label"
+                        />
+                    </Box>
                 </Group>
             </Box>
         </Group>

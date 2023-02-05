@@ -58,6 +58,7 @@ export interface UserPreferences {
     sql_auto_store: boolean;
     credentials: { email: string; password: string };
     ui_font_size: SvelteUISize;
+    fontSize: number[];
 }
 
 export interface Input {

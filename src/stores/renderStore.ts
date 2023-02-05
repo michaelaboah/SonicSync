@@ -8,6 +8,7 @@ const default_prefs = {
     credentials: { email: '', password: '' },
     ui_font_size: 'xs',
     sql_auto_store: true,
+    fontSize: [15],
 } as UserPreferences;
 const tauri_store = new Store('.frontend_store.dat');
 
