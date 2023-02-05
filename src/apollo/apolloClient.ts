@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, Observable } from "@apollo/client/core";
-import { getAccessToken } from "../utils/accessToken";
 import { GRAPHQL_ENDPOINT } from "../utils/ClientContants";
+import { getAccessToken } from "../utils/accessToken";
+// import { GRAPHQL_ENDPOINT } from "../utils/ClientContants";
 import { tokenRefreshLink } from "./apolloLinks";
 
 const cache = new InMemoryCache();

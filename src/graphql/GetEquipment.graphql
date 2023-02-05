@@ -1,12 +1,12 @@
 query GetEquipment($model: String!) {
   getEquipment(model: $model) {
     # id
-    createdAt
-    updatedAt
+    created_at
+    updated_at
     category
     manufacturer
     model
-    publicNotes
+    public_notes
     cost
     powerDraw
     weight

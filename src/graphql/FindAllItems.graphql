@@ -1,0 +1,96 @@
+query FindAllItems {
+  findAllItems {
+    ...GenericFrag
+    amplifier {
+      ...AmpFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+    computer {
+      ...ComputerFrag
+    }
+    processor {
+      ...ProcessorFrag
+    }
+    network_item {
+      ...NetworkItemFrag
+    }
+    microphone {
+      ...MicrophoneFrag
+    }
+    radio_item {
+      ...RadioFrag
+    }
+    speaker_item {
+      ...SpeakerFrag
+    }
+    monitoring_item {
+      ...MonitoringFrag
+    }
+  }
+}
+query FindAllItems {
+  findAllItems {
+    ...GenericFrag
+    amplifier {
+      ...AmpFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+    computer {
+      ...ComputerFrag
+    }
+    processor {
+      ...ProcessorFrag
+    }
+    network_item {
+      ...NetworkItemFrag
+    }
+    microphone {
+      ...MicrophoneFrag
+    }
+    radio_item {
+      ...RadioFrag
+    }
+    speaker_item {
+      ...SpeakerFrag
+    }
+    monitoring_item {
+      ...MonitoringFrag
+    }
+  }
+}
+query FindAllItems {
+  findAllItems {
+    ...GenericFrag
+    amplifier {
+      ...AmpFrag
+    }
+    console {
+      ...ConsoleFrag
+    }
+    computer {
+      ...ComputerFrag
+    }
+    processor {
+      ...ProcessorFrag
+    }
+    network_item {
+      ...NetworkItemFrag
+    }
+    microphone {
+      ...MicrophoneFrag
+    }
+    radio_item {
+      ...RadioFrag
+    }
+    speaker_item {
+      ...SpeakerFrag
+    }
+    monitoring_item {
+      ...MonitoringFrag
+    }
+  }
+}

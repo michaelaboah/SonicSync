@@ -1,0 +1,14 @@
+fragment GenericFrag on Item {
+  id
+  created_at
+  updated_at
+  cost
+  model
+  weight
+  public_notes
+  category
+  notes
+  dimensions {
+    ...DimensionFrag
+  }
+}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PhotoDrop from "../components/PhotoDrop.svelte";
+  import PhotoDrop from '../components/PhotoDrop.svelte';
   import {
     Box,
     Button,
@@ -11,18 +11,29 @@
     TextInput,
     Title,
     Tooltip,
-  } from "@svelteuidev/core";
-  import { prodInfo } from "../stores/ProjectStore";
-  const size = "sm";
+  } from '@svelteuidev/core';
+  import { prodInfo } from '../stores/ProjectStore';
+  const size = 'sm';
 
   $: positions = [
-    { label: "Associate Designer", tuple: ($prodInfo.associate ??= ["", false]) },
-    { label: "Assistant Designer", tuple: ($prodInfo.assistant ??= ["", false]) },
-    { label: "Production Sound", tuple: ($prodInfo.productionSound ??= ["", false]) },
-    { label: "Assistant Production Sound", tuple: ($prodInfo.asstProdSound ??= ["", false]) },
-    { label: "A1 / Board Op", tuple: ($prodInfo.audio1 ??= ["", false]) },
-    { label: "A2", value: false, tuple: ($prodInfo.audio2 ??= ["", false]) },
+    { label: 'Associate Designer', tuple: ($prodInfo.associate ??= ['', false]) },
+    { label: 'Assistant Designer', tuple: ($prodInfo.assistant ??= ['', false]) },
+    { label: 'Production Sound', tuple: ($prodInfo.productionSound ??= ['', false]) },
+    { label: 'Assistant Production Sound', tuple: ($prodInfo.asstProdSound ??= ['', false]) },
+    { label: 'A1 / Board Op', tuple: ($prodInfo.audio1 ??= ['', false]) },
+    { label: 'A2', value: false, tuple: ($prodInfo.audio2 ??= ['', false]) },
   ];
+  let selectButton = 'Select All';
+  const selectAll = () => {
+    let selectButton = 'Deselect All';
+    positions.forEach((x) => {
+      x.tuple[1] = !x.tuple[1];
+      if (x.tuple[1]) {
+        selectButton = 'Deselect All';
+      }
+    });
+    positions = positions;
+  };
 </script>
 
 <Box>
@@ -33,9 +44,8 @@
         {#each positions as { label, tuple: [_, bool] }}
           <Checkbox bind:checked="{bool}" label="{label}" size="{size}" />
         {/each}
-        <!-- Implement toggle later -->
-        <Tooltip opened="{false}" label="Select all items">
-          <Button disabled>Select All</Button>
+        <Tooltip label="Select all positions">
+          <Button on:click="{selectAll}">{selectButton}</Button>
         </Tooltip>
       </Group>
       <TextInput

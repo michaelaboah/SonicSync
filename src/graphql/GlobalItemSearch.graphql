@@ -1,58 +1,11 @@
 query GlobalItemSearch($model: String!) {
   fuzzyItemSearch(model: $model) {
-    id
-    createdAt
-    updatedAt
-    publicNotes
-    cost
-    weight
-    model
+    ...GenericFrag
     processor {
-      totalInputs
-      totalOutputs
-      physicalInputs
-      physicalOutputs
-      midi
-      protocolInputs
-      signalProtocol
-      max_sample_rate
-      network_connectivity {
-        protocol
-        power_over_ethernet
-      }
-    }
-    dimensions {
-      width
-      length
-      height
+      ...ProcessorFrag
     }
     console {
-      totalInputs
-      totalOutputs
-      totalBusses
-      physicalInputs
-      physicalOutputs
-      auxInputs
-      physicalAuxInputs
-      phantomPowerInputs
-      faders
-      motorized
-      midi
-      protocolInputs
-      signalProtocol
-      can_expand
-      max_sample_rate
-      notes
-      model
-      power {
-        lower_voltage
-        upper_voltage
-        wattage
-        max_wattage
-        redundant
-        input_connector
-        output_connector
-      }
+      ...ConsoleFrag
     }
   }
 }

@@ -1,0 +1,14 @@
+mutation CreateProcessingItem($itemInput: ItemInput!) {
+  createItem(itemInput: $itemInput) {
+    errors {
+      field
+      message
+    }
+    item {
+      ...GenericFrag
+      processor {
+        ...ProcessorFrag
+      }
+    }
+  }
+}

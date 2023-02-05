@@ -1,11 +1,10 @@
 pub mod menu_bar {
 
     #[derive(Clone, serde::Serialize)]
-
     struct Payload {
         message: String,
     }
-    use crate::essentials::communication;
+
     use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
     pub fn generate_menu_bar(app_name: &str) -> Menu {
         let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
@@ -16,9 +15,13 @@ pub mod menu_bar {
         let open_preferences =
             CustomMenuItem::new("preferences", "Preferences").accelerator("cmdOrControl+,");
         let open_palette =
-            CustomMenuItem::new("palette", "Open Command Palette").accelerator("cmdOrControl+P");
+            CustomMenuItem::new("palette", "Open Command Palette").accelerator("cmdOrControl+L");
+        let database_load_json =
+            CustomMenuItem::new("db_json_load", "Import database items from file");
+        let database_submenu = Submenu::new("Database", Menu::new().add_item(database_load_json));
 
-        let menu = Menu::with_items([
+        //MenuBar
+        Menu::with_items([
             #[cfg(target_os = "macos")]
             MenuEntry::Submenu(Submenu::new(
                 app_name,
@@ -32,15 +35,28 @@ pub mod menu_bar {
                     MenuItem::Separator.into(),
                     MenuItem::Quit.into(),
                 ])
+                .add_submenu(database_submenu)
                 .add_item(open_preferences),
             )),
+            #[cfg(target_os = "windows")]
             MenuEntry::Submenu(Submenu::new(
                 "File",
                 Menu::with_items([MenuItem::CloseWindow.into()])
+                    .add_item(new)
                     .add_item(save)
                     .add_item(save_as)
                     .add_item(open)
-                    .add_item(new),
+                    .add_submenu(database_submenu)
+                    .add_item(open_preferences),
+            )),
+            #[cfg(target_os = "macos")]
+            MenuEntry::Submenu(Submenu::new(
+                "File",
+                Menu::with_items([MenuItem::CloseWindow.into()])
+                    .add_item(new)
+                    .add_item(save)
+                    .add_item(save_as)
+                    .add_item(open),
             )),
             MenuEntry::Submenu(Submenu::new(
                 "Edit",
@@ -68,10 +84,14 @@ pub mod menu_bar {
                 "Help",
                 Menu::with_items([CustomMenuItem::new("Learn More", "Learn More").into()]),
             )),
-        ]);
-        menu
+        ])
     }
+}
 
+pub mod menu_events {
+    use tauri::{async_runtime, Manager};
+
+    use crate::essentials::communication;
     pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         match event.menu_item_id() {
             "save" => communication::events::menu_emit("save", event),
@@ -85,6 +105,16 @@ pub mod menu_bar {
             .show(|_| ()),
             "palette" => communication::events::menu_emit("toggle-palette", event),
             "preferences" => communication::events::menu_emit("open-preferences", event),
+            "db_json_load" => {
+                async_runtime::spawn(async move {
+                    sqlite_database::queries::insertions::insert_multiple_items(
+                        None,
+                        event.window().state(),
+                    )
+                    .await
+                    .unwrap();
+                });
+            }
             "Learn More" => {
                 let _url = "to be implemented".to_string();
             }
