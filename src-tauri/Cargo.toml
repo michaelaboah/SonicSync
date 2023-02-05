@@ -1,6 +1,6 @@
 [package]
 name = "Deadalus-Tauri"
-version = "0.0.1"
+version = "0.0.1-alpha"
 description = "Sound Design Production Tool"
 authors = ["Michael Aboah"]
 license = ""

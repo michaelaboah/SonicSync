@@ -93,6 +93,9 @@
             fontSize: '4',
             color: $persist.darkMode ? 'white' : 'black',
         }}"
+        subtitleStyle="{{
+            margin: '0',
+        }}"
         paletteWrapperInnerStyle="{{ backgroundColor: $persist.darkMode ? 'bg-gray-500' : 'bg-slate-200' }}"
     />
 </Box>

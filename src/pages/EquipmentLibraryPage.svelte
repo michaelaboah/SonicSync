@@ -2,7 +2,7 @@
     import {
         Box,
         Button,
-        Divider,
+        // Divider,
         Footer,
         Grid,
         Group,
@@ -50,11 +50,11 @@
                         borderWidth: 2,
                         borderColor: '$blue900',
                         borderRadius: '$lg',
+                        padding: 1,
                     }}"
-                    p="1"
                 >
                     <Grid cols="{8}" spacing="xs">
-                        <Grid.Col span="{1}" override="{{ maxWidth: 80 }}">{id}</Grid.Col>
+                        <Grid.Col span="{1}" override="{{ maxWidth: 50, paddingLeft: 20 }}">{id}</Grid.Col>
                         <Grid.Col span="{1}">{model}</Grid.Col>
                         <Grid.Col span="{1}">{category}</Grid.Col>
                         <Grid.Col span="{1}">${cost ? cost : 'N/A'}</Grid.Col>
@@ -63,6 +63,7 @@
                         <Grid.Col span="{1}">{notes ? notes : 'N/A'}</Grid.Col>
                         <Grid.Col span="{1}" class=""
                             ><Button
+                                compact
                                 color="red"
                                 on:click="{async () => {
                                     invoke('delete_single_item', { id });
@@ -72,7 +73,6 @@
                         >
                     </Grid>
                 </Box>
-                <Divider />
             {/each}
         {/key}
     {:catch error}
