@@ -1,6 +1,6 @@
 name: "publish"
 on:
-  on_push:
+  push:
     branches:
       - master
     workflow_dispatch:
