@@ -25,7 +25,7 @@
                 <Title align="left" mb="lg" order="{3}">Database Settings</Title>
                 <Stack>
                     <Box m="40">
-                        <Title align="right" order="{4}">Theme</Title>
+                        <Title align="right" order="{2}">Local Storage</Title>
                         <Divider size="md" />
                         <Group position="right">
                             <Tooltip

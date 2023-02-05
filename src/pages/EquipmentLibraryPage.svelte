@@ -26,13 +26,15 @@
 <Box />
 <Stack align="strech" spacing="xs">
     <Grid cols="{7}" spacing="xs">
-        <Grid.Col span="{1}" override="{{ maxWidth: 80 }}"><Text align="center" size="lg">Item ID</Text></Grid.Col>
-        <Grid.Col span="{1}"><Text weight="bold" align="center" size="lg">Model</Text></Grid.Col>
-        <Grid.Col span="{1}"><Text weight="bold" align="center" size="lg">Category</Text></Grid.Col>
-        <Grid.Col span="{1}"><Text weight="bold" align="center" size="lg">Cost</Text></Grid.Col>
-        <Grid.Col span="{1}"><Text weight="bold" align="center" size="lg">Dimensions</Text></Grid.Col>
-        <Grid.Col span="{1}"><Text weight="bold" align="center" size="lg">Rack Units</Text></Grid.Col>
-        <Grid.Col span="{1}"><Text weight="bold" align="center" size="lg">Notes</Text></Grid.Col>
+        <Grid.Col span="{1}" override="{{ maxWidth: 80 }}"
+            ><Text inherit align="center" size="lg">Item ID</Text></Grid.Col
+        >
+        <Grid.Col span="{1}"><Text inherit weight="bold" align="center" size="lg">Model</Text></Grid.Col>
+        <Grid.Col span="{1}"><Text inherit weight="bold" align="center" size="lg">Category</Text></Grid.Col>
+        <Grid.Col span="{1}"><Text inherit weight="bold" align="center" size="lg">Cost</Text></Grid.Col>
+        <Grid.Col span="{1}"><Text inherit weight="bold" align="center" size="lg">Dimensions</Text></Grid.Col>
+        <Grid.Col span="{1}"><Text inherit weight="bold" align="center" size="lg">Rack Units</Text></Grid.Col>
+        <Grid.Col span="{1}"><Text inherit weight="bold" align="center" size="lg">Notes</Text></Grid.Col>
     </Grid>
 
     {#await internalItems}
@@ -81,7 +83,7 @@
 
 <Footer fixed height="35" p="md">
     <Group>
-        <Text>Total Items Stored:</Text>
+        <Text inherit>Total Items Stored:</Text>
         <div class="w-24">
             {#await internalItems}
                 <NumberInput value="{999}" min="{0}" size="xs" hideControls disabled class="{cx(getStyles())}" />

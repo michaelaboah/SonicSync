@@ -94,7 +94,7 @@
                 <!-- Select Fuzzy Search -->
                 <div style="{`--background: ${isDark}; `} + {`--border: green`}" class="ml-3 mr-2 w-1/4">
                     <Group noWrap position="apart">
-                        <Text mt="md" mb="xs" weight="normal" size="{size}">Quick Search Model</Text>
+                        <Text inherit mt="md" mb="xs" weight="normal" size="{size}">Quick Search Model</Text>
                         <!-- {@const thing = insert_item(gear)} -->
                         {#await promise_stored then value}
                             <!-- {value}   -->
@@ -180,24 +180,18 @@
                         class="{cx(getStyles())}"
                     />
                 </div>
-                <!-- <Text weight="bold" size="{size}" m="xs">Total Cost: ${totalCost}</Text> -->
-                <!-- <Text weight="bold" size="{size}" m="xs">Total Power Draw: {totalPower}</Text> -->
+                <!-- <Text inherit weight="bold" size="{size}" m="xs">Total Cost: ${totalCost}</Text> -->
+                <!-- <Text inherit weight="bold" size="{size}" m="xs">Total Power Draw: {totalPower}</Text> -->
             </Group>
         </Grid.Col>
         <Grid.Col span="{1}">
-            <Group position="left" mt="xl">
+            <Group position="left" mt="xl" direction="column">
                 <Button compact on:click="{addItem}" disabled="{!gear.model}">Add Item</Button>
-                <Button compact on:click="{deleteGear}">Remove Gear: {index}</Button>
-                <Button
-                    compact
-                    on:click="{async () => {
-                        // console.log();
-                    }}"
-                />
+                <Button compact on:click="{deleteGear}">Remove Gear</Button>
             </Group>
         </Grid.Col>
     </Grid>
-    {#each gear.items as { description, itemQuantity, public_notes, privateNotes, itemId } (itemId)}
+    {#each gear.items as { description, itemQuantity, publicNotes, privateNotes, itemId } (itemId)}
         <Group direction="row" ml="sm" mb="sm" mt="sm">
             <!-- Description -->
             <TextInput
@@ -218,7 +212,7 @@
                     bind:value="{itemQuantity}"
                 />
             </div>
-            <TextInput size="xs" label="Public Notes" bind:value="{public_notes}" />
+            <TextInput size="xs" label="Public Notes" bind:value="{publicNotes}" />
             <TextInput size="xs" label="Private Notes" bind:value="{privateNotes}" labelProps="{{ color: 'red' }}" />
             <Tooltip label="Delete Item" openDelay="{300}">
                 <CloseButton iconSize="md" on:click="{() => deleteItem(itemId)}" variant="outline" mt="lg" />

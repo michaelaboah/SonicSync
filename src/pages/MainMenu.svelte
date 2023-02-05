@@ -12,7 +12,7 @@
     <h1>{$prodInfo.productionName ? 'Current Project: ' + $prodInfo.productionName : 'New Project'}</h1>
     <Button on:click="{() => ($persist.ui_font_size = 'lg')}" color="grape">Change font</Button>
 
-    <Text size="{$persist.ui_font_size}">Here is some test text</Text>
+    <Text inherit size="{$persist.ui_font_size}">Here is some test text</Text>
 </Box>
 
 <style>
