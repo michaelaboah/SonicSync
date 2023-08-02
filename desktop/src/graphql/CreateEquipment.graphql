@@ -1,0 +1,38 @@
+mutation CreateEquipment($inputOptions: EquipmentInput!) {
+  createEquipment(inputOptions: $inputOptions) {
+    equipment {
+      # id
+      created_at
+      updated_at
+      category
+      manufacturer
+      model
+      public_notes
+      cost
+      powerDraw
+      weight
+      depth
+      rackUnit
+      frequencyRange
+    }
+    errors {
+      field
+      message
+    }
+    equipmentItems {
+      id
+      created_at
+      updated_at
+      category
+      manufacturer
+      model
+      public_notes
+      cost
+      powerDraw
+      weight
+      depth
+      rackUnit
+      frequencyRange
+    }
+  }
+}

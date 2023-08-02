@@ -1,0 +1,6 @@
+fragment DimensionFrag on Dimension {
+  width
+  length
+  height
+  rack_unit
+}

@@ -1,0 +1,19 @@
+schema:
+  # - https://api.spacex.land/graphql/
+  # - http://10.0.0.197:4000/graphql
+  # - http://10.0.0.198:4000/graphql
+  - http://localhost:4000/graphql
+  # - src/frontend/graphql/schema.graphql
+overwrite: true
+documents:
+  - "src/graphql/**/*.graphql"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      # - src/frontend/utils/codgen-init.js # in codegen-svelte-apollo lib developement
+      - svelte-apollo # in real usage of the lib
+    config:
+      clientPath: "../apollo/apolloClient"
+      asyncQuery: true

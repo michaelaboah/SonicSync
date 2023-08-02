@@ -1,0 +1,67 @@
+
+input ConsoleInput {
+  analog_connections: [AnalogConnInput!]
+  network_connections: [NetworkConnInput!]  
+  faders: Int!
+  motorized: Boolean!
+  midi: MidiType!
+  protocol_inputs: Int!
+  signal_protocol: Protocol!
+  can_expand: Boolean!
+  max_sample_rate: SampleRate!
+  power: PowerInput
+}
+
+
+  # total_inputs: Int!
+  # total_outputs: Int!
+  # total_busses: Int!
+  # physical_inputs: Int!
+  # physical_outputs: Int!
+  # aux_inputs: Int!
+  # physical_aux_inputs: Int!
+  # phantom_power_inputs: Int!
+
+type Console {
+# Physical Audio Cable connections
+  analog_connections: [AnalogConn!]
+  network_connections: [NetworkConn!]  
+  # --
+  faders: Int! 
+  motorized: Boolean!
+  # --
+  midi: MidiType!
+  protocol_inputs: Int!
+  signal_protocol: Protocol!
+  can_expand: Boolean!
+  max_sample_rate: SampleRate!
+  power: Power!
+}
+
+type Computer {
+  cpu_processor: String!
+  ram_size: Int!
+  total_storage: Int!
+  # Potentially change to a Date custom scalar
+  model_year: Int!
+  operating_system: String!
+  dedicated_graphics: Boolean
+  network_connections: [NetworkConn]
+  computer_ports: [ComputerConn]
+  power: Power!
+}
+
+input ComputerInput {
+  cpu_processor: String!
+  ram_size: Int!
+  total_storage: Int!
+  # Potentially change to a Date custom scalar
+  model_year: Int!
+  operating_system: String!
+  dedicated_graphics: Boolean!
+  network_connections: [NetworkConnInput!]
+  computer_ports: [ComputerConnInput!]
+  power: PowerInput!
+}
+
+

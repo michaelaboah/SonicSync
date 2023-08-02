@@ -1,0 +1,8 @@
+query Me {
+  me: me {
+    id
+    created_at
+    updated_at
+    email
+  }
+}
