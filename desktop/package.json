@@ -34,7 +34,7 @@
     "svelte-command-palette": "^1.2.1",
     "svelte-spa-router": "^3.3.0",
     "tauri-plugin-log-api": "github:tauri-apps/tauri-plugin-log",
-    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev"
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.8",
