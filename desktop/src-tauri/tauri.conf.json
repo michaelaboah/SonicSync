@@ -1,33 +1,18 @@
 {
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeDevCommand": "pnpm dev",
-    "beforeBuildCommand": "pnpm build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../dist",
-    "withGlobalTauri": false
+    "beforeBuildCommand": "pnpm run build",
+    "beforeDevCommand": "pnpm run dev",
+    "devPath": "http://localhost:5173",
+    "distDir": "../build"
   },
   "package": {
-    "productName": "Deadalus Tauri",
-    "version": "0.0.1"
+    "productName": "sonic-sync",
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
-      "dialog": {
-        "all": true
-      },
-      "fs": {
-        "all": true          
-      },
-      "path": {
-        "all": true
-      },
-      "http": {
-        "all": true,
-        "scope": ["http://localhost:4000/*"]
-      },
-      "window": {
-        "print": true
-      }
+      "all": false
     },
     "bundle": {
       "active": true,
@@ -38,25 +23,13 @@
       },
       "externalBin": [],
       "icon": [
+        "icons/32x32.png",
         "icons/128x128.png",
         "icons/128x128@2x.png",
-        "icons/32x32.png",
-        "icons/App-Icon.png",
         "icons/icon.icns",
-        "icons/icon.ico",
-        "icons/icon.png",
-        "icons/Square107x107Logo.png",
-        "icons/Square142x142Logo.png",
-        "icons/Square150x150Logo.png",
-        "icons/Square284x284Logo.png",
-        "icons/Square30x30Logo.png",
-        "icons/Square310x310Logo.png",
-        "icons/Square44x44Logo.png",
-        "icons/Square71x71Logo.png",
-        "icons/Square89x89Logo.png",
-        "icons/StoreLogo.png"
+        "icons/icon.ico"
       ],
-      "identifier": "Deadalus",
+      "identifier": "com.tauri.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -65,7 +38,7 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": ["resources/sqlite-internal.db", "resources/internal-schema.sql"],
+      "resources": [],
       "shortDescription": "",
       "targets": "all",
       "windows": {
@@ -85,7 +58,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "Deadalus Tauri",
+        "title": "SonicSync",
         "width": 800
       }
     ]
