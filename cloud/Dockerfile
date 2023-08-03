@@ -12,8 +12,8 @@ RUN go mod download
 # Copy the rest of the application source code
 COPY ./workspace .
 
-ENV MONGODB_URL
-ENV PORT=8080
+ENV MONGODB_URL=
+ENV PORT=
 
 # Build the Go application
 RUN go build -o server ./cmd/server.go

@@ -1,5 +1,7 @@
 
 # Sonic Sync Cloud
+*Version: 0.0.2*
+
 
 ### A Go API for serving data to all Sonic Sync Applications. Primarily Desktop and Web.
 
