@@ -18,12 +18,15 @@ import (
 const defaultPort = "8080"
 const defaultLogPath = "./logs/log.log"
 func main() {
-  godotenv.Load("../workspace/.env")
+  
+  err := godotenv.Load(); if err != nil {
+    fmt.Println(err) 
+  }
 
 	port := os.Getenv("PORT")
-  fmt.Println(port)
 	if port == "" {
-		port = defaultPort
+    fmt.Println(port)
+    // port = defaultPort
 	}
 
 
