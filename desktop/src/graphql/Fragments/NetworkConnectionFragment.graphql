@@ -1,6 +1,0 @@
-fragment NetworkFrag on NetworkPort {
-  protocol
-  power_over_ethernet
-  port_identifier
-  max_connection_speed
-}

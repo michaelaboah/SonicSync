@@ -1,8 +1,0 @@
-fragment PowerFrag on Power {
-    wattage
-    redundant
-    lower_voltage
-    max_wattage
-    input_connector
-    output_connector
-}
