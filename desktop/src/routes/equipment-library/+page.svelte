@@ -25,6 +25,5 @@
 				
 </script>
 
-Eqiupment Library
 
 <Table interactive={true} regionFoot="fixed bottom-0 w-full" source={tableSimple}/>

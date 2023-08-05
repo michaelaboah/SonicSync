@@ -14,10 +14,10 @@
   import FlowIcon from "~icons/bi/diagram-3"
   import IOIcon from "~icons/solar/transfer-vertical-bold-duotone"
   
-  $: classesActive = (href: string) => (href === $page.url.pathname ? 'variant-filled-primary' : 'variant-glass-primary');
+  $: classesActive = (href: string) => (href === $page.url.pathname ? 'variant-filled-primary' : '');
 </script>
 
-<AppShell slotSidebarLeft="w-48 variant-glass-surface rounded-sm" regionPage="variant-soft-surface">
+<AppShell slotSidebarLeft="w-48 pt-8 px-4 variant-ringed-surface rounded-sm" regionPage="variant-soft-surface">
   <svelte:fragment slot="sidebarLeft">
     <nav class="list-nav">
       <ul>
@@ -49,7 +49,8 @@
           <span><ToolsIcon/></span>
           <span>Production</span>
         </a></li>
-        <li class="absolute bottom-0 w-full pb-4">
+        <li class="fixed bottom-0 pb-4">
+          <hr/>
           <a href="/preferences" class="{classesActive('/preferences')}">
             <span><GearIcon/></span>
             <span>Preferences</span>
@@ -58,6 +59,8 @@
       <ul>
     </nav>
   </svelte:fragment>
-
-  <slot class="mr-4"/>
+  
+  <div class="pl-6 pt-8 w-full h-full">
+    <slot />
+  </div>
 </AppShell>

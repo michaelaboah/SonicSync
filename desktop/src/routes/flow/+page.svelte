@@ -1,10 +1,16 @@
 <script lang="ts">
-  import { Node, Svelvet, Minimap, Controls } from 'svelvet' 
+  import { Drawer, Node, Svelvet, Minimap, Controls, ThemeToggle } from 'svelvet' 
+  import { modeCurrent } from '@skeletonlabs/skeleton';
 </script>
 
-  <Svelvet id="my-canvas">
+  <Svelvet id="my-canvas"  controls theme={$modeCurrent ? 'light' : 'dark'}>
 
-  <Controls corner='SE'/>
-  <Node />
-  <Node id="alpha" bgColor="red", label="Default Node"/>
+    <Node />
+    <Node id="alpha" bgColor="red" label="Default Node"/>
+    <!-- <ThemeToggle main="dark" alt="light" slot="toggle"/> -->
   </Svelvet>
+
+
+<!-- <Drawer height={1200} zoom={0.70} controls> -->
+<!--    <ThemeToggle main='light' alt='dark' slot='toggle'/> -->
+<!-- </Drawer> -->
