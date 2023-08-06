@@ -13,11 +13,12 @@
   import ToolsIcon from '~icons/ri/tools-line'
   import FlowIcon from "~icons/bi/diagram-3"
   import IOIcon from "~icons/solar/transfer-vertical-bold-duotone"
+	import ContextLayer from "$lib/components/ContextLayer.svelte";
   
   $: classesActive = (href: string) => (href === $page.url.pathname ? 'variant-filled-primary' : '');
 </script>
 
-<AppShell slotSidebarLeft="w-48 pt-8 px-4 variant-ringed-surface rounded-sm" regionPage="variant-soft-surface">
+<AppShell slotSidebarLeft="w-48 pt-6 px-4 variant-ringed-surface rounded-sm" regionPage="variant-soft-surface">
   <svelte:fragment slot="sidebarLeft">
     <nav class="list-nav">
       <ul>
@@ -31,15 +32,15 @@
         </a></li>
         <li><a class="{classesActive('/cable-list')}" href="/cable-list">
           <span class=""><CableIcon/></span>
-          <span> Cables</span>
+          <span> Cable List</span>
         </a></li>
         <li><a class="{classesActive('/flow')}" href="/flow">
           <span class=""><FlowIcon/></span>
-          <span>Flow</span>
+          <span>Flow Chart</span>
         </a></li>
         <li><a class="{classesActive('/io-list')}" href="/io-list">
           <span class=""><IOIcon/></span>
-          <span>I/O</span>
+          <span>I/O List</span>
         </a></li>
         <li><a class="{classesActive('/equipment-library')}" href="/equipment-library">
           <span><LibraryIcon/></span>
@@ -50,17 +51,20 @@
           <span>Production</span>
         </a></li>
         <li class="fixed bottom-0 pb-4">
-          <hr/>
+          <hr class="mb-1"/>
+          <div class="flex flex-row">
           <a href="/preferences" class="{classesActive('/preferences')}">
             <span><GearIcon/></span>
             <span>Preferences</span>
           </a>
+          </div>
         </li>
       <ul>
     </nav>
   </svelte:fragment>
-  
-  <div class="pl-6 pt-8 w-full h-full">
+  <ContextLayer>  
+  <div class="p-6 w-full h-full">
     <slot />
   </div>
+  </ContextLayer>
 </AppShell>

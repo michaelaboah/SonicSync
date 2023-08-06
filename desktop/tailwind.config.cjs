@@ -7,13 +7,13 @@ const config = {
      "@skeletonlabs/skeleton"),
       "../**/*.{html,js,svelte,ts}"
     )
-  ],
-  
+  ],  
 	theme: {
 		extend: {}
 	},
 
 	plugins: [
+    require("@tailwindcss/forms"),
     ...require("@skeletonlabs/skeleton/tailwind/skeleton.cjs")()
   ]
 };
