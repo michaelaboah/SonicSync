@@ -7,6 +7,8 @@ mod database;
 mod menus;
 
 fn main() {
+    let ctx = tauri::generate_context!();
+    let menu = menus::bar::generate_menu_bar(&ctx.package_info().name);
     let db = start_db();
     // database_insert()
     tauri::Builder::default()
@@ -19,7 +21,8 @@ fn main() {
         )
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .plugin(tauri_plugin_persisted_scope::init())
+        .menu(menu)
         .invoke_handler(tauri::generate_handler![database_insert])
-        .run(tauri::generate_context!())
+        .run(ctx)
         .expect("error while running tauri application");
 }
