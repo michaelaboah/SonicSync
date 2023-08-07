@@ -1,8 +1,8 @@
 <script lang="ts">
   import { FileDropzone } from "@skeletonlabs/skeleton";
-  import DownloadIcon from "~icons/ri/file-upload-line"
-  import PhotoIcon from "~icons/ri/image-2-line"
-  import StampIcon from "~icons/ph/stamp"
+  // import DownloadIcon from "~icons/ri/file-upload-line"
+  // import PhotoIcon from "~icons/ri/image-2-line"
+  // import StampIcon from "~icons/ph/stamp"
   let prodImage: File 
   let stampImage: File
 
@@ -72,7 +72,7 @@
 
     <div class="flex flex-row">
       <FileDropzone class="w-1/2" name="Production Image" slotLead="object-center" slotMet="variant"accept="image/*">
-        <svelte:fragment slot="lead"><span class="text-4xl"><DownloadIcon/></span></svelte:fragment>
+        <!-- <svelte:fragment slot="lead"><span class="text-4xl"><DownloadIcon/></span></svelte:fragment> -->
         <svelte:fragment slot="message">Place Production Image</svelte:fragment>
         <svelte:fragment slot="meta">Only PNG, JPEG, JPG allowed</svelte:fragment>
       </FileDropzone>
@@ -81,7 +81,7 @@
            <!-- content here -->
           {:else}
             <div class="flex flex-row opacity-70">
-              <span class="text-2xl"><PhotoIcon/></span>
+              <!-- <span class="text-2xl"><PhotoIcon/></span> -->
               <strong class="">Production Image</strong>
             </div>
         {/if}
@@ -90,7 +90,7 @@
     <hr class="my-4"/>
     <div class="flex flex-row">
       <FileDropzone class="w-1/2" name="Designer Stamp" slotLead="object-center" accept="image/*">
-        <svelte:fragment slot="lead"><span class="text-4xl"><DownloadIcon/></span></svelte:fragment>
+        <!-- <svelte:fragment slot="lead"><span class="text-4xl"><DownloadIcon/></span></svelte:fragment> -->
         <svelte:fragment slot="message">Place Designer Stamp</svelte:fragment>
         <svelte:fragment slot="meta">Only PNG, JPEG, JPG allowed</svelte:fragment>
       </FileDropzone>
@@ -99,7 +99,7 @@
            <!-- content here -->
           {:else}
           <div class="flex flex-row opacity-70">
-            <span class="text-2xl "><StampIcon/></span>
+            <!-- <span class="text-2xl "><StampIcon/></span> -->
             <strong class="">Designer Stamp</strong>
           </div>
         {/if}

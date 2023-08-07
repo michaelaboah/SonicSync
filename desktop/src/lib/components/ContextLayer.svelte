@@ -65,11 +65,11 @@
         // },
     ]);
 
-    onMount(async () => {
-        await listen('toggle-palette', (_event) => {
-            paletteMethods.openPalette();
-        });
-    });
+    // onMount(async () => {
+    //     await listen('toggle-palette', (_event) => {
+    //         paletteMethods.openPalette();
+    //     });
+    // });
 </script>
   <!-- <p class="te-black"></p> -->
     <CommandPalette

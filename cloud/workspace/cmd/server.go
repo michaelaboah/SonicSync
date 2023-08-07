@@ -53,7 +53,7 @@ func main() {
 
   r := gin.Default()
 
-
+  r.Use(middleware.CORSMiddleware()) 
   r.Use(middleware.DbMiddleware(mongoClient))
 
   r.POST("/graphql", handlers.GrapqhlHandler(mongoClient))
