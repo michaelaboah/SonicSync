@@ -7,7 +7,7 @@ const config = {
         "url": "http://localhost:8080/graphql"
     },
     "plugins": {
-        "houdini-svelte": {}
+        "houdini-svelte": {static: true}
     }
 }
 
