@@ -1,44 +1,46 @@
 {
-	"name": "Sonic Sync",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"test": "playwright test",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --plugin-search-dir . --check .",
-		"format": "prettier --plugin-search-dir . --write ."
-	},
-	"devDependencies": {
-		"@iconify/json": "^2.2.98",
-		"@playwright/test": "^1.28.1",
-		"@skeletonlabs/skeleton": "^1.11.0",
-		"@sveltejs/adapter-static": "1.0.0-next.50",
-		"@sveltejs/kit": "^1.20.4",
-		"@tailwindcss/forms": "^0.5.4",
-		"@tauri-apps/cli": "^1.4.0",
-		"autoprefixer": "^10.4.14",
-		"postcss": "^8.4.24",
-		"postcss-load-config": "^4.0.1",
-		"prettier": "^2.8.0",
-		"prettier-plugin-svelte": "^2.10.1",
-		"svelte": "^4.0.5",
-		"svelte-check": "^3.4.3",
-		"svelte-command-palette": "^1.2.1",
-		"tailwindcss": "^3.3.2",
-		"tslib": "^2.4.1",
-		"typescript": "^5.0.0",
-		"unplugin-icons": "^0.16.5",
-		"vite": "^4.4.2"
-	},
-	"type": "module",
-	"dependencies": {
-		"@tauri-apps/api": "^1.4.0",
-		"svelvet": "^8.1.0",
-		"tauri-plugin-log-api": "github:tauri-apps/tauri-plugin-log#v1",
-		"tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1"
-	}
+    "name": "Sonic Sync",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "dev": "vite dev",
+        "build": "vite build",
+        "preview": "vite preview",
+        "test": "playwright test",
+        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+        "lint": "prettier --plugin-search-dir . --check .",
+        "format": "prettier --plugin-search-dir . --write ."
+    },
+    "devDependencies": {
+        "@iconify/json": "^2.2.98",
+        "@playwright/test": "^1.28.1",
+        "@skeletonlabs/skeleton": "^1.11.0",
+        "@sveltejs/adapter-static": "1.0.0-next.50",
+        "@sveltejs/kit": "^1.20.4",
+        "@tailwindcss/forms": "^0.5.4",
+        "@tauri-apps/cli": "^1.4.0",
+        "autoprefixer": "^10.4.14",
+        "postcss": "^8.4.24",
+        "postcss-load-config": "^4.0.1",
+        "prettier": "^2.8.0",
+        "prettier-plugin-svelte": "^2.10.1",
+        "svelte": "^4.0.5",
+        "svelte-check": "^3.4.3",
+        "svelte-command-palette": "^1.2.1",
+        "tailwindcss": "^3.3.2",
+        "tslib": "^2.4.1",
+        "typescript": "^5.0.0",
+        "unplugin-icons": "^0.16.5",
+        "vite": "^4.4.2",
+        "houdini": "^1.2.8",
+        "houdini-svelte": "^1.2.8"
+    },
+    "type": "module",
+    "dependencies": {
+        "@tauri-apps/api": "^1.4.0",
+        "svelvet": "^8.1.0",
+        "tauri-plugin-log-api": "github:tauri-apps/tauri-plugin-log#v1",
+        "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1"
+    }
 }
