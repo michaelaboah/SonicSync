@@ -4,5 +4,5 @@ import Icons from 'unplugin-icons/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-	plugins: [ /*Icons({compiler: "svelte"}) */, houdini(), sveltekit(), ]
+	plugins: [ houdini(), sveltekit(), Icons({compiler: "svelte"})]
 });

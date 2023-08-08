@@ -1,23 +1,34 @@
-use std::{sync::mpsc, thread};
-
 use polodb_core::Database;
-// use polodb_core;
+use std::{
+    fs,
+    path::{self, PathBuf},
+    thread, time,
+};
 
-pub enum DBActions {
-    Create,
-    Read,
-    Update,
-    Delete,
-}
+const DATABASE_FILE_NAME: &'static str = "primary-polo.db";
 
-// Starts the database thread handing back a `Sender<DBActions>` for calling events.
-//
-// While this functionality can be created on the main thread in favor of scaling the code base
-// separation seems prudent.
-//
-//
-// *This function may become an async runtime if/when the embedded database (currently: PoloDB) supports it*
-pub fn start_db() -> Database {
-    let db = Database::open_memory().unwrap();
+/// Starts Database
+///
+/// If db file doesn't exist in normal location, create one
+///     else
+/// open database and return
+pub fn start_db(app_data_dir: &std::path::PathBuf) -> Database {
+    if !app_data_dir.is_dir() {
+        // Tell the user that the resolved app directory isn't a directory
+        dbg!(app_data_dir);
+        println!("Resolved App data directory isn't a directory. Aborting program in 60 seconds");
+        thread::sleep(time::Duration::from_secs(60));
+        panic!()
+    }
+
+    let path = app_data_dir.join(DATABASE_FILE_NAME);
+    println!("{:?}", path.as_os_str());
+    if !path.exists() {
+        println!("Generated new database");
+        return Database::open_file(path).unwrap();
+    }
+
+    let db = Database::open_file(path).unwrap();
+
     db
 }

@@ -2,17 +2,26 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use database::{database_insert, start_db};
+use tauri::Manager;
 use tauri_plugin_log::LogTarget;
 mod database;
 mod menus;
 
 fn main() {
     let ctx = tauri::generate_context!();
+
     let menu = menus::bar::generate_menu_bar(&ctx.package_info().name);
-    let db = start_db();
     // database_insert()
     tauri::Builder::default()
-        .manage(db)
+        .setup(move |app| {
+            let app_data_dir = app.path_resolver().app_local_data_dir().expect(
+                "A 'Local App Data Directory' was not found on your system. Cannot run program",
+            );
+
+            let db = start_db(&app_data_dir);
+            app.manage(db);
+            Ok(())
+        })
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(
             tauri_plugin_log::Builder::default()
