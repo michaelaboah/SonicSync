@@ -25,6 +25,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
+    log.Println("PORT env not found using default: ", defaultPort)
     fmt.Println(port)
     // port = defaultPort
 	}
@@ -53,7 +54,7 @@ func main() {
 
   r := gin.Default()
 
-  r.Use(middleware.CORSMiddleware()) 
+  // r.Use(middleware.CORSMiddleware()) 
   r.Use(middleware.DbMiddleware(mongoClient))
 
   r.POST("/graphql", handlers.GrapqhlHandler(mongoClient))
@@ -68,6 +69,8 @@ func main() {
 
   })
 
+
+  fmt.Println("Server Running") 
 
   log.Fatal(r.Run(":" + port))
 

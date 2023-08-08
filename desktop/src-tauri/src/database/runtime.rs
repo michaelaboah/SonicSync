@@ -22,7 +22,9 @@ pub fn start_db(app_data_dir: &std::path::PathBuf) -> Database {
     }
 
     let path = app_data_dir.join(DATABASE_FILE_NAME);
+
     println!("{:?}", path.as_os_str());
+
     if !path.exists() {
         println!("Generated new database");
         return Database::open_file(path).unwrap();
