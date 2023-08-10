@@ -16,7 +16,7 @@ const UserCol = "users"
 const EquipDB = "equipment-inventory"
 const ItemsCol = "items"
 
-func DBInstance() (*mongo.Client, error) {
+func MongoInstance() (*mongo.Client, error) {
   
 
   log.Println("[MongoDB] Starting Database Connection Instance")

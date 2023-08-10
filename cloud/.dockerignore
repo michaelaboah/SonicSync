@@ -1,2 +1,6 @@
 ./workspace/logs/
+./workspace/.air.toml
+./workspace/.env
+./workspace/gqlgen.yml
+**/tmp/*
 .env

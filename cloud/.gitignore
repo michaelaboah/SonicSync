@@ -1,5 +1,5 @@
 /workspace/.env
 /workspace/server
-tmp/
+**/tmp/*
 /workspace/logs/
 /workspace/.air.toml
