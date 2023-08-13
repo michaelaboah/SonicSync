@@ -4,27 +4,22 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 
 	"github.com/michaelaboah/sonic-sync-cloud/database"
 	"github.com/michaelaboah/sonic-sync-cloud/handlers"
+	"github.com/michaelaboah/sonic-sync-cloud/internal"
 	"github.com/michaelaboah/sonic-sync-cloud/middleware"
 )
 
 const (
-	defaultPort    = "8080"
-	defaultLogPath = "./logs/log.log"
+	defaultPort = "8080"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println(err)
-	}
+	internal.Setup()
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -32,15 +27,6 @@ func main() {
 		fmt.Println(port)
 		port = defaultPort
 	}
-
-	logFile, err := setupLogFile(defaultLogPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.SetOutput(logFile)
-	log.SetFlags(log.LstdFlags | log.Lshortfile | log.Lmicroseconds)
-	log.Println("[Server] Log file created")
 
 	mongoClient, err := database.MongoInstance()
 
@@ -57,28 +43,22 @@ func main() {
 	r.Use(middleware.CORSMiddleware())
 	r.Use(middleware.DbMiddleware(mongoClient, pgClient))
 
+	// Graphql Routes
 	r.POST("/graphql", handlers.GrapqhlHandler(mongoClient))
-
 	r.GET("/graphql-playground", handlers.PlaygroundHandler())
 
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"Hello": "World",
-		})
-	})
+	h := handlers.NewAuthHandle(pgClient)
+
+	// Authentication Routes
+	r.POST("/register", h.Register)
+	r.GET("/login", h.Login)
+
+	secured := r.Group("/secure")
+
+	secured.POST("/logout", func(ctx *gin.Context) {})
+	secured.POST("/refresh", func(ctx *gin.Context) {})
 
 	fmt.Println("Server Running")
 
 	log.Fatal(r.Run(":" + port))
-}
-
-// create the required folder if necessary
-func setupLogFile(path string) (*os.File, error) {
-	logFile, err := os.OpenFile(path, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	return logFile, err
 }

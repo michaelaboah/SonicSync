@@ -19,3 +19,8 @@ The primary purpose of this API is to collect data for professional audio equipm
 ## Data collection method
 
 The manner of collecting relavant data is 
+
+
+## Project Structure
+
+MonoRepo style for multiple services. Following the official-unofficial go project structure: https://github.com/golang-standards/project-layout
