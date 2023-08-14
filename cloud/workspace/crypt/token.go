@@ -59,8 +59,9 @@ func TokenValid(c *gin.Context) error {
 }
 
 func ExtractToken(c *gin.Context) string {
-	token := c.Query("token")
+	token, err := c.Cookie("sonic-sync-token")
 	if token != "" {
+		log.Println(err)
 		return token
 	}
 	bearerToken := c.Request.Header.Get("Authorization")

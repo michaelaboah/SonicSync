@@ -51,13 +51,14 @@ func main() {
 
 	// Authentication Routes
 	r.POST("/register", h.Register)
+	// r.POST("/reset-password", h.Register)
 	r.GET("/login", h.Login)
 
 	secured := r.Group("/secure")
 	secured.Use(middleware.JWTAuth())
 
-	secured.POST("/logout", func(ctx *gin.Context) {})
-	secured.POST("/refresh", func(ctx *gin.Context) {})
+	secured.GET("/logout", handlers.Logout)
+	secured.GET("/refresh", handlers.Refresh)
 
 	fmt.Println("Server Running")
 	log.Fatal(r.Run(":" + port))
