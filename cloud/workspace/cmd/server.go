@@ -40,12 +40,12 @@ func main() {
 
 	r := gin.Default()
 
-	r.Use(middleware.CORSMiddleware())
-	r.Use(middleware.DbMiddleware(mongoClient, pgClient))
+	r.Use(middleware.CORS())
+	r.Use(middleware.Db(mongoClient, pgClient))
 
 	// Graphql Routes
-	r.POST("/graphql", handlers.GrapqhlHandler(mongoClient))
-	r.GET("/graphql-playground", handlers.PlaygroundHandler())
+	r.POST("/graphql", handlers.Grapqhl(mongoClient))
+	r.GET("/graphql-playground", handlers.GraphqlPlayground())
 
 	h := handlers.NewAuthHandle(pgClient)
 
@@ -54,11 +54,11 @@ func main() {
 	r.GET("/login", h.Login)
 
 	secured := r.Group("/secure")
+	secured.Use(middleware.JWTAuth())
 
 	secured.POST("/logout", func(ctx *gin.Context) {})
 	secured.POST("/refresh", func(ctx *gin.Context) {})
 
 	fmt.Println("Server Running")
-
 	log.Fatal(r.Run(":" + port))
 }

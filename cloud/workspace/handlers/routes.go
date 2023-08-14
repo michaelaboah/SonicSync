@@ -97,11 +97,25 @@ func (h *AuthHandle) Login(ctx *gin.Context) {
 		"SELECT users.password_hash FROM users WHERE users.email=$1",
 		input.Email,
 	)
-	fmt.Println(user.PasswordHash)
-	// hash, err := crypt.GenerateHash(input.Email, input.Password)
+
 	match, err := crypt.CompareHash(input.Email+input.Password, user.PasswordHash)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(match)
+
+	if !match {
+		ctx.JSON(http.StatusBadRequest, AuthError{Kind: InvalidCredentials})
+		return
+	}
+
+	token, err := crypt.GenerateToken(uint(user.ID))
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+
+	// ctx.JSON(http.StatusOK, gin.H{"token": token})
+	ctx.SetCookie("sonic-sync-token", token, int(time.Hour)*2, "/login", "*", false, false)
+	// Production Use
+	// ctx.SetCookie("sonic-sync-token", token, int(time.Hour) * 2, path string, "*.sonic-sync.com", true, true)
 }

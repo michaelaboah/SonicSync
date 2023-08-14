@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func DbMiddleware(mongoClient *mongo.Client, pgClient *sqlx.DB) func(c *gin.Context) {
+func Db(mongoClient *mongo.Client, pgClient *sqlx.DB) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), "mongoClient", mongoClient)
 		ctx = context.WithValue(ctx, "pgClient", pgClient)
