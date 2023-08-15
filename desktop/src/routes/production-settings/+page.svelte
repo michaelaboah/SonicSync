@@ -18,12 +18,17 @@
 <div class="flex flex-row w-full h-full">
   <section class="flex-grow w-1/2">
     <h2 class="h2">Team</h2>
-    <h3 class="h4 mb-4 opacity-70">Add Team Members</h3>
+    <h3 class="h6 italic mb-4 opacity-70">Add Team Members</h3>
+    <hr class="my-4 mr-4"/>
+
+    <p class="italic">TBA</p> 
+   
+<!-- Team Details -->
   </section>
   <span class="divider-vertical h-full w-0" />
   <section class="flex-grow w-1/2 ml-4 mr-8">
     <h2 class="h2">Details</h2>
-    <h3 class="h4 mb-4 opacity-70">Additional Information for Paperwork</h3>
+    <h4 class="h6 italic mb-4 opacity-70">Additional Information for Paperwork</h4>
 
     <hr class="my-4"/>
 <!-- Production Details -->
@@ -33,7 +38,7 @@
           {#each productionDetails as {label, textInput}}
             <tr>
               <td class="flex ">
-                <p class="h5 py-auto">{label}:</p>
+                <p class="h6 py-auto">{label}:</p>
               </td>
               <td>
               <input class="input" bind:value={textInput}/>
@@ -43,10 +48,10 @@
         </tbody>
         <tfoot>
           <td>
-            <p class="h5">Notes:</p>
+            <p class="h6">Notes:</p>
           </td>
           <td>
-            <textarea class="textarea" rows="4" bind:value={notes}/>
+            <textarea class="textarea" rows="3" bind:value={notes}/>
           </td>
         </tfoot>
       </table>

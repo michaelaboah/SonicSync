@@ -6,6 +6,7 @@
 
      invoke('database_insert')
   // })
+
 </script>
 
 <h1>Welcome to SvelteKit</h1>
@@ -13,5 +14,4 @@
 
 <div>
   <h1 class="h1">Hello Skeleton</h1>
-
 </div>

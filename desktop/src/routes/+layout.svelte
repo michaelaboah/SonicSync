@@ -2,7 +2,11 @@
   import "../theme.postcss";
   import "@skeletonlabs/skeleton/styles/skeleton.css"
 	import '../app.postcss';
+  import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
   import {page} from "$app/stores"
+  import { storePopup } from '@skeletonlabs/skeleton';
+  storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+
   // import { setSession } from "$houdini"
   import {AppShell} from "@skeletonlabs/skeleton"
   import GearIcon from '~icons/ri/settings-3-line'
@@ -15,10 +19,12 @@
   import IOIcon from "~icons/solar/transfer-vertical-bold-duotone"
 	import ContextLayer from "$lib/components/layers/ContextLayer.svelte";
 	import InvokeLayer from "$lib/components/layers/InvokeLayer.svelte";
-  
+ 
+
+
+  			
   $: classesActive = (href: string) => (href === $page.url.pathname ? 'variant-filled-primary' : '');
 </script>
-
 <AppShell slotSidebarLeft="w-48 pt-6 px-4 variant-ringed-surface rounded-sm" regionPage="variant-soft-surface">
   <svelte:fragment slot="sidebarLeft">
     <nav class="list-nav">
@@ -64,7 +70,7 @@
     </nav>
   </svelte:fragment>
   <ContextLayer/>  
-  <div class="p-6 w-full h-full">
+  <div class="p-4 w-full h-full">
     <slot />
   </div>
 </AppShell>
