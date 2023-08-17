@@ -4,11 +4,7 @@
 	import '../app.postcss';
   import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
   import {page} from "$app/stores"
-  import { storePopup } from '@skeletonlabs/skeleton';
-  storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
-
-  // import { setSession } from "$houdini"
-  import {AppShell} from "@skeletonlabs/skeleton"
+  import { AppShell, storePopup } from '@skeletonlabs/skeleton';
   import GearIcon from '~icons/ri/settings-3-line'
   import DashIcon from '~icons/ri/dashboard-line'
   import ItemListIcon from '~icons/ri/list-settings-line'
@@ -19,10 +15,17 @@
   import IOIcon from "~icons/solar/transfer-vertical-bold-duotone"
 	import ContextLayer from "$lib/components/layers/ContextLayer.svelte";
 	import InvokeLayer from "$lib/components/layers/InvokeLayer.svelte";
- 
+  storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+  import { setContextClient, Client, cacheExchange, fetchExchange } from '@urql/svelte';
 
+  export const client = new Client({
+    url: 'https://api.sonic-sync.com/graphql',
+    exchanges: [cacheExchange, fetchExchange],
+    // fetchOptions
+  });
 
-  			
+  setContextClient(client)
+
   $: classesActive = (href: string) => (href === $page.url.pathname ? 'variant-filled-primary' : '');
 </script>
 <AppShell slotSidebarLeft="w-48 pt-6 px-4 variant-ringed-surface rounded-sm" regionPage="variant-soft-surface">

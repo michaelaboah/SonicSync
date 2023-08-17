@@ -52,7 +52,7 @@ func main() {
 	// Authentication Routes
 	r.POST("/register", h.Register)
 	// r.POST("/reset-password", h.Register)
-	r.GET("/login", h.Login)
+	r.POST("/login", h.Login)
 
 	secured := r.Group("/secure")
 	secured.Use(middleware.JWTAuth())

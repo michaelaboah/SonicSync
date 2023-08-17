@@ -133,9 +133,11 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		FindByModel func(childComplexity int, modelName string) int
-		Items       func(childComplexity int) int
-		Users       func(childComplexity int) int
+		FindByID     func(childComplexity int, id string) int
+		FindByModel  func(childComplexity int, modelName string) int
+		FuzzyByModel func(childComplexity int, modelName string) int
+		Items        func(childComplexity int) int
+		Users        func(childComplexity int) int
 	}
 
 	User struct {
@@ -153,6 +155,8 @@ type QueryResolver interface {
 	Users(ctx context.Context) ([]*model.User, error)
 	Items(ctx context.Context) ([]*model.Item, error)
 	FindByModel(ctx context.Context, modelName string) (*model.Item, error)
+	FindByID(ctx context.Context, id string) (*model.Item, error)
+	FuzzyByModel(ctx context.Context, modelName string) ([]*model.Item, error)
 }
 
 type executableSchema struct {
@@ -565,6 +569,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Power.Wattage(childComplexity), true
 
+	case "Query.find_by_id":
+		if e.complexity.Query.FindByID == nil {
+			break
+		}
+
+		args, err := ec.field_Query_find_by_id_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FindByID(childComplexity, args["id"].(string)), true
+
 	case "Query.find_by_model":
 		if e.complexity.Query.FindByModel == nil {
 			break
@@ -576,6 +592,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.FindByModel(childComplexity, args["model_name"].(string)), true
+
+	case "Query.fuzzy_by_model":
+		if e.complexity.Query.FuzzyByModel == nil {
+			break
+		}
+
+		args, err := ec.field_Query_fuzzy_by_model_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FuzzyByModel(childComplexity, args["model_name"].(string)), true
 
 	case "Query.items":
 		if e.complexity.Query.Items == nil {
@@ -803,7 +831,37 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 	return args, nil
 }
 
+func (ec *executionContext) field_Query_find_by_id_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Query_find_by_model_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["model_name"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("model_name"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["model_name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_fuzzy_by_model_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
@@ -3558,6 +3616,168 @@ func (ec *executionContext) fieldContext_Query_find_by_model(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_find_by_model_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_find_by_id(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_find_by_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FindByID(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Item)
+	fc.Result = res
+	return ec.marshalNItem2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐItem(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_find_by_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Item_id(ctx, field)
+			case "created_at":
+				return ec.fieldContext_Item_created_at(ctx, field)
+			case "updated_at":
+				return ec.fieldContext_Item_updated_at(ctx, field)
+			case "cost":
+				return ec.fieldContext_Item_cost(ctx, field)
+			case "model":
+				return ec.fieldContext_Item_model(ctx, field)
+			case "weight":
+				return ec.fieldContext_Item_weight(ctx, field)
+			case "manufacturer":
+				return ec.fieldContext_Item_manufacturer(ctx, field)
+			case "category":
+				return ec.fieldContext_Item_category(ctx, field)
+			case "details":
+				return ec.fieldContext_Item_details(ctx, field)
+			case "notes":
+				return ec.fieldContext_Item_notes(ctx, field)
+			case "dimensions":
+				return ec.fieldContext_Item_dimensions(ctx, field)
+			case "pdf_blob":
+				return ec.fieldContext_Item_pdf_blob(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Item", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_find_by_id_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_fuzzy_by_model(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_fuzzy_by_model(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FuzzyByModel(rctx, fc.Args["model_name"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Item)
+	fc.Result = res
+	return ec.marshalNItem2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐItem(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_fuzzy_by_model(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Item_id(ctx, field)
+			case "created_at":
+				return ec.fieldContext_Item_created_at(ctx, field)
+			case "updated_at":
+				return ec.fieldContext_Item_updated_at(ctx, field)
+			case "cost":
+				return ec.fieldContext_Item_cost(ctx, field)
+			case "model":
+				return ec.fieldContext_Item_model(ctx, field)
+			case "weight":
+				return ec.fieldContext_Item_weight(ctx, field)
+			case "manufacturer":
+				return ec.fieldContext_Item_manufacturer(ctx, field)
+			case "category":
+				return ec.fieldContext_Item_category(ctx, field)
+			case "details":
+				return ec.fieldContext_Item_details(ctx, field)
+			case "notes":
+				return ec.fieldContext_Item_notes(ctx, field)
+			case "dimensions":
+				return ec.fieldContext_Item_dimensions(ctx, field)
+			case "pdf_blob":
+				return ec.fieldContext_Item_pdf_blob(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Item", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_fuzzy_by_model_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -7025,6 +7245,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "find_by_id":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_find_by_id(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "fuzzy_by_model":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_fuzzy_by_model(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "__type":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___type(ctx, field)
@@ -7553,6 +7817,44 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 
 func (ec *executionContext) marshalNItem2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐItem(ctx context.Context, sel ast.SelectionSet, v model.Item) graphql.Marshaler {
 	return ec._Item(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNItem2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐItem(ctx context.Context, sel ast.SelectionSet, v []*model.Item) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOItem2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐItem(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
 }
 
 func (ec *executionContext) marshalNItem2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐItemᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Item) graphql.Marshaler {
@@ -8261,6 +8563,13 @@ func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel as
 	}
 	res := graphql.MarshalFloatContext(*v)
 	return graphql.WrapContextMarshaler(ctx, res)
+}
+
+func (ec *executionContext) marshalOItem2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐItem(ctx context.Context, sel ast.SelectionSet, v *model.Item) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Item(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalONetworkConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConn(ctx context.Context, sel ast.SelectionSet, v []*model.NetworkConn) graphql.Marshaler {

@@ -4,8 +4,10 @@
   // async function greet() {}
   // onMount(async () => {
 
-     invoke('database_insert')
+  // invoke('database_insert')
   // })
+
+
 
 </script>
 
@@ -15,3 +17,4 @@
 <div>
   <h1 class="h1">Hello Skeleton</h1>
 </div>
+

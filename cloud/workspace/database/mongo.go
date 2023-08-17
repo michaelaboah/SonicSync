@@ -11,76 +11,66 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const ClientsDB = "clients-db"
-const UserCol = "users"
-const EquipDB = "equipment-inventory"
-const ItemsCol = "items"
+const (
+	ClientsDB = "clients-db"
+	UserCol   = "users"
+	EquipDB   = "equipment-inventory"
+	ItemsCol  = "items"
+)
 
 func MongoInstance() (*mongo.Client, error) {
-  
+	log.Println("[MongoDB] Starting Database Connection Instance")
+	fmt.Println("[MongoDB] Starting Database Connection Instance")
 
-  log.Println("[MongoDB] Starting Database Connection Instance")
-  fmt.Println("[MongoDB] Starting Database Connection Instance")
+	mongoURL := os.Getenv("MONGODB_URL")
 
+	if len(mongoURL) == 0 {
+		fmt.Println("MONGODB_URL not specified in .env file")
+		log.Fatalln("MONGODB_URL not specified in .env file")
+	}
 
-  mongoURL := os.Getenv("MONGODB_URL")
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	opts := options.Client().ApplyURI(mongoURL).SetServerAPIOptions(serverAPI)
 
+	client, err := mongo.Connect(context.Background(), opts)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-  if len(mongoURL) == 0 {
-    fmt.Println("MONGODB_URL not specified in .env file")
-    log.Fatalln("MONGODB_URL not specified in .env file")
-  }
+	err = client.Ping(context.Background(), nil)
 
-  
-  serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-  opts := options.Client().ApplyURI(mongoURL).SetServerAPIOptions(serverAPI)
+	if err != nil {
+		log.Println(err)
+	}
 
-  client, err := mongo.Connect(context.Background(), opts)
+	log.Println("[~ Status] Connection to Mongo Database Sucessful")
+	fmt.Println("[~ Status] Connection to Mongo Database Sucessful")
 
-  if err != nil {
-    log.Fatal(err)
-  }
+	log.Println("[~ Status] Starting Database Setup and Pre-Checks")
+	fmt.Println("[~ Status] Starting Database Setup and Pre-Checks")
+	// Setup + Pre-Check
+	uniqueIndices(client)
 
-  err = client.Ping(context.Background(), nil)
-  
-  if err != nil {
-    log.Println(err) 
-  }
-
-
-  log.Println("[~ Status] Connection to Mongo Database Sucessful")
-  fmt.Println("[~ Status] Connection to Mongo Database Sucessful")
-
-  log.Println("[~ Status] Starting Database Setup and Pre-Checks")
-  fmt.Println("[~ Status] Starting Database Setup and Pre-Checks")
-  // Setup + Pre-Check
-  uniqueIndices(client)
-
-  
-
-
-  return client, err
+	return client, err
 }
-
 
 func uniqueIndices(client *mongo.Client) {
-  itemsCol := client.Database(EquipDB).Collection(ItemsCol)
+	itemsCol := client.Database(EquipDB).Collection(ItemsCol)
 
-  uniqueModelIndex := mongo.IndexModel {
-    Keys: bson.M{"model": 1},
-    Options: options.Index().SetUnique(true),
-  }
-  
-  textSearchIndex := mongo.IndexModel { Keys: bson.D{{"model", "text"}}}
+	uniqueModelIndex := mongo.IndexModel{
+		Keys:    bson.M{"model": 1},
+		Options: options.Index().SetUnique(true),
+	}
 
-  indices := []mongo.IndexModel{uniqueModelIndex, textSearchIndex}
+	textSearchIndex := mongo.IndexModel{Keys: bson.D{{"model", "text"}}}
 
-  indexName, err :=itemsCol.Indexes().CreateMany(context.Background(), indices)
-  if err != nil {
-    fmt.Println(err)
-    log.Fatalln(err)
-  }
+	indices := []mongo.IndexModel{uniqueModelIndex, textSearchIndex}
 
-  fmt.Println("[Pre-Check] Created Unique Index: ", indexName)
+	indexName, err := itemsCol.Indexes().CreateMany(context.TODO(), indices)
+	if err != nil {
+		fmt.Println(err)
+		log.Fatalln(err)
+	}
+
+	fmt.Println("[Pre-Check] Created Unique Index: ", indexName)
 }
-

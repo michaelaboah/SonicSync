@@ -10,9 +10,11 @@ import (
 	"log"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+
 	pkgDB "github.com/michaelaboah/sonic-sync-cloud/database"
 	"github.com/michaelaboah/sonic-sync-cloud/graph/model"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 // CreateUser is the resolver for the createUser field.
@@ -31,37 +33,36 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput
 
 // CreateItem is the resolver for the createItem field.
 func (r *mutationResolver) CreateItem(ctx context.Context, input model.ItemInput, details *model.CategoryDetailsInput) (*model.Item, error) {
-  detailsBytes, err := bson.Marshal(details.ConsoleInput)
-  if err != nil {
-    log.Println(err)
-  }
-  
+	detailsBytes, err := bson.Marshal(details.ConsoleInput)
+	if err != nil {
+		log.Println(err)
+	}
 
-  deets, err := model.MatchDetails(input.Category, detailsBytes)
-  if err != nil {
-    log.Println("Matching error: ", err)
-  }
+	deets, err := model.MatchDetails(input.Category, detailsBytes)
+	if err != nil {
+		log.Println("Matching error: ", err)
+	}
 
-  items := r.DB.Database(pkgDB.EquipDB).Collection(pkgDB.ItemsCol)
-  item := &model.Item{
-    CreatedAt:    time.Now().String(),
-    UpdatedAt:    time.Now().String(),
-    Cost:         input.Cost,
-    Model:        input.Model,
-    Weight:       input.Weight,
-    Manufacturer: input.Manufacturer,
-    Category:     input.Category,
-    Details:      deets,
-    Notes:        &input.Model,
-    Dimensions:   (*model.Dimension)(input.Dimensions),
-    PDFBlob:      input.PDFBlob,
-  }
+	items := r.DB.Database(pkgDB.EquipDB).Collection(pkgDB.ItemsCol)
+	item := &model.Item{
+		CreatedAt:    time.Now().String(),
+		UpdatedAt:    time.Now().String(),
+		Cost:         input.Cost,
+		Model:        input.Model,
+		Weight:       input.Weight,
+		Manufacturer: input.Manufacturer,
+		Category:     input.Category,
+		Details:      deets,
+		Notes:        &input.Model,
+		Dimensions:   (*model.Dimension)(input.Dimensions),
+		PDFBlob:      input.PDFBlob,
+	}
 
-  // fmt.Println(item)
-  _, err = items.InsertOne(ctx, item)
-  if err != nil {
-    log.Println(err)
-  }
+	// fmt.Println(item)
+	_, err = items.InsertOne(ctx, item)
+	if err != nil {
+		log.Println(err)
+	}
 
 	return item, nil
 }
@@ -84,7 +85,6 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 func (r *queryResolver) Items(ctx context.Context) ([]*model.Item, error) {
 	itemsCollection := r.DB.Database(pkgDB.EquipDB).Collection(pkgDB.ItemsCol)
 	itemsCursor, err := itemsCollection.Find(ctx, bson.M{})
-
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +110,8 @@ func (r *queryResolver) Items(ctx context.Context) ([]*model.Item, error) {
 
 		err = bson.Unmarshal(itemBytes, &item)
 		if err != nil {
-			log.Println(err)
+			// Its fine if CategoryDetails can't be decoded
+			fmt.Println(err)
 		}
 
 		details, err := model.MatchDetails(item.Category, detailsBytes)
@@ -132,11 +133,11 @@ func (r *queryResolver) FindByModel(ctx context.Context, modelName string) (*mod
 	itemsCollection := r.DB.Database(pkgDB.EquipDB).Collection(pkgDB.ItemsCol)
 	itemResult := itemsCollection.FindOne(ctx, bson.M{"model": modelName})
 
-	var ( 
-    doc bson.M
-	  item *model.Item
-	  err error
-  )
+	var (
+		doc  bson.M
+		item *model.Item
+		err  error
+	)
 
 	itemResult.Decode(&doc)
 
@@ -165,24 +166,111 @@ func (r *queryResolver) FindByModel(ctx context.Context, modelName string) (*mod
 	return item, nil
 }
 
+// FindByID is the resolver for the find_by_id field.
+func (r *queryResolver) FindByID(ctx context.Context, id string) (*model.Item, error) {
+	itemsCollection := r.DB.Database(pkgDB.EquipDB).Collection(pkgDB.ItemsCol)
+	itemResult := itemsCollection.FindOne(ctx, bson.M{"ID": id})
+
+	var (
+		doc  bson.M
+		item *model.Item
+		err  error
+	)
+
+	itemResult.Decode(&doc)
+
+	itemBytes, err := bson.Marshal(doc)
+	if err != nil {
+		log.Println("Error Marshaling BSON to bytes: ", err)
+	}
+
+	detailsBytes, err := bson.Marshal(doc["details"])
+	if err != nil {
+		log.Println("Error Marshal 'details' from mongo document: ", err)
+	}
+
+	err = bson.Unmarshal(itemBytes, &item)
+	if err != nil {
+		log.Println(err)
+	}
+
+	details, err := model.MatchDetails(item.Category, detailsBytes)
+	if err != nil {
+		log.Println("Error Unmarshaling bytes", err)
+	}
+
+	item.Details = details
+
+	return item, nil
+}
+
+// FuzzyByModel is the resolver for the fuzzy_by_model field.
+func (r *queryResolver) FuzzyByModel(ctx context.Context, modelName string) ([]*model.Item, error) {
+	fuzzy := bson.D{
+		{"$search", bson.D{
+			{"index", "fuzzy_model"},
+			{"text", bson.D{
+				{"query", modelName},
+				{"path", "model"},
+				{
+					"fuzzy", bson.D{},
+				},
+			}},
+		}},
+	}
+
+	itemsCollection := r.DB.Database(pkgDB.EquipDB).Collection(pkgDB.ItemsCol)
+	itemsCursor, err := itemsCollection.Aggregate(ctx, mongo.Pipeline{fuzzy})
+	if err != nil {
+		return nil, err
+	}
+
+	var results []*model.Item
+
+	for itemsCursor.Next(ctx) {
+		var (
+			doc  bson.M
+			item *model.Item
+			err  error
+		)
+
+		itemsCursor.Decode(&doc)
+
+		// Should be a better way to do this without needing to marshal to itemBytes and back
+		itemBytes, err := bson.Marshal(doc)
+		if err != nil {
+			log.Println("Error Marshaling BSON to bytes: ", err)
+		}
+
+		detailsBytes, _ := bson.Marshal(doc["details"])
+
+		err = bson.Unmarshal(itemBytes, &item)
+		if err != nil {
+			// Its fine if CategoryDetails can't be decoded
+			fmt.Println(err)
+		}
+
+		details, err := model.MatchDetails(item.Category, detailsBytes)
+		if err != nil {
+			log.Println("Error Unmarshaling bytes", err)
+		}
+
+		item.Details = details
+
+		results = append(results, item)
+
+	}
+	fmt.Println("Number of Items: ", len(results))
+	return results, nil
+}
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *queryResolver) FindByID(ctx context.Context) (*model.Item, error) {
-	panic(fmt.Errorf("not implemented: FindByID - find_by_id"))
-}
-func (r *mutationResolver) UpdateItem(ctx context.Context, input model.ItemInput) (*model.Item, error) {
-	panic(fmt.Errorf("not implemented: UpdateItem - updateItem"))
-}
+type (
+	mutationResolver struct{ *Resolver }
+	queryResolver    struct{ *Resolver }
+)

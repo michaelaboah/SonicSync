@@ -292,7 +292,9 @@ enum Protocol {
 }
 
 type Query {
+  find_by_id(id: ID!): Item!
   find_by_model(model_name: String!): Item!
+  fuzzy_by_model(model_name: String!): [Item]!
   items: [Item!]!
   users: [User!]!
 }

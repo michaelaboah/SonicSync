@@ -1,8 +1,9 @@
 <script lang="ts">
   import { AppBar } from "@skeletonlabs/skeleton";
   import Item from "./Item.svelte"
-  import DownArrow from "~icons/ri/arrow-down-fill" 
-  import UpArrow from "~icons/ri/arrow-up-fill" 
+  import type { Equip } from "$lib/@types/equipment"
+  // import DownArrow from "~icons/ri/arrow-down-fill" 
+  // import UpArrow from "~icons/ri/arrow-up-fill" 
   let ribbonToggle = true;
   let items = [
     { name: 'Yamaha QL5', category: 'Console' },
@@ -21,7 +22,17 @@
     // { name: 'Item 6', category: 'Category 3' },
   ];
 
-  $: categories = items.reduce((acc, item) => {
+  let gearList: Equip[] = [
+    {
+      category: "Console",
+      model: "",
+      cost: 6000,
+      wattage: 15.3,
+      items: [{description: "Yello"}]
+    }
+  ] 
+
+  $: categories = gearList.reduce((acc, item) => {
     (acc[item.category] = acc[item.category] || []).push(item);
     return acc;
   }, {});
@@ -55,8 +66,8 @@
   <div class="variant-ghost-surface p-4 pt-2 my-2 rounded">
     <h2 class="font-bold text-primary-400">{category.toUpperCase()}</h2>
     <ul class="list-disc list-inside">
-      {#each items as item (item.name)}
-        <Item name={item.name}/>
+      {#each gearList as item (item.model)}
+        <Item equipment={item}/>
       {/each}
     </ul>
   </div>

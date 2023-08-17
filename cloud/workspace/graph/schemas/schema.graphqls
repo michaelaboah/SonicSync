@@ -21,6 +21,8 @@ type Query {
   users: [User!]!
   items: [Item!]!
   find_by_model(model_name: String!): Item!
+  find_by_id(id: ID!): Item!
+  fuzzy_by_model(model_name: String!): [Item]!
 }
 
 
