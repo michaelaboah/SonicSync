@@ -9,9 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/michaelaboah/sonic-sync-cloud/database"
-	"github.com/michaelaboah/sonic-sync-cloud/handlers"
 	"github.com/michaelaboah/sonic-sync-cloud/internal"
 	"github.com/michaelaboah/sonic-sync-cloud/middleware"
+	"github.com/michaelaboah/sonic-sync-cloud/routes"
 )
 
 const (
@@ -41,13 +41,20 @@ func main() {
 	r := gin.Default()
 
 	r.Use(middleware.CORS())
-	r.Use(middleware.Db(mongoClient, pgClient))
+	// r.Use(middleware.Db(mongoClient, pgClient))
 
 	// Graphql Routes
-	r.POST("/graphql", handlers.Grapqhl(mongoClient))
-	r.GET("/graphql-playground", handlers.GraphqlPlayground())
+	r.POST("/graphql", routes.Grapqhl(mongoClient))
+	r.GET("/graphql-playground", routes.GraphqlPlayground())
 
-	h := handlers.NewAuthHandle(pgClient)
+	queries := r.Group("/queries")
+
+	m := routes.NewMongoHandle(mongoClient)
+
+	queries.GET("/fuzzy-find/:model-name", m.FuzzyFind)
+	queries.GET("/find-model/:model-name", m.ModelFind)
+
+	h := routes.NewAuthHandle(pgClient)
 
 	// Authentication Routes
 	r.POST("/register", h.Register)
@@ -57,8 +64,8 @@ func main() {
 	secured := r.Group("/secure")
 	secured.Use(middleware.JWTAuth())
 
-	secured.GET("/logout", handlers.Logout)
-	secured.GET("/refresh", handlers.Refresh)
+	secured.GET("/logout", routes.Logout)
+	secured.GET("/refresh", routes.Refresh)
 
 	fmt.Println("Server Running")
 	log.Fatal(r.Run(":" + port))

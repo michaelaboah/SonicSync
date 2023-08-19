@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -18,6 +19,8 @@ const (
 	ItemsCol  = "items"
 )
 
+var ctx, cancel = context.WithTimeout(context.Background(), 20*time.Second)
+
 func MongoInstance() (*mongo.Client, error) {
 	log.Println("[MongoDB] Starting Database Connection Instance")
 	fmt.Println("[MongoDB] Starting Database Connection Instance")
@@ -29,10 +32,11 @@ func MongoInstance() (*mongo.Client, error) {
 		log.Fatalln("MONGODB_URL not specified in .env file")
 	}
 
-	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(mongoURL).SetServerAPIOptions(serverAPI)
+	// serverAPI := options.ServerAPI(options.Ser)
+	opts := options.Client().ApplyURI(mongoURL) /*.SetServerAPIOptions(serverAPI) */
+	defer cancel()
 
-	client, err := mongo.Connect(context.Background(), opts)
+	client, err := mongo.Connect(ctx, opts)
 	if err != nil {
 		log.Fatal(err)
 	}
