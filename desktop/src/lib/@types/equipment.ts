@@ -1,3 +1,4 @@
+// How details of a singular Gear Item
 export type Item = {
     id: number
     description: string
@@ -7,11 +8,20 @@ export type Item = {
     privateNotes: string,
   }
 
-export type Equip = {
-    category: string,
-    model: string,
-    cost: number,
-    wattage: number,
+export type Gear = {
+    equipment: Equip
     items: Item[]
-  }
+}
+
+export type Equip = {
+  id: String,
+  createdAt: String,
+  updatedAt: String,
+  cost: number,
+  model: String,
+  weight: number,
+  manafactuer: String,
+  category: String,
+  details: any,
+}
 

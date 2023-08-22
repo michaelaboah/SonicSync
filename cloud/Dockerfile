@@ -15,6 +15,9 @@ COPY ./workspace .
 ENV MONGODB_URL=
 ENV PORT=
 ENV GIN_MODE=release
+ENV API_SECRET=
+ENV TOKEN_HOUR_LIFESPAN=2
+
 
 # Build the Go application
 RUN go build -o server ./cmd/server.go

@@ -3293,6 +3293,7 @@ dependencies = [
 name = "sonic-sync"
 version = "0.0.1"
 dependencies = [
+ "bson",
  "log",
  "polodb_core",
  "serde",

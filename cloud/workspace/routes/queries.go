@@ -82,5 +82,9 @@ func (m *MongoHandle) ModelFind(ctx *gin.Context) {
 
 	itemResult.Decode(&doc)
 
+	id := doc["_id"]
+
+	delete(doc, "_id")
+	doc["id"] = id
 	ctx.JSON(http.StatusOK, gin.H{"data": doc})
 }

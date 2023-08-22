@@ -1,4 +1,4 @@
-use polodb_core::Database;
+use polodb_core::{bson::doc, Collection, Database};
 use std::{
     fs,
     path::{self, PathBuf},
@@ -31,6 +31,35 @@ pub fn start_db(app_data_dir: &std::path::PathBuf) -> Database {
     }
 
     let db = Database::open_file(path).unwrap();
+    // let db = Database::open_memory().unwrap();
+
+    db
+}
+
+fn setup_indicies(db: Database) -> Database {
+    let items_inv: Collection<serde_json::Value> = db.collection("items");
+    items_inv
+        .create_index(polodb_core::IndexModel {
+            keys: doc! {
+                "model": 1
+            },
+            options: Some(polodb_core::IndexOptions {
+                name: None,
+                unique: Some(true),
+            }),
+        })
+        .unwrap();
+    // items_inv
+    //     .create_index(polodb_core::IndexModel {
+    //         keys: doc! {
+    //             "_id": 1
+    //         },
+    //         options: Some(polodb_core::IndexOptions {
+    //             name: None,
+    //             unique: Some(true),
+    //         }),
+    //     })
+    //     .unwrap();
 
     db
 }

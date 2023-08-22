@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use database::{database_insert, start_db};
+use database::{database_insert, find_by_model, fuzzy_by_model, start_db};
 use tauri::Manager;
 use tauri_plugin_log::LogTarget;
 mod database;
@@ -31,7 +31,11 @@ fn main() {
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .plugin(tauri_plugin_persisted_scope::init())
         .menu(menu)
-        .invoke_handler(tauri::generate_handler![database_insert])
+        .invoke_handler(tauri::generate_handler![
+            database_insert,
+            fuzzy_by_model,
+            find_by_model
+        ])
         .run(ctx)
         .expect("error while running tauri application");
 }

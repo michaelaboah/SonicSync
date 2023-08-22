@@ -73,7 +73,7 @@
     </nav>
   </svelte:fragment>
   <ContextLayer/>  
-  <div class="p-4 w-full h-full">
+  <div class="p-4 pt-0 w-full h-full">
     <slot />
   </div>
 </AppShell>

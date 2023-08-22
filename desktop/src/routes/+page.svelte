@@ -4,8 +4,8 @@
   // async function greet() {}
   // onMount(async () => {
 
-  // invoke('database_insert')
-  // })
+  // invoke('fuzzy_by_model', { model: "Q"}).then(x => console.log(x))
+  
 
 
 
