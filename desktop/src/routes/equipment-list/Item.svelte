@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte"
   import type { AutocompleteOption, PopupSettings } from '@skeletonlabs/skeleton';
   import { Autocomplete, SlideToggle, popup } from '@skeletonlabs/skeleton';
   import type { Equip, Gear, Item } from "$lib/@types/equipment"
@@ -11,6 +12,8 @@
   export let gear: Gear				
   let cloudSearch = false; // Should be false by default to promote usage of local data before cloud and also reduce connectivity issues when offline
   let modelList: AutocompleteOption[] = []
+
+  const dispatch = createEventDispatcher();
 
   const popupSettings: PopupSettings = {
       event: 'focus-click',
@@ -32,6 +35,11 @@
     cloudFuzzySearch(gear.equipment.model)
   } else {
     localFuzzySearch(gear.equipment.model)
+  }
+
+
+  function handleDelete() {
+    dispatch("delete", gear)
   }
 
   // Should reflect the fuzzy search from the api
@@ -168,6 +176,11 @@
           <span class="scale-150"><InfoIcon/></span>
         </button>
     </td> 
+    <td class="flex-none scale-75 pt-0">
+        <button class="btn-icon variant-filled-error" on:click={handleDelete}>
+          <span class="scale-125"><TrashIcon/></span>
+        </button>
+    </td>
   </tr>
   </table>
   <section class="flex mt-0">

@@ -3,8 +3,9 @@
   import "@skeletonlabs/skeleton/styles/skeleton.css"
 	import '../app.postcss';
   import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-  import {page} from "$app/stores"
-  import { AppShell, storePopup } from '@skeletonlabs/skeleton';
+  import { page } from "$app/stores"
+  import { preferences } from "$lib/stores/user"
+  import { AppShell, modeCurrent, storePopup } from '@skeletonlabs/skeleton';
   import GearIcon from '~icons/ri/settings-3-line'
   import DashIcon from '~icons/ri/dashboard-line'
   import ItemListIcon from '~icons/ri/list-settings-line'
@@ -13,10 +14,13 @@
   import ToolsIcon from '~icons/ri/tools-line'
   import FlowIcon from "~icons/bi/diagram-3"
   import IOIcon from "~icons/solar/transfer-vertical-bold-duotone"
+  import ArrowIcon from "~icons/simple-line-icons/arrow-up"
+
 	import ContextLayer from "$lib/components/layers/ContextLayer.svelte";
 	import InvokeLayer from "$lib/components/layers/InvokeLayer.svelte";
   storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
   import { setContextClient, Client, cacheExchange, fetchExchange } from '@urql/svelte';
+	import CollapsedSidebar from "$lib/components/bars/CollapsedSidebar.svelte";
 
   export const client = new Client({
     url: 'https://api.sonic-sync.com/graphql',
@@ -24,13 +28,16 @@
     // fetchOptions
   });
 
-  setContextClient(client)
+  $preferences.ui.darkMode = $modeCurrent
 
+  setContextClient(client)
+  // console.log($preferences.ui)
   $: classesActive = (href: string) => (href === $page.url.pathname ? 'variant-filled-primary' : '');
 </script>
-<AppShell slotSidebarLeft="w-48 pt-6 px-4 variant-ringed-surface rounded-sm" regionPage="variant-soft-surface">
+<AppShell slotSidebarLeft="max-w-48 px-4 variant-ringed-surface rounded-sm relative" regionPage="variant-soft-surface">
   <svelte:fragment slot="sidebarLeft">
-    <nav class="list-nav">
+    {#if $preferences.ui.sidebar}
+    <nav class="list-nav pt-6">
       <ul>
         <li><a href="/" class="{classesActive('/')}">
           <span><DashIcon/></span>
@@ -60,7 +67,7 @@
           <span><ToolsIcon/></span>
           <span>Production</span>
         </a></li>
-        <li class="fixed bottom-0 pb-4">
+        <li class="fixed bottom-0 my-auto pb-4">
           <hr class="mb-1"/>
           <div class="flex flex-row">
           <a href="/preferences" class="{classesActive('/preferences')}">
@@ -71,9 +78,14 @@
         </li>
       <ul>
     </nav>
+      <button class="btn-icon opacity-30 absolute z-10 right-0 top-1/2 hover:translate-x-1 hover:opacity-100 -rotate-90" on:click={() => {$preferences.ui.sidebar = !$preferences.ui.sidebar}}><ArrowIcon/></button>
+    {:else}
+      <CollapsedSidebar/>
+      <button class="btn-icon opacity-30 absolute z-10 right-0 top-1/2 hover:translate-x-1 hover:opacity-100 rotate-90" on:click={() => {$preferences.ui.sidebar = !$preferences.ui.sidebar}}><ArrowIcon/></button>
+    {/if}
   </svelte:fragment>
   <ContextLayer/>  
-  <div class="p-4 pt-0 w-full h-full">
+  <div class="w-full h-full">
     <slot />
   </div>
 </AppShell>
