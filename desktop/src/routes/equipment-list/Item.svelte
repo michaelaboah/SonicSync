@@ -6,7 +6,6 @@
   import InfoIcon from "~icons/ri/information-line"
   import PlusIcon from "~icons/ri/add-circle-line"
   import TrashIcon from "~icons/bi/trash"
-
 	import { invoke } from '@tauri-apps/api/tauri';
 
   export let gear: Gear				
@@ -187,7 +186,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th class="!p-1 !pl-1.5">Description</th>
+        <th class="!p-2 !pl-1.5">Description</th>
         <th class="!p-1">Purpose</th>
         <th class="!p-1">Quantity</th>
         <th class="!p-1">Actions</th>

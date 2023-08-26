@@ -20,10 +20,30 @@ export type Equip = {
   cost: number,
   model: String,
   weight: number,
-  manafactuer: String,
+  manufactuer: String,
   category: String,
   details: any,
 }
 
+
+export type Cable = {
+  id: number,
+  name: string,
+  description: string,
+  bundle: Bundle | null,
+  model: string,
+  length: number,
+  source: Connection | null,
+  destination: Connection , // Same as Source
+}
+
+type Bundle = {
+  name: string,
+}
+
+type Connection = {
+  name: string,
+  kind: string, 
+}
 
 

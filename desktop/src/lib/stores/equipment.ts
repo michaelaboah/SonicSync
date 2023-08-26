@@ -1,5 +1,18 @@
 import { writable } from "svelte/store"
-import type { Gear } from "$lib/@types/equipment"
+import type { Gear, Cable } from "$lib/@types/equipment"
+
+export const cableList = writable<Cable[]>([
+  {
+    id: 0,
+    name: "SM Page",
+    description: "Stage Manager Page",
+    bundle: null, 
+    model: "XLR",
+    length: 25,
+    source: null,
+    destination: { name: "PSM Comm Station", kind: "" },
+  }
+]);
 
 export const gearList = writable<Gear[]>([
   {
@@ -22,7 +35,7 @@ export const gearList = writable<Gear[]>([
       id: "",
       category: "Speakers",
       model: "X40-Ultra",
-      manafactuer: "Meyer",
+      manufactuer: "Meyer",
       cost: 2000,
       wattage: 15.3,
       details: {} 
@@ -38,7 +51,7 @@ export const gearList = writable<Gear[]>([
       id: "s",
       category: "Speakers",
       model: "SD9",
-      manafactuer: "Digico",
+      manufactuer: "Digico",
       cost: 2000,
       wattage: 15.3,
       details: {} 
@@ -54,7 +67,7 @@ export const gearList = writable<Gear[]>([
       id: "s",
       category: "Processor",
       model: "816",
-      manafactuer: "Meyer",
+      manufactuer: "Meyer",
       cost: 2000,
       wattage: 15.3,
       details: {} 
