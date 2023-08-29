@@ -39,7 +39,7 @@
 
   {#if $cableList.length !== 0 }
     <div class="">
-      <table class="table">
+      <table class="table border ">
         <thead>
           <tr>
             <th class="!p-1 !pl-2">Name</th>

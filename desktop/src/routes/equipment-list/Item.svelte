@@ -20,11 +20,6 @@
       placement: 'bottom'
   };
 
-  // const popupSlider: PopupSettings = {
-  //   event: "hover",
-  //   target: "popupFeatured",
-  //   placement: "top"
-  // }
 
   $: totalWattage = 0
     // totalWattage = gear.items.length * gear.equipment.details.power.wattage
@@ -157,9 +152,9 @@
 
     </td>
     <td class="w-fit mt-1 flex flex-row">
-        <strong class="ml-4 mr-2 whitespace-nowrap">Total Cost:</strong>
-        <p class="text-secondary-400">${totalCost}</p>
-      </td>
+      <strong class="ml-4 mr-2 whitespace-nowrap">Total Cost:</strong>
+      <p class="text-secondary-400">${totalCost}</p>
+    </td>
     <td class="w-fit flex mt-1 flex-row"><strong class="ml-4 mr-2 whitespace-nowrap">Total Qty:</strong><p>{gear.items.length}</p></td>
     <td class="w-fit flex mt-1 flex-row"><strong class="ml-4 mr-2 whitespace-nowrap">Total Wattage:</strong><p class=" whitespace-nowrap">{totalWattage} Watts</p></td>
     <td class="w-full grow flex flex-row">
@@ -195,9 +190,9 @@
     <tbody>
       {#each gear.items as item (item.id) }
         <tr class="h-0">
-          <td contenteditable="true" bind:innerText={item.description} class="@apply !py-0 !pt-1 italic text-opacity-30"></td>
-          <td contenteditable="true" bind:innerText={item.purpose} class="@apply !py-0 italic text-opacity-30"></td>
-          <td class="@apply !py-0 !pt-1 italic text-opacity-30">
+          <td contenteditable="true" bind:innerText={item.description} class="@apply !py-0 !pt-1 italic text-opacity-30 border-r border-surface-300 dark:border-surface-500"></td>
+          <td contenteditable="true" bind:innerText={item.purpose} class="@apply !py-0 italic text-opacity-30 border-r border-surface-300 dark:border-surface-500"></td>
+          <td class="@apply !py-0 !pt-1 italic text-opacity-30  border-r border-surface-300 dark:border-surface-500">
             <input class="input h-fit py-0 w-20 m-0" type="number" bind:value={item.quantity}/>
           </td>
           <td class="@apply !py-0">
@@ -205,8 +200,7 @@
               <!-- <button class="variant-filled-secondary">Temp</button> -->
               <!-- <button class="variant-filled-tertiary">Info</button> -->
               <button on:click={() => {gear.items = gear.items.filter(g => g !== item)}} class="p-0.5 mt-1 btn btn-sm variant-filled-error">
-                <span class="scale-90"><TrashIcon/></span>
-                Delete 
+                <span class=""><TrashIcon/></span>
               </button>
             <!-- </div> -->
           </td>

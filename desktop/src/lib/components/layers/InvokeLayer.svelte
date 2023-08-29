@@ -8,28 +8,26 @@
   import { toastStore } from "@skeletonlabs/skeleton" 
  
 
-  // $: console.log($meta)
-
   onMount(async () => {
 
-    // setInterval(async () => {
-    //   if ($meta === undefined) {
-    //     return 
-    //   }
-    //
-    //   invoke("save", { path: $meta.currentFilePath, object: $project })
-    //     toastStore.trigger({ message: "Saved Project [Auto]"})
-    //
-    // }, $preferences.general.autoSaveTimer) 
+    setInterval(async () => {
+      if ($meta === undefined) {
+        return 
+      }
+
+      invoke("save", { path: $meta.currentFilePath, object: $project })
+        toastStore.trigger({ message: "Saved Project [Auto]"})
+    }, $preferences.general.autoSaveTimer) 
 
 
     listen('load-project', ({ payload: [path, project] }) => {
-      meta.set(path) 
+      meta.set({currentFilePath: path}) 
       loadProject(project as Project)
+      toastStore.trigger({ message: `Project: ${path} Loaded`, classes: "p-2", timeout: 1000 * 10})
     }) 
 
     listen("save-project-fetch", ({ payload: path }) => {
-      meta.set(path) 
+      meta.set({currentFilePath: path}) 
       invoke("save", { path, object: $project })
     })
 

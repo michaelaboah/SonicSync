@@ -35,7 +35,7 @@ export type Cable = {
   model: string,
   length: number,
   source: Connection | null,
-  destination: Connection , // Same as Source
+  destination: Connection | null , // Same as Source
 }
 
 type Bundle = {

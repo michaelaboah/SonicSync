@@ -16,7 +16,7 @@
   function addEmptyGear(gearId: number) { 
     let empty = {
       equipment: { id: gearId, category: "", model: "", manufactuer: "", cost: 0, wattage: 0.0, details: {} },  
-      items: [{id: 0, description: ""}]
+      items: [{id: 0, description: "", quantity: 0}]
     };
 
     $gearList = [...$gearList, empty];
