@@ -22,7 +22,7 @@ function managePersistance() {
     });
     subscribe((n) => {
         if (n !== undefined) {
-              console.log(n)
+              // console.log(n)
             tauri_store.set('preferences', n);
             tauri_store.save();
         }
@@ -39,7 +39,7 @@ modeCurrent.subscribe((b) => {
   let curr = get(preferences)
   curr.ui.darkMode = b
   preferences.set(curr)
-  console.log(curr.ui)
+  // console.log(curr.ui)
 })
 export const accessToken = writable('');
 export const currentFile = writable<string>('');

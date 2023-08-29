@@ -25,8 +25,8 @@ export const gearList = writable<Gear[]>([
       details: {} 
     },  
     items: [
-      {id: 0, description: "Primary"},
-      {id: 1, description: "Secondary"},
+      {id: 0, description: "Primary", quantity: 0 },
+      {id: 1, description: "Secondary", quantity: 0},
       // {description: ""}
     ]
   },
@@ -41,8 +41,8 @@ export const gearList = writable<Gear[]>([
       details: {} 
     },  
     items: [
-      {id: 0, description: "Left"},
-      {id: 1, description: "Right"},
+      {id: 0, description: "Left", quantity: 0},
+      {id: 1, description: "Right", quantity: 0},
       // {description: ""}
     ]
   },
@@ -57,8 +57,8 @@ export const gearList = writable<Gear[]>([
       details: {} 
     },  
     items: [
-      {id: 2, description: "Beyond"},
-      {id: 3, description: "Right"},
+      {id: 2, description: "Beyond", quantity: 0},
+      {id: 3, description: "Right", quantity: 0},
       // {description: ""}
     ]
   },
@@ -73,8 +73,8 @@ export const gearList = writable<Gear[]>([
       details: {} 
     },  
     items: [
-      {id: 2, description: "Beyond"},
-      {id: 3, description: "Right"},
+      {id: 2, description: "Beyond", quantity: 0},
+      {id: 3, description: "Right", quantity: 0},
       // {description: ""}
     ]
   },

@@ -1,9 +1,11 @@
+import type { Cable, Gear } from "./equipment"
+
 export type ProductionInformation = {
     productionName: string
     director: string
     venue: string
-    showImage?: string 
-    designerStamp?: string
+    // showImage?: string 
+    // designerStamp?: string
     notes?: string
 }
 
@@ -41,5 +43,12 @@ export type IO = {
 export type Project = {
   prodInfo: ProductionInformation
   audioTeam: AudioTeam
-  ioList: IO 
+  ioList: IO
+  gearList: Gear[]
+  cableList: Cable[]
+  meta: Meta
+}
+
+export type Meta = {
+  currentFilePath: string,
 }

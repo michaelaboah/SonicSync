@@ -31,10 +31,12 @@ fn main() {
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .plugin(tauri_plugin_persisted_scope::init())
         .menu(menu)
+        .on_menu_event(menus::events::menu_event_handler)
         .invoke_handler(tauri::generate_handler![
             database_insert,
             fuzzy_by_model,
-            find_by_model
+            find_by_model,
+            menus::events::save
         ])
         .run(ctx)
         .expect("error while running tauri application");

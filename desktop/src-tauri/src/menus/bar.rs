@@ -5,6 +5,7 @@ pub fn generate_menu_bar(app_name: &str) -> Menu {
     let save_as =
         CustomMenuItem::new("save_as", "Save As File").accelerator("cmdOrControl+shift+S");
     let open = CustomMenuItem::new("open", "Open File").accelerator("cmdOrControl+O");
+    let load = CustomMenuItem::new("load_project", "Load Project");
     let new = CustomMenuItem::new("new", "New Project").accelerator("cmdOrControl+N");
     let open_preferences =
         CustomMenuItem::new("preferences", "Preferences").accelerator("cmdOrControl+,");
@@ -37,6 +38,7 @@ pub fn generate_menu_bar(app_name: &str) -> Menu {
             Menu::with_items([MenuItem::CloseWindow.into()])
                 .add_item(new)
                 .add_item(save)
+                .add_item(load)
                 .add_item(save_as)
                 .add_item(open),
         )),
@@ -47,6 +49,7 @@ pub fn generate_menu_bar(app_name: &str) -> Menu {
                 .add_item(new)
                 .add_item(save)
                 .add_item(save_as)
+                .add_item(load)
                 .add_item(open)
                 .add_submenu(database_submenu)
                 .add_item(open_preferences),

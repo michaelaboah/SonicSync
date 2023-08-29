@@ -1,33 +1,83 @@
-use tauri::{async_runtime, Manager};
-
-// use crate::essentials::communication;
+use tauri::{api::dialog, api::dialog::blocking};
 
 pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
-    // match event.menu_item_id() {
-    //     "save" => communication::events::menu_emit("save", event),
-    //     "save_as" => communication::events::menu_emit("save-as", event),
-    //     "open" => communication::events::menu_emit("open-project-file", event),
-    //     "new" => tauri::api::dialog::MessageDialogBuilder::new(
-    //         "File Open Error",
-    //         format!("File Error: Problem with provided path, .\n Error message: "),
-    //     )
-    //     .kind(tauri::api::dialog::MessageDialogKind::Error)
-    //     .show(|_| ()),
-    //     "palette" => communication::events::menu_emit("toggle-palette", event),
-    //     "preferences" => communication::events::menu_emit("open-preferences", event),
-    //     "db_json_load" => {
-    //         async_runtime::spawn(async move {
-    //             sqlite_database::queries::insertions::insert_multiple_items(
-    //                 None,
-    //                 event.window().state(),
-    //             )
-    //             .await
-    //             .unwrap();
-    //         });
-    //     }
-    //     "Learn More" => {
-    //         let _url = "to be implemented".to_string();
-    //     }
-    //     _ => unimplemented!(),
-    // }
+    match event.menu_item_id() {
+        "save" => unimplemented!(),
+        "save_as" => save_project("save", event),
+        // "open" => unimplemented!(), // create a new window
+        "load_project" => load_project("load-project", event),
+        "new" => unimplemented!(),
+        "palette" => unimplemented!(),
+        "preferences" => unimplemented!(),
+        "Learn More" => {
+            let _url = "to be implemented".to_string();
+        }
+        _ => unimplemented!(),
+    }
+}
+
+fn load_project(event_name: &str, event: tauri::WindowMenuEvent) {
+    std::thread::spawn(move || {
+        let path = blocking::FileDialogBuilder::new()
+            .set_title("Load Project")
+            .add_filter("Project File Extensions", &["syn"])
+            .pick_file();
+
+        if path.is_none() {
+            return;
+        }
+
+        let path = path.unwrap();
+
+        let file_string = std::fs::read_to_string(&path).expect("");
+
+        if let Ok(value) = serde_json::from_str::<serde_json::Value>(&file_string) {
+            event.window().emit("load-project", (&path, value)).unwrap();
+        } else {
+            dialog::MessageDialogBuilder::new(
+                "Parsing Error",
+                "Invalid file format. Must be valid JSON",
+            )
+            .kind(dialog::MessageDialogKind::Error)
+            .show(|_| ());
+        }
+    });
+}
+
+fn save_project(event_name: &str, event: tauri::WindowMenuEvent) {
+    std::thread::spawn(move || {
+        let path = blocking::FileDialogBuilder::new()
+            .set_title("Save Project")
+            .set_file_name("Untitled-Project.syn")
+            // .add_filter("Project File Extensions", &["syn"])
+            .save_file();
+
+        if path.is_none() {
+            return;
+        }
+
+        event
+            .window()
+            .emit("save-project-fetch", path.unwrap())
+            .unwrap();
+    });
+}
+
+#[tauri::command]
+pub fn save(path: &str, object: Option<serde_json::Value>) {
+    if object.is_none() {
+        panic!("Why are you saving empty data?")
+    }
+
+    let contents =
+        serde_json::to_string(&object).expect("Invalid json causes problem in UI first, maybe");
+
+    if std::fs::write(&path, contents).is_err() {
+        dialog::MessageDialogBuilder::new(
+            "File Saving Error",
+            format!("Couldn't Save Project at: {}", path),
+        )
+        .kind(dialog::MessageDialogKind::Error)
+        .show(|_| ());
+    }
 }

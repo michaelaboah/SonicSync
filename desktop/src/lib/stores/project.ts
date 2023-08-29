@@ -1,11 +1,13 @@
 import { derived, writable, type Writable } from 'svelte/store';
 import type {
-     AudioTeam,
-     IO,
-     ProductionInformation,
-     Project,
+    Meta,
+    AudioTeam,
+    IO,
+    ProductionInformation,
+    Project,
 } from '$lib/@types/project';
-import { gearList } from '$lib/stores/equipment'
+import type { Gear, Cable } from "$lib/@types/equipment"
+import { gearList, cableList } from '$lib/stores/equipment'
 
 
 
@@ -15,18 +17,34 @@ export const ioList = writable<IO>({
 });
 
 export const audioTeam = writable<AudioTeam>()
-export const prodInfo = writable<ProductionInformation>();
+export const prodInfo = writable<ProductionInformation>({
+  productionName: "",
+  venue: "",
+  notes: "",
+  director: "",
+});
 
-export const project = derived<[Writable<ProductionInformation>, Writable<Object[]>, Writable<IO>, Writable<AudioTeam>], Project>(
-    [prodInfo, gearList, ioList, audioTeam],
-    ([$prodInfo, _$gearList, $ioList, $audioTeam]) => {
-        return { prodInfo: $prodInfo, /*gearList: $gearList,*/ ioList: $ioList, audioTeam: $audioTeam } as Project;
+export const meta = writable<Meta>()
+
+export const project = derived<[Writable<ProductionInformation>, Writable<Gear[]>, Writable<IO>, Writable<AudioTeam>, Writable<Cable[]>, Writable<Meta>], Project>(
+    [prodInfo, gearList, ioList, audioTeam, cableList, meta],
+    ([$prodInfo, $gearList, $ioList, $audioTeam, $cableList, $meta]) => {
+        return { 
+          prodInfo: $prodInfo, 
+          gearList: $gearList, 
+          ioList: $ioList, 
+          audioTeam: $audioTeam, 
+          cableList: $cableList, 
+          meta: $meta 
+        } as Project;
     }
 );
 
-export const loadProject = (project: Project) => {
-    // gearList.set(project.gearList);
+export function loadProject(project: Project) {
     prodInfo.set(project.prodInfo);
     ioList.set(project.ioList);
     audioTeam.set(project.audioTeam);
+    gearList.set(project.gearList);
+    cableList.set(project.cableList)
+    meta.set(project.meta)
 };

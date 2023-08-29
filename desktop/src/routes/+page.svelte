@@ -1,13 +1,15 @@
 <script lang="ts">
   import { invoke } from '@tauri-apps/api/tauri'
-
+  import { project } from '$lib/stores/project';
   // async function greet() {}
   // onMount(async () => {
 
   // invoke('fuzzy_by_model', { model: "Q"}).then(x => console.log(x))
   
 
-
+  // function seeProject() {
+    console.log($project)
+  // }
 
 </script>
 

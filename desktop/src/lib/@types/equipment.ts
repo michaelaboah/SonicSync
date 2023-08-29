@@ -14,14 +14,15 @@ export type Gear = {
 }
 
 export type Equip = {
-  id: String,
-  createdAt: String,
-  updatedAt: String,
+  id: string,
+  createdAt: string,
+  updatedAt: string,
   cost: number,
-  model: String,
+  model: string,
   weight: number,
-  manufactuer: String,
-  category: String,
+  wattage: number,
+  manufactuer: string,
+  category: string,
   details: any,
 }
 
