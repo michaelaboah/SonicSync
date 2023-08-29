@@ -1,41 +1,34 @@
 import { derived, writable, get } from 'svelte/store';
 import { Store } from 'tauri-plugin-store-api';
-import { modeCurrent } from "@skeletonlabs/skeleton" 
+import { modeCurrent, setModeCurrent } from "@skeletonlabs/skeleton" 
 import { DEFAULT, type Preferences } from '$lib/@types/user';
 
-const tauri_store = new Store('.preferences.dat');
+export const tauri_store = new Store('.preferences.dat');
 
+// tauri_store.reset()
 
-function managePersistance() {
-    const { subscribe, set, update } = writable<Preferences>(DEFAULT);
-    tauri_store.get<Preferences>('preferences').then((value) => {
-        // // if get is undefined/null then initialize the file.
-        //     console.log(value)
-        if (!value || value === undefined) {
-            tauri_store.set('preferences',  DEFAULT);
-        } else {
-            set(value);
-            modeCurrent.set(value.ui.darkMode)
-        } 
+export const preferences = writable<Preferences>(DEFAULT);
+tauri_store.get<Preferences>("preferences").then((stored) => {
+  if (stored) {
+    console.log("Retreived Stored Prefs: "+ stored.ui.darkMode)
+    setModeCurrent(stored.ui.darkMode)
+    preferences.set(stored)
+  } else {
+    preferences.set(DEFAULT)
+    tauri_store.set("preferences", DEFAULT)
+    tauri_store.save()
+  }
+})
+ 
 
-        tauri_store.save();
-    });
-    subscribe((n) => {
-        if (n !== undefined) {
-              // console.log(n)
-            tauri_store.set('preferences', n);
-            tauri_store.save();
-        }
-    });
-    
-    return { subscribe, set, update };
-};
-
-
-
-export const preferences = managePersistance();
+preferences.subscribe((v) => {
+  // console.log("Dark Mode change?")
+  tauri_store.set("preferences", v)
+  tauri_store.save()
+})
 
 modeCurrent.subscribe((b) => {
+  console.log("Current Mode: " + b)
   let curr = get(preferences)
   curr.ui.darkMode = b
   preferences.set(curr)

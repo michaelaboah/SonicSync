@@ -8,7 +8,7 @@
   
 
   // function seeProject() {
-    console.log($project)
+    // console.log($project)
   // }
 
 </script>

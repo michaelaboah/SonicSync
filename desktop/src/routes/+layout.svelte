@@ -2,7 +2,7 @@
   import "../theme.postcss";
   import "@skeletonlabs/skeleton/styles/skeleton.css"
 	import '../app.postcss';
-  import { Toast, AppShell, modeCurrent, storePopup, Drawer } from '@skeletonlabs/skeleton';
+  import { Toast, AppShell, modeCurrent, storePopup, Drawer, setInitialClassState } from '@skeletonlabs/skeleton';
   import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
   import { preferences } from "$lib/stores/user"
   import { setContextClient, Client, cacheExchange, fetchExchange } from '@urql/svelte';
@@ -28,6 +28,7 @@
 
 </script>
 
+<svelte:head>{@html `<script>(${setInitialClassState.toString()})();</script>`}</svelte:head>
 
 <Toast/>
 <Drawer/>
