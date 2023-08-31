@@ -2,6 +2,7 @@
 const config = {
   darkMode: "class",
 	content: [
+    // "./node_modules/@tauri-controls/svelte/**/*.{js,svelte,ts}",
     './src/**/*.{html,js,svelte,ts}',
     require("path").join(require.resolve(
      "@skeletonlabs/skeleton"),

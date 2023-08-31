@@ -25,12 +25,19 @@
     // totalWattage = gear.items.length * gear.equipment.details.power.wattage
   $: totalCost = gear.items.length * gear.equipment.cost
 
-  $: if (cloudSearch) {   
-    cloudFuzzySearch(gear.equipment.model)
-  } else {
-    localFuzzySearch(gear.equipment.model)
+  $: gear.equipment.model, handleModelUpdate() 
+
+  function handleModelUpdate() {
+    if (cloudSearch) {
+      modelList = modelList.filter(() => false)
+      cloudFuzzySearch(gear.equipment.model)
+    } else {
+      modelList = modelList.filter(() => false)
+      localFuzzySearch(gear.equipment.model)
+    }
   }
 
+  $: gear.equipment.model, 
 
   function handleDelete() {
     dispatch("delete", gear)
@@ -45,6 +52,7 @@
     }
 
     const response = await invoke<String[]>("fuzzy_by_model", { model })
+    console.log(response)
     if (response.length === 0) {
       return
     }
@@ -85,6 +93,7 @@
 
   // Search for compatible model names
   async function cloudFuzzySearch(model: String) {
+    console.log("hi")
     if (!model || model === "") {
       return
     }

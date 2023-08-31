@@ -34,11 +34,10 @@
     <svelte:fragment slot="trail">
       <button type="button" class="btn btn-sm variant-filled-error" on:click={() => $cableList = $cableList.filter(() => false)}>Remove All</button>
     </svelte:fragment>
-    <!-- <svelte:fragment slot="headline">(headline)</svelte:fragment> -->
   </AppBar >
 
   {#if $cableList.length !== 0 }
-    <div class="">
+    <div class="my-1">
       <table class="table border ">
         <thead>
           <tr>

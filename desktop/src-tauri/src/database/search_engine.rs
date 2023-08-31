@@ -13,17 +13,16 @@ pub fn fuzzy_search(query: &str, original: &str) -> f64 {
 
 /// Returns a list of strings that contain an accuracy above 0.0
 /// And in order of highest to lowest
-pub fn fuzzy_search_many<'a>(query: &'a str, models: Vec<&'a str>) -> Vec<&'a str> {
-    let models = vec!["Ql5", "X40-Ultra", "QL1"];
-    dbg!(&models);
-    let query = "Q";
-
+pub fn fuzzy_search_many<'a>(query: &'a str, models: &'a [&str], threshold: f64) -> Vec<&'a str> {
+    // let models = vec!["Ql5", "X40-Ultra", "QL1"];
+    // let query = "Q";
+    dbg!(models);
     let mut models: Vec<&str> = models
         .into_iter()
-        .filter(|s| fuzzy_search(query, s) > 0.0)
+        .filter(|s| fuzzy_search(query, s) > threshold)
+        .map(|s| *s)
         .collect();
 
-    dbg!(&models);
     models.sort_by(|a, b| {
         let first = fuzzy_search(query, a);
         let sec = fuzzy_search(query, b);
@@ -46,7 +45,7 @@ fn test_text_search() {
 fn test_many_models() {
     let models = vec!["Ql5", "X40-Ultra", "QL1"];
     let query = "Q";
-    let found = fuzzy_search_many(query, models);
+    let found = fuzzy_search_many(query, &models, 0.0);
 
     assert_eq!(["Ql5", "QL1"], found.as_slice());
     // models.iter().filter(predicate)

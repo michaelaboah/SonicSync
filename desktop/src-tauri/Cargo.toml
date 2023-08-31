@@ -2,7 +2,7 @@
 name = "sonic-sync"
 version = "0.0.1"
 description = "A Tauri App"
-authors = ["Michael Abooah"]
+authors = ["Michael Aboah"]
 license = ""
 repository = ""
 default-run = "sonic-sync"
@@ -18,7 +18,7 @@ tauri-build = { version = "1.4.0", features = [] }
 serde_json = "1.0.104"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.4.0", features = ["api-all"] }
-tokio = "1.29.1"
+tokio = { version = "1.29.1", features = ["full"] }
 polodb_core = "4.4.0"
 log = "0.4.19"
 
@@ -29,8 +29,10 @@ tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-works
 tauri-plugin-persisted-scope = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 bson = "2.6.1"
 crossbeam = { version = "0.8.2", features = ["crossbeam-channel"] }
-# tauri-plugin-window = "2.0.0-alpha.0"
-# tauri-plugin-os = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
+reqwest = "0.11.20"
+
+# tauri-plugin-window = "2.0.0-alpha.1"
+# tauri-plugin-os = "2.0.0-alpha.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

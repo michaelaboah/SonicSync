@@ -1,11 +1,7 @@
 use polodb_core::{bson::doc, Collection, Database};
-use std::{
-    fs,
-    path::{self, PathBuf},
-    thread, time,
-};
+use std::{thread, time};
 
-const DATABASE_FILE_NAME: &'static str = "primary-polo.db";
+const DATABASE_FILE_NAME: &'static str = "database/primary-polo.db";
 
 /// Starts Database
 ///
@@ -15,7 +11,6 @@ const DATABASE_FILE_NAME: &'static str = "primary-polo.db";
 pub fn start_db(app_data_dir: &std::path::PathBuf) -> Database {
     if !app_data_dir.is_dir() {
         // Tell the user that the resolved app directory isn't a directory
-        dbg!(app_data_dir);
         println!("Resolved App data directory isn't a directory. Aborting program in 60 seconds");
         thread::sleep(time::Duration::from_secs(60));
         panic!()
@@ -23,21 +18,22 @@ pub fn start_db(app_data_dir: &std::path::PathBuf) -> Database {
 
     let path = app_data_dir.join(DATABASE_FILE_NAME);
 
-    println!("{:?}", path.as_os_str());
+    dbg!("{:?}", path.as_os_str());
 
     if !path.exists() {
         println!("Generated new database");
         return Database::open_file(path).unwrap();
     }
 
-    let db = Database::open_file(path).unwrap();
-    // let db = Database::open_memory().unwrap();
+    let mut db = Database::open_file(path).unwrap();
+    setup_indicies(&mut db);
 
     db
 }
 
-fn setup_indicies(db: Database) -> Database {
+pub fn setup_indicies(db: &mut Database) {
     let items_inv: Collection<serde_json::Value> = db.collection("items");
+
     items_inv
         .create_index(polodb_core::IndexModel {
             keys: doc! {
@@ -49,17 +45,6 @@ fn setup_indicies(db: Database) -> Database {
             }),
         })
         .unwrap();
-    // items_inv
-    //     .create_index(polodb_core::IndexModel {
-    //         keys: doc! {
-    //             "_id": 1
-    //         },
-    //         options: Some(polodb_core::IndexOptions {
-    //             name: None,
-    //             unique: Some(true),
-    //         }),
-    //     })
-    //     .unwrap();
 
-    db
+    dbg!(items_inv.name());
 }

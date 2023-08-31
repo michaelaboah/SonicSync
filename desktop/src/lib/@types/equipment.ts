@@ -1,3 +1,6 @@
+import type { AnalogCable, CableKind, Category, Protocol } from "./graphql"
+import type { Bundle } from "./flow"
+
 // How details of a singular Gear Item
 export type Item = {
     id: number
@@ -22,8 +25,8 @@ export type Equip = {
   weight: number,
   wattage: number,
   manufactuer: string,
-  category: string,
-  details: any,
+  category: Category,
+  details: any | null,
 }
 
 
@@ -31,20 +34,19 @@ export type Cable = {
   id: number,
   name: string,
   description: string,
-  bundle: Bundle | null,
+  // in reference to the bundle name
+  bundle: string | null, 
+  cableKind: CableKind, 
   model: string,
   length: number,
   source: Connection | null,
   destination: Connection | null , // Same as Source
 }
 
-type Bundle = {
-  name: string,
-}
 
-type Connection = {
+export type Connection = {
   name: string,
-  kind: string, 
+  kind: AnalogCable, 
 }
 
 

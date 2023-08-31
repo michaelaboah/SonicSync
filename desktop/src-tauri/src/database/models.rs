@@ -9,7 +9,7 @@ pub struct Item {
     pub model: String,
     pub manufacturer: String,
     pub category: String,
-    pub detail: Option<serde_json::Value>,
+    pub details: Option<serde_json::Value>,
     pub notes: Option<String>,
     pub dimensions: Option<Dimension>,
 }
