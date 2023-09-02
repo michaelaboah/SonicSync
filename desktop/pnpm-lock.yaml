@@ -82,6 +82,9 @@ devDependencies:
   typescript:
     specifier: ^5.0.0
     version: 5.1.6
+  typescript-svelte-plugin:
+    specifier: ^0.3.31
+    version: 0.3.31(svelte@4.1.2)(typescript@5.1.6)
   unplugin-icons:
     specifier: ^0.16.5
     version: 0.16.5
@@ -1868,6 +1871,18 @@ packages:
       typescript: 5.1.6
     dev: true
 
+  /svelte2tsx@0.6.21(svelte@4.1.2)(typescript@5.1.6):
+    resolution: {integrity: sha512-v+vvbiy6WDmEQdIkJpvHYxJYG/obALfH0P6CTreYO350q/9+QmFTNCOJvx0O1o59Zpzx1Bqe+qlDxP/KtJSZEA==}
+    peerDependencies:
+      svelte: ^3.55 || ^4.0.0-next.0 || ^4.0
+      typescript: ^4.9.4 || ^5.0.0
+    dependencies:
+      dedent-js: 1.0.1
+      pascal-case: 3.1.2
+      svelte: 4.1.2
+      typescript: 5.1.6
+    dev: true
+
   /svelte@4.1.2:
     resolution: {integrity: sha512-/evA8U6CgOHe5ZD1C1W3va9iJG7mWflcCdghBORJaAhD2JzrVERJty/2gl0pIPrJYBGZwZycH6onYf+64XXF9g==}
     engines: {node: '>=16'}
@@ -1964,6 +1979,16 @@ packages:
 
   /tslib@2.6.1:
     resolution: {integrity: sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==}
+    dev: true
+
+  /typescript-svelte-plugin@0.3.31(svelte@4.1.2)(typescript@5.1.6):
+    resolution: {integrity: sha512-K3XPdOrpj/61JXqgFTltbYH+uxWvYXRAYSX1cFrmJ+4UrTIAY1d4azgCwi/RrIbQFonNazvfOnDaKGT5fcOjoA==}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.15
+      svelte2tsx: 0.6.21(svelte@4.1.2)(typescript@5.1.6)
+    transitivePeerDependencies:
+      - svelte
+      - typescript
     dev: true
 
   /typescript@5.1.6:

@@ -64,15 +64,23 @@
   <td class={cellClass} contenteditable="true" bind:innerText={cable.name}></td>
 
   <td class={cellClass} contenteditable="true" bind:innerText={cable.description}></td>
+  
+  <td class={cellClass} contenteditable="true" bind:innerText={cable.model}></td>
 
-  <td class={cellClass}> 
+  <td class={cellClass + ""}>
+
+    <input class="input h-7 py-0 w-20 m-0" type="number" bind:value={cable.length}/>
+
+  </td>
+
+  <td class={cellClass + " "}> 
 
     {#if cable.bundle !== null}
 
       <div class="flex flex-row space-x-2">
         
         <input
-          class="input w-1/3 h-7 autocomplete text-xs"
+          class="input h-7 autocomplete text-xs"
           type="search"
           name="autocomplete-search"
           bind:value={cable.bundle}
@@ -87,35 +95,34 @@
               <div class="flex justify-center mt-1">
 
                 <button class="btn btn-xs px-1 py-0.5 variant-filled-secondary text-xs">Create</button>
+
               </div>
             {/if}
         </div>
 
-        <button class="btn btn-icon p-0 m-0 h-fit w-fit" on:click={() => cable = removeBundle(cable)}>
+        <button class="btn btn-icon p-0 m-0 h-fit" on:click={() => cable = removeBundle(cable)}>
           <span><CloseIcon/></span>
         </button>
 
       </div>
 
     {:else}
-      
-      <button on:click={() => cable = addBundle(cable)} class="btn btn-sm variant-filled-primary p-1">Add</button> 
+      <!-- <div class="w-4">  -->
 
+        <button on:click={() => cable = addBundle(cable)} class="btn btn-sm variant-filled-primary p-1 h-7 text-sm">Add</button> 
+
+      <!-- </div> -->
     {/if}
+
   </td>
 
-  <td class={cellClass} contenteditable="true" bind:innerText={cable.model}></td>
+  
 
-  <td class={cellClass}>
-    <input class="input h-fit py-0 w-20 m-0" type="number" bind:value={cable.length}/>
-  </td>
+   <ConnectionCell connection={cable.source} connKind="source" cableKind={cable.cableKind}/>
 
+   <ConnectionCell connection={cable.destination} connKind="destination" cableKind={cable.cableKind}/> 
 
-   <ConnectionCell connection={cable.source} kind="source"/>
-
-   <ConnectionCell connection={cable.destination} kind="destination"/> 
-
-  <td class="!py-0.5">
+  <td class="!py-0.5 w-20">
 
     <button class="btn btn-sm variant-filled-error p-0.5" on:click={handleDelete}>
 

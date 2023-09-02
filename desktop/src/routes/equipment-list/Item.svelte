@@ -37,7 +37,6 @@
     }
   }
 
-  $: gear.equipment.model, 
 
   function handleDelete() {
     dispatch("delete", gear)

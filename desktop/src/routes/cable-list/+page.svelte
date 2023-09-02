@@ -42,18 +42,18 @@
         <thead>
           <tr>
             <th class="!p-1 !pl-2">Name</th>
-            <th class="!p-1">Description</th>
-            <th class="!p-1">Bundle</th>
-            <th class="!p-1">Model</th>
-            <th class="!p-1">Length</th>
-            <th class="!p-1">Source</th>
-            <th class="!p-1">Destination</th>
-            <th class="!p-1">Actions</th>
+            <th class="!p-1 ">Description</th>
+            <th class="!p-1 ">Model</th>
+            <th class="!p-1 ">Length</th>
+            <th class="!p-1 ">Bundle</th>
+            <th class="!p-1 ">Source</th>
+            <th class="!p-1 ">Destination</th>
+            <th class="!p-1 ">Actions</th>
           </tr>
         </thead>
         <tbody>
           {#each $cableList as cable (cable) }
-            <CableComponent {cable} on:delete={(e) => deleteCable(e.detail)}/>       
+            <!-- <CableComponent {cable} on:delete={(e) => deleteCable(e.detail)}/>        -->
           {/each}
         </tbody>
       </table>
