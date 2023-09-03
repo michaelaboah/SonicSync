@@ -9,7 +9,7 @@
 	import ConnectionCell from "$lib/components/tables/ConnectionCell.svelte";
 
 
-  const cellClass = "!py-0.5 border-r border-surface-300 dark:border-surface-500"
+  const cellClass = "!p-0.5  border-surface-300 dark:border-surface-500"
   const dispatch = createEventDispatcher();
   const popupSettings: PopupSettings = {
     event: 'focus-click',
@@ -32,8 +32,11 @@
   }
 
   function removeBundle(cable: Cable): Cable {
+    
     let foundBundle: Bundle | undefined = $bundleList.find((b) => b.name == cable.bundle)
+
     if (!foundBundle) {
+      cable.bundle = null;
       return cable
     } 
 
@@ -67,68 +70,80 @@
   
   <td class={cellClass} contenteditable="true" bind:innerText={cable.model}></td>
 
-  <td class={cellClass + ""}>
+  <td class={cellClass + " w-28"}>
 
-    <input class="input h-7 py-0 w-20 m-0" type="number" bind:value={cable.length}/>
+    <input class="input h-7 py-0 w-full m-0" type="number" bind:value={cable.length}/>
 
   </td>
 
-  <td class={cellClass + " "}> 
 
     {#if cable.bundle !== null}
 
-      <div class="flex flex-row space-x-2">
-        
-        <input
-          class="input h-7 autocomplete text-xs"
-          type="search"
-          name="autocomplete-search"
-          bind:value={cable.bundle}
-          placeholder="Find Bundle..."
-          use:popup={popupSettings}
-        />
+      <td class={cellClass + " w-52"}> 
 
-        <div data-popup="popupAutocomplete" class="card w-40 max-w-sm max-h-48 text-xs p-1 m-0 overflow-y-auto" tabindex="-1">
-            <Autocomplete input={cable.bundle} bind:options={bundleOptions} on:selection={onBundleSelection} />
-             
-            {#if bundleNames.length === 0 && cable.bundle !== ""}
-              <div class="flex justify-center mt-1">
+        <div class="flex flex-row h-7">
+          
+          <input
+            class="input w-full autocomplete text-xs"
+            type="search"
+            name="autocomplete-search"
+            bind:value={cable.bundle}
+            placeholder="Find Bundle..."
+            use:popup={popupSettings}
+          />
 
-                <button class="btn btn-xs px-1 py-0.5 variant-filled-secondary text-xs">Create</button>
+          <div data-popup="popupAutocomplete" class="card w-40 max-w-sm max-h-48 text-xs p-1 m-0 overflow-y-auto" tabindex="-1">
+              <Autocomplete input={cable.bundle} bind:options={bundleOptions} on:selection={onBundleSelection} />
+               
+              {#if bundleNames.length === 0 && cable.bundle !== ""}
+                <div class="flex justify-center mt-1">
 
-              </div>
-            {/if}
+                  <button class="btn btn-xs px-1 py-0.5 variant-filled-secondary text-xs">Create</button>
+
+                </div>
+              {/if}
+          </div>
+
+          <button class="btn btn-icon p-0 m-0 h-7 w-fit" on:click={() => cable = removeBundle(cable)}>
+
+            <span><CloseIcon/></span>
+          
+          </button>
+
         </div>
 
-        <button class="btn btn-icon p-0 m-0 h-fit" on:click={() => cable = removeBundle(cable)}>
-          <span><CloseIcon/></span>
-        </button>
-
-      </div>
+      </td>
 
     {:else}
-      <!-- <div class="w-4">  -->
 
-        <button on:click={() => cable = addBundle(cable)} class="btn btn-sm variant-filled-primary p-1 h-7 text-sm">Add</button> 
+      <td class={cellClass + " w-52"}> 
 
-      <!-- </div> -->
+        <div class="flex justify-center"> 
+
+          <button on:click={() => cable = addBundle(cable)} class="btn btn-sm variant-filled-primary p-1 h-7 text-sm">Add</button> 
+
+        </div>
+
+      </td>
+
     {/if}
 
-  </td>
 
-  
+   <ConnectionCell bind:connection={cable.source} connKind="source" cableKind={cable.cableKind}/>
 
-   <ConnectionCell connection={cable.source} connKind="source" cableKind={cable.cableKind}/>
-
-   <ConnectionCell connection={cable.destination} connKind="destination" cableKind={cable.cableKind}/> 
+   <ConnectionCell bind:connection={cable.destination} connKind="destination" cableKind={cable.cableKind}/> 
 
   <td class="!py-0.5 w-20">
 
-    <button class="btn btn-sm variant-filled-error p-0.5" on:click={handleDelete}>
+    <div class="mx-4">
 
-      <span><TrashIcon/></span>
+      <button class="btn btn-sm variant-filled-error p-0.5" on:click={handleDelete}>
 
-    </button>
+        <span><TrashIcon/></span>
+
+      </button>
+
+    </div>
 
   </td>
 

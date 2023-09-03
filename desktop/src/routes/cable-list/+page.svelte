@@ -38,7 +38,7 @@
 
   {#if $cableList.length !== 0 }
     <div class="my-1">
-      <table class="table border ">
+      <table class="table w-full">
         <thead>
           <tr>
             <th class="!p-1 !pl-2">Name</th>
@@ -53,7 +53,7 @@
         </thead>
         <tbody>
           {#each $cableList as cable (cable) }
-            <!-- <CableComponent {cable} on:delete={(e) => deleteCable(e.detail)}/>        -->
+            <CableComponent {cable} on:delete={(e) => deleteCable(e.detail)}/>       
           {/each}
         </tbody>
       </table>

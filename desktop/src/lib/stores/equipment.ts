@@ -12,7 +12,7 @@ export const cableList = writable<Cable[]>([
     cableKind: "Analog",
     length: 25,
     source: null,
-    destination: { name: "QL5", kind: "" },
+    destination: null,
   }
 ]);
 
