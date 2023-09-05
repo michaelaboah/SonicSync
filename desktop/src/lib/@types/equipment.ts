@@ -17,14 +17,16 @@ export type Gear = {
 }
 
 export type Equip = {
-  id: string,
+  _id: string,
   createdAt: string,
   updatedAt: string,
   cost: number,
   model: string,
   weight: number,
   wattage: number,
-  manufactuer: string,
+  manufacturer: string,
+  dimensions: { length: number, width: number, height: number},
+  notes: string,
   category: Category,
   details: any | null,
 }

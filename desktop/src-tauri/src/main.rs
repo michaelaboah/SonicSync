@@ -36,6 +36,8 @@ fn main() {
             database_insert,
             fuzzy_by_model,
             find_by_model,
+            database::get_all_items,
+            database::delete_all,
             menus::events::save
         ])
         .run(ctx)

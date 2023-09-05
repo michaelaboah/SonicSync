@@ -19,7 +19,7 @@ export const cableList = writable<Cable[]>([
 export const gearList = writable<Gear[]>([
   {
     equipment: {
-      id: "",
+      _id: "",
       category: Category.Console,
       model: "",
       cost: 6000,

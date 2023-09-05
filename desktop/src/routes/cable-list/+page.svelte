@@ -41,14 +41,14 @@
       <table class="table w-full">
         <thead>
           <tr>
-            <th class="!p-1 !pl-2">Name</th>
-            <th class="!p-1 ">Description</th>
-            <th class="!p-1 ">Model</th>
-            <th class="!p-1 ">Length</th>
-            <th class="!p-1 ">Bundle</th>
-            <th class="!p-1 ">Source</th>
-            <th class="!p-1 ">Destination</th>
-            <th class="!p-1 ">Actions</th>
+            <th class="!p-1 text-center">Name</th>
+            <th class="!p-1 text-center">Description</th>
+            <th class="!p-1 text-center">Model</th>
+            <th class="!p-1 text-center">Length</th>
+            <th class="!p-1 text-center">Bundle</th>
+            <th class="!p-1 text-center">Source</th>
+            <th class="!p-1 text-center">Destination</th>
+            <th class="!p-1 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>

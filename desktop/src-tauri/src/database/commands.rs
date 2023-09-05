@@ -1,5 +1,10 @@
+use std::borrow::BorrowMut;
+
 use polodb_core::{bson::doc, Collection, Database, Error};
+use serde_json::json;
 use tauri::command;
+
+use crate::database::runtime::setup_indicies;
 
 use super::{
     models::{self},
@@ -7,22 +12,25 @@ use super::{
 };
 
 #[command]
-pub fn database_insert(db: tauri::State<Database>, item: models::Item) {
+pub fn database_insert(
+    db: tauri::State<Database>,
+    item: models::Item,
+) -> Option<serde_json::Value> {
     let mut session = db.start_session().unwrap();
-
+    session.start_transaction(None).unwrap();
     let inv = db.collection("items");
 
     let dup = inv
         .insert_one_with_session(item, &mut session)
-        .is_err_and(|e| matches!(e, Error::DuplicateKey(..)));
+        .is_err_and(|e| dbg!(matches!(e, Error::DuplicateKey(..))));
 
     if dup {
         println!("Duplicated Key Found");
-        return;
+        return Some(json!({"error": "duplicate"}));
     }
 
     session.commit_transaction().unwrap();
-    println!("Inserted into database")
+    None
 }
 
 #[command]
@@ -59,11 +67,25 @@ pub fn find_by_model(db: tauri::State<Database>, model: String) -> Option<serde_
 pub fn delete_all(db: tauri::State<Database>) {
     let mut session = db.start_session().unwrap();
 
-    let inv: Collection<serde_json::Value> = db.collection("items");
-    let deleted_result = inv
-        .delete_one_with_session(doc! {"model": "QL5" }, &mut session)
-        .unwrap();
+    let inv: Collection<models::Item> = db.collection("items");
+    let deleted_result = inv.delete_many_with_session(doc! {}, &mut session).unwrap();
     dbg!(deleted_result);
+}
+
+#[command]
+pub fn get_all_items(db: tauri::State<Database>) -> Vec<models::Item> {
+    let inv: Collection<models::Item> = db.collection("items");
+    let all_items = inv.find(None).unwrap();
+
+    let mut items = vec![];
+
+    for i in all_items {
+        items.push(i.unwrap());
+    }
+
+    // dbg!(&items);
+
+    items
 }
 
 #[tokio::test]

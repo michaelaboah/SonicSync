@@ -1,22 +1,25 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
   import type { AutocompleteOption, PopupSettings } from '@skeletonlabs/skeleton';
-  import { Autocomplete, SlideToggle, popup } from '@skeletonlabs/skeleton';
+  import { Autocomplete, SlideToggle, ProgressRadial, popup, toastStore } from '@skeletonlabs/skeleton';
   import type { Equip, Gear, Item } from "$lib/@types/equipment"
   import InfoIcon from "~icons/ri/information-line"
   import PlusIcon from "~icons/ri/add-circle-line"
   import TrashIcon from "~icons/bi/trash"
 	import { invoke } from '@tauri-apps/api/tauri';
 
-  export let gear: Gear				
+  export let gear: Gear
+
   let cloudSearch = false; // Should be false by default to promote usage of local data before cloud and also reduce connectivity issues when offline
-  let modelList: AutocompleteOption[] = []
+  let modelList: Promise<AutocompleteOption[]> = Promise.resolve([])
 
   const dispatch = createEventDispatcher();
 
+  const popupTarget = (Math.random() + 1).toString(36).substring(7);
+
   const popupSettings: PopupSettings = {
       event: 'focus-click',
-      target: 'popupAutocomplete',
+      target: popupTarget,
       placement: 'bottom'
   };
 
@@ -29,11 +32,9 @@
 
   function handleModelUpdate() {
     if (cloudSearch) {
-      modelList = modelList.filter(() => false)
-      cloudFuzzySearch(gear.equipment.model)
+      modelList = cloudFuzzySearch(gear.equipment.model)
     } else {
-      modelList = modelList.filter(() => false)
-      localFuzzySearch(gear.equipment.model)
+      modelList = localFuzzySearch(gear.equipment.model)
     }
   }
 
@@ -45,18 +46,21 @@
   // Should reflect the fuzzy search from the api
 
   // Search for compatible model names from the local database
-  async function localFuzzySearch(model: String) {
+  async function localFuzzySearch(model: String): Promise<AutocompleteOption[]>   {
     if (!model || model === "") {
-      return
+      return []
     }
+    
+    // Clear the modelList from previous queries
+    modelList = Promise.resolve(modelList.then((x) => x.filter(() => false)));
 
     const response = await invoke<String[]>("fuzzy_by_model", { model })
-    console.log(response)
+    
     if (response.length === 0) {
-      return
+      return []
     }
 
-    modelList = response.map((x: String) => {
+    return response.map((x: String) => {
       return { label: x, value: x } as AutocompleteOption
     });
 
@@ -64,7 +68,7 @@
 
   async function localFind(model: String) {
     const localItem = await invoke<Equip>("find_by_model", { model }) 
-    console.log(`From the metal ${JSON.stringify(localItem)}`)
+    
       
     if (!localItem) {
       // Give some indication of a failed search (Toaster of some kind)
@@ -80,30 +84,40 @@
   async function cloudFind(model: String) {
     const cloudResponse = await fetch(`http://localhost:8080/queries/find-model/${model}`)
     const json = await cloudResponse.json()
-    console.log(`From the cloud ${JSON.stringify(json.data)}`)
+    
     gear.equipment = json.data
 
     // Store locally
     if (true) {
       // This operation can fail take care later
-      await invoke("database_insert", { item: json.data })
+      const response: any | null = await invoke("database_insert", { item: json.data })
+
+      if (response && response.error) {
+        return   
+      }
+
+      toastStore.trigger({ message: `Item: ${model} Stored`, classes: "p-2", timeout: 1000 * 5  })
     }
   }
 
   // Search for compatible model names
-  async function cloudFuzzySearch(model: String) {
-    console.log("hi")
+  async function cloudFuzzySearch(model: String): Promise<AutocompleteOption[]> {
     if (!model || model === "") {
-      return
+      return []
     }
+
+    // Clear the modelList from previous queries
+    modelList = Promise.resolve(modelList.then((x) => x.filter(() => false)));
 
     const response = await fetch(`http://localhost:8080/queries/fuzzy-find/${model}`)
+
     const json: { data: String[] } = await response.json()
+
     if (!json.data) {
-      return
+      return []
     }
 
-    modelList = json.data.map((x: String) => {
+    return json.data.map((x: String) => {
       return { label: x, value: x } as AutocompleteOption
     });
   }
@@ -136,6 +150,7 @@
   <table class="w-full">
   <tr class="flex w-full h-fit">
     <td class="flex flex-row">
+
       <input
         class="input w-fit autocomplete h-8"
         type="search"
@@ -144,8 +159,15 @@
         placeholder="Search for model..."
         use:popup={popupSettings}
       />
-      <div data-popup="popupAutocomplete" class="card w-52 max-w-sm max-h-48 p-4 overflow-y-auto" tabindex="-1">
-          <Autocomplete bind:input={gear.equipment.model} bind:options={modelList} on:selection={onModelSelection} />
+
+      <div data-popup={popupTarget} class="card w-52 max-w-sm max-h-48 p-4 overflow-y-auto" tabindex="-1">
+
+          {#await modelList}
+            <div class="mx-auto w-fit h-8"><ProgressRadial width="w-8"/></div> 
+          {:then list } 
+            <Autocomplete bind:input={gear.equipment.model} options={list} on:selection={onModelSelection} />
+          {/await}
+            
       </div>
           <!-- Add Tooltip later -->
         <SlideToggle 

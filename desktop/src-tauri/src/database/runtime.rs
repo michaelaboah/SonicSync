@@ -22,7 +22,6 @@ pub fn start_db(app_data_dir: &std::path::PathBuf) -> Database {
 
     if !path.exists() {
         println!("Generated new database");
-        return Database::open_file(path).unwrap();
     }
 
     let mut db = Database::open_file(path).unwrap();
@@ -40,8 +39,8 @@ pub fn setup_indicies(db: &mut Database) {
                 "model": 1
             },
             options: Some(polodb_core::IndexOptions {
-                name: None,
                 unique: Some(true),
+                ..Default::default()
             }),
         })
         .unwrap();

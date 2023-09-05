@@ -9,7 +9,7 @@
 	import ConnectionCell from "$lib/components/tables/ConnectionCell.svelte";
 
 
-  const cellClass = "!p-0.5  border-surface-300 dark:border-surface-500"
+  const cellClass = "!p-0.5 !px-4 border-surface-300 dark:border-surface-500"
   const dispatch = createEventDispatcher();
   const popupSettings: PopupSettings = {
     event: 'focus-click',

@@ -16,7 +16,7 @@
       }
 
       invoke("save", { path: $meta.currentFilePath, object: $project })
-        toastStore.trigger({ message: "Saved Project [Auto]"})
+        toastStore.trigger({ message: "Saved Project [Auto]", classes: "p-2", timeout: 1000 * 10})
     }, $preferences.general.autoSaveTimer) 
 
 

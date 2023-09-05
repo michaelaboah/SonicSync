@@ -26,7 +26,6 @@
   })
 
 
-
   function addConnection(): Connection {
     showConnectionModal = true;
     connection = { name: "", kind: "" } 

@@ -41,7 +41,7 @@
       <h2 class="font-bold text-primary-400">{category !== "" ? category.toUpperCase() : "EMPTY"}</h2>
       <ul class="list-disc list-inside">
         {#each items as item (item.equipment.id)}
-          <Item gear={item} on:delete={(e) => deleteItem(e.detail)}/>
+          <Item gear={item}  on:delete={(e) => deleteItem(e.detail)}/>
         {/each}
       </ul>
     </div>
