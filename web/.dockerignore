@@ -1,7 +1,0 @@
-node_modules
-./tests/
-./.npmrc
-./.prettierignore
-./.prettier
-./playwright.config.ts
-./deployment/
