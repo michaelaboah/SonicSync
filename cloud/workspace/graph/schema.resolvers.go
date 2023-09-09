@@ -33,13 +33,37 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput
 
 // CreateItem is the resolver for the createItem field.
 func (r *mutationResolver) CreateItem(ctx context.Context, input model.ItemInput, details *model.CategoryDetailsInput) (*model.Item, error) {
-	detailsBytes, err := bson.Marshal(details.ConsoleInput)
+	var (
+		detailsBytes []byte
+		err          error
+	)
+
+	switch input.Category {
+
+	case model.CategoryConsole:
+		detailsBytes, err = bson.Marshal(details.ConsoleInput)
+		break
+
+	case model.CategoryAmplifier:
+		panic("Unimplmented")
+		// detailsBytes, err = bson.Marshal(details.)
+
+		// break
+
+	case model.CategoryMicrophones:
+		detailsBytes, err = bson.Marshal(details.MicrophoneInput)
+		break
+
+	}
+
 	if err != nil {
+		fmt.Println(err)
 		log.Println(err)
 	}
 
 	deets, err := model.MatchDetails(input.Category, detailsBytes)
 	if err != nil {
+		fmt.Println("Matching error: ", err)
 		log.Println("Matching error: ", err)
 	}
 
@@ -58,10 +82,10 @@ func (r *mutationResolver) CreateItem(ctx context.Context, input model.ItemInput
 		PDFBlob:      input.PDFBlob,
 	}
 
-	// fmt.Println(item)
 	_, err = items.InsertOne(ctx, item)
 	if err != nil {
 		log.Println(err)
+		fmt.Println(err)
 	}
 
 	return item, nil
@@ -113,7 +137,7 @@ func (r *queryResolver) Items(ctx context.Context) ([]*model.Item, error) {
 			// Its fine if CategoryDetails can't be decoded
 			fmt.Println(err)
 		}
-
+		fmt.Println(item.Category)
 		details, err := model.MatchDetails(item.Category, detailsBytes)
 		if err != nil {
 			log.Println("Error Unmarshaling bytes", err)

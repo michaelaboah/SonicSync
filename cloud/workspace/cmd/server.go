@@ -53,6 +53,7 @@ func main() {
 
 	queries.GET("/fuzzy-find/:model-name", m.FuzzyFind)
 	queries.GET("/find-model/:model-name", m.ModelFind)
+	queries.GET("/all-models", m.AllModels)
 
 	h := routes.NewAuthHandle(pgClient)
 

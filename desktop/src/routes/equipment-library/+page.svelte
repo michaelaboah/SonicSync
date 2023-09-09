@@ -8,7 +8,7 @@
 </script>
 
 
-<section class="p-4 w-full">
+<section class="px-2 pt-4 w-full">
 
   <TabGroup>
 

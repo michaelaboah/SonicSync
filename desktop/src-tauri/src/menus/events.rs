@@ -1,12 +1,12 @@
-use tauri::{api::dialog, api::dialog::blocking};
+use tauri::{api::dialog, api::dialog::blocking, Manager};
 
 pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
     match event.menu_item_id() {
+        "new" => new_project(event),
         "save" => unimplemented!(),
         "save_as" => save_project("save", event),
         // "open" => unimplemented!(), // create a new window
         "load_project" => load_project("load-project", event),
-        "new" => unimplemented!(),
         "palette" => unimplemented!(),
         "preferences" => unimplemented!(),
         "Learn More" => {
@@ -14,6 +14,20 @@ pub fn menu_event_handler(event: tauri::WindowMenuEvent) {
         }
         _ => unimplemented!(),
     }
+}
+
+fn new_project(event: tauri::WindowMenuEvent) {
+    let handle = &event.window().app_handle();
+    let num = &event.window().windows().len();
+
+    tauri::WindowBuilder::new(
+        handle,
+        num.to_string(),
+        tauri::WindowUrl::App("index.html".into()),
+    )
+    .title("New Windows")
+    .build()
+    .unwrap();
 }
 
 fn load_project(event_name: &str, event: tauri::WindowMenuEvent) {

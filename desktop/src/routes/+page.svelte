@@ -13,10 +13,10 @@
 
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-
-<div>
-  <h1 class="h1">Hello Skeleton</h1>
+<div class="justify-center items-center h-full w-full flex">
+  <div class="">
+  <h1 class="h1">Welcome</h1>  
+  <h1 class="h3 font-bold">This page serves no purpose</h1>  
+  <span class="h3">Tip:</span><h1 class="h3 italic"> Hit <kbd>Ctrl</kbd> + <kbd>k</kbd> For a quick menu</h1>  
+  </div>
 </div>
-

@@ -6,40 +6,48 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-
-
 // Utility function for matching the category and unmarshalling the bson []byte into the CategoryDetails interface
 // Returns all unmarshalling errors
 func MatchDetails(category Category, detailsBytes []byte) (CategoryDetails, error) {
-  var err error
+	var err error
 
-  switch category {
+	switch category {
 
+	case CategoryConsole:
+		var console Console
 
-    case CategoryConsole: 
-      var console Console 
-      
-      err = bson.Unmarshal(detailsBytes, &console); if err != nil {
-        return nil, err
-      }
+		err = bson.Unmarshal(detailsBytes, &console)
+		if err != nil {
+			return nil, err
+		}
 
-      return console, nil
+		return console, nil
 
-    case CategoryComputer: 
-      var computer Computer
-      
-      err = bson.Unmarshal(detailsBytes, &computer); if err != nil {
-        return nil, err
-      }
+	case CategoryComputer:
+		var computer Computer
 
-      return computer, nil
+		err = bson.Unmarshal(detailsBytes, &computer)
+		if err != nil {
+			return nil, err
+		}
 
-    default:
-      return nil, errors.New("Unimplemnted Category" + category.String())
-  } 
+		return computer, nil
 
-  return nil, nil
+	case CategoryMicrophones:
+		var microphone Microphone
+
+		err = bson.Unmarshal(detailsBytes, &microphone)
+		if err != nil {
+			return nil, err
+		}
+
+		return microphone, nil
+
+	default:
+		return nil, errors.New("Unimplemnted Category" + category.String())
+	}
+
+	return nil, nil
 }
 
-
-
+// func MatchInputs(category Category, )

@@ -82,9 +82,24 @@ func (m *MongoHandle) ModelFind(ctx *gin.Context) {
 
 	itemResult.Decode(&doc)
 
-	id := doc["_id"]
-
-	delete(doc, "_id")
-	doc["id"] = id
 	ctx.JSON(http.StatusOK, gin.H{"data": doc})
+}
+
+func (m *MongoHandle) AllModels(ctx *gin.Context) {
+	itemsCollection := m.db.Database(pkgDB.EquipDB).Collection(pkgDB.ItemsCol)
+
+	itemsCursor, _ := itemsCollection.Find(ctx, bson.M{})
+
+	var doc bson.M
+	var models []string
+
+	for itemsCursor.Next(ctx) {
+
+		itemsCursor.Decode(&doc)
+
+		models = append(models, doc["model"].(string))
+
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": models})
 }

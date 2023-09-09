@@ -17,7 +17,6 @@ import (
 	"github.com/michaelaboah/sonic-sync-cloud/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // region    ************************** generated!.gotpl **************************
@@ -102,13 +101,24 @@ type ComplexityRoot struct {
 		CreatedAt    func(childComplexity int) int
 		Details      func(childComplexity int) int
 		Dimensions   func(childComplexity int) int
-		ID           func(childComplexity int) int
 		Manufacturer func(childComplexity int) int
 		Model        func(childComplexity int) int
 		Notes        func(childComplexity int) int
 		PDFBlob      func(childComplexity int) int
 		UpdatedAt    func(childComplexity int) int
 		Weight       func(childComplexity int) int
+	}
+
+	Microphone struct {
+		Connector       func(childComplexity int) int
+		DiaphragmSize   func(childComplexity int) int
+		LowCut          func(childComplexity int) int
+		MaxSpl          func(childComplexity int) int
+		MicrophoneType  func(childComplexity int) int
+		OutputImpedance func(childComplexity int) int
+		Pad             func(childComplexity int) int
+		Pattern         func(childComplexity int) int
+		Phantom         func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -426,13 +436,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Item.Dimensions(childComplexity), true
 
-	case "Item.id":
-		if e.complexity.Item.ID == nil {
-			break
-		}
-
-		return e.complexity.Item.ID(childComplexity), true
-
 	case "Item.manufacturer":
 		if e.complexity.Item.Manufacturer == nil {
 			break
@@ -474,6 +477,69 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Item.Weight(childComplexity), true
+
+	case "Microphone.connector":
+		if e.complexity.Microphone.Connector == nil {
+			break
+		}
+
+		return e.complexity.Microphone.Connector(childComplexity), true
+
+	case "Microphone.diaphragm_size":
+		if e.complexity.Microphone.DiaphragmSize == nil {
+			break
+		}
+
+		return e.complexity.Microphone.DiaphragmSize(childComplexity), true
+
+	case "Microphone.low_cut":
+		if e.complexity.Microphone.LowCut == nil {
+			break
+		}
+
+		return e.complexity.Microphone.LowCut(childComplexity), true
+
+	case "Microphone.max_spl":
+		if e.complexity.Microphone.MaxSpl == nil {
+			break
+		}
+
+		return e.complexity.Microphone.MaxSpl(childComplexity), true
+
+	case "Microphone.microphone_type":
+		if e.complexity.Microphone.MicrophoneType == nil {
+			break
+		}
+
+		return e.complexity.Microphone.MicrophoneType(childComplexity), true
+
+	case "Microphone.output_impedance":
+		if e.complexity.Microphone.OutputImpedance == nil {
+			break
+		}
+
+		return e.complexity.Microphone.OutputImpedance(childComplexity), true
+
+	case "Microphone.pad":
+		if e.complexity.Microphone.Pad == nil {
+			break
+		}
+
+		return e.complexity.Microphone.Pad(childComplexity), true
+
+	case "Microphone.pattern":
+		if e.complexity.Microphone.Pattern == nil {
+			break
+		}
+
+		return e.complexity.Microphone.Pattern(childComplexity), true
+
+	case "Microphone.phantom":
+		if e.complexity.Microphone.Phantom == nil {
+			break
+		}
+
+		return e.complexity.Microphone.Phantom(childComplexity), true
 
 	case "Mutation.createItem":
 		if e.complexity.Mutation.CreateItem == nil {
@@ -655,6 +721,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputConsoleInput,
 		ec.unmarshalInputDimensionInput,
 		ec.unmarshalInputItemInput,
+		ec.unmarshalInputMicrophoneInput,
 		ec.unmarshalInputNetworkConnInput,
 		ec.unmarshalInputPowerInput,
 		ec.unmarshalInputUserInput,
@@ -2326,50 +2393,6 @@ func (ec *executionContext) fieldContext_Error_message(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _Item_id(ctx context.Context, field graphql.CollectedField, obj *model.Item) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Item_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(primitive.ObjectID)
-	fc.Result = res
-	return ec.marshalNObjectID2goᚗmongodbᚗorgᚋmongoᚑdriverᚋbsonᚋprimitiveᚐObjectID(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Item_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Item",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ObjectID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Item_created_at(ctx context.Context, field graphql.CollectedField, obj *model.Item) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Item_created_at(ctx, field)
 	if err != nil {
@@ -2850,6 +2873,384 @@ func (ec *executionContext) fieldContext_Item_pdf_blob(ctx context.Context, fiel
 	return fc, nil
 }
 
+func (ec *executionContext) _Microphone_max_spl(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_max_spl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MaxSpl, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_max_spl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_phantom(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_phantom(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Phantom, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_phantom(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_low_cut(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_low_cut(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LowCut, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_low_cut(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_pad(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_pad(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Pad, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_pad(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_diaphragm_size(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_diaphragm_size(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DiaphragmSize, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*float64)
+	fc.Result = res
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_diaphragm_size(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_output_impedance(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_output_impedance(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OutputImpedance, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*float64)
+	fc.Result = res
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_output_impedance(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_connector(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_connector(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Connector, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Analog)
+	fc.Result = res
+	return ec.marshalOAnalog2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalog(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_connector(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Analog does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_microphone_type(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_microphone_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MicrophoneType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.MicrophoneType)
+	fc.Result = res
+	return ec.marshalNMicrophoneType2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMicrophoneType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_microphone_type(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type MicrophoneType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Microphone_pattern(ctx context.Context, field graphql.CollectedField, obj *model.Microphone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Microphone_pattern(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Pattern, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.PolarPattern)
+	fc.Result = res
+	return ec.marshalNPolarPattern2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Microphone_pattern(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Microphone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type PolarPattern does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createUser(ctx, field)
 	if err != nil {
@@ -2952,8 +3353,6 @@ func (ec *executionContext) fieldContext_Mutation_createItem(ctx context.Context
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Item_id(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
@@ -3510,8 +3909,6 @@ func (ec *executionContext) fieldContext_Query_items(ctx context.Context, field 
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Item_id(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
@@ -3580,8 +3977,6 @@ func (ec *executionContext) fieldContext_Query_find_by_model(ctx context.Context
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Item_id(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
@@ -3661,8 +4056,6 @@ func (ec *executionContext) fieldContext_Query_find_by_id(ctx context.Context, f
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Item_id(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
@@ -3742,8 +4135,6 @@ func (ec *executionContext) fieldContext_Query_fuzzy_by_model(ctx context.Contex
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Item_id(ctx, field)
 			case "created_at":
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
@@ -5891,7 +6282,7 @@ func (ec *executionContext) unmarshalInputCategoryDetailsInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"console_input", "computer_input"}
+	fieldsInOrder := [...]string{"console_input", "computer_input", "microphone_input"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -5948,6 +6339,32 @@ func (ec *executionContext) unmarshalInputCategoryDetailsInput(ctx context.Conte
 				it.ComputerInput = nil
 			} else {
 				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/michaelaboah/sonic-sync-cloud/graph/model.ComputerInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "microphone_input":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("microphone_input"))
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOMicrophoneInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMicrophoneInput(ctx, v)
+			}
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.OneOf == nil {
+					return nil, errors.New("directive oneOf is not implemented")
+				}
+				return ec.directives.OneOf(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.MicrophoneInput); ok {
+				it.MicrophoneInput = data
+			} else if tmp == nil {
+				it.MicrophoneInput = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/michaelaboah/sonic-sync-cloud/graph/model.MicrophoneInput`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
 			}
 		}
@@ -6276,31 +6693,13 @@ func (ec *executionContext) unmarshalInputItemInput(ctx context.Context, obj int
 		asMap["category"] = "GENERIC"
 	}
 
-	fieldsInOrder := [...]string{"created_at", "updated_at", "cost", "model", "weight", "manufacturer", "category", "notes", "dimensions", "pdf_blob"}
+	fieldsInOrder := [...]string{"cost", "model", "weight", "manufacturer", "category", "notes", "dimensions", "pdf_blob"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "created_at":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("created_at"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.CreatedAt = data
-		case "updated_at":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updated_at"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.UpdatedAt = data
 		case "cost":
 			var err error
 
@@ -6373,6 +6772,107 @@ func (ec *executionContext) unmarshalInputItemInput(ctx context.Context, obj int
 				return it, err
 			}
 			it.PDFBlob = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputMicrophoneInput(ctx context.Context, obj interface{}) (model.MicrophoneInput, error) {
+	var it model.MicrophoneInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"max_spl", "phantom", "low_cut", "pad", "diaphragm_size", "output_impedance", "connector", "microphone_type", "pattern"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "max_spl":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("max_spl"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MaxSpl = data
+		case "phantom":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phantom"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Phantom = data
+		case "low_cut":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("low_cut"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LowCut = data
+		case "pad":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pad"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Pad = data
+		case "diaphragm_size":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("diaphragm_size"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DiaphragmSize = data
+		case "output_impedance":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("output_impedance"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OutputImpedance = data
+		case "connector":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("connector"))
+			data, err := ec.unmarshalOAnalog2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalog(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Connector = data
+		case "microphone_type":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("microphone_type"))
+			data, err := ec.unmarshalNMicrophoneType2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMicrophoneType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MicrophoneType = data
+		case "pattern":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pattern"))
+			data, err := ec.unmarshalNPolarPattern2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Pattern = data
 		}
 	}
 
@@ -6569,6 +7069,13 @@ func (ec *executionContext) _CategoryDetails(ctx context.Context, sel ast.Select
 			return graphql.Null
 		}
 		return ec._Computer(ctx, sel, obj)
+	case model.Microphone:
+		return ec._Microphone(ctx, sel, &obj)
+	case *model.Microphone:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Microphone(ctx, sel, obj)
 	default:
 		panic(fmt.Errorf("unexpected type %T", obj))
 	}
@@ -6930,11 +7437,6 @@ func (ec *executionContext) _Item(ctx context.Context, sel ast.SelectionSet, obj
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Item")
-		case "id":
-			out.Values[i] = ec._Item_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "created_at":
 			out.Values[i] = ec._Item_created_at(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -6978,6 +7480,67 @@ func (ec *executionContext) _Item(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._Item_dimensions(ctx, field, obj)
 		case "pdf_blob":
 			out.Values[i] = ec._Item_pdf_blob(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var microphoneImplementors = []string{"Microphone", "CategoryDetails"}
+
+func (ec *executionContext) _Microphone(ctx context.Context, sel ast.SelectionSet, obj *model.Microphone) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, microphoneImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Microphone")
+		case "max_spl":
+			out.Values[i] = ec._Microphone_max_spl(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "phantom":
+			out.Values[i] = ec._Microphone_phantom(ctx, field, obj)
+		case "low_cut":
+			out.Values[i] = ec._Microphone_low_cut(ctx, field, obj)
+		case "pad":
+			out.Values[i] = ec._Microphone_pad(ctx, field, obj)
+		case "diaphragm_size":
+			out.Values[i] = ec._Microphone_diaphragm_size(ctx, field, obj)
+		case "output_impedance":
+			out.Values[i] = ec._Microphone_output_impedance(ctx, field, obj)
+		case "connector":
+			out.Values[i] = ec._Microphone_connector(ctx, field, obj)
+		case "microphone_type":
+			out.Values[i] = ec._Microphone_microphone_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "pattern":
+			out.Values[i] = ec._Microphone_pattern(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7916,6 +8479,16 @@ func (ec *executionContext) unmarshalNItemInput2githubᚗcomᚋmichaelaboahᚋso
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNMicrophoneType2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMicrophoneType(ctx context.Context, v interface{}) (model.MicrophoneType, error) {
+	var res model.MicrophoneType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNMicrophoneType2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMicrophoneType(ctx context.Context, sel ast.SelectionSet, v model.MicrophoneType) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) unmarshalNMidiType2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMidiType(ctx context.Context, v interface{}) (model.MidiType, error) {
 	var res model.MidiType
 	err := res.UnmarshalGQL(v)
@@ -7951,19 +8524,59 @@ func (ec *executionContext) marshalNNetworkSpeed2githubᚗcomᚋmichaelaboahᚋs
 	return v
 }
 
-func (ec *executionContext) unmarshalNObjectID2goᚗmongodbᚗorgᚋmongoᚑdriverᚋbsonᚋprimitiveᚐObjectID(ctx context.Context, v interface{}) (primitive.ObjectID, error) {
-	res, err := UnmarshalObjectID(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNObjectID2goᚗmongodbᚗorgᚋmongoᚑdriverᚋbsonᚋprimitiveᚐObjectID(ctx context.Context, sel ast.SelectionSet, v primitive.ObjectID) graphql.Marshaler {
-	res := MarshalObjectID(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+func (ec *executionContext) unmarshalNPolarPattern2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx context.Context, v interface{}) ([]*model.PolarPattern, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.PolarPattern, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOPolarPattern2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
 		}
 	}
-	return res
+	return res, nil
+}
+
+func (ec *executionContext) marshalNPolarPattern2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx context.Context, sel ast.SelectionSet, v []*model.PolarPattern) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOPolarPattern2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
 }
 
 func (ec *executionContext) marshalNPower2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPower(ctx context.Context, sel ast.SelectionSet, v *model.Power) graphql.Marshaler {
@@ -8342,6 +8955,22 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
+func (ec *executionContext) unmarshalOAnalog2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalog(ctx context.Context, v interface{}) (*model.Analog, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.Analog)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOAnalog2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalog(ctx context.Context, sel ast.SelectionSet, v *model.Analog) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
 func (ec *executionContext) marshalOAnalogConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AnalogConn) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -8572,6 +9201,14 @@ func (ec *executionContext) marshalOItem2ᚖgithubᚗcomᚋmichaelaboahᚋsonic�
 	return ec._Item(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalOMicrophoneInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMicrophoneInput(ctx context.Context, v interface{}) (*model.MicrophoneInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputMicrophoneInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalONetworkConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConn(ctx context.Context, sel ast.SelectionSet, v []*model.NetworkConn) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -8685,6 +9322,22 @@ func (ec *executionContext) unmarshalONetworkConnInput2ᚕᚖgithubᚗcomᚋmich
 		}
 	}
 	return res, nil
+}
+
+func (ec *executionContext) unmarshalOPolarPattern2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx context.Context, v interface{}) (*model.PolarPattern, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.PolarPattern)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOPolarPattern2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPolarPattern(ctx context.Context, sel ast.SelectionSet, v *model.PolarPattern) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
 }
 
 func (ec *executionContext) unmarshalOPowerConnector2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPowerConnector(ctx context.Context, v interface{}) (*model.PowerConnector, error) {

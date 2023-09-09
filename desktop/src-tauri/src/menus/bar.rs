@@ -1,6 +1,6 @@
 use tauri::{CustomMenuItem, Menu, MenuEntry, MenuItem, Submenu};
 
-pub fn generate_menu_bar(app_name: &str) -> Menu {
+pub fn generate_menu_bar() -> Menu {
     let save = CustomMenuItem::new("save", "Save File").accelerator("cmdOrControl+S");
     let save_as =
         CustomMenuItem::new("save_as", "Save As File").accelerator("cmdOrControl+shift+S");
@@ -14,7 +14,6 @@ pub fn generate_menu_bar(app_name: &str) -> Menu {
     let database_load_json = CustomMenuItem::new("db_json_load", "Import database items from file");
     let database_submenu = Submenu::new("Database", Menu::new().add_item(database_load_json));
 
-    //MenuBar
     Menu::with_items([
         #[cfg(target_os = "macos")]
         MenuEntry::Submenu(Submenu::new(

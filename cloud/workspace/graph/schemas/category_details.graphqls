@@ -64,4 +64,26 @@ input ComputerInput {
   power: PowerInput!
 }
 
+input MicrophoneInput {
+  max_spl: Float!
+  phantom: Boolean
+  low_cut: Boolean
+  pad: Boolean
+  diaphragm_size: Float
+  output_impedance: Float
+  connector: Analog
+  microphone_type: MicrophoneType!
+  pattern: [PolarPattern]!
+}
 
+type Microphone {
+  max_spl: Float!
+  phantom: Boolean
+  low_cut: Boolean
+  pad: Boolean
+  diaphragm_size: Float 
+  output_impedance: Float
+  connector: Analog
+  microphone_type: MicrophoneType!
+  pattern: [PolarPattern]!
+}

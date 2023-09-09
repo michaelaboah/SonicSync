@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { listen } from '@tauri-apps/api/event';
-    import { onMount } from 'svelte';
     import CommandPalette, { defineActions, createStoreMethods } from 'svelte-command-palette';
     // import { persist } from '../stores/RenderStore';
     import { modeCurrent, setModeCurrent } from '@skeletonlabs/skeleton';
@@ -23,19 +21,49 @@
             onRun: () => goto('/equipment-list'),
             shortcut: '$mod+2',
             keywords: ['Equipment', 'Gear', 'List'],
-        },{
-            actionId: 3,
-            title: 'Go to Equipment Page',
-            onRun: () => goto('/equipment-list'),
-            shortcut: '$mod+2',
-            keywords: ['Equipment', 'Gear'],
         },
-        // { actionId: 3, title: "filler" },
-        // { actionId: 4, title: "filler" },
-        // { actionId: 5, title: "filler" },
-        // { actionId: 6, title: "filler" },
-        // { actionId: 7, title: "filler" },
-        { actionId: 8, title: 'Go to Production Page', onRun: () => goto('/production-settings'), shortcut: '$mod+8', keywords: ['production', 'settings'] },
+        {
+            actionId: 3,
+            title: 'Go to Cable List',
+            onRun: () => goto('/cable-list'),
+            shortcut: '$mod+3',
+            keywords: ['Cable', 'List'],
+        },
+        {
+            actionId: 4,
+            title: 'Go to Flow Chart',
+            onRun: () => goto('/flow'),
+            shortcut: '$mod+3',
+            keywords: ['Signal', 'Flow', 'Chart', 'Diagram'],
+        },
+        {
+            actionId: 5,
+            title: 'Go to IO List',
+            onRun: () => goto('/io-list'),
+            shortcut: '$mod+3',
+            keywords: ['IO', 'Input', 'Output', 'Cable', 'List'],
+        },
+        {
+            actionId: 6,
+            title: 'Go to Equipment Library',
+            onRun: () => goto('/equipment-library'),
+            shortcut: '$mod+3',
+            keywords: ['Equipment', 'Library', 'Cable' ],
+        },
+        {
+            actionId: 7,
+            title: 'Go to Production Settings',
+            onRun: () => goto('/production-settings'),
+            shortcut: '$mod+3',
+            keywords: ['Production', 'Settings', 'Team', 'Director', 'Show' ],
+        },
+        // { 
+        //   actionId: 8, 
+        //   title: 'Go to Production Page', 
+        //   onRun: () => goto('/production-settings'), 
+        //   shortcut: '$mod+8', 
+        //   keywords: ['production', 'settings'] 
+        // },
         {
             actionId: 9,
             title: 'Go to Preferences Page',
@@ -49,29 +77,9 @@
             onRun: () => (setModeCurrent(!$modeCurrent)),
             keywords: ['dark', 'mode', 'toggle'],
         },
-        // {
-        //     actionId: 21,
-        //     title: 'Default Font Size',
-        //     description: 'Reverts to a default font size of 16pt',
-        //     onRun: () => ($persist.fontSize = [16]),
-        //     keywords: ['font', 'size', 'revert'],
-        // },
-        // {
-        //     actionId: 25,
-        //     title: 'Toggle Auto Store',
-        //     description: 'Toggling this option will enable or disable the storage of new pieces of Gear/Items .',
-        //     onRun: () => ($persist.sql_auto_store = !$persist.sql_auto_store),
-        //     keywords: ['database', 'sql', 'toggle'],
-        // },
     ]);
 
-    // onMount(async () => {
-    //     await listen('toggle-palette', (_event) => {
-    //         paletteMethods.openPalette();
-    //     });
-    // });
 </script>
-  <!-- <p class="te-black"></p> -->
     <CommandPalette
         commands="{actions}"
         inputClass="{$modeCurrent ? 'variant-glass-surface' : 'bg-surface-500 variant-glass'}"

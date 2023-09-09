@@ -10,8 +10,8 @@ mod menus;
 fn main() {
     let ctx = tauri::generate_context!();
 
-    let menu = menus::bar::generate_menu_bar(&ctx.package_info().name);
-    // database_insert()
+    let menu = menus::bar::generate_menu_bar();
+
     tauri::Builder::default()
         .setup(move |app| {
             let app_data_dir = app.path_resolver().app_local_data_dir().expect(
@@ -38,6 +38,8 @@ fn main() {
             find_by_model,
             database::get_all_items,
             database::delete_all,
+            database::delete_by_model,
+            database::update_by_model,
             menus::events::save
         ])
         .run(ctx)

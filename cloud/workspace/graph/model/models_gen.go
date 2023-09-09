@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"io"
 	"strconv"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type CategoryDetails interface {
@@ -29,8 +27,9 @@ type AnalogConnInput struct {
 }
 
 type CategoryDetailsInput struct {
-	ConsoleInput  *ConsoleInput  `json:"console_input,omitempty" bson:"console_input"`
-	ComputerInput *ComputerInput `json:"computer_input,omitempty" bson:"computer_input"`
+	ConsoleInput    *ConsoleInput    `json:"console_input,omitempty" bson:"console_input"`
+	ComputerInput   *ComputerInput   `json:"computer_input,omitempty" bson:"computer_input"`
+	MicrophoneInput *MicrophoneInput `json:"microphone_input,omitempty" bson:"microphone_input"`
 }
 
 type Computer struct {
@@ -117,23 +116,20 @@ type Error struct {
 }
 
 type Item struct {
-	ID           primitive.ObjectID `json:"id" bson:"_id"`
-	CreatedAt    string             `json:"created_at" bson:"created_at"`
-	UpdatedAt    string             `json:"updated_at" bson:"updated_at"`
-	Cost         float64            `json:"cost" bson:"cost"`
-	Model        string             `json:"model" bson:"model"`
-	Weight       float64            `json:"weight" bson:"weight"`
-	Manufacturer string             `json:"manufacturer" bson:"manufacturer"`
-	Category     Category           `json:"category" bson:"category"`
-	Details      CategoryDetails    `json:"details,omitempty" bson:"details"`
-	Notes        *string            `json:"notes,omitempty" bson:"notes"`
-	Dimensions   *Dimension         `json:"dimensions,omitempty" bson:"dimensions"`
-	PDFBlob      *string            `json:"pdf_blob,omitempty" bson:"pdf_blob"`
+	CreatedAt    string          `json:"created_at" bson:"created_at"`
+	UpdatedAt    string          `json:"updated_at" bson:"updated_at"`
+	Cost         float64         `json:"cost" bson:"cost"`
+	Model        string          `json:"model" bson:"model"`
+	Weight       float64         `json:"weight" bson:"weight"`
+	Manufacturer string          `json:"manufacturer" bson:"manufacturer"`
+	Category     Category        `json:"category" bson:"category"`
+	Details      CategoryDetails `json:"details,omitempty" bson:"details"`
+	Notes        *string         `json:"notes,omitempty" bson:"notes"`
+	Dimensions   *Dimension      `json:"dimensions,omitempty" bson:"dimensions"`
+	PDFBlob      *string         `json:"pdf_blob,omitempty" bson:"pdf_blob"`
 }
 
 type ItemInput struct {
-	CreatedAt    string          `json:"created_at" bson:"created_at"`
-	UpdatedAt    string          `json:"updated_at" bson:"updated_at"`
 	Cost         float64         `json:"cost" bson:"cost"`
 	Model        string          `json:"model" bson:"model"`
 	Weight       float64         `json:"weight" bson:"weight"`
@@ -142,6 +138,32 @@ type ItemInput struct {
 	Notes        *string         `json:"notes,omitempty" bson:"notes"`
 	Dimensions   *DimensionInput `json:"dimensions,omitempty" bson:"dimensions"`
 	PDFBlob      *string         `json:"pdf_blob,omitempty" bson:"pdf_blob"`
+}
+
+type Microphone struct {
+	MaxSpl          float64         `json:"max_spl" bson:"max_spl"`
+	Phantom         *bool           `json:"phantom,omitempty" bson:"phantom"`
+	LowCut          *bool           `json:"low_cut,omitempty" bson:"low_cut"`
+	Pad             *bool           `json:"pad,omitempty" bson:"pad"`
+	DiaphragmSize   *float64        `json:"diaphragm_size,omitempty" bson:"diaphragm_size"`
+	OutputImpedance *float64        `json:"output_impedance,omitempty" bson:"output_impedance"`
+	Connector       *Analog         `json:"connector,omitempty" bson:"connector"`
+	MicrophoneType  MicrophoneType  `json:"microphone_type" bson:"microphone_type"`
+	Pattern         []*PolarPattern `json:"pattern" bson:"pattern"`
+}
+
+func (Microphone) IsCategoryDetails() {}
+
+type MicrophoneInput struct {
+	MaxSpl          float64         `json:"max_spl" bson:"max_spl"`
+	Phantom         *bool           `json:"phantom,omitempty" bson:"phantom"`
+	LowCut          *bool           `json:"low_cut,omitempty" bson:"low_cut"`
+	Pad             *bool           `json:"pad,omitempty" bson:"pad"`
+	DiaphragmSize   *float64        `json:"diaphragm_size,omitempty" bson:"diaphragm_size"`
+	OutputImpedance *float64        `json:"output_impedance,omitempty" bson:"output_impedance"`
+	Connector       *Analog         `json:"connector,omitempty" bson:"connector"`
+	MicrophoneType  MicrophoneType  `json:"microphone_type" bson:"microphone_type"`
+	Pattern         []*PolarPattern `json:"pattern" bson:"pattern"`
 }
 
 type NetworkConn struct {
@@ -646,6 +668,7 @@ const (
 	PolarPatternOmni          PolarPattern = "OMNI"
 	PolarPatternHypercardioid PolarPattern = "HYPERCARDIOID"
 	PolarPatternFigure8       PolarPattern = "FIGURE_8"
+	PolarPatternHalfCardioid  PolarPattern = "HALF_CARDIOID"
 )
 
 var AllPolarPattern = []PolarPattern{
@@ -654,11 +677,12 @@ var AllPolarPattern = []PolarPattern{
 	PolarPatternOmni,
 	PolarPatternHypercardioid,
 	PolarPatternFigure8,
+	PolarPatternHalfCardioid,
 }
 
 func (e PolarPattern) IsValid() bool {
 	switch e {
-	case PolarPatternSupercardioid, PolarPatternCardioid, PolarPatternOmni, PolarPatternHypercardioid, PolarPatternFigure8:
+	case PolarPatternSupercardioid, PolarPatternCardioid, PolarPatternOmni, PolarPatternHypercardioid, PolarPatternFigure8, PolarPatternHalfCardioid:
 		return true
 	}
 	return false

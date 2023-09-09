@@ -4,7 +4,7 @@
 
 directive @oneOf on INPUT_OBJECT
 
-scalar ObjectID
+# scalar ObjectID
 
 type User {
   id: ID!
@@ -29,13 +29,10 @@ type Query {
 type Mutation {
   createUser(input: UserInput!): User!
   createItem(input: ItemInput!, details: CategoryDetailsInput): Item!
-  # updateItem(input: ItemInput!): Item!
 }
 
 
 input ItemInput {
-  created_at: String!
-  updated_at: String!
   cost: Float!
   model: String!
   weight: Float!
@@ -50,12 +47,12 @@ input ItemInput {
 input CategoryDetailsInput @oneOf {
   console_input: ConsoleInput
   computer_input: ComputerInput 
+  microphone_input: MicrophoneInput
 }
 
-union CategoryDetails = Console | Computer
+union CategoryDetails = Console | Computer | Microphone
 
 type Item {
-  id: ObjectID!
   created_at: String!
   updated_at: String!
   cost: Float!
@@ -68,8 +65,6 @@ type Item {
   dimensions: Dimension
   pdf_blob: String
 }
-
-
 
 
 type Error {
