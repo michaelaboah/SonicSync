@@ -150,9 +150,9 @@ func (h *AuthHandle) Login(ctx *gin.Context) {
 		panic(err)
 	}
 
-	ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "localhost", false, true)
+	// ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "localhost", false, true)
 	// Production Use
-	// ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "*.sonic-sync.com", true, true)
+	ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "*.sonic-sync.com", true, true)
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
@@ -169,24 +169,24 @@ func Refresh(ctx *gin.Context) {
 		panic(err)
 	}
 
-	ctx.SetCookie(TOKEN_NAME, newToken, int(time.Hour)*2, "/", "localhost", false, true)
+	// ctx.SetCookie(TOKEN_NAME, newToken, int(time.Hour)*2, "/", "localhost", false, true)
 	// Production Use
-	// ctx.SetCookie(
-	// 	"sonic-sync-token",
-	// 	newToken,
-	// 	int(time.Hour)*2,
-	// 	"/",
-	// 	"*.sonic-sync.com",
-	// 	true,
-	// 	true,
-	// )
+	ctx.SetCookie(
+		"sonic-sync-token",
+		newToken,
+		int(time.Hour)*2,
+		"/",
+		"*.sonic-sync.com",
+		true,
+		true,
+	)
 }
 
 func Logout(ctx *gin.Context) {
 	token, _ := ctx.Cookie(TOKEN_NAME)
 	fmt.Println(token)
-	ctx.SetCookie(TOKEN_NAME, "", -1, "/", "localhost", false, true)
-	// ctx.SetCookie(TOKEN_NAME, "", 0, "/", "*.sonic-sync.com", true, true)
+	// ctx.SetCookie(TOKEN_NAME, "", -1, "/", "localhost", false, true)
+	ctx.SetCookie(TOKEN_NAME, "", 0, "/", "*.sonic-sync.com", true, true)
 }
 
 func isEmailValid(e string) bool {
