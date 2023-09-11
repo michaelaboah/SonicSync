@@ -93,6 +93,7 @@ func (h *AuthHandle) Register(ctx *gin.Context) {
 			CreatedAt:    time.Now(),
 		},
 	)
+
 	if err != nil && strings.Contains(err.Error(), "duplicate") {
 		ctx.JSON(http.StatusBadRequest, AuthError{Kind: UserExists})
 		return
@@ -102,7 +103,7 @@ func (h *AuthHandle) Register(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Successfully Registered"})
+	ctx.JSON(http.StatusOK, gin.H{"message": "Registration Sucessful"})
 }
 
 func Reset(ctx *gin.Context) {
@@ -149,9 +150,10 @@ func (h *AuthHandle) Login(ctx *gin.Context) {
 		panic(err)
 	}
 
-	// ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "*", false, false)
+	ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "localhost", false, true)
 	// Production Use
-	ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "*.sonic-sync.com", true, true)
+	// ctx.SetCookie(TOKEN_NAME, token, int(time.Hour)*2, "/", "*.sonic-sync.com", true, true)
+	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
 func Refresh(ctx *gin.Context) {
@@ -167,21 +169,24 @@ func Refresh(ctx *gin.Context) {
 		panic(err)
 	}
 
-	// ctx.SetCookie(TOKEN_NAME, newToken, int(time.Hour)*2, "/", "*", false, false)
+	ctx.SetCookie(TOKEN_NAME, newToken, int(time.Hour)*2, "/", "localhost", false, true)
 	// Production Use
-	ctx.SetCookie(
-		"sonic-sync-token",
-		newToken,
-		int(time.Hour)*2,
-		"/",
-		"*.sonic-sync.com",
-		true,
-		true,
-	)
+	// ctx.SetCookie(
+	// 	"sonic-sync-token",
+	// 	newToken,
+	// 	int(time.Hour)*2,
+	// 	"/",
+	// 	"*.sonic-sync.com",
+	// 	true,
+	// 	true,
+	// )
 }
 
 func Logout(ctx *gin.Context) {
-	ctx.SetCookie(TOKEN_NAME, "", 0, "/", "*.sonic-sync.com", true, true)
+	token, _ := ctx.Cookie(TOKEN_NAME)
+	fmt.Println(token)
+	ctx.SetCookie(TOKEN_NAME, "", -1, "/", "localhost", false, true)
+	// ctx.SetCookie(TOKEN_NAME, "", 0, "/", "*.sonic-sync.com", true, true)
 }
 
 func isEmailValid(e string) bool {
