@@ -4,7 +4,7 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ master ]
+      [ release ]
     paths:
     - '//**'
     - '.github/workflows/cloud-AutoDeployTrigger-b624a240-492e-4b7c-ae04-a51050610c85.yml'
