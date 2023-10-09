@@ -33,35 +33,39 @@ type Mutation {
 
 
 input ItemInput {
-  cost: Float!
   model: String!
   weight: Float!
   manufacturer: String! 
   category: Category! = GENERIC
   notes: String
   dimensions: DimensionInput
+  keywords: [String!]
   pdf_blob: String
 }
 
 
 input CategoryDetailsInput @oneOf {
+  amplifier_input: AmplifierInput
   console_input: ConsoleInput
   computer_input: ComputerInput 
   microphone_input: MicrophoneInput
+  processor_input: ProcessorInput
+  stagebox_input: StageBoxInput
+  monitoring_input: MonitoringInput
 }
 
-union CategoryDetails = Console | Computer | Microphone
+union CategoryDetails = Console | Computer | Microphone | StageBox | Processor | Monitoring | Amplifier
 
 type Item {
   created_at: String!
   updated_at: String!
-  cost: Float!
   model: String!
   weight: Float!
   manufacturer: String! 
   category: Category!
   details: CategoryDetails 
   notes: String
+  keywords: [String!]
   dimensions: Dimension
   pdf_blob: String
 }

@@ -43,6 +43,7 @@ type NetworkConn {
   port_id: String
   max_conn_speed: NetworkSpeed!
   protocol: Protocol!
+  poe: Boolean
 }
 
 

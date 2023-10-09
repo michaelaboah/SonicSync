@@ -45,13 +45,24 @@ func (r *mutationResolver) CreateItem(ctx context.Context, input model.ItemInput
 		break
 
 	case model.CategoryAmplifier:
-		panic("Unimplmented")
-		// detailsBytes, err = bson.Marshal(details.)
-
-		// break
+		fmt.Println(details.AmplifierInput)
+		detailsBytes, err = bson.Marshal(details.AmplifierInput)
+		break
 
 	case model.CategoryMicrophones:
 		detailsBytes, err = bson.Marshal(details.MicrophoneInput)
+		break
+
+	case model.CategoryProcessor:
+		detailsBytes, err = bson.Marshal(details.ProcessorInput)
+		break
+
+	case model.CategoryStagebox:
+		detailsBytes, err = bson.Marshal(details.StageboxInput)
+		break
+
+	case model.CategoryMonitoring:
+		detailsBytes, err = bson.Marshal(details.MonitoringInput)
 		break
 
 	}
@@ -71,13 +82,12 @@ func (r *mutationResolver) CreateItem(ctx context.Context, input model.ItemInput
 	item := &model.Item{
 		CreatedAt:    time.Now().String(),
 		UpdatedAt:    time.Now().String(),
-		Cost:         input.Cost,
 		Model:        input.Model,
 		Weight:       input.Weight,
 		Manufacturer: input.Manufacturer,
 		Category:     input.Category,
 		Details:      deets,
-		Notes:        &input.Model,
+		Notes:        input.Notes,
 		Dimensions:   (*model.Dimension)(input.Dimensions),
 		PDFBlob:      input.PDFBlob,
 	}

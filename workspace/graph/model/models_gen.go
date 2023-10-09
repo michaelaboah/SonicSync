@@ -12,6 +12,32 @@ type CategoryDetails interface {
 	IsCategoryDetails()
 }
 
+type Amplifier struct {
+	TotalInputs        int            `json:"total_inputs" bson:"total_inputs"`
+	TotalOuputs        int            `json:"total_ouputs" bson:"total_ouputs"`
+	Midi               *MidiType      `json:"midi,omitempty" bson:"midi"`
+	AnalogConnections  []*AnalogConn  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	WordClock          bool           `json:"word_clock" bson:"word_clock"`
+	NetworkConnections []*NetworkConn `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol       `json:"signal_protocol" bson:"signal_protocol"`
+	MaxSampleRate      SampleRate     `json:"max_sample_rate" bson:"max_sample_rate"`
+	Power              *Power         `json:"power" bson:"power"`
+}
+
+func (Amplifier) IsCategoryDetails() {}
+
+type AmplifierInput struct {
+	TotalInputs        int                 `json:"total_inputs" bson:"total_inputs"`
+	TotalOuputs        int                 `json:"total_ouputs" bson:"total_ouputs"`
+	Midi               *MidiType           `json:"midi,omitempty" bson:"midi"`
+	AnalogConnections  []*AnalogConnInput  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	WordClock          bool                `json:"word_clock" bson:"word_clock"`
+	NetworkConnections []*NetworkConnInput `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
+	MaxSampleRate      SampleRate          `json:"max_sample_rate" bson:"max_sample_rate"`
+	Power              *PowerInput         `json:"power" bson:"power"`
+}
+
 type AnalogConn struct {
 	PortID      string      `json:"port_id" bson:"port_id"`
 	PortKind    Analog      `json:"port_kind" bson:"port_kind"`
@@ -27,9 +53,13 @@ type AnalogConnInput struct {
 }
 
 type CategoryDetailsInput struct {
+	AmplifierInput  *AmplifierInput  `json:"amplifier_input,omitempty" bson:"amplifier_input"`
 	ConsoleInput    *ConsoleInput    `json:"console_input,omitempty" bson:"console_input"`
 	ComputerInput   *ComputerInput   `json:"computer_input,omitempty" bson:"computer_input"`
 	MicrophoneInput *MicrophoneInput `json:"microphone_input,omitempty" bson:"microphone_input"`
+	ProcessorInput  *ProcessorInput  `json:"processor_input,omitempty" bson:"processor_input"`
+	StageboxInput   *StageBoxInput   `json:"stagebox_input,omitempty" bson:"stagebox_input"`
+	MonitoringInput *MonitoringInput `json:"monitoring_input,omitempty" bson:"monitoring_input"`
 }
 
 type Computer struct {
@@ -75,6 +105,7 @@ type Console struct {
 	NetworkConnections []*NetworkConn `json:"network_connections,omitempty" bson:"network_connections"`
 	Faders             int            `json:"faders" bson:"faders"`
 	Motorized          bool           `json:"motorized" bson:"motorized"`
+	WordClock          bool           `json:"word_clock" bson:"word_clock"`
 	Midi               MidiType       `json:"midi" bson:"midi"`
 	ProtocolInputs     int            `json:"protocol_inputs" bson:"protocol_inputs"`
 	SignalProtocol     Protocol       `json:"signal_protocol" bson:"signal_protocol"`
@@ -94,6 +125,7 @@ type ConsoleInput struct {
 	ProtocolInputs     int                 `json:"protocol_inputs" bson:"protocol_inputs"`
 	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
 	CanExpand          bool                `json:"can_expand" bson:"can_expand"`
+	WordClock          bool                `json:"word_clock" bson:"word_clock"`
 	MaxSampleRate      SampleRate          `json:"max_sample_rate" bson:"max_sample_rate"`
 	Power              *PowerInput         `json:"power,omitempty" bson:"power"`
 }
@@ -118,25 +150,25 @@ type Error struct {
 type Item struct {
 	CreatedAt    string          `json:"created_at" bson:"created_at"`
 	UpdatedAt    string          `json:"updated_at" bson:"updated_at"`
-	Cost         float64         `json:"cost" bson:"cost"`
 	Model        string          `json:"model" bson:"model"`
 	Weight       float64         `json:"weight" bson:"weight"`
 	Manufacturer string          `json:"manufacturer" bson:"manufacturer"`
 	Category     Category        `json:"category" bson:"category"`
 	Details      CategoryDetails `json:"details,omitempty" bson:"details"`
 	Notes        *string         `json:"notes,omitempty" bson:"notes"`
+	Keywords     []string        `json:"keywords,omitempty" bson:"keywords"`
 	Dimensions   *Dimension      `json:"dimensions,omitempty" bson:"dimensions"`
 	PDFBlob      *string         `json:"pdf_blob,omitempty" bson:"pdf_blob"`
 }
 
 type ItemInput struct {
-	Cost         float64         `json:"cost" bson:"cost"`
 	Model        string          `json:"model" bson:"model"`
 	Weight       float64         `json:"weight" bson:"weight"`
 	Manufacturer string          `json:"manufacturer" bson:"manufacturer"`
 	Category     Category        `json:"category" bson:"category"`
 	Notes        *string         `json:"notes,omitempty" bson:"notes"`
 	Dimensions   *DimensionInput `json:"dimensions,omitempty" bson:"dimensions"`
+	Keywords     []string        `json:"keywords,omitempty" bson:"keywords"`
 	PDFBlob      *string         `json:"pdf_blob,omitempty" bson:"pdf_blob"`
 }
 
@@ -166,10 +198,29 @@ type MicrophoneInput struct {
 	Pattern         []*PolarPattern `json:"pattern" bson:"pattern"`
 }
 
+type Monitoring struct {
+	Distro             bool           `json:"distro" bson:"distro"`
+	AnalogConnections  []*AnalogConn  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConn `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol       `json:"signal_protocol" bson:"signal_protocol"`
+	Power              *Power         `json:"power" bson:"power"`
+}
+
+func (Monitoring) IsCategoryDetails() {}
+
+type MonitoringInput struct {
+	Distro             bool                `json:"distro" bson:"distro"`
+	AnalogConnections  []*AnalogConnInput  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConnInput `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
+	Power              *PowerInput         `json:"power" bson:"power"`
+}
+
 type NetworkConn struct {
 	PortID       *string      `json:"port_id,omitempty" bson:"port_id"`
 	MaxConnSpeed NetworkSpeed `json:"max_conn_speed" bson:"max_conn_speed"`
 	Protocol     Protocol     `json:"protocol" bson:"protocol"`
+	Poe          *bool        `json:"poe,omitempty" bson:"poe"`
 }
 
 type NetworkConnInput struct {
@@ -198,6 +249,54 @@ type PowerInput struct {
 	OutputConnector *PowerConnector `json:"output_connector,omitempty" bson:"output_connector"`
 }
 
+type Processor struct {
+	TotalInputs        int            `json:"total_inputs" bson:"total_inputs"`
+	TotalOuputs        int            `json:"total_ouputs" bson:"total_ouputs"`
+	Midi               *MidiType      `json:"midi,omitempty" bson:"midi"`
+	AnalogConnections  []*AnalogConn  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConn `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol       `json:"signal_protocol" bson:"signal_protocol"`
+	MaxSampleRate      SampleRate     `json:"max_sample_rate" bson:"max_sample_rate"`
+	Power              *Power         `json:"power" bson:"power"`
+}
+
+func (Processor) IsCategoryDetails() {}
+
+type ProcessorInput struct {
+	TotalInputs        int                 `json:"total_inputs" bson:"total_inputs"`
+	TotalOuputs        int                 `json:"total_ouputs" bson:"total_ouputs"`
+	Midi               *MidiType           `json:"midi,omitempty" bson:"midi"`
+	AnalogConnections  []*AnalogConnInput  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConnInput `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
+	MaxSampleRate      SampleRate          `json:"max_sample_rate" bson:"max_sample_rate"`
+	Power              *PowerInput         `json:"power" bson:"power"`
+}
+
+type StageBox struct {
+	TotalInputs        int            `json:"total_inputs" bson:"total_inputs"`
+	TotalOuputs        int            `json:"total_ouputs" bson:"total_ouputs"`
+	AnalogConnections  []*AnalogConn  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	WordClock          bool           `json:"word_clock" bson:"word_clock"`
+	NetworkConnections []*NetworkConn `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol       `json:"signal_protocol" bson:"signal_protocol"`
+	MaxSampleRate      SampleRate     `json:"max_sample_rate" bson:"max_sample_rate"`
+	Power              *Power         `json:"power" bson:"power"`
+}
+
+func (StageBox) IsCategoryDetails() {}
+
+type StageBoxInput struct {
+	TotalInputs        int                 `json:"total_inputs" bson:"total_inputs"`
+	TotalOuputs        int                 `json:"total_ouputs" bson:"total_ouputs"`
+	AnalogConnections  []*AnalogConnInput  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	WordClock          bool                `json:"word_clock" bson:"word_clock"`
+	NetworkConnections []*NetworkConnInput `json:"network_connections,omitempty" bson:"network_connections"`
+	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
+	MaxSampleRate      SampleRate          `json:"max_sample_rate" bson:"max_sample_rate"`
+	Power              *PowerInput         `json:"power" bson:"power"`
+}
+
 type User struct {
 	ID    string `json:"id" bson:"_id"`
 	Name  string `json:"name" bson:"name"`
@@ -212,22 +311,24 @@ type UserInput struct {
 type Analog string
 
 const (
-	AnalogXlrAnalog      Analog = "XLR_ANALOG"
-	AnalogXlrDigital     Analog = "XLR_DIGITAL"
-	AnalogTs             Analog = "TS"
-	AnalogTrs            Analog = "TRS"
-	AnalogTrrs           Analog = "TRRS"
-	AnalogTriPinPhoenix  Analog = "TRI_PIN_PHOENIX"
-	AnalogDualPinPhoenix Analog = "DUAL_PIN_PHOENIX"
-	AnalogNl2            Analog = "NL2"
-	AnalogNl4            Analog = "NL4"
-	AnalogNl8            Analog = "NL8"
-	AnalogDc12v          Analog = "DC_12V"
+	AnalogXlrAnalog       Analog = "XLR_ANALOG"
+	AnalogXlrDigital      Analog = "XLR_DIGITAL"
+	AnalogXlrQuarterCombo Analog = "XLR_QUARTER_COMBO"
+	AnalogTs              Analog = "TS"
+	AnalogTrs             Analog = "TRS"
+	AnalogTrrs            Analog = "TRRS"
+	AnalogTriPinPhoenix   Analog = "TRI_PIN_PHOENIX"
+	AnalogDualPinPhoenix  Analog = "DUAL_PIN_PHOENIX"
+	AnalogNl2             Analog = "NL2"
+	AnalogNl4             Analog = "NL4"
+	AnalogNl8             Analog = "NL8"
+	AnalogDc12v           Analog = "DC_12V"
 )
 
 var AllAnalog = []Analog{
 	AnalogXlrAnalog,
 	AnalogXlrDigital,
+	AnalogXlrQuarterCombo,
 	AnalogTs,
 	AnalogTrs,
 	AnalogTrrs,
@@ -241,7 +342,7 @@ var AllAnalog = []Analog{
 
 func (e Analog) IsValid() bool {
 	switch e {
-	case AnalogXlrAnalog, AnalogXlrDigital, AnalogTs, AnalogTrs, AnalogTrrs, AnalogTriPinPhoenix, AnalogDualPinPhoenix, AnalogNl2, AnalogNl4, AnalogNl8, AnalogDc12v:
+	case AnalogXlrAnalog, AnalogXlrDigital, AnalogXlrQuarterCombo, AnalogTs, AnalogTrs, AnalogTrrs, AnalogTriPinPhoenix, AnalogDualPinPhoenix, AnalogNl2, AnalogNl4, AnalogNl8, AnalogDc12v:
 		return true
 	}
 	return false
@@ -321,6 +422,7 @@ const (
 	CategoryMonitoring  Category = "MONITORING"
 	CategorySpeaker     Category = "SPEAKER"
 	CategoryAmplifier   Category = "AMPLIFIER"
+	CategoryStagebox    Category = "STAGEBOX"
 	CategoryComputer    Category = "COMPUTER"
 	CategoryNetwork     Category = "NETWORK"
 	CategoryRadio       Category = "RADIO"
@@ -335,6 +437,7 @@ var AllCategory = []Category{
 	CategoryMonitoring,
 	CategorySpeaker,
 	CategoryAmplifier,
+	CategoryStagebox,
 	CategoryComputer,
 	CategoryNetwork,
 	CategoryRadio,
@@ -345,7 +448,7 @@ var AllCategory = []Category{
 
 func (e Category) IsValid() bool {
 	switch e {
-	case CategoryConsole, CategoryProcessor, CategoryMonitoring, CategorySpeaker, CategoryAmplifier, CategoryComputer, CategoryNetwork, CategoryRadio, CategoryMicrophones, CategorySpkHardware, CategoryGeneric:
+	case CategoryConsole, CategoryProcessor, CategoryMonitoring, CategorySpeaker, CategoryAmplifier, CategoryStagebox, CategoryComputer, CategoryNetwork, CategoryRadio, CategoryMicrophones, CategorySpkHardware, CategoryGeneric:
 		return true
 	}
 	return false

@@ -4,6 +4,7 @@ enum Category {
   MONITORING
   SPEAKER
   AMPLIFIER
+  STAGEBOX
   COMPUTER
   NETWORK
   RADIO
@@ -26,6 +27,7 @@ enum MidiType {
 enum Analog {
   XLR_ANALOG
   XLR_DIGITAL
+  XLR_QUARTER_COMBO
   TS
   TRS
   TRRS

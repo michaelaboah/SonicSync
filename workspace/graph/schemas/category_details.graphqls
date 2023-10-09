@@ -8,19 +8,10 @@ input ConsoleInput {
   protocol_inputs: Int!
   signal_protocol: Protocol!
   can_expand: Boolean!
+  word_clock: Boolean!
   max_sample_rate: SampleRate!
   power: PowerInput
 }
-
-
-  # total_inputs: Int!
-  # total_outputs: Int!
-  # total_busses: Int!
-  # physical_inputs: Int!
-  # physical_outputs: Int!
-  # aux_inputs: Int!
-  # physical_aux_inputs: Int!
-  # phantom_power_inputs: Int!
 
 type Console {
 # Physical Audio Cable connections
@@ -29,13 +20,97 @@ type Console {
   # --
   faders: Int! 
   motorized: Boolean!
-  # --
+  word_clock: Boolean!
   midi: MidiType!
   protocol_inputs: Int!
   signal_protocol: Protocol!
   can_expand: Boolean!
   max_sample_rate: SampleRate!
   power: Power!
+}
+
+type Processor {
+  total_inputs: Int!
+  total_ouputs: Int!
+  midi: MidiType
+  analog_connections: [AnalogConn!]
+  network_connections: [NetworkConn!] 
+  signal_protocol: Protocol!
+  max_sample_rate: SampleRate!
+  power: Power!
+}
+
+input ProcessorInput {
+  total_inputs: Int!
+  total_ouputs: Int!
+  midi: MidiType
+  analog_connections: [AnalogConnInput!]
+  network_connections: [NetworkConnInput!] 
+  signal_protocol: Protocol!
+  max_sample_rate: SampleRate!
+  power: PowerInput!
+}
+
+type StageBox {
+  total_inputs: Int!
+  total_ouputs: Int!
+  analog_connections: [AnalogConn!]
+  word_clock: Boolean!
+  network_connections: [NetworkConn!] 
+  signal_protocol: Protocol!
+  max_sample_rate: SampleRate!
+  power: Power!
+}
+
+input StageBoxInput {
+  total_inputs: Int!
+  total_ouputs: Int!
+  analog_connections: [AnalogConnInput!]
+  word_clock: Boolean!
+  network_connections: [NetworkConnInput!] 
+  signal_protocol: Protocol!
+  max_sample_rate: SampleRate!
+  power: PowerInput!
+}
+
+type Amplifier {
+  total_inputs: Int!
+  total_ouputs: Int!
+  midi: MidiType
+  analog_connections: [AnalogConn!]
+  word_clock: Boolean!
+  network_connections: [NetworkConn!] 
+  signal_protocol: Protocol!
+  max_sample_rate: SampleRate!
+  power: Power!
+}
+
+input AmplifierInput {
+  total_inputs: Int!
+  total_ouputs: Int!
+  midi: MidiType
+  analog_connections: [AnalogConnInput!]
+  word_clock: Boolean!
+  network_connections: [NetworkConnInput!] 
+  signal_protocol: Protocol!
+  max_sample_rate: SampleRate!
+  power: PowerInput!
+}
+
+type Monitoring {
+  distro: Boolean!
+  analog_connections: [AnalogConn!]
+  network_connections: [NetworkConn!] 
+  signal_protocol: Protocol!
+  power: Power!
+}
+
+input MonitoringInput {
+  distro: Boolean!
+  analog_connections: [AnalogConnInput!]
+  network_connections: [NetworkConnInput!] 
+  signal_protocol: Protocol!
+  power: PowerInput!
 }
 
 type Computer {
@@ -87,3 +162,5 @@ type Microphone {
   microphone_type: MicrophoneType!
   pattern: [PolarPattern]!
 }
+
+

@@ -23,6 +23,16 @@ func MatchDetails(category Category, detailsBytes []byte) (CategoryDetails, erro
 
 		return console, nil
 
+	case CategoryAmplifier:
+		var amplifier Amplifier
+
+		err = bson.Unmarshal(detailsBytes, &amplifier)
+		if err != nil {
+			return nil, err
+		}
+
+		return amplifier, nil
+
 	case CategoryComputer:
 		var computer Computer
 
@@ -42,6 +52,36 @@ func MatchDetails(category Category, detailsBytes []byte) (CategoryDetails, erro
 		}
 
 		return microphone, nil
+
+	case CategoryStagebox:
+		var stagebox StageBox
+
+		err = bson.Unmarshal(detailsBytes, &stagebox)
+		if err != nil {
+			return nil, err
+		}
+
+		return stagebox, nil
+
+	case CategoryMonitoring:
+		var monitor Monitoring
+
+		err = bson.Unmarshal(detailsBytes, &monitor)
+		if err != nil {
+			return nil, err
+		}
+
+		return monitor, nil
+
+	case CategoryProcessor:
+		var processor Processor
+
+		err = bson.Unmarshal(detailsBytes, &processor)
+		if err != nil {
+			return nil, err
+		}
+
+		return processor, nil
 
 	default:
 		return nil, errors.New("Unimplemnted Category" + category.String())

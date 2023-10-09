@@ -46,6 +46,18 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	Amplifier struct {
+		AnalogConnections  func(childComplexity int) int
+		MaxSampleRate      func(childComplexity int) int
+		Midi               func(childComplexity int) int
+		NetworkConnections func(childComplexity int) int
+		Power              func(childComplexity int) int
+		SignalProtocol     func(childComplexity int) int
+		TotalInputs        func(childComplexity int) int
+		TotalOuputs        func(childComplexity int) int
+		WordClock          func(childComplexity int) int
+	}
+
 	AnalogConn struct {
 		PortID      func(childComplexity int) int
 		PortKind    func(childComplexity int) int
@@ -82,6 +94,7 @@ type ComplexityRoot struct {
 		Power              func(childComplexity int) int
 		ProtocolInputs     func(childComplexity int) int
 		SignalProtocol     func(childComplexity int) int
+		WordClock          func(childComplexity int) int
 	}
 
 	Dimension struct {
@@ -97,10 +110,10 @@ type ComplexityRoot struct {
 
 	Item struct {
 		Category     func(childComplexity int) int
-		Cost         func(childComplexity int) int
 		CreatedAt    func(childComplexity int) int
 		Details      func(childComplexity int) int
 		Dimensions   func(childComplexity int) int
+		Keywords     func(childComplexity int) int
 		Manufacturer func(childComplexity int) int
 		Model        func(childComplexity int) int
 		Notes        func(childComplexity int) int
@@ -121,6 +134,14 @@ type ComplexityRoot struct {
 		Phantom         func(childComplexity int) int
 	}
 
+	Monitoring struct {
+		AnalogConnections  func(childComplexity int) int
+		Distro             func(childComplexity int) int
+		NetworkConnections func(childComplexity int) int
+		Power              func(childComplexity int) int
+		SignalProtocol     func(childComplexity int) int
+	}
+
 	Mutation struct {
 		CreateItem func(childComplexity int, input model.ItemInput, details *model.CategoryDetailsInput) int
 		CreateUser func(childComplexity int, input model.UserInput) int
@@ -128,6 +149,7 @@ type ComplexityRoot struct {
 
 	NetworkConn struct {
 		MaxConnSpeed func(childComplexity int) int
+		Poe          func(childComplexity int) int
 		PortID       func(childComplexity int) int
 		Protocol     func(childComplexity int) int
 	}
@@ -142,12 +164,34 @@ type ComplexityRoot struct {
 		Wattage         func(childComplexity int) int
 	}
 
+	Processor struct {
+		AnalogConnections  func(childComplexity int) int
+		MaxSampleRate      func(childComplexity int) int
+		Midi               func(childComplexity int) int
+		NetworkConnections func(childComplexity int) int
+		Power              func(childComplexity int) int
+		SignalProtocol     func(childComplexity int) int
+		TotalInputs        func(childComplexity int) int
+		TotalOuputs        func(childComplexity int) int
+	}
+
 	Query struct {
 		FindByID     func(childComplexity int, id string) int
 		FindByModel  func(childComplexity int, modelName string) int
 		FuzzyByModel func(childComplexity int, modelName string) int
 		Items        func(childComplexity int) int
 		Users        func(childComplexity int) int
+	}
+
+	StageBox struct {
+		AnalogConnections  func(childComplexity int) int
+		MaxSampleRate      func(childComplexity int) int
+		NetworkConnections func(childComplexity int) int
+		Power              func(childComplexity int) int
+		SignalProtocol     func(childComplexity int) int
+		TotalInputs        func(childComplexity int) int
+		TotalOuputs        func(childComplexity int) int
+		WordClock          func(childComplexity int) int
 	}
 
 	User struct {
@@ -183,6 +227,69 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e, 0, 0, nil}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "Amplifier.analog_connections":
+		if e.complexity.Amplifier.AnalogConnections == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.AnalogConnections(childComplexity), true
+
+	case "Amplifier.max_sample_rate":
+		if e.complexity.Amplifier.MaxSampleRate == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.MaxSampleRate(childComplexity), true
+
+	case "Amplifier.midi":
+		if e.complexity.Amplifier.Midi == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.Midi(childComplexity), true
+
+	case "Amplifier.network_connections":
+		if e.complexity.Amplifier.NetworkConnections == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.NetworkConnections(childComplexity), true
+
+	case "Amplifier.power":
+		if e.complexity.Amplifier.Power == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.Power(childComplexity), true
+
+	case "Amplifier.signal_protocol":
+		if e.complexity.Amplifier.SignalProtocol == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.SignalProtocol(childComplexity), true
+
+	case "Amplifier.total_inputs":
+		if e.complexity.Amplifier.TotalInputs == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.TotalInputs(childComplexity), true
+
+	case "Amplifier.total_ouputs":
+		if e.complexity.Amplifier.TotalOuputs == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.TotalOuputs(childComplexity), true
+
+	case "Amplifier.word_clock":
+		if e.complexity.Amplifier.WordClock == nil {
+			break
+		}
+
+		return e.complexity.Amplifier.WordClock(childComplexity), true
 
 	case "AnalogConn.port_id":
 		if e.complexity.AnalogConn.PortID == nil {
@@ -366,6 +473,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Console.SignalProtocol(childComplexity), true
 
+	case "Console.word_clock":
+		if e.complexity.Console.WordClock == nil {
+			break
+		}
+
+		return e.complexity.Console.WordClock(childComplexity), true
+
 	case "Dimension.height":
 		if e.complexity.Dimension.Height == nil {
 			break
@@ -408,13 +522,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Item.Category(childComplexity), true
 
-	case "Item.cost":
-		if e.complexity.Item.Cost == nil {
-			break
-		}
-
-		return e.complexity.Item.Cost(childComplexity), true
-
 	case "Item.created_at":
 		if e.complexity.Item.CreatedAt == nil {
 			break
@@ -435,6 +542,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Item.Dimensions(childComplexity), true
+
+	case "Item.keywords":
+		if e.complexity.Item.Keywords == nil {
+			break
+		}
+
+		return e.complexity.Item.Keywords(childComplexity), true
 
 	case "Item.manufacturer":
 		if e.complexity.Item.Manufacturer == nil {
@@ -541,6 +655,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Microphone.Phantom(childComplexity), true
 
+	case "Monitoring.analog_connections":
+		if e.complexity.Monitoring.AnalogConnections == nil {
+			break
+		}
+
+		return e.complexity.Monitoring.AnalogConnections(childComplexity), true
+
+	case "Monitoring.distro":
+		if e.complexity.Monitoring.Distro == nil {
+			break
+		}
+
+		return e.complexity.Monitoring.Distro(childComplexity), true
+
+	case "Monitoring.network_connections":
+		if e.complexity.Monitoring.NetworkConnections == nil {
+			break
+		}
+
+		return e.complexity.Monitoring.NetworkConnections(childComplexity), true
+
+	case "Monitoring.power":
+		if e.complexity.Monitoring.Power == nil {
+			break
+		}
+
+		return e.complexity.Monitoring.Power(childComplexity), true
+
+	case "Monitoring.signal_protocol":
+		if e.complexity.Monitoring.SignalProtocol == nil {
+			break
+		}
+
+		return e.complexity.Monitoring.SignalProtocol(childComplexity), true
+
 	case "Mutation.createItem":
 		if e.complexity.Mutation.CreateItem == nil {
 			break
@@ -571,6 +720,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.NetworkConn.MaxConnSpeed(childComplexity), true
+
+	case "NetworkConn.poe":
+		if e.complexity.NetworkConn.Poe == nil {
+			break
+		}
+
+		return e.complexity.NetworkConn.Poe(childComplexity), true
 
 	case "NetworkConn.port_id":
 		if e.complexity.NetworkConn.PortID == nil {
@@ -635,6 +791,62 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Power.Wattage(childComplexity), true
 
+	case "Processor.analog_connections":
+		if e.complexity.Processor.AnalogConnections == nil {
+			break
+		}
+
+		return e.complexity.Processor.AnalogConnections(childComplexity), true
+
+	case "Processor.max_sample_rate":
+		if e.complexity.Processor.MaxSampleRate == nil {
+			break
+		}
+
+		return e.complexity.Processor.MaxSampleRate(childComplexity), true
+
+	case "Processor.midi":
+		if e.complexity.Processor.Midi == nil {
+			break
+		}
+
+		return e.complexity.Processor.Midi(childComplexity), true
+
+	case "Processor.network_connections":
+		if e.complexity.Processor.NetworkConnections == nil {
+			break
+		}
+
+		return e.complexity.Processor.NetworkConnections(childComplexity), true
+
+	case "Processor.power":
+		if e.complexity.Processor.Power == nil {
+			break
+		}
+
+		return e.complexity.Processor.Power(childComplexity), true
+
+	case "Processor.signal_protocol":
+		if e.complexity.Processor.SignalProtocol == nil {
+			break
+		}
+
+		return e.complexity.Processor.SignalProtocol(childComplexity), true
+
+	case "Processor.total_inputs":
+		if e.complexity.Processor.TotalInputs == nil {
+			break
+		}
+
+		return e.complexity.Processor.TotalInputs(childComplexity), true
+
+	case "Processor.total_ouputs":
+		if e.complexity.Processor.TotalOuputs == nil {
+			break
+		}
+
+		return e.complexity.Processor.TotalOuputs(childComplexity), true
+
 	case "Query.find_by_id":
 		if e.complexity.Query.FindByID == nil {
 			break
@@ -685,6 +897,62 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Users(childComplexity), true
 
+	case "StageBox.analog_connections":
+		if e.complexity.StageBox.AnalogConnections == nil {
+			break
+		}
+
+		return e.complexity.StageBox.AnalogConnections(childComplexity), true
+
+	case "StageBox.max_sample_rate":
+		if e.complexity.StageBox.MaxSampleRate == nil {
+			break
+		}
+
+		return e.complexity.StageBox.MaxSampleRate(childComplexity), true
+
+	case "StageBox.network_connections":
+		if e.complexity.StageBox.NetworkConnections == nil {
+			break
+		}
+
+		return e.complexity.StageBox.NetworkConnections(childComplexity), true
+
+	case "StageBox.power":
+		if e.complexity.StageBox.Power == nil {
+			break
+		}
+
+		return e.complexity.StageBox.Power(childComplexity), true
+
+	case "StageBox.signal_protocol":
+		if e.complexity.StageBox.SignalProtocol == nil {
+			break
+		}
+
+		return e.complexity.StageBox.SignalProtocol(childComplexity), true
+
+	case "StageBox.total_inputs":
+		if e.complexity.StageBox.TotalInputs == nil {
+			break
+		}
+
+		return e.complexity.StageBox.TotalInputs(childComplexity), true
+
+	case "StageBox.total_ouputs":
+		if e.complexity.StageBox.TotalOuputs == nil {
+			break
+		}
+
+		return e.complexity.StageBox.TotalOuputs(childComplexity), true
+
+	case "StageBox.word_clock":
+		if e.complexity.StageBox.WordClock == nil {
+			break
+		}
+
+		return e.complexity.StageBox.WordClock(childComplexity), true
+
 	case "User.email":
 		if e.complexity.User.Email == nil {
 			break
@@ -714,6 +982,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputAmplifierInput,
 		ec.unmarshalInputAnalogConnInput,
 		ec.unmarshalInputCategoryDetailsInput,
 		ec.unmarshalInputComputerConnInput,
@@ -722,8 +991,11 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputDimensionInput,
 		ec.unmarshalInputItemInput,
 		ec.unmarshalInputMicrophoneInput,
+		ec.unmarshalInputMonitoringInput,
 		ec.unmarshalInputNetworkConnInput,
 		ec.unmarshalInputPowerInput,
+		ec.unmarshalInputProcessorInput,
+		ec.unmarshalInputStageBoxInput,
 		ec.unmarshalInputUserInput,
 	)
 	first := true
@@ -980,6 +1252,429 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _Amplifier_total_inputs(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_total_inputs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalInputs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_total_inputs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_total_ouputs(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_total_ouputs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalOuputs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_total_ouputs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_midi(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_midi(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Midi, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MidiType)
+	fc.Result = res
+	return ec.marshalOMidiType2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMidiType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_midi(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type MidiType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_analog_connections(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_analog_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AnalogConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AnalogConn)
+	fc.Result = res
+	return ec.marshalOAnalogConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_analog_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_AnalogConn_port_id(ctx, field)
+			case "port_kind":
+				return ec.fieldContext_AnalogConn_port_kind(ctx, field)
+			case "port_usage":
+				return ec.fieldContext_AnalogConn_port_usage(ctx, field)
+			case "signal_lines":
+				return ec.fieldContext_AnalogConn_signal_lines(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AnalogConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_word_clock(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_word_clock(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.WordClock, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_word_clock(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_network_connections(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_network_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NetworkConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.NetworkConn)
+	fc.Result = res
+	return ec.marshalONetworkConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_network_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_NetworkConn_port_id(ctx, field)
+			case "max_conn_speed":
+				return ec.fieldContext_NetworkConn_max_conn_speed(ctx, field)
+			case "protocol":
+				return ec.fieldContext_NetworkConn_protocol(ctx, field)
+			case "poe":
+				return ec.fieldContext_NetworkConn_poe(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type NetworkConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_signal_protocol(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_signal_protocol(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SignalProtocol, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.Protocol)
+	fc.Result = res
+	return ec.marshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_signal_protocol(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Protocol does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_max_sample_rate(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_max_sample_rate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MaxSampleRate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.SampleRate)
+	fc.Result = res
+	return ec.marshalNSampleRate2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐSampleRate(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_max_sample_rate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type SampleRate does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Amplifier_power(ctx context.Context, field graphql.CollectedField, obj *model.Amplifier) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Amplifier_power(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Power, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Power)
+	fc.Result = res
+	return ec.marshalNPower2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPower(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Amplifier_power(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Amplifier",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "lower_voltage":
+				return ec.fieldContext_Power_lower_voltage(ctx, field)
+			case "upper_voltage":
+				return ec.fieldContext_Power_upper_voltage(ctx, field)
+			case "wattage":
+				return ec.fieldContext_Power_wattage(ctx, field)
+			case "max_wattage":
+				return ec.fieldContext_Power_max_wattage(ctx, field)
+			case "redundant":
+				return ec.fieldContext_Power_redundant(ctx, field)
+			case "input_connector":
+				return ec.fieldContext_Power_input_connector(ctx, field)
+			case "output_connector":
+				return ec.fieldContext_Power_output_connector(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Power", field.Name)
+		},
+	}
+	return fc, nil
+}
 
 func (ec *executionContext) _AnalogConn_port_id(ctx context.Context, field graphql.CollectedField, obj *model.AnalogConn) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_AnalogConn_port_id(ctx, field)
@@ -1460,6 +2155,8 @@ func (ec *executionContext) fieldContext_Computer_network_connections(ctx contex
 				return ec.fieldContext_NetworkConn_max_conn_speed(ctx, field)
 			case "protocol":
 				return ec.fieldContext_NetworkConn_protocol(ctx, field)
+			case "poe":
+				return ec.fieldContext_NetworkConn_poe(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type NetworkConn", field.Name)
 		},
@@ -1798,6 +2495,8 @@ func (ec *executionContext) fieldContext_Console_network_connections(ctx context
 				return ec.fieldContext_NetworkConn_max_conn_speed(ctx, field)
 			case "protocol":
 				return ec.fieldContext_NetworkConn_protocol(ctx, field)
+			case "poe":
+				return ec.fieldContext_NetworkConn_poe(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type NetworkConn", field.Name)
 		},
@@ -1881,6 +2580,50 @@ func (ec *executionContext) _Console_motorized(ctx context.Context, field graphq
 }
 
 func (ec *executionContext) fieldContext_Console_motorized(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Console",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Console_word_clock(ctx context.Context, field graphql.CollectedField, obj *model.Console) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Console_word_clock(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.WordClock, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Console_word_clock(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Console",
 		Field:      field,
@@ -2481,50 +3224,6 @@ func (ec *executionContext) fieldContext_Item_updated_at(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Item_cost(ctx context.Context, field graphql.CollectedField, obj *model.Item) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Item_cost(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Cost, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalNFloat2float64(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Item_cost(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Item",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Float does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Item_model(ctx context.Context, field graphql.CollectedField, obj *model.Item) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Item_model(ctx, field)
 	if err != nil {
@@ -2771,6 +3470,47 @@ func (ec *executionContext) _Item_notes(ctx context.Context, field graphql.Colle
 }
 
 func (ec *executionContext) fieldContext_Item_notes(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Item",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Item_keywords(ctx context.Context, field graphql.CollectedField, obj *model.Item) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Item_keywords(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Keywords, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Item_keywords(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Item",
 		Field:      field,
@@ -3251,6 +3991,256 @@ func (ec *executionContext) fieldContext_Microphone_pattern(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Monitoring_distro(ctx context.Context, field graphql.CollectedField, obj *model.Monitoring) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Monitoring_distro(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Distro, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Monitoring_distro(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Monitoring",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Monitoring_analog_connections(ctx context.Context, field graphql.CollectedField, obj *model.Monitoring) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Monitoring_analog_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AnalogConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AnalogConn)
+	fc.Result = res
+	return ec.marshalOAnalogConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Monitoring_analog_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Monitoring",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_AnalogConn_port_id(ctx, field)
+			case "port_kind":
+				return ec.fieldContext_AnalogConn_port_kind(ctx, field)
+			case "port_usage":
+				return ec.fieldContext_AnalogConn_port_usage(ctx, field)
+			case "signal_lines":
+				return ec.fieldContext_AnalogConn_signal_lines(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AnalogConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Monitoring_network_connections(ctx context.Context, field graphql.CollectedField, obj *model.Monitoring) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Monitoring_network_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NetworkConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.NetworkConn)
+	fc.Result = res
+	return ec.marshalONetworkConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Monitoring_network_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Monitoring",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_NetworkConn_port_id(ctx, field)
+			case "max_conn_speed":
+				return ec.fieldContext_NetworkConn_max_conn_speed(ctx, field)
+			case "protocol":
+				return ec.fieldContext_NetworkConn_protocol(ctx, field)
+			case "poe":
+				return ec.fieldContext_NetworkConn_poe(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type NetworkConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Monitoring_signal_protocol(ctx context.Context, field graphql.CollectedField, obj *model.Monitoring) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Monitoring_signal_protocol(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SignalProtocol, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.Protocol)
+	fc.Result = res
+	return ec.marshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Monitoring_signal_protocol(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Monitoring",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Protocol does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Monitoring_power(ctx context.Context, field graphql.CollectedField, obj *model.Monitoring) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Monitoring_power(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Power, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Power)
+	fc.Result = res
+	return ec.marshalNPower2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPower(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Monitoring_power(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Monitoring",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "lower_voltage":
+				return ec.fieldContext_Power_lower_voltage(ctx, field)
+			case "upper_voltage":
+				return ec.fieldContext_Power_upper_voltage(ctx, field)
+			case "wattage":
+				return ec.fieldContext_Power_wattage(ctx, field)
+			case "max_wattage":
+				return ec.fieldContext_Power_max_wattage(ctx, field)
+			case "redundant":
+				return ec.fieldContext_Power_redundant(ctx, field)
+			case "input_connector":
+				return ec.fieldContext_Power_input_connector(ctx, field)
+			case "output_connector":
+				return ec.fieldContext_Power_output_connector(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Power", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createUser(ctx, field)
 	if err != nil {
@@ -3357,8 +4347,6 @@ func (ec *executionContext) fieldContext_Mutation_createItem(ctx context.Context
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
 				return ec.fieldContext_Item_updated_at(ctx, field)
-			case "cost":
-				return ec.fieldContext_Item_cost(ctx, field)
 			case "model":
 				return ec.fieldContext_Item_model(ctx, field)
 			case "weight":
@@ -3371,6 +4359,8 @@ func (ec *executionContext) fieldContext_Mutation_createItem(ctx context.Context
 				return ec.fieldContext_Item_details(ctx, field)
 			case "notes":
 				return ec.fieldContext_Item_notes(ctx, field)
+			case "keywords":
+				return ec.fieldContext_Item_keywords(ctx, field)
 			case "dimensions":
 				return ec.fieldContext_Item_dimensions(ctx, field)
 			case "pdf_blob":
@@ -3517,6 +4507,47 @@ func (ec *executionContext) fieldContext_NetworkConn_protocol(ctx context.Contex
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Protocol does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NetworkConn_poe(ctx context.Context, field graphql.CollectedField, obj *model.NetworkConn) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NetworkConn_poe(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Poe, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NetworkConn_poe(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NetworkConn",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3818,6 +4849,385 @@ func (ec *executionContext) fieldContext_Power_output_connector(ctx context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _Processor_total_inputs(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_total_inputs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalInputs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_total_inputs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Processor_total_ouputs(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_total_ouputs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalOuputs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_total_ouputs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Processor_midi(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_midi(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Midi, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MidiType)
+	fc.Result = res
+	return ec.marshalOMidiType2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMidiType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_midi(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type MidiType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Processor_analog_connections(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_analog_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AnalogConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AnalogConn)
+	fc.Result = res
+	return ec.marshalOAnalogConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_analog_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_AnalogConn_port_id(ctx, field)
+			case "port_kind":
+				return ec.fieldContext_AnalogConn_port_kind(ctx, field)
+			case "port_usage":
+				return ec.fieldContext_AnalogConn_port_usage(ctx, field)
+			case "signal_lines":
+				return ec.fieldContext_AnalogConn_signal_lines(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AnalogConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Processor_network_connections(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_network_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NetworkConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.NetworkConn)
+	fc.Result = res
+	return ec.marshalONetworkConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_network_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_NetworkConn_port_id(ctx, field)
+			case "max_conn_speed":
+				return ec.fieldContext_NetworkConn_max_conn_speed(ctx, field)
+			case "protocol":
+				return ec.fieldContext_NetworkConn_protocol(ctx, field)
+			case "poe":
+				return ec.fieldContext_NetworkConn_poe(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type NetworkConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Processor_signal_protocol(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_signal_protocol(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SignalProtocol, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.Protocol)
+	fc.Result = res
+	return ec.marshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_signal_protocol(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Protocol does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Processor_max_sample_rate(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_max_sample_rate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MaxSampleRate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.SampleRate)
+	fc.Result = res
+	return ec.marshalNSampleRate2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐSampleRate(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_max_sample_rate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type SampleRate does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Processor_power(ctx context.Context, field graphql.CollectedField, obj *model.Processor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Processor_power(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Power, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Power)
+	fc.Result = res
+	return ec.marshalNPower2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPower(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Processor_power(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Processor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "lower_voltage":
+				return ec.fieldContext_Power_lower_voltage(ctx, field)
+			case "upper_voltage":
+				return ec.fieldContext_Power_upper_voltage(ctx, field)
+			case "wattage":
+				return ec.fieldContext_Power_wattage(ctx, field)
+			case "max_wattage":
+				return ec.fieldContext_Power_max_wattage(ctx, field)
+			case "redundant":
+				return ec.fieldContext_Power_redundant(ctx, field)
+			case "input_connector":
+				return ec.fieldContext_Power_input_connector(ctx, field)
+			case "output_connector":
+				return ec.fieldContext_Power_output_connector(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Power", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_users(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_users(ctx, field)
 	if err != nil {
@@ -3913,8 +5323,6 @@ func (ec *executionContext) fieldContext_Query_items(ctx context.Context, field 
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
 				return ec.fieldContext_Item_updated_at(ctx, field)
-			case "cost":
-				return ec.fieldContext_Item_cost(ctx, field)
 			case "model":
 				return ec.fieldContext_Item_model(ctx, field)
 			case "weight":
@@ -3927,6 +5335,8 @@ func (ec *executionContext) fieldContext_Query_items(ctx context.Context, field 
 				return ec.fieldContext_Item_details(ctx, field)
 			case "notes":
 				return ec.fieldContext_Item_notes(ctx, field)
+			case "keywords":
+				return ec.fieldContext_Item_keywords(ctx, field)
 			case "dimensions":
 				return ec.fieldContext_Item_dimensions(ctx, field)
 			case "pdf_blob":
@@ -3981,8 +5391,6 @@ func (ec *executionContext) fieldContext_Query_find_by_model(ctx context.Context
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
 				return ec.fieldContext_Item_updated_at(ctx, field)
-			case "cost":
-				return ec.fieldContext_Item_cost(ctx, field)
 			case "model":
 				return ec.fieldContext_Item_model(ctx, field)
 			case "weight":
@@ -3995,6 +5403,8 @@ func (ec *executionContext) fieldContext_Query_find_by_model(ctx context.Context
 				return ec.fieldContext_Item_details(ctx, field)
 			case "notes":
 				return ec.fieldContext_Item_notes(ctx, field)
+			case "keywords":
+				return ec.fieldContext_Item_keywords(ctx, field)
 			case "dimensions":
 				return ec.fieldContext_Item_dimensions(ctx, field)
 			case "pdf_blob":
@@ -4060,8 +5470,6 @@ func (ec *executionContext) fieldContext_Query_find_by_id(ctx context.Context, f
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
 				return ec.fieldContext_Item_updated_at(ctx, field)
-			case "cost":
-				return ec.fieldContext_Item_cost(ctx, field)
 			case "model":
 				return ec.fieldContext_Item_model(ctx, field)
 			case "weight":
@@ -4074,6 +5482,8 @@ func (ec *executionContext) fieldContext_Query_find_by_id(ctx context.Context, f
 				return ec.fieldContext_Item_details(ctx, field)
 			case "notes":
 				return ec.fieldContext_Item_notes(ctx, field)
+			case "keywords":
+				return ec.fieldContext_Item_keywords(ctx, field)
 			case "dimensions":
 				return ec.fieldContext_Item_dimensions(ctx, field)
 			case "pdf_blob":
@@ -4139,8 +5549,6 @@ func (ec *executionContext) fieldContext_Query_fuzzy_by_model(ctx context.Contex
 				return ec.fieldContext_Item_created_at(ctx, field)
 			case "updated_at":
 				return ec.fieldContext_Item_updated_at(ctx, field)
-			case "cost":
-				return ec.fieldContext_Item_cost(ctx, field)
 			case "model":
 				return ec.fieldContext_Item_model(ctx, field)
 			case "weight":
@@ -4153,6 +5561,8 @@ func (ec *executionContext) fieldContext_Query_fuzzy_by_model(ctx context.Contex
 				return ec.fieldContext_Item_details(ctx, field)
 			case "notes":
 				return ec.fieldContext_Item_notes(ctx, field)
+			case "keywords":
+				return ec.fieldContext_Item_keywords(ctx, field)
 			case "dimensions":
 				return ec.fieldContext_Item_dimensions(ctx, field)
 			case "pdf_blob":
@@ -4299,6 +5709,388 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 				return ec.fieldContext___Schema_directives(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Schema", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_total_inputs(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_total_inputs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalInputs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_total_inputs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_total_ouputs(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_total_ouputs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalOuputs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_total_ouputs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_analog_connections(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_analog_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AnalogConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AnalogConn)
+	fc.Result = res
+	return ec.marshalOAnalogConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_analog_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_AnalogConn_port_id(ctx, field)
+			case "port_kind":
+				return ec.fieldContext_AnalogConn_port_kind(ctx, field)
+			case "port_usage":
+				return ec.fieldContext_AnalogConn_port_usage(ctx, field)
+			case "signal_lines":
+				return ec.fieldContext_AnalogConn_signal_lines(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AnalogConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_word_clock(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_word_clock(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.WordClock, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_word_clock(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_network_connections(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_network_connections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NetworkConnections, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.NetworkConn)
+	fc.Result = res
+	return ec.marshalONetworkConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_network_connections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "port_id":
+				return ec.fieldContext_NetworkConn_port_id(ctx, field)
+			case "max_conn_speed":
+				return ec.fieldContext_NetworkConn_max_conn_speed(ctx, field)
+			case "protocol":
+				return ec.fieldContext_NetworkConn_protocol(ctx, field)
+			case "poe":
+				return ec.fieldContext_NetworkConn_poe(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type NetworkConn", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_signal_protocol(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_signal_protocol(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SignalProtocol, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.Protocol)
+	fc.Result = res
+	return ec.marshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_signal_protocol(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Protocol does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_max_sample_rate(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_max_sample_rate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MaxSampleRate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.SampleRate)
+	fc.Result = res
+	return ec.marshalNSampleRate2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐSampleRate(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_max_sample_rate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type SampleRate does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StageBox_power(ctx context.Context, field graphql.CollectedField, obj *model.StageBox) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StageBox_power(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Power, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Power)
+	fc.Result = res
+	return ec.marshalNPower2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPower(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StageBox_power(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StageBox",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "lower_voltage":
+				return ec.fieldContext_Power_lower_voltage(ctx, field)
+			case "upper_voltage":
+				return ec.fieldContext_Power_upper_voltage(ctx, field)
+			case "wattage":
+				return ec.fieldContext_Power_wattage(ctx, field)
+			case "max_wattage":
+				return ec.fieldContext_Power_max_wattage(ctx, field)
+			case "redundant":
+				return ec.fieldContext_Power_redundant(ctx, field)
+			case "input_connector":
+				return ec.fieldContext_Power_input_connector(ctx, field)
+			case "output_connector":
+				return ec.fieldContext_Power_output_connector(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Power", field.Name)
 		},
 	}
 	return fc, nil
@@ -6209,6 +8001,107 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputAmplifierInput(ctx context.Context, obj interface{}) (model.AmplifierInput, error) {
+	var it model.AmplifierInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"total_inputs", "total_ouputs", "midi", "analog_connections", "word_clock", "network_connections", "signal_protocol", "max_sample_rate", "power"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "total_inputs":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("total_inputs"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TotalInputs = data
+		case "total_ouputs":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("total_ouputs"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TotalOuputs = data
+		case "midi":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("midi"))
+			data, err := ec.unmarshalOMidiType2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMidiType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Midi = data
+		case "analog_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("analog_connections"))
+			data, err := ec.unmarshalOAnalogConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AnalogConnections = data
+		case "word_clock":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("word_clock"))
+			data, err := ec.unmarshalNBoolean2bool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.WordClock = data
+		case "network_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("network_connections"))
+			data, err := ec.unmarshalONetworkConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.NetworkConnections = data
+		case "signal_protocol":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("signal_protocol"))
+			data, err := ec.unmarshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SignalProtocol = data
+		case "max_sample_rate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("max_sample_rate"))
+			data, err := ec.unmarshalNSampleRate2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐSampleRate(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MaxSampleRate = data
+		case "power":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("power"))
+			data, err := ec.unmarshalNPowerInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPowerInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Power = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputAnalogConnInput(ctx context.Context, obj interface{}) (model.AnalogConnInput, error) {
 	var it model.AnalogConnInput
 	asMap := map[string]interface{}{}
@@ -6282,13 +8175,39 @@ func (ec *executionContext) unmarshalInputCategoryDetailsInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"console_input", "computer_input", "microphone_input"}
+	fieldsInOrder := [...]string{"amplifier_input", "console_input", "computer_input", "microphone_input", "processor_input", "stagebox_input", "monitoring_input"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "amplifier_input":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("amplifier_input"))
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOAmplifierInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAmplifierInput(ctx, v)
+			}
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.OneOf == nil {
+					return nil, errors.New("directive oneOf is not implemented")
+				}
+				return ec.directives.OneOf(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.AmplifierInput); ok {
+				it.AmplifierInput = data
+			} else if tmp == nil {
+				it.AmplifierInput = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/michaelaboah/sonic-sync-cloud/graph/model.AmplifierInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "console_input":
 			var err error
 
@@ -6365,6 +8284,84 @@ func (ec *executionContext) unmarshalInputCategoryDetailsInput(ctx context.Conte
 				it.MicrophoneInput = nil
 			} else {
 				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/michaelaboah/sonic-sync-cloud/graph/model.MicrophoneInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "processor_input":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("processor_input"))
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOProcessorInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProcessorInput(ctx, v)
+			}
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.OneOf == nil {
+					return nil, errors.New("directive oneOf is not implemented")
+				}
+				return ec.directives.OneOf(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.ProcessorInput); ok {
+				it.ProcessorInput = data
+			} else if tmp == nil {
+				it.ProcessorInput = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/michaelaboah/sonic-sync-cloud/graph/model.ProcessorInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "stagebox_input":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("stagebox_input"))
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOStageBoxInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐStageBoxInput(ctx, v)
+			}
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.OneOf == nil {
+					return nil, errors.New("directive oneOf is not implemented")
+				}
+				return ec.directives.OneOf(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.StageBoxInput); ok {
+				it.StageboxInput = data
+			} else if tmp == nil {
+				it.StageboxInput = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/michaelaboah/sonic-sync-cloud/graph/model.StageBoxInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "monitoring_input":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("monitoring_input"))
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOMonitoringInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMonitoringInput(ctx, v)
+			}
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.OneOf == nil {
+					return nil, errors.New("directive oneOf is not implemented")
+				}
+				return ec.directives.OneOf(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.MonitoringInput); ok {
+				it.MonitoringInput = data
+			} else if tmp == nil {
+				it.MonitoringInput = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/michaelaboah/sonic-sync-cloud/graph/model.MonitoringInput`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
 			}
 		}
@@ -6532,7 +8529,7 @@ func (ec *executionContext) unmarshalInputConsoleInput(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"analog_connections", "network_connections", "faders", "motorized", "midi", "protocol_inputs", "signal_protocol", "can_expand", "max_sample_rate", "power"}
+	fieldsInOrder := [...]string{"analog_connections", "network_connections", "faders", "motorized", "midi", "protocol_inputs", "signal_protocol", "can_expand", "word_clock", "max_sample_rate", "power"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -6611,6 +8608,15 @@ func (ec *executionContext) unmarshalInputConsoleInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.CanExpand = data
+		case "word_clock":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("word_clock"))
+			data, err := ec.unmarshalNBoolean2bool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.WordClock = data
 		case "max_sample_rate":
 			var err error
 
@@ -6693,22 +8699,13 @@ func (ec *executionContext) unmarshalInputItemInput(ctx context.Context, obj int
 		asMap["category"] = "GENERIC"
 	}
 
-	fieldsInOrder := [...]string{"cost", "model", "weight", "manufacturer", "category", "notes", "dimensions", "pdf_blob"}
+	fieldsInOrder := [...]string{"model", "weight", "manufacturer", "category", "notes", "dimensions", "keywords", "pdf_blob"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "cost":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cost"))
-			data, err := ec.unmarshalNFloat2float64(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Cost = data
 		case "model":
 			var err error
 
@@ -6763,6 +8760,15 @@ func (ec *executionContext) unmarshalInputItemInput(ctx context.Context, obj int
 				return it, err
 			}
 			it.Dimensions = data
+		case "keywords":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("keywords"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Keywords = data
 		case "pdf_blob":
 			var err error
 
@@ -6873,6 +8879,71 @@ func (ec *executionContext) unmarshalInputMicrophoneInput(ctx context.Context, o
 				return it, err
 			}
 			it.Pattern = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputMonitoringInput(ctx context.Context, obj interface{}) (model.MonitoringInput, error) {
+	var it model.MonitoringInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"distro", "analog_connections", "network_connections", "signal_protocol", "power"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "distro":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("distro"))
+			data, err := ec.unmarshalNBoolean2bool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Distro = data
+		case "analog_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("analog_connections"))
+			data, err := ec.unmarshalOAnalogConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AnalogConnections = data
+		case "network_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("network_connections"))
+			data, err := ec.unmarshalONetworkConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.NetworkConnections = data
+		case "signal_protocol":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("signal_protocol"))
+			data, err := ec.unmarshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SignalProtocol = data
+		case "power":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("power"))
+			data, err := ec.unmarshalNPowerInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPowerInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Power = data
 		}
 	}
 
@@ -7009,6 +9080,190 @@ func (ec *executionContext) unmarshalInputPowerInput(ctx context.Context, obj in
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputProcessorInput(ctx context.Context, obj interface{}) (model.ProcessorInput, error) {
+	var it model.ProcessorInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"total_inputs", "total_ouputs", "midi", "analog_connections", "network_connections", "signal_protocol", "max_sample_rate", "power"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "total_inputs":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("total_inputs"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TotalInputs = data
+		case "total_ouputs":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("total_ouputs"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TotalOuputs = data
+		case "midi":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("midi"))
+			data, err := ec.unmarshalOMidiType2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMidiType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Midi = data
+		case "analog_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("analog_connections"))
+			data, err := ec.unmarshalOAnalogConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AnalogConnections = data
+		case "network_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("network_connections"))
+			data, err := ec.unmarshalONetworkConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.NetworkConnections = data
+		case "signal_protocol":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("signal_protocol"))
+			data, err := ec.unmarshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SignalProtocol = data
+		case "max_sample_rate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("max_sample_rate"))
+			data, err := ec.unmarshalNSampleRate2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐSampleRate(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MaxSampleRate = data
+		case "power":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("power"))
+			data, err := ec.unmarshalNPowerInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPowerInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Power = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputStageBoxInput(ctx context.Context, obj interface{}) (model.StageBoxInput, error) {
+	var it model.StageBoxInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"total_inputs", "total_ouputs", "analog_connections", "word_clock", "network_connections", "signal_protocol", "max_sample_rate", "power"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "total_inputs":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("total_inputs"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TotalInputs = data
+		case "total_ouputs":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("total_ouputs"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TotalOuputs = data
+		case "analog_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("analog_connections"))
+			data, err := ec.unmarshalOAnalogConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalogConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AnalogConnections = data
+		case "word_clock":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("word_clock"))
+			data, err := ec.unmarshalNBoolean2bool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.WordClock = data
+		case "network_connections":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("network_connections"))
+			data, err := ec.unmarshalONetworkConnInput2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConnInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.NetworkConnections = data
+		case "signal_protocol":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("signal_protocol"))
+			data, err := ec.unmarshalNProtocol2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProtocol(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SignalProtocol = data
+		case "max_sample_rate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("max_sample_rate"))
+			data, err := ec.unmarshalNSampleRate2githubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐSampleRate(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MaxSampleRate = data
+		case "power":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("power"))
+			data, err := ec.unmarshalNPowerInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐPowerInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Power = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj interface{}) (model.UserInput, error) {
 	var it model.UserInput
 	asMap := map[string]interface{}{}
@@ -7076,6 +9331,34 @@ func (ec *executionContext) _CategoryDetails(ctx context.Context, sel ast.Select
 			return graphql.Null
 		}
 		return ec._Microphone(ctx, sel, obj)
+	case model.StageBox:
+		return ec._StageBox(ctx, sel, &obj)
+	case *model.StageBox:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._StageBox(ctx, sel, obj)
+	case model.Processor:
+		return ec._Processor(ctx, sel, &obj)
+	case *model.Processor:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Processor(ctx, sel, obj)
+	case model.Monitoring:
+		return ec._Monitoring(ctx, sel, &obj)
+	case *model.Monitoring:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Monitoring(ctx, sel, obj)
+	case model.Amplifier:
+		return ec._Amplifier(ctx, sel, &obj)
+	case *model.Amplifier:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Amplifier(ctx, sel, obj)
 	default:
 		panic(fmt.Errorf("unexpected type %T", obj))
 	}
@@ -7084,6 +9367,76 @@ func (ec *executionContext) _CategoryDetails(ctx context.Context, sel ast.Select
 // endregion ************************** interface.gotpl ***************************
 
 // region    **************************** object.gotpl ****************************
+
+var amplifierImplementors = []string{"Amplifier", "CategoryDetails"}
+
+func (ec *executionContext) _Amplifier(ctx context.Context, sel ast.SelectionSet, obj *model.Amplifier) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, amplifierImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Amplifier")
+		case "total_inputs":
+			out.Values[i] = ec._Amplifier_total_inputs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "total_ouputs":
+			out.Values[i] = ec._Amplifier_total_ouputs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "midi":
+			out.Values[i] = ec._Amplifier_midi(ctx, field, obj)
+		case "analog_connections":
+			out.Values[i] = ec._Amplifier_analog_connections(ctx, field, obj)
+		case "word_clock":
+			out.Values[i] = ec._Amplifier_word_clock(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "network_connections":
+			out.Values[i] = ec._Amplifier_network_connections(ctx, field, obj)
+		case "signal_protocol":
+			out.Values[i] = ec._Amplifier_signal_protocol(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "max_sample_rate":
+			out.Values[i] = ec._Amplifier_max_sample_rate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "power":
+			out.Values[i] = ec._Amplifier_power(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
 
 var analogConnImplementors = []string{"AnalogConn"}
 
@@ -7280,6 +9633,11 @@ func (ec *executionContext) _Console(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "word_clock":
+			out.Values[i] = ec._Console_word_clock(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "midi":
 			out.Values[i] = ec._Console_midi(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -7447,11 +9805,6 @@ func (ec *executionContext) _Item(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "cost":
-			out.Values[i] = ec._Item_cost(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "model":
 			out.Values[i] = ec._Item_model(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -7476,6 +9829,8 @@ func (ec *executionContext) _Item(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._Item_details(ctx, field, obj)
 		case "notes":
 			out.Values[i] = ec._Item_notes(ctx, field, obj)
+		case "keywords":
+			out.Values[i] = ec._Item_keywords(ctx, field, obj)
 		case "dimensions":
 			out.Values[i] = ec._Item_dimensions(ctx, field, obj)
 		case "pdf_blob":
@@ -7538,6 +9893,59 @@ func (ec *executionContext) _Microphone(ctx context.Context, sel ast.SelectionSe
 			}
 		case "pattern":
 			out.Values[i] = ec._Microphone_pattern(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var monitoringImplementors = []string{"Monitoring", "CategoryDetails"}
+
+func (ec *executionContext) _Monitoring(ctx context.Context, sel ast.SelectionSet, obj *model.Monitoring) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, monitoringImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Monitoring")
+		case "distro":
+			out.Values[i] = ec._Monitoring_distro(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "analog_connections":
+			out.Values[i] = ec._Monitoring_analog_connections(ctx, field, obj)
+		case "network_connections":
+			out.Values[i] = ec._Monitoring_network_connections(ctx, field, obj)
+		case "signal_protocol":
+			out.Values[i] = ec._Monitoring_signal_protocol(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "power":
+			out.Values[i] = ec._Monitoring_power(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -7643,6 +10051,8 @@ func (ec *executionContext) _NetworkConn(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "poe":
+			out.Values[i] = ec._NetworkConn_poe(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7700,6 +10110,71 @@ func (ec *executionContext) _Power(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "output_connector":
 			out.Values[i] = ec._Power_output_connector(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var processorImplementors = []string{"Processor", "CategoryDetails"}
+
+func (ec *executionContext) _Processor(ctx context.Context, sel ast.SelectionSet, obj *model.Processor) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, processorImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Processor")
+		case "total_inputs":
+			out.Values[i] = ec._Processor_total_inputs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "total_ouputs":
+			out.Values[i] = ec._Processor_total_ouputs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "midi":
+			out.Values[i] = ec._Processor_midi(ctx, field, obj)
+		case "analog_connections":
+			out.Values[i] = ec._Processor_analog_connections(ctx, field, obj)
+		case "network_connections":
+			out.Values[i] = ec._Processor_network_connections(ctx, field, obj)
+		case "signal_protocol":
+			out.Values[i] = ec._Processor_signal_protocol(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "max_sample_rate":
+			out.Values[i] = ec._Processor_max_sample_rate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "power":
+			out.Values[i] = ec._Processor_power(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7860,6 +10335,74 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___schema(ctx, field)
 			})
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var stageBoxImplementors = []string{"StageBox", "CategoryDetails"}
+
+func (ec *executionContext) _StageBox(ctx context.Context, sel ast.SelectionSet, obj *model.StageBox) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, stageBoxImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("StageBox")
+		case "total_inputs":
+			out.Values[i] = ec._StageBox_total_inputs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "total_ouputs":
+			out.Values[i] = ec._StageBox_total_ouputs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "analog_connections":
+			out.Values[i] = ec._StageBox_analog_connections(ctx, field, obj)
+		case "word_clock":
+			out.Values[i] = ec._StageBox_word_clock(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "network_connections":
+			out.Values[i] = ec._StageBox_network_connections(ctx, field, obj)
+		case "signal_protocol":
+			out.Values[i] = ec._StageBox_signal_protocol(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "max_sample_rate":
+			out.Values[i] = ec._StageBox_max_sample_rate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "power":
+			out.Values[i] = ec._StageBox_power(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -8955,6 +11498,14 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
+func (ec *executionContext) unmarshalOAmplifierInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAmplifierInput(ctx context.Context, v interface{}) (*model.AmplifierInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputAmplifierInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalOAnalog2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐAnalog(ctx context.Context, v interface{}) (*model.Analog, error) {
 	if v == nil {
 		return nil, nil
@@ -9209,6 +11760,30 @@ func (ec *executionContext) unmarshalOMicrophoneInput2ᚖgithubᚗcomᚋmichaela
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalOMidiType2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMidiType(ctx context.Context, v interface{}) (*model.MidiType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.MidiType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOMidiType2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMidiType(ctx context.Context, sel ast.SelectionSet, v *model.MidiType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
+func (ec *executionContext) unmarshalOMonitoringInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐMonitoringInput(ctx context.Context, v interface{}) (*model.MonitoringInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputMonitoringInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalONetworkConn2ᚕᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐNetworkConn(ctx context.Context, sel ast.SelectionSet, v []*model.NetworkConn) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -9362,6 +11937,60 @@ func (ec *executionContext) unmarshalOPowerInput2ᚖgithubᚗcomᚋmichaelaboah�
 	}
 	res, err := ec.unmarshalInputPowerInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOProcessorInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐProcessorInput(ctx context.Context, v interface{}) (*model.ProcessorInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputProcessorInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOStageBoxInput2ᚖgithubᚗcomᚋmichaelaboahᚋsonicᚑsyncᚑcloudᚋgraphᚋmodelᚐStageBoxInput(ctx context.Context, v interface{}) (*model.StageBoxInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputStageBoxInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOString2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNString2string(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOString2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNString2string(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
