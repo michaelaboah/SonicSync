@@ -80,7 +80,7 @@ type Amplifier {
   analog_connections: [AnalogConn!]
   word_clock: Boolean!
   network_connections: [NetworkConn!] 
-  signal_protocol: Protocol!
+  signal_protocol: Protocol
   max_sample_rate: SampleRate!
   power: Power!
 }
@@ -92,7 +92,7 @@ input AmplifierInput {
   analog_connections: [AnalogConnInput!]
   word_clock: Boolean!
   network_connections: [NetworkConnInput!] 
-  signal_protocol: Protocol!
+  signal_protocol: Protocol
   max_sample_rate: SampleRate!
   power: PowerInput!
 }
@@ -101,6 +101,7 @@ type Monitoring {
   distro: Boolean!
   analog_connections: [AnalogConn!]
   network_connections: [NetworkConn!] 
+  computer_ports: [ComputerConn!]
   signal_protocol: Protocol!
   power: Power!
 }
@@ -109,6 +110,7 @@ input MonitoringInput {
   distro: Boolean!
   analog_connections: [AnalogConnInput!]
   network_connections: [NetworkConnInput!] 
+  computer_ports: [ComputerConnInput!]
   signal_protocol: Protocol!
   power: PowerInput!
 }
@@ -163,4 +165,81 @@ type Microphone {
   pattern: [PolarPattern]!
 }
 
+type Speaker {
+  # driver:
+  active: Boolean!
+  line_array: Boolean
+  processing: Boolean!
+  subwoofer: Boolean
+  low_freq_resp: Float!
+  high_freq_resp: Float!
+  max_spl: Float!
+  drivers: [SpeakerDriver!]!
+  analog_connections: [AnalogConn!]
+  network_connections: [NetworkConn!]
+  power: Power!
+}
 
+input SpeakerInput {
+  active: Boolean!
+  line_array: Boolean
+  processing: Boolean!
+  subwoofer: Boolean
+  low_freq_resp: Float!
+  high_freq_resp: Float!
+  drivers: [SpeakerDriver!]!
+  max_spl: Float!
+  analog_connections: [AnalogConnInput!]
+  network_connections: [NetworkConnInput!]
+  power: PowerInput!
+}
+
+# type WirelessRF {
+#   receiver: Receiver 
+# }
+
+type Rx {
+  digital: Boolean!
+  range: Int!
+  lower_rf_range: Float!
+  upper_rf_range: Float!
+  num_of_rxs: Int!
+  signal_protocol: Protocol
+  analog_connections: [AnalogConn!]
+  network_connections: [NetworkConn!]
+  computer_ports: [ComputerConn!]
+  power: Power!
+}
+
+input RxInput {
+  digital: Boolean!
+  range: Int!
+  lower_rf_range: Float!
+  upper_rf_range: Float!
+  num_of_rxs: Int!
+  signal_protocol: Protocol
+  analog_connections: [AnalogConnInput!]
+  network_connections: [NetworkConnInput!]
+  computer_ports: [ComputerConnInput!]
+  power: PowerInput!
+}
+
+type Tx {
+  mute: Boolean!
+  range: Int!
+  lower_rf_range: Float!
+  upper_rf_range: Float!
+  form: TXForm!
+  connector: TransmitterConnector
+  power_type: String!
+}
+
+input TxInput {
+  mute: Boolean!
+  range: Int!
+  lower_rf_range: Float!
+  upper_rf_range: Float!
+  form: TXForm!
+  connector: TransmitterConnector
+  power_type: String!
+}

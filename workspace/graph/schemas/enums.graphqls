@@ -7,9 +7,10 @@ enum Category {
   STAGEBOX
   COMPUTER
   NETWORK
-  RADIO
   MICROPHONES
   SPK_HARDWARE
+  RECEIVER
+  TRANSMITTER
   GENERIC
 }
 
@@ -37,6 +38,7 @@ enum Analog {
   NL4
   NL8
   DC_12V
+  BNC
 }
 
 enum AnalogUsage {
@@ -137,4 +139,16 @@ enum NetworkSpeed {
   SUPERSPEED #= 100,
   GIGABIT #= 1000,
   TEN_GIGABIT #= 10000,
+}
+
+enum SpeakerDriver {
+  SUBWOOFER WOOFER
+  MIDRANGE
+  TWEETER
+}
+
+
+enum TXForm {
+  BODYPACK
+  HANDHELD
 }

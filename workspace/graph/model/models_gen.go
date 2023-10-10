@@ -19,7 +19,7 @@ type Amplifier struct {
 	AnalogConnections  []*AnalogConn  `json:"analog_connections,omitempty" bson:"analog_connections"`
 	WordClock          bool           `json:"word_clock" bson:"word_clock"`
 	NetworkConnections []*NetworkConn `json:"network_connections,omitempty" bson:"network_connections"`
-	SignalProtocol     Protocol       `json:"signal_protocol" bson:"signal_protocol"`
+	SignalProtocol     *Protocol      `json:"signal_protocol,omitempty" bson:"signal_protocol"`
 	MaxSampleRate      SampleRate     `json:"max_sample_rate" bson:"max_sample_rate"`
 	Power              *Power         `json:"power" bson:"power"`
 }
@@ -33,7 +33,7 @@ type AmplifierInput struct {
 	AnalogConnections  []*AnalogConnInput  `json:"analog_connections,omitempty" bson:"analog_connections"`
 	WordClock          bool                `json:"word_clock" bson:"word_clock"`
 	NetworkConnections []*NetworkConnInput `json:"network_connections,omitempty" bson:"network_connections"`
-	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
+	SignalProtocol     *Protocol           `json:"signal_protocol,omitempty" bson:"signal_protocol"`
 	MaxSampleRate      SampleRate          `json:"max_sample_rate" bson:"max_sample_rate"`
 	Power              *PowerInput         `json:"power" bson:"power"`
 }
@@ -60,6 +60,9 @@ type CategoryDetailsInput struct {
 	ProcessorInput  *ProcessorInput  `json:"processor_input,omitempty" bson:"processor_input"`
 	StageboxInput   *StageBoxInput   `json:"stagebox_input,omitempty" bson:"stagebox_input"`
 	MonitoringInput *MonitoringInput `json:"monitoring_input,omitempty" bson:"monitoring_input"`
+	SpeakerInput    *SpeakerInput    `json:"speaker_input,omitempty" bson:"speaker_input"`
+	TxInput         *TxInput         `json:"tx_input,omitempty" bson:"tx_input"`
+	RxInput         *RxInput         `json:"rx_input,omitempty" bson:"rx_input"`
 }
 
 type Computer struct {
@@ -199,21 +202,23 @@ type MicrophoneInput struct {
 }
 
 type Monitoring struct {
-	Distro             bool           `json:"distro" bson:"distro"`
-	AnalogConnections  []*AnalogConn  `json:"analog_connections,omitempty" bson:"analog_connections"`
-	NetworkConnections []*NetworkConn `json:"network_connections,omitempty" bson:"network_connections"`
-	SignalProtocol     Protocol       `json:"signal_protocol" bson:"signal_protocol"`
-	Power              *Power         `json:"power" bson:"power"`
+	Distro             bool            `json:"distro" bson:"distro"`
+	AnalogConnections  []*AnalogConn   `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConn  `json:"network_connections,omitempty" bson:"network_connections"`
+	ComputerPorts      []*ComputerConn `json:"computer_ports,omitempty" bson:"computer_ports"`
+	SignalProtocol     Protocol        `json:"signal_protocol" bson:"signal_protocol"`
+	Power              *Power          `json:"power" bson:"power"`
 }
 
 func (Monitoring) IsCategoryDetails() {}
 
 type MonitoringInput struct {
-	Distro             bool                `json:"distro" bson:"distro"`
-	AnalogConnections  []*AnalogConnInput  `json:"analog_connections,omitempty" bson:"analog_connections"`
-	NetworkConnections []*NetworkConnInput `json:"network_connections,omitempty" bson:"network_connections"`
-	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
-	Power              *PowerInput         `json:"power" bson:"power"`
+	Distro             bool                 `json:"distro" bson:"distro"`
+	AnalogConnections  []*AnalogConnInput   `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConnInput  `json:"network_connections,omitempty" bson:"network_connections"`
+	ComputerPorts      []*ComputerConnInput `json:"computer_ports,omitempty" bson:"computer_ports"`
+	SignalProtocol     Protocol             `json:"signal_protocol" bson:"signal_protocol"`
+	Power              *PowerInput          `json:"power" bson:"power"`
 }
 
 type NetworkConn struct {
@@ -227,6 +232,7 @@ type NetworkConnInput struct {
 	PortID       *string      `json:"port_id,omitempty" bson:"port_id"`
 	MaxConnSpeed NetworkSpeed `json:"max_conn_speed" bson:"max_conn_speed"`
 	Protocol     Protocol     `json:"protocol" bson:"protocol"`
+	Poe          *bool        `json:"poe,omitempty" bson:"poe"`
 }
 
 type Power struct {
@@ -235,7 +241,7 @@ type Power struct {
 	Wattage         float64         `json:"wattage" bson:"wattage"`
 	MaxWattage      float64         `json:"max_wattage" bson:"max_wattage"`
 	Redundant       *bool           `json:"redundant,omitempty" bson:"redundant"`
-	InputConnector  PowerConnector  `json:"input_connector" bson:"input_connector"`
+	InputConnector  *PowerConnector `json:"input_connector,omitempty" bson:"input_connector"`
 	OutputConnector *PowerConnector `json:"output_connector,omitempty" bson:"output_connector"`
 }
 
@@ -245,7 +251,7 @@ type PowerInput struct {
 	Wattage         float64         `json:"wattage" bson:"wattage"`
 	MaxWattage      float64         `json:"max_wattage" bson:"max_wattage"`
 	Redundant       *bool           `json:"redundant,omitempty" bson:"redundant"`
-	InputConnector  PowerConnector  `json:"input_connector" bson:"input_connector"`
+	InputConnector  *PowerConnector `json:"input_connector,omitempty" bson:"input_connector"`
 	OutputConnector *PowerConnector `json:"output_connector,omitempty" bson:"output_connector"`
 }
 
@@ -273,6 +279,64 @@ type ProcessorInput struct {
 	Power              *PowerInput         `json:"power" bson:"power"`
 }
 
+type Rx struct {
+	Digital            bool            `json:"digital" bson:"digital"`
+	Range              int             `json:"range" bson:"range"`
+	LowerRfRange       float64         `json:"lower_rf_range" bson:"lower_rf_range"`
+	UpperRfRange       float64         `json:"upper_rf_range" bson:"upper_rf_range"`
+	NumOfRxs           int             `json:"num_of_rxs" bson:"num_of_rxs"`
+	SignalProtocol     *Protocol       `json:"signal_protocol,omitempty" bson:"signal_protocol"`
+	AnalogConnections  []*AnalogConn   `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConn  `json:"network_connections,omitempty" bson:"network_connections"`
+	ComputerPorts      []*ComputerConn `json:"computer_ports,omitempty" bson:"computer_ports"`
+	Power              *Power          `json:"power" bson:"power"`
+}
+
+func (Rx) IsCategoryDetails() {}
+
+type RxInput struct {
+	Digital            bool                 `json:"digital" bson:"digital"`
+	Range              int                  `json:"range" bson:"range"`
+	LowerRfRange       float64              `json:"lower_rf_range" bson:"lower_rf_range"`
+	UpperRfRange       float64              `json:"upper_rf_range" bson:"upper_rf_range"`
+	NumOfRxs           int                  `json:"num_of_rxs" bson:"num_of_rxs"`
+	SignalProtocol     *Protocol            `json:"signal_protocol,omitempty" bson:"signal_protocol"`
+	AnalogConnections  []*AnalogConnInput   `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConnInput  `json:"network_connections,omitempty" bson:"network_connections"`
+	ComputerPorts      []*ComputerConnInput `json:"computer_ports,omitempty" bson:"computer_ports"`
+	Power              *PowerInput          `json:"power" bson:"power"`
+}
+
+type Speaker struct {
+	Active             bool            `json:"active" bson:"active"`
+	LineArray          *bool           `json:"line_array,omitempty" bson:"line_array"`
+	Processing         bool            `json:"processing" bson:"processing"`
+	Subwoofer          *bool           `json:"subwoofer,omitempty" bson:"subwoofer"`
+	LowFreqResp        float64         `json:"low_freq_resp" bson:"low_freq_resp"`
+	HighFreqResp       float64         `json:"high_freq_resp" bson:"high_freq_resp"`
+	MaxSpl             float64         `json:"max_spl" bson:"max_spl"`
+	Drivers            []SpeakerDriver `json:"drivers" bson:"drivers"`
+	AnalogConnections  []*AnalogConn   `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConn  `json:"network_connections,omitempty" bson:"network_connections"`
+	Power              *Power          `json:"power" bson:"power"`
+}
+
+func (Speaker) IsCategoryDetails() {}
+
+type SpeakerInput struct {
+	Active             bool                `json:"active" bson:"active"`
+	LineArray          *bool               `json:"line_array,omitempty" bson:"line_array"`
+	Processing         bool                `json:"processing" bson:"processing"`
+	Subwoofer          *bool               `json:"subwoofer,omitempty" bson:"subwoofer"`
+	LowFreqResp        float64             `json:"low_freq_resp" bson:"low_freq_resp"`
+	HighFreqResp       float64             `json:"high_freq_resp" bson:"high_freq_resp"`
+	Drivers            []SpeakerDriver     `json:"drivers" bson:"drivers"`
+	MaxSpl             float64             `json:"max_spl" bson:"max_spl"`
+	AnalogConnections  []*AnalogConnInput  `json:"analog_connections,omitempty" bson:"analog_connections"`
+	NetworkConnections []*NetworkConnInput `json:"network_connections,omitempty" bson:"network_connections"`
+	Power              *PowerInput         `json:"power" bson:"power"`
+}
+
 type StageBox struct {
 	TotalInputs        int            `json:"total_inputs" bson:"total_inputs"`
 	TotalOuputs        int            `json:"total_ouputs" bson:"total_ouputs"`
@@ -295,6 +359,28 @@ type StageBoxInput struct {
 	SignalProtocol     Protocol            `json:"signal_protocol" bson:"signal_protocol"`
 	MaxSampleRate      SampleRate          `json:"max_sample_rate" bson:"max_sample_rate"`
 	Power              *PowerInput         `json:"power" bson:"power"`
+}
+
+type Tx struct {
+	Mute         bool                  `json:"mute" bson:"mute"`
+	Range        int                   `json:"range" bson:"range"`
+	LowerRfRange float64               `json:"lower_rf_range" bson:"lower_rf_range"`
+	UpperRfRange float64               `json:"upper_rf_range" bson:"upper_rf_range"`
+	Form         TXForm                `json:"form" bson:"form"`
+	Connector    *TransmitterConnector `json:"connector,omitempty" bson:"connector"`
+	PowerType    string                `json:"power_type" bson:"power_type"`
+}
+
+func (Tx) IsCategoryDetails() {}
+
+type TxInput struct {
+	Mute         bool                  `json:"mute" bson:"mute"`
+	Range        int                   `json:"range" bson:"range"`
+	LowerRfRange float64               `json:"lower_rf_range" bson:"lower_rf_range"`
+	UpperRfRange float64               `json:"upper_rf_range" bson:"upper_rf_range"`
+	Form         TXForm                `json:"form" bson:"form"`
+	Connector    *TransmitterConnector `json:"connector,omitempty" bson:"connector"`
+	PowerType    string                `json:"power_type" bson:"power_type"`
 }
 
 type User struct {
@@ -323,6 +409,7 @@ const (
 	AnalogNl4             Analog = "NL4"
 	AnalogNl8             Analog = "NL8"
 	AnalogDc12v           Analog = "DC_12V"
+	AnalogBnc             Analog = "BNC"
 )
 
 var AllAnalog = []Analog{
@@ -338,11 +425,12 @@ var AllAnalog = []Analog{
 	AnalogNl4,
 	AnalogNl8,
 	AnalogDc12v,
+	AnalogBnc,
 }
 
 func (e Analog) IsValid() bool {
 	switch e {
-	case AnalogXlrAnalog, AnalogXlrDigital, AnalogXlrQuarterCombo, AnalogTs, AnalogTrs, AnalogTrrs, AnalogTriPinPhoenix, AnalogDualPinPhoenix, AnalogNl2, AnalogNl4, AnalogNl8, AnalogDc12v:
+	case AnalogXlrAnalog, AnalogXlrDigital, AnalogXlrQuarterCombo, AnalogTs, AnalogTrs, AnalogTrrs, AnalogTriPinPhoenix, AnalogDualPinPhoenix, AnalogNl2, AnalogNl4, AnalogNl8, AnalogDc12v, AnalogBnc:
 		return true
 	}
 	return false
@@ -425,9 +513,10 @@ const (
 	CategoryStagebox    Category = "STAGEBOX"
 	CategoryComputer    Category = "COMPUTER"
 	CategoryNetwork     Category = "NETWORK"
-	CategoryRadio       Category = "RADIO"
 	CategoryMicrophones Category = "MICROPHONES"
 	CategorySpkHardware Category = "SPK_HARDWARE"
+	CategoryReceiver    Category = "RECEIVER"
+	CategoryTransmitter Category = "TRANSMITTER"
 	CategoryGeneric     Category = "GENERIC"
 )
 
@@ -440,15 +529,16 @@ var AllCategory = []Category{
 	CategoryStagebox,
 	CategoryComputer,
 	CategoryNetwork,
-	CategoryRadio,
 	CategoryMicrophones,
 	CategorySpkHardware,
+	CategoryReceiver,
+	CategoryTransmitter,
 	CategoryGeneric,
 }
 
 func (e Category) IsValid() bool {
 	switch e {
-	case CategoryConsole, CategoryProcessor, CategoryMonitoring, CategorySpeaker, CategoryAmplifier, CategoryStagebox, CategoryComputer, CategoryNetwork, CategoryRadio, CategoryMicrophones, CategorySpkHardware, CategoryGeneric:
+	case CategoryConsole, CategoryProcessor, CategoryMonitoring, CategorySpeaker, CategoryAmplifier, CategoryStagebox, CategoryComputer, CategoryNetwork, CategoryMicrophones, CategorySpkHardware, CategoryReceiver, CategoryTransmitter, CategoryGeneric:
 		return true
 	}
 	return false
@@ -964,6 +1054,92 @@ func (e *SampleRate) UnmarshalGQL(v interface{}) error {
 }
 
 func (e SampleRate) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SpeakerDriver string
+
+const (
+	SpeakerDriverSubwoofer SpeakerDriver = "SUBWOOFER"
+	SpeakerDriverWoofer    SpeakerDriver = "WOOFER"
+	SpeakerDriverMidrange  SpeakerDriver = "MIDRANGE"
+	SpeakerDriverTweeter   SpeakerDriver = "TWEETER"
+)
+
+var AllSpeakerDriver = []SpeakerDriver{
+	SpeakerDriverSubwoofer,
+	SpeakerDriverWoofer,
+	SpeakerDriverMidrange,
+	SpeakerDriverTweeter,
+}
+
+func (e SpeakerDriver) IsValid() bool {
+	switch e {
+	case SpeakerDriverSubwoofer, SpeakerDriverWoofer, SpeakerDriverMidrange, SpeakerDriverTweeter:
+		return true
+	}
+	return false
+}
+
+func (e SpeakerDriver) String() string {
+	return string(e)
+}
+
+func (e *SpeakerDriver) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SpeakerDriver(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SpeakerDriver", str)
+	}
+	return nil
+}
+
+func (e SpeakerDriver) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TXForm string
+
+const (
+	TXFormBodypack TXForm = "BODYPACK"
+	TXFormHandheld TXForm = "HANDHELD"
+)
+
+var AllTXForm = []TXForm{
+	TXFormBodypack,
+	TXFormHandheld,
+}
+
+func (e TXForm) IsValid() bool {
+	switch e {
+	case TXFormBodypack, TXFormHandheld:
+		return true
+	}
+	return false
+}
+
+func (e TXForm) String() string {
+	return string(e)
+}
+
+func (e *TXForm) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TXForm(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TXForm", str)
+	}
+	return nil
+}
+
+func (e TXForm) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

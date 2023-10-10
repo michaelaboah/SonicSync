@@ -52,9 +52,12 @@ input CategoryDetailsInput @oneOf {
   processor_input: ProcessorInput
   stagebox_input: StageBoxInput
   monitoring_input: MonitoringInput
+  speaker_input: SpeakerInput
+  tx_input: TxInput 
+  rx_input: RxInput 
 }
 
-union CategoryDetails = Console | Computer | Microphone | StageBox | Processor | Monitoring | Amplifier
+union CategoryDetails = Console | Computer | Microphone | StageBox | Processor | Monitoring | Amplifier | Speaker | Tx | Rx 
 
 type Item {
   created_at: String!

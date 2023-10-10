@@ -10,11 +10,10 @@ import (
 	"log"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-
 	pkgDB "github.com/michaelaboah/sonic-sync-cloud/database"
 	"github.com/michaelaboah/sonic-sync-cloud/graph/model"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // CreateUser is the resolver for the createUser field.
@@ -63,6 +62,18 @@ func (r *mutationResolver) CreateItem(ctx context.Context, input model.ItemInput
 
 	case model.CategoryMonitoring:
 		detailsBytes, err = bson.Marshal(details.MonitoringInput)
+		break
+
+	case model.CategorySpeaker:
+		detailsBytes, err = bson.Marshal(details.SpeakerInput)
+		break
+
+	case model.CategoryTransmitter:
+		detailsBytes, err = bson.Marshal(details.TxInput)
+		break
+
+	case model.CategoryReceiver:
+		detailsBytes, err = bson.Marshal(details.RxInput)
 		break
 
 	}
@@ -304,7 +315,5 @@ func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
-type (
-	mutationResolver struct{ *Resolver }
-	queryResolver    struct{ *Resolver }
-)
+type mutationResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }

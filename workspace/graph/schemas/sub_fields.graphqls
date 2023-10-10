@@ -4,8 +4,9 @@ input PowerInput {
   wattage: Float!
   max_wattage: Float!
   redundant: Boolean
-  input_connector: PowerConnector!
+  input_connector: PowerConnector
   output_connector: PowerConnector
+
 }
 
 type Power {
@@ -14,7 +15,7 @@ type Power {
   wattage: Float!
   max_wattage: Float!
   redundant: Boolean
-  input_connector: PowerConnector!
+  input_connector: PowerConnector
   output_connector: PowerConnector
 }
 
@@ -37,6 +38,7 @@ input NetworkConnInput {
   port_id: String
   max_conn_speed: NetworkSpeed!
   protocol: Protocol!
+  poe: Boolean
 }
 
 type NetworkConn {

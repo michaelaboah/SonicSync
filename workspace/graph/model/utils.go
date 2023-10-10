@@ -83,6 +83,36 @@ func MatchDetails(category Category, detailsBytes []byte) (CategoryDetails, erro
 
 		return processor, nil
 
+	case CategorySpeaker:
+		var speaker Speaker
+
+		err = bson.Unmarshal(detailsBytes, &speaker)
+		if err != nil {
+			return nil, err
+		}
+
+		return speaker, nil
+
+	case CategoryTransmitter:
+		var tx Tx
+
+		err = bson.Unmarshal(detailsBytes, &tx)
+		if err != nil {
+			return nil, err
+		}
+
+		return tx, nil
+
+	case CategoryReceiver:
+		var rx Rx
+
+		err = bson.Unmarshal(detailsBytes, &rx)
+		if err != nil {
+			return nil, err
+		}
+
+		return rx, nil
+
 	default:
 		return nil, errors.New("Unimplemnted Category" + category.String())
 	}
